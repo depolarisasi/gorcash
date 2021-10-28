@@ -30,7 +30,7 @@ Route::group(['prefix' => 'user'], function() {
 
 });
 
-Route::group(['prefix' => 'vendor'], function() {
+Route::group(['prefix' => 'vendors'], function() {
     Route::get('/',[App\Http\Controllers\VendorController::class, 'index'])->middleware('auth');
     Route::get('/detail/{id}',[App\Http\Controllers\VendorController::class, 'show'])->middleware('auth');
     Route::get('/new',[App\Http\Controllers\VendorController::class, 'create'])->middleware('auth');
