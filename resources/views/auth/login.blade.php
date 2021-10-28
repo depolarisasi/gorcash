@@ -55,7 +55,7 @@
         <div class="login-signin">
             <div class="mb-20">
                 <h3>Login Gorilla ERP</h3>
-                <div class="text-muted font-weight-bold">Masuk ke Gorilla Coach Enterprise Resource Planning:</div>
+                <div class="text-muted font-weight-bold">Masuk ke Gorilla Coach Enterprise Resource Planning</div>
             </div>
             <form class="form" method="POST" action="{{ route('login') }}">
                 @csrf
