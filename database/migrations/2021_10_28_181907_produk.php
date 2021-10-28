@@ -17,12 +17,14 @@ class Produk extends Migration
             $table->increments('produk_id');
             $table->string('produk_sku');
             $table->string('produk_nama');
-            $table->string('produk_idvendor');
-            $table->string('produk_idsize');
-            $table->string('produk_idband');
-            $table->string('produk_hargajual');
-            $table->string('produk_hargabeli');
-            $table->string('produk_stok');
+            $table->integer('produk_idvendor')->nullable();
+            $table->integer('produk_idsize')->nullable();
+            $table->integer('produk_idband')->nullable();
+            $table->string('produk_hargajual')->nullable();
+            $table->string('produk_hargabeli')->nullable();
+            $table->string('produk_foto')->nullable();
+            $table->integer('produk_stok')->nullable();
+            $table->date('produk_tanggalbeli')->nullable();
             $table->timestamps();
         });
     }

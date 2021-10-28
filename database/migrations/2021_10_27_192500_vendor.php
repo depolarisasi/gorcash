@@ -16,8 +16,8 @@ class Vendor extends Migration
         Schema::create('vendor', function (Blueprint $table) {
             $table->increments('vendor_id');
             $table->string('vendor_nama');
-            $table->string('vendor_web');
-            $table->string('vendor_asal');
+            $table->string('vendor_web')->nullable();
+            $table->string('vendor_asal')->nullable();
             $table->timestamps();
         });
     }
