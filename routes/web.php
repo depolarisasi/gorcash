@@ -42,4 +42,26 @@ Route::group(['prefix' => 'vendors'], function() {
    });
 
 
+Route::group(['prefix' => 'size'], function() {
+    Route::get('/',[App\Http\Controllers\SizeController::class, 'index'])->middleware('auth');
+    Route::get('/new',[App\Http\Controllers\SizeController::class, 'create'])->middleware('auth');
+    Route::post('/store',[App\Http\Controllers\SizeController::class, 'store'])->middleware('auth');
+    Route::get('/edit/{id}',[App\Http\Controllers\SizeController::class, 'edit'])->middleware('auth');
+    Route::post('/update',[App\Http\Controllers\SizeController::class, 'update'])->middleware('auth');
+    Route::get('/delete/{id}',[App\Http\Controllers\SizeController::class, 'delete'])->middleware('auth');
+
+   });
+
+   Route::group(['prefix' => 'band'], function() {
+    Route::get('/',[App\Http\Controllers\BandController::class, 'index'])->middleware('auth');
+    Route::get('/new',[App\Http\Controllers\BandController::class, 'create'])->middleware('auth');
+    Route::post('/store',[App\Http\Controllers\BandController::class, 'store'])->middleware('auth');
+    Route::get('/edit/{id}',[App\Http\Controllers\BandController::class, 'edit'])->middleware('auth');
+    Route::post('/update',[App\Http\Controllers\BandController::class, 'update'])->middleware('auth');
+    Route::get('/delete/{id}',[App\Http\Controllers\BandController::class, 'delete'])->middleware('auth');
+
+   });
+
+
+
 require __DIR__.'/auth.php';
