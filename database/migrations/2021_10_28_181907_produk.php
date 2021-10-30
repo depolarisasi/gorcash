@@ -15,7 +15,7 @@ class Produk extends Migration
     {
         Schema::create('produk', function (Blueprint $table) {
             $table->increments('produk_id');
-            $table->string('produk_sku');
+            $table->string('produk_sku')->unique();
             $table->string('produk_nama');
             $table->integer('produk_idvendor')->nullable();
             $table->integer('produk_idsize')->nullable();

@@ -62,6 +62,17 @@ Route::group(['prefix' => 'size'], function() {
 
    });
 
+   Route::group(['prefix' => 'produk'], function() {
+    Route::get('/',[App\Http\Controllers\ProdukController::class, 'index'])->middleware('auth');
+    Route::get('/detail/{id}',[App\Http\Controllers\ProdukController::class, 'show'])->middleware('auth');
+    Route::get('/new',[App\Http\Controllers\ProdukController::class, 'create'])->middleware('auth');
+    Route::post('/store',[App\Http\Controllers\ProdukController::class, 'store'])->middleware('auth');
+    Route::get('/edit/{id}',[App\Http\Controllers\ProdukController::class, 'edit'])->middleware('auth');
+    Route::post('/update',[App\Http\Controllers\ProdukController::class, 'update'])->middleware('auth');
+    Route::get('/delete/{id}',[App\Http\Controllers\ProdukController::class, 'delete'])->middleware('auth');
+
+   });
+
 
 
 require __DIR__.'/auth.php';
