@@ -16,7 +16,7 @@
         <!--begin::Card Body-->
         <div class="card-body d-flex rounded bg-danger p-12 flex-column flex-md-row flex-lg-column flex-xxl-row">
             <!--begin::Image-->
-            <div class="bgi-no-repeat bgi-position-center bgi-size-cover h-300px h-md-auto h-lg-300px h-xxl-auto mw-100 w-550px" style="background-image: url('{{$show->produk_foto}}')"></div>
+            <div class="bgi-no-repeat bgi-position-center bgi-size-cover h-300px h-md-auto h-lg-300px h-xxl-auto mw-100 w-550px" style="background-image: url('{{url($show->produk_foto)}}')"></div>
             <!--end::Image-->
             <!--begin::Card-->
             <div class="card card-custom w-auto w-md-300px w-lg-auto w-xxl-300px ml-auto">

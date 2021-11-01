@@ -13,6 +13,9 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Database\QueryException as QE;
 use RealRashid\SweetAlert\Facades\Alert;
+use Illuminate\Support\Facades\File;
+use Intervention\Image\ImageManagerStatic as Image;
+use Carbon\Carbon;
 
 class ProdukController extends Controller
 {
@@ -46,13 +49,38 @@ class ProdukController extends Controller
             return redirect('produk');
         }
         $store = collect($request->all());
+
+
+        if ($request->file('produk_foto') == '') {
+            $fileurl = '';
+    } else {
+        $file = $request->file('produk_foto');
+        $fileArray = ['produk_foto' => $file];
+        $rules = ['produk_foto' => 'mimes:jpeg,jpg,png,gif|required|max:100000'];
+        $validator = Validator::make($fileArray, $rules);
+        if ($validator->fails()) {
+            // Redirect or return json to frontend with a helpful message to inform the user
+            // that the provided file was not an adequate type
+        notify()->error('File yang diupload bukanlah gambar !');
+            return redirect()->back();
+        } else {
+            $img_id = mt_rand(1, 10000);
+            $fileName = $img_id.time().'.'.$file->getClientOriginalName();
+            Image::make($file)->encode('jpg', 90)->save('product/'.$fileName);
+            $fileurl = 'product/'.$fileName;
+        }
+    }
+
+    $store->put('produk_foto', $fileurl);
+
+
         try {
         Produk::create($store->all());
         } catch (QE $e) {
             notify()->warning('Database Error');
             return redirect()->back();
         }
-        notify()->success('Penambahan Size Berhasil');
+        notify()->success('Penambahan Produk Berhasil');
         return redirect('produk');
     }
 
@@ -86,6 +114,31 @@ class ProdukController extends Controller
     {
         $produk = Produk::where('produk_id', $request->v)->first();
         $update = collect($request->all());
+
+
+        if ($request->file('produk_foto') == '') {
+            $fileurl = $produk->produk_foto;
+    } else {
+        $file = $request->file('produk_foto');
+        $fileArray = ['files' => $file];
+        $rules = ['files' => 'mimes:jpeg,jpg,png,gif|required|max:100000'];
+        $validator = Validator::make($fileArray, $rules);
+        if ($validator->fails()) {
+            // Redirect or return json to frontend with a helpful message to inform the user
+            // that the provided file was not an adequate type
+        notify()->error('File yang diupload bukanlah gambar !');
+            return redirect()->back();
+        } else {
+            $img_id = mt_rand(1, 10000);
+            $fileName = $img_id.time().'.'.$file->getClientOriginalName();
+            Image::make($file)->encode('jpg', 90)->save('product/'.$fileName);
+            $fileurl = 'product/'.$fileName;
+        }
+    }
+
+    $update->put('produk_foto', $fileurl);
+
+
         try {
         $produk->update($update->all());
         } catch (QE $e) {

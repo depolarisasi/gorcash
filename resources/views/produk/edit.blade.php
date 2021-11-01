@@ -29,7 +29,7 @@
 <!--begin::Body-->
 <div class="card-body pt-0 pb-3">
 <div class="tab-content">
-    <form method="POST" action="{{url('produk/update')}}">
+    <form method="POST" action="{{url('produk/update')}}" enctype="multipart/form-data">
         @csrf
         <input type="hidden" name="v" value="{{$edit->produk_id}}">
         <div class="row">
@@ -108,10 +108,10 @@
                     <div class="form-group row mt-4">
                       <label class="col-md-2">Foto</label>
                       <div class="col-md-10">
-                        <img src="{{url('asset/'.$edit->produk_foto)}}" class="img-fluid w-50 h-75">
+                        <img src="{{asset($edit->produk_foto)}}" class="img-fluid w-50 h-75">
                         <div class="custom-file mt-2">
-                            <input type="file" class="custom-file-input" id="customFile"/>
-                            <label class="custom-file-label" for="customFile">Choose file</label>
+                            <input  class="custom-file-input" name="produk_foto" id="fotoproduk" accept="image/*" type="file"/>
+                            <label class="custom-file-label" for="fotoproduk">Choose file</label>
                            </div>
                       </div>
                     </div>

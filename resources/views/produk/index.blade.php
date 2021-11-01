@@ -106,7 +106,7 @@
 			<tbody>
                 @foreach($produk as $p)
 				<tr>
-                    <td><img src="#" class="img-fluid w-50 h-100"></td>
+                    <td><img src="{{asset($p->produk_foto)}}" class="img-fluid w-50 h-100"></td>
 					<td>{{$p->produk_sku}}</td>
 					<td>{{$p->produk_nama}}</td>
 					<td>
@@ -128,7 +128,9 @@
                        </td>
 					<td>{{$p->vendor_nama}}</td>
                     <td>{{$p->band_nama}}</td>
-                    <td>{{$p->produk_hargajual}}</td>
+                    <td><p><span class="label label-danger label-md label-inline mr-2">Beli : Rp{{$p->produk_hargabeli}}</span> </p>
+                        <p><span class="label label-primary label-md label-inline mr-2">Jual : Rp{{$p->produk_hargajual}}</span> </p>
+                        <p><span class="label label-success label-md label-inline mr-2">Profit : Rp{{$p->produk_hargajual - $p->produk_hargabeli}}</span> </p></td>
 					<td>{{$p->produk_stok}}</td>
 					<td>
                         <a href="{{url('/produk/detail/'.$p->produk_id)}}" class="btn btn-sm btn-primary"><i class="fas fa-info-circle nopadding"></i></a>

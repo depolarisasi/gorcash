@@ -29,7 +29,7 @@
 <!--begin::Body-->
 <div class="card-body pt-0 pb-3">
 <div class="tab-content">
-    <form method="POST" action="{{url('produk/store')}}">
+    <form method="POST" action="{{url('produk/store')}}" enctype="multipart/form-data">
         @csrf
         <div class="row">
             <div class="col-md-6">
@@ -104,10 +104,8 @@
                     <div class="form-group row mt-4">
                       <label class="col-md-2">Foto</label>
                       <div class="col-md-10">
-                        <div class="custom-file">
-                            <input type="file" class="custom-file-input" id="customFile"/>
-                            <label class="custom-file-label" for="customFile">Choose file</label>
-                           </div>
+                            <input  class="custom-file-input" name="produk_foto" id="fotoproduk" accept="image/*" type="file"/>
+                            <label class="custom-file-label" for="fotoproduk">Choose file</label>
                       </div>
                     </div>
                     <div class="form-group row mt-4">
