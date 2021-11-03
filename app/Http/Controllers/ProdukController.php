@@ -163,4 +163,14 @@ class ProdukController extends Controller
 
         return redirect('produk');
     }
+
+    public function getproduct(Request $request){
+        $produk = Produk::join('vendor','vendor.vendor_id','=','produk.produk_idvendor',)
+        ->join('size','size.size_id','=','produk.produk_idsize')
+        ->join('band','band.band_id','=','produk.produk_idband')
+        ->select('produk.*','size.size_id','size.size_nama','vendor.vendor_id','vendor.vendor_nama','band.band_id','band.band_nama')
+        ->where('produk.produk_id',$request->productid)
+        ->first();
+        return $produk->toArray();
+    }
 }

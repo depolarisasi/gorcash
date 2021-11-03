@@ -74,5 +74,25 @@ Route::group(['prefix' => 'size'], function() {
    });
 
 
+   Route::group(['prefix' => 'kasir'], function() {
+    Route::get('/',[App\Http\Controllers\PenjualanController::class, 'kasir'])->middleware('auth');
+    Route::post('/store',[App\Http\Controllers\PenjualanController::class, 'addpenjualan'])->middleware('auth');
+    Route::get('/delete/{id}',[App\Http\Controllers\PenjualanController::class, 'delete'])->middleware('auth');
+
+   });
+
+   Route::group(['prefix' => 'productapi'], function() {
+    Route::post('getproduct',[App\Http\Controllers\ProdukController::class, 'getproduct'])->middleware('auth');
+    Route::get('/detail/{id}',[App\Http\Controllers\PenjualanController::class, 'show'])->middleware('auth');
+    Route::get('/new',[App\Http\Controllers\PenjualanController::class, 'create'])->middleware('auth');
+    Route::post('/store',[App\Http\Controllers\PenjualanController::class, 'store'])->middleware('auth');
+    Route::get('/edit/{id}',[App\Http\Controllers\PenjualanController::class, 'edit'])->middleware('auth');
+    Route::post('/update',[App\Http\Controllers\PenjualanController::class, 'update'])->middleware('auth');
+    Route::get('/delete/{id}',[App\Http\Controllers\PenjualanController::class, 'delete'])->middleware('auth');
+
+   });
+
+
+
 
 require __DIR__.'/auth.php';
