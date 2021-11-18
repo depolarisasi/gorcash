@@ -21,7 +21,7 @@
 <span class="card-label font-weight-bolder text-dark">Daftar Size</span>
 </h3>
 <div class="card-toolbar">
-<!--<a href="{{url('size/new')}}" class="btn btn-primary btn-md font-size-sm"><i class="fas fa-plus"></i> Buat </a>-->
+<a href="{{url('size/new')}}" class="btn btn-primary btn-md font-size-sm"><i class="fas fa-plus"></i> Buat </a>
 </div>
 </div>
 <!--end::Header-->
