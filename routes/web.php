@@ -49,7 +49,15 @@ Route::group(['prefix' => 'size'], function() {
     Route::get('/edit/{id}',[App\Http\Controllers\SizeController::class, 'edit'])->middleware('auth');
     Route::post('/update',[App\Http\Controllers\SizeController::class, 'update'])->middleware('auth');
     Route::get('/delete/{id}',[App\Http\Controllers\SizeController::class, 'delete'])->middleware('auth');
+   });
 
+   Route::group(['prefix' => 'color'], function() {
+    Route::get('/',[App\Http\Controllers\ColorController::class, 'index'])->middleware('auth');
+    Route::get('/new',[App\Http\Controllers\ColorController::class, 'create'])->middleware('auth');
+    Route::post('/store',[App\Http\Controllers\ColorController::class, 'store'])->middleware('auth');
+    Route::get('/edit/{id}',[App\Http\Controllers\ColorController::class, 'edit'])->middleware('auth');
+    Route::post('/update',[App\Http\Controllers\ColorController::class, 'update'])->middleware('auth');
+    Route::get('/delete/{id}',[App\Http\Controllers\ColorController::class, 'delete'])->middleware('auth');
    });
 
    Route::group(['prefix' => 'band'], function() {
@@ -63,13 +71,13 @@ Route::group(['prefix' => 'size'], function() {
    });
 
    Route::group(['prefix' => 'produk'], function() {
-    Route::get('/',[App\Http\Controllers\ProdukController::class, 'index'])->middleware('auth');
-    Route::get('/detail/{id}',[App\Http\Controllers\ProdukController::class, 'show'])->middleware('auth');
-    Route::get('/new',[App\Http\Controllers\ProdukController::class, 'create'])->middleware('auth');
-    Route::post('/store',[App\Http\Controllers\ProdukController::class, 'store'])->middleware('auth');
-    Route::get('/edit/{id}',[App\Http\Controllers\ProdukController::class, 'edit'])->middleware('auth');
-    Route::post('/update',[App\Http\Controllers\ProdukController::class, 'update'])->middleware('auth');
-    Route::get('/delete/{id}',[App\Http\Controllers\ProdukController::class, 'delete'])->middleware('auth');
+    Route::get('/',[App\Http\Controllers\ProductController::class, 'index'])->middleware('auth');
+    Route::get('/detail/{id}',[App\Http\Controllers\ProductController::class, 'show'])->middleware('auth');
+    Route::get('/new',[App\Http\Controllers\ProductController::class, 'create'])->middleware('auth');
+    Route::post('/store',[App\Http\Controllers\ProductController::class, 'store'])->middleware('auth');
+    Route::get('/edit/{id}',[App\Http\Controllers\ProductController::class, 'edit'])->middleware('auth');
+    Route::post('/update',[App\Http\Controllers\ProductController::class, 'update'])->middleware('auth');
+    Route::get('/delete/{id}',[App\Http\Controllers\ProductController::class, 'delete'])->middleware('auth');
 
    });
 
@@ -77,12 +85,15 @@ Route::group(['prefix' => 'size'], function() {
    Route::group(['prefix' => 'kasir'], function() {
     Route::get('/',[App\Http\Controllers\PenjualanController::class, 'kasir'])->middleware('auth');
     Route::post('/store',[App\Http\Controllers\PenjualanController::class, 'addpenjualan'])->middleware('auth');
-    Route::get('/delete/{id}',[App\Http\Controllers\PenjualanController::class, 'delete'])->middleware('auth');
-
    });
 
    Route::group(['prefix' => 'productapi'], function() {
     Route::post('getproduct',[App\Http\Controllers\ProdukController::class, 'getproduct'])->middleware('auth');
+   });
+
+
+   Route::group(['prefix' => 'penjualan'], function() {
+    Route::get('/',[App\Http\Controllers\PenjualanController::class, 'index'])->middleware('auth');
     Route::get('/detail/{id}',[App\Http\Controllers\PenjualanController::class, 'show'])->middleware('auth');
     Route::get('/new',[App\Http\Controllers\PenjualanController::class, 'create'])->middleware('auth');
     Route::post('/store',[App\Http\Controllers\PenjualanController::class, 'store'])->middleware('auth');

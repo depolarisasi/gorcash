@@ -54,7 +54,7 @@ class SizeController extends Controller
 
     public function update(Request $request)
     {
-        $size = Size::where('size_id', $request->v)->first();
+        $size = Size::where('size_id', $request->size_id)->first();
         $update = collect($request->all());
         try {
         $size->update($update->all());
