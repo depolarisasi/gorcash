@@ -21,100 +21,37 @@
 <!--begin::Header-->
 <div class="card-header border-0 py-5">
 <h3 class="card-title align-items-start flex-column">
-<span class="card-label font-weight-bolder text-dark">Daftar Produk</span>
+<span class="card-label font-weight-bolder text-dark">Ubah Variasi dalam Produk</span>
 </h3>
 <div class="card-toolbar">
-<a href="{{url('produk/new')}}" class="btn btn-primary btn-md font-size-sm"><i class="fas fa-plus"></i> Buat</a>
-<a href="{{url('produk/import')}}" class="btn btn-primary btn-md font-size-sm ml-2"><i class="fas fa-plus"></i> Import</a>
-<a href="{{url('produk/export')}}" class="btn btn-primary btn-md font-size-sm ml-2"><i class="fas fa-plus"></i> Export</a>
+<a href="{{url('produk/new')}}" class="btn btn-primary btn-md font-size-sm"><i class="fas fa-arrow-left"></i> Kembali</a>
 </div>
 </div>
 <!--end::Header-->
 
 <!--begin::Body-->
 <div class="card-body pt-0 pb-3">
-
-<div class="mb-7">
-	<div class="row align-items-center">
-		<div class="col-lg-10 col-xl-10">
-			<div class="row align-items-center">
-				<div class="col-md-3 my-2 my-md-0">
-					<div class="input-icon">
-						<input type="text" class="form-control" placeholder="Search..." id="kt_datatable_search_query" />
-						<span><i class="flaticon2-search-1 text-muted"></i></span>
-					</div>
-				</div>
-
-                				<div class="col-md-3 my-2 my-md-0">
-					<div class="d-flex align-items-center">
-						<label class="mr-3 mb-0 d-none d-md-block">Size:</label>
-						<select class="form-control" id="kt_datatable_search_size">
-							<option value="">All</option>
-                            @foreach($size as $s)
-                            <option value="{{$s->size_nama}}">{{$s->size_nama}}</option>
-                            @endforeach
-						</select>
-					</div>
-				</div>
-                <div class="col-md-3 my-2 my-md-0">
-					<div class="d-flex align-items-center">
-						<label class="mr-3 mb-0 d-none d-md-block">Band:</label>
-						<select class="form-control" id="kt_datatable_search_band">
-							<option value="">All</option>
-                            @foreach($band as $b)
-                            <option value="{{$b->band_nama}}">{{$b->band_nama}}</option>
-                            @endforeach
-
-						</select>
-					</div>
-				</div>
-				<div class="col-md-3 my-2 my-md-0">
-					<div class="d-flex align-items-center">
-						<label class="mr-3 mb-0 d-none d-md-block">Vendor:</label>
-						<select class="form-control" id="kt_datatable_search_vendor">
-							<option value="">All</option>
-                            @foreach($vendor as $v)
-                            <option value="{{$v->vendor_nama}}">{{$v->vendor_nama}}</option>
-                            @endforeach
-						</select>
-					</div>
-				</div>
-                			</div>
-		</div>
-		<div class="col-lg-2 col-xl-2 mt-5 mt-lg-0">
-			<a href="#" class="btn btn-light-primary px-6 font-weight-bold">
-				Search
-			</a>
-		</div>
-	</div>
-</div>
-<!--end::Search Form-->
-		<!--end: Search Form-->
-        <div class="mt-10 mb-5" >
-            <div class="mt-10 mb-5 collapse" id="kt_datatable_group_action_form_2">
-                <div class="d-flex align-items-center">
-                    <div class="font-weight-bold text-danger mr-3">
-                        Selected <span id="kt_datatable_selected_records_2">0</span> records:
-                    </div>
-
-                    <button class="btn btn-sm btn-danger mr-2 delete_all" type="button" data-url="{{ url('api/massdelete') }}" id="kt_datatable_delete_all_2">
-                        Delete All
-                    </button>
-
-                    <button class="btn btn-sm btn-danger mr-2 publish_all" type="button" data-url="{{ url('api/publish') }}" id="kt_datatable_publish_all_2">
-                       Publish All
-                    </button>
-
+    <div class="mt-10 mb-5" >
+        <div class="mt-10 mb-5 collapse" id="kt_datatable_group_action_form_2">
+            <div class="d-flex align-items-center">
+                <div class="font-weight-bold text-danger mr-3">
+                    Selected <span id="kt_datatable_selected_records_2">0</span> records:
                 </div>
+
+                <button class="btn btn-sm btn-danger mr-2 delete_all" type="button" data-url="{{ url('api/deletesku') }}" id="kt_datatable_delete_all_2">
+                    Delete All
+                </button>
+
             </div>
-		</div>
+        </div>
+    </div>
 		<!--begin: Datatable-->
 		<table class="table table-striped table-bordered mt-5" id="product">
 			<thead>
 				<tr>
 					<th width="5%">Select</th>
 					<th>Foto</th>
-					<th>SKU</th>
+					<th>Master SKU</th>
 					<th>Nama Produk</th>
 					<th>Size</th>
 					<th>Vendor</th>
@@ -128,11 +65,26 @@
 
                 @foreach($produk as $p)
 				<tr>
-                    <td><input type="checkbox" class="selectproduct" name="selected_product" data-id="{{$p->product_mastersku}}" value="{{$p->product_mastersku}}" ></td>
+                    <td><input type="checkbox" class="selectproduct" name="selected_product" data-id="{{$p->product_sku}}" value="{{$p->product_sku}}" ></td>
                     <td><img src="{{asset($p->product_foto)}}" class="img-fluid" style="width: 50px !important; height: 50px !important;"></td>
-					<td>{{$p->product_sku}}</td>
+					<td>{{$p->product_mastersku}}</td>
 					<td>{{$p->product_nama}}</td>
-					<td>{{$p->product_idsize}}
+					<td>
+                        @if($p->product_idsize == 1)
+                        S
+                        @elseif($p->product_idsize == 2)
+                        M
+                        @elseif($p->product_idsize == 3)
+                        L
+                        @elseif($p->product_idsize == 4)
+                        XL
+                        @elseif($p->product_idsize == 5)
+                        XXL
+                        @elseif($p->product_idsize == 6)
+                        XXXL
+                        @elseif($p->product_idsize == 7)
+                        ALL SIZE
+                        @endif
                        </td>
 
 					<td>{{$p->product_vendor}}</td>
@@ -142,8 +94,8 @@
                         <p><span class="label label-success label-md label-inline mr-2">Profit : Rp{{$p->product_hargajual - $p->product_hargabeli}}</span> </p></td>
 					<td>{{$p->product_stok}}</td>
 					<td>
-                        <a href="{{url('/produk/select/'.$p->product_mastersku)}}" class="btn btn-icon btn-xs btn-primary"><i class="fas fa-info-circle nopadding"></i></a>
-                        <a href="{{url('/produk/select/'.$p->product_mastersku)}}" class="btn btn-icon btn-xs btn-warning"><i class="fas fa-edit nopadding"></i></a>
+                        <a href="{{url('/produk/detail/'.$p->product_id)}}" class="btn btn-icon btn-xs btn-primary"><i class="fas fa-info-circle nopadding"></i></a>
+                        <a href="{{url('/produk/edit/'.$p->product_id)}}" class="btn btn-icon btn-xs btn-warning"><i class="fas fa-edit nopadding"></i></a>
                         <button type="button" href="{{url('/produk/delete/'.$p->product_mastersku)}}" class="deletebtn btn btn-icon btn-xs btn-danger"><i class="fas fa-trash nopadding"></i></button>
                     </td>
 				</tr>

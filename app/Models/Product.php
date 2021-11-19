@@ -40,9 +40,9 @@ class Product extends Model
     'product_stok',
     'product_color',
     'product_tanggalbeli',
-    'database_stokakhir',
-    'database_status',
-    'database_tanggalpublish',
+    'product_stokakhir',
+    'product_status',
+    'product_tanggalpublish',
         'created_at',
         'updated_at', ];
 

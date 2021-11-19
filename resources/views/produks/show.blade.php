@@ -11,51 +11,76 @@
 
 <!--begin::Row-->
 <div class="row">
+
 <div class="col-lg-12">
-    <div class="card card-custom gutter-b">
-        <!--begin::Card Body-->
-        <div class="card-body d-flex rounded bg-danger p-12 flex-column flex-md-row flex-lg-column flex-xxl-row">
-            <!--begin::Image-->
-            <div class="bgi-no-repeat bgi-position-center bgi-size-cover h-300px h-md-auto h-lg-300px h-xxl-auto mw-100 w-550px" style="background-image: url('{{url($show->produk_foto)}}')"></div>
-            <!--end::Image-->
-            <!--begin::Card-->
-            <div class="card card-custom w-auto w-md-300px w-lg-auto w-xxl-300px ml-auto">
-                <!--begin::Card Body-->
-                <div class="card-body px-12 py-10">
-                    <h3 class="font-weight-bolder font-size-h2 mb-1">
-                        <a href="#" class="text-dark-75">{{$show->produk_nama}}</a>
-                    </h3>
-                    <div class="text-primary font-size-h4">Harga Jual Rp {{$show->produk_hargajual}}</div>
-                    <div class="text-primary font-size-h4 mb-9">Harga Beli Rp {{$show->produk_hargabeli}}</div>
-                    <!--begin::Info-->
-                    <div class="d-flex mb-3">
-                        <span class="text-dark-50 flex-root font-weight-bold">SKU</span>
-                        <span class="text-dark flex-root font-weight-bold">{{$show->produk_sku}}</span>
-                    </div>
-                    <div class="d-flex mb-3">
-                        <span class="text-dark-50 flex-root font-weight-bold">Size</span>
-                        <span class="text-dark flex-root font-weight-bold">{{$show->size_nama}}</span>
-                    </div>
-                    <div class="d-flex mb-3">
-                        <span class="text-dark-50 flex-root font-weight-bold">Band</span>
-                        <span class="text-dark flex-root font-weight-bold">{{$show->band_nama}}</span>
-                    </div>
-                    <div class="d-flex mb-3">
-                        <span class="text-dark-50 flex-root font-weight-bold">Vendor</span>
-                        <span class="text-dark flex-root font-weight-bold">{{$show->vendor_nama}}</span>
-                    </div>
-                    <div class="d-flex">
-                        <span class="text-dark-50 flex-root font-weight-bold">In Stock</span>
-                        <span class="text-dark flex-root font-weight-bold">{{$show->produk_stok}}</span>
-                    </div>
-                    <!--end::Info-->
+        <div class="card card-custom gutter-b">
+            <!--begin::Card Body-->
+            <div class="card-header border-0 py-5">
+                <h3 class="card-title align-items-start flex-column">
+                <span class="card-label font-weight-bolder text-dark">Detail Produk</span>
+                </h3>
+                <div class="card-toolbar">
+                <a href="{{url('produk')}}" class="btn btn-primary btn-md font-size-sm"><i class="fas fa-arrow-left"></i> Kembali</a>
                 </div>
+                </div>
+            <!--end::Card Body-->
+        </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card card-custom gutter-b">
+                <!--begin::Card Body-->
+                <div class="card-body">
+                   <img src="{{asset($show->product_foto?$show->product_foto:"/assets/nopicture.png")}}" class="img-fluid img-responsive">
+                    </div>
                 <!--end::Card Body-->
             </div>
-            <!--end::Card-->
         </div>
-        <!--end::Card Body-->
+        <div class="col-md-6">
+            <div class="card card-custom  gutter-b">
+            <!--begin::Card Body-->
+            <div class="card-body">
+                <h3 class="font-weight-bolder font-size-h2 mb-1">
+                    <a href="#" class="text-dark-75">{{$show->product_nama}}</a>
+                </h3>
+                <div class="text-primary font-size-h4">Harga Jual Rp {{$show->product_hargajual}}</div>
+                <div class="text-primary font-size-h4">Harga Beli Rp {{$show->product_hargabeli}}</div>
+                <div class="text-primary font-size-h4 mb-9">Profit Rp {{$show->product_hargajual-$show->product_hargabeli}}</div>
+                <!--begin::Info-->
+                <div class="d-flex mb-3">
+                    <span class="text-dark-50 flex-root font-weight-bold">Master SKU</span>
+                    <span class="text-dark flex-root font-weight-bold">{{$show->product_mastersku}}</span>
+                </div>
+                <div class="d-flex mb-3">
+                    <span class="text-dark-50 flex-root font-weight-bold">SKU</span>
+                    <span class="text-dark flex-root font-weight-bold">{{$show->product_sku}}</span>
+                </div>
+                <div class="d-flex mb-3">
+                    <span class="text-dark-50 flex-root font-weight-bold">Size</span>
+                    <span class="text-dark flex-root font-weight-bold">{{$show->size_nama}}</span>
+                </div>
+                <div class="d-flex mb-3">
+                    <span class="text-dark-50 flex-root font-weight-bold">Band</span>
+                    <span class="text-dark flex-root font-weight-bold">{{$show->band_nama}}</span>
+                </div>
+                <div class="d-flex mb-3">
+                    <span class="text-dark-50 flex-root font-weight-bold">Vendor</span>
+                    <span class="text-dark flex-root font-weight-bold">{{$show->product_vendor}}</span>
+                </div>
+                <div class="d-flex mb-3">
+                    <span class="text-dark-50 flex-root font-weight-bold">Stok Awal</span>
+                    <span class="text-dark flex-root font-weight-bold">{{$show->product_stok}}</span>
+                </div>
+                <div class="d-flex mb-3">
+                    <span class="text-dark-50 flex-root font-weight-bold">Stok Akhir</span>
+                    <span class="text-dark flex-root font-weight-bold">{{$show->product_stokakhir}}</span>
+                </div>
+                <!--end::Info-->
+            </div>
+            <!--end::Card Body-->
+        </div></div>
     </div>
+
+
 <!--begin::Advance Table Widget 4-->
 <div class="card card-custom gutter-b">
 <!--begin::Header-->
@@ -85,33 +110,33 @@
         <tbody>
             <tr>
                 <td><img src="#" class="img-fluid w-50 h-100"></td>
-                <td>{{$show->produk_sku}}</td>
-                <td>{{$show->produk_nama}}</td>
+                <td>{{$show->product_sku}}</td>
+                <td>{{$show->product_nama}}</td>
                 <td>
-                    @if($show->produk_idsize == 1)
+                    @if($show->product_idsize == 1)
                     S
-                    @elseif($show->produk_idsize == 2)
+                    @elseif($show->product_idsize == 2)
                     M
-                    @elseif($show->produk_idsize == 3)
+                    @elseif($show->product_idsize == 3)
                     L
-                    @elseif($show->produk_idsize == 4)
+                    @elseif($show->product_idsize == 4)
                     XL
-                    @elseif($show->produk_idsize == 5)
+                    @elseif($show->product_idsize == 5)
                     XXL
-                    @elseif($show->produk_idsize == 6)
+                    @elseif($show->product_idsize == 6)
                     XXXL
-                    @elseif($show->produk_idsize == 7)
+                    @elseif($show->product_idsize == 7)
                     ALL SIZE
                     @endif
                    </td>
                 <td>{{$show->vendor_nama}}</td>
                 <td>{{$show->band_nama}}</td>
-                <td>{{$show->produk_hargajual}}</td>
-                <td>{{$show->produk_stok}}</td>
+                <td>{{$show->product_hargajual}}</td>
+                <td>{{$show->product_stok}}</td>
                 <td>
-                    <a href="{{url('/produk/detail/'.$show->produk_id)}}" class="btn btn-sm btn-primary"><i class="fas fa-info-circle nopadding"></i></a>
-                    <a href="{{url('/produk/edit/'.$show->produk_id)}}" class="btn btn-sm btn-warning"><i class="fas fa-edit nopadding"></i></a>
-                    <button type="button" href="{{url('/produk/delete/'.$show->produk_id)}}" class="deletebtn btn btn-sm btn-danger"><i class="fas fa-trash nopadding"></i></button>
+                    <a href="{{url('/produk/detail/'.$show->product_id)}}" class="btn btn-sm btn-primary"><i class="fas fa-info-circle nopadding"></i></a>
+                    <a href="{{url('/produk/edit/'.$show->product_id)}}" class="btn btn-sm btn-warning"><i class="fas fa-edit nopadding"></i></a>
+                    <button type="button" href="{{url('/produk/delete/'.$show->product_id)}}" class="deletebtn btn btn-sm btn-danger"><i class="fas fa-trash nopadding"></i></button>
                 </td>
             </tr>
 

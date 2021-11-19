@@ -99,6 +99,12 @@
                         <input id="name" type="number" min="0" class="form-control" name="product_stok" required>
                         </div>
                       </div>
+                      <div class="form-group row mt-4">
+                        <label class="col-md-2">Stock Akhir</label>
+                        <div class="col-md-10">
+                        <input id="name" type="number" min="0" class="form-control" name="product_stokakhir" required>
+                        </div>
+                      </div>
 
             </div>
             <div class="col-md-6">

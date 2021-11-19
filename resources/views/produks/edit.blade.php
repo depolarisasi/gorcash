@@ -65,22 +65,35 @@
                          </select>
                     </div>
                   </div>
+                  <div class="form-group row mt-4">
+                    <label class="col-md-2">Warna</label>
+                    <div class="col-md-10">
+                      <select class="multisteps-form__input form-control" name="product_color" required>
+                        <option value="{{$edit->color_id}}" selected>-- {{$edit->color_nama}} ({{$edit->color_code}}) --</option>
+                        @foreach($color as $s)
+                        <option value="{{$s->color_id}}">{{$s->color_nama}} ({{$s->color_code}})</option>
+                        @endforeach
+                      </select>
+                    </div>
+                  </div>
                     <div class="form-group row mt-4">
                         <label class="col-md-2">Size</label>
                         <div class="col-md-10">
                           <select class="multisteps-form__input form-control" name="product_idsize" required>
+                            <option value="{{$edit->size_id}}" selected>-- {{$edit->size_nama}} --</option>
                             @foreach($size as $s)
-                            <option value="{{$s->size_id}}" selected>{{$s->size_nama}}</option>
+                            <option value="{{$s->size_id}}">{{$s->size_nama}}</option>
                             @endforeach
 
                           </select>
                         </div>
                       </div>
+
                       <div class="form-group row mt-4">
                         <label class="col-md-2">Band</label>
                         <div class="col-md-10">
                           <select class="multisteps-form__input form-control" name="product_idband" required>
-                            <option value="{{$edit->product_idband}}">{{$edit->band_nama}}</option>
+                            <option value="{{$edit->product_idband}}" selected>-- {{$edit->band_nama}} --</option>
                             @foreach($band as $b)
                             <option value="{{$b->band_id}}">{{$b->band_nama}}</option>
                             @endforeach
@@ -89,11 +102,18 @@
                         </div>
                       </div>
                     <div class="form-group row mt-4">
-                        <label class="col-md-2">Stock</label>
+                        <label class="col-md-2">Stock Awal</label>
                         <div class="col-md-10">
                         <input type="number" min="0" class="form-control" name="product_stok" value="{{$edit->product_stok}}" required>
                         </div>
                       </div>
+                      <div class="form-group row mt-4">
+                        <label class="col-md-2">Stock Akhir</label>
+                        <div class="col-md-10">
+                        <input type="number" min="0" class="form-control" name="product_stokakhir" value="{{$edit->product_stokakhir}}" required>
+                        </div>
+                      </div>
+
 
             </div>
             <div class="col-md-6">
@@ -151,12 +171,21 @@
                             <input class="form-control" type="date" name="product_tanggalbeli" value="{{$edit->product_tanggalbeli}}" />
                         </div>
                       </div>
+                      @if($edit->product_status == 0)
+                      <div class="form-group row mt-4">
+                        <label class="col-md-2">Tanggal Publish (kosongkan jika belum)</label>
+                        <div class="col-md-10">
+                            <input class="form-control" type="date" name="product_tanggalpublish" />
+                        </div>
+                      </div>
+                      @else
                       <div class="form-group row mt-4">
                         <label class="col-md-2">Tanggal Publish (kosongkan jika belum)</label>
                         <div class="col-md-10">
                             <input class="form-control" type="date" name="product_tanggalpublish" value="{{$edit->product_tanggalpublish}}"/>
                         </div>
                       </div>
+                      @endif
 
             </div>
         </div>

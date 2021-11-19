@@ -75,9 +75,18 @@ Route::group(['prefix' => 'size'], function() {
     Route::get('/detail/{id}',[App\Http\Controllers\ProductController::class, 'show'])->middleware('auth');
     Route::get('/new',[App\Http\Controllers\ProductController::class, 'create'])->middleware('auth');
     Route::post('/store',[App\Http\Controllers\ProductController::class, 'store'])->middleware('auth');
+    Route::get('/select/{mastersku}',[App\Http\Controllers\ProductController::class, 'editselect'])->middleware('auth');
     Route::get('/edit/{id}',[App\Http\Controllers\ProductController::class, 'edit'])->middleware('auth');
     Route::post('/update',[App\Http\Controllers\ProductController::class, 'update'])->middleware('auth');
     Route::get('/delete/{id}',[App\Http\Controllers\ProductController::class, 'delete'])->middleware('auth');
+    Route::get('/import',[App\Http\Controllers\ProductController::class, 'importdata'])->middleware('auth');
+    Route::post('/importing',[App\Http\Controllers\ProductController::class, 'importing'])->middleware('auth');
+
+   });
+
+   Route::group(['prefix' => 'api'], function() {
+    Route::post('/massdelete',[App\Http\Controllers\ProductController::class, 'apimassdelete'])->middleware('auth');
+    Route::post('/deletesku',[App\Http\Controllers\ProductController::class, 'apideletesku'])->middleware('auth');
 
    });
 
