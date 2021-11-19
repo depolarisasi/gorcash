@@ -8,7 +8,7 @@ use App\Models\User;
 use App\Models\Size;
 use App\Models\Vendor;
 use App\Models\Band;
-use App\Models\Produk;
+use App\Models\Product;
 use App\Models\Penjualan;
 use App\Models\BarangTerjual;
 use App\Models\RiwayatPotongan;
@@ -36,9 +36,9 @@ class PenjualanController extends Controller
             foreach (explode(',', $p->penjualan_barangterjual) as $b) {
                 $barangterjual = BarangTerjual::where('barangterjual_id', $b)->first();
                 if ($barangterjual) {
-                    $produk = Produk::where('produk_id',$barangterjual->barangterjual_idproduk)->first();
-                    $size = Size::where('size_id',$produk->produk_idsize)->first();
-                    array_push($barangarray, $produk->produk_nama." (".$size->size_nama.")"." x".$barangterjual->barangterjual_qty);
+                    $produk = Product::where('product_id',$barangterjual->barangterjual_idproduk)->first();
+                    $size = Size::where('size_id',$produk->product_idsize)->first();
+                    array_push($barangarray, $produk->product_nama." (".$size->size_nama.")"." x".$barangterjual->barangterjual_qty);
                 }
             }
             foreach (explode(',', $p->penjualan_daftarpotongan) as $p) {
@@ -69,7 +69,7 @@ class PenjualanController extends Controller
 
     public function store(Request $request)
     {
-        $checksku = Produk::where('produk_sku',$request->produk_sku)->first();
+        $checksku = Product::where('product_sku',$request->product_sku)->first();
         if($checksku){
         notify()->danger('SKU Sudah Ada!');
             return redirect('produk');
@@ -77,12 +77,12 @@ class PenjualanController extends Controller
         $store = collect($request->all());
 
 
-        if ($request->file('produk_foto') == '') {
+        if ($request->file('product_foto') == '') {
             $fileurl = '';
     } else {
-        $file = $request->file('produk_foto');
-        $fileArray = ['produk_foto' => $file];
-        $rules = ['produk_foto' => 'mimes:jpeg,jpg,png,gif|required|max:100000'];
+        $file = $request->file('product_foto');
+        $fileArray = ['product_foto' => $file];
+        $rules = ['product_foto' => 'mimes:jpeg,jpg,png,gif|required|max:100000'];
         $validator = Validator::make($fileArray, $rules);
         if ($validator->fails()) {
             // Redirect or return json to frontend with a helpful message to inform the user
@@ -97,11 +97,11 @@ class PenjualanController extends Controller
         }
     }
 
-    $store->put('produk_foto', $fileurl);
+    $store->put('product_foto', $fileurl);
 
 
         try {
-        Produk::create($store->all());
+        Product::create($store->all());
         } catch (QE $e) {
             notify()->warning('Database Error');
             return redirect()->back();
@@ -112,22 +112,22 @@ class PenjualanController extends Controller
 
     public function show($id)
     {
-        $show = Produk::join('vendor','vendor.vendor_id','=','produk.produk_idvendor',)
-        ->join('size','size.size_id','=','produk.produk_idsize')
-        ->join('band','band.band_id','=','produk.produk_idband')
+        $show = Product::join('vendor','vendor.vendor_id','=','produk.product_idvendor',)
+        ->join('size','size.size_id','=','produk.product_idsize')
+        ->join('band','band.band_id','=','produk.product_idband')
         ->select('produk.*','size.size_id','size.size_nama','vendor.vendor_id','vendor.vendor_nama','band.band_id','band.band_nama')
-        ->where('produk.produk_id', $id)->first();
+        ->where('produk.product_id', $id)->first();
 
         return view('penjualan.show')->with(compact('show'));
     }
 
     public function edit($id)
     {
-        $edit = Produk::join('vendor','vendor.vendor_id','=','produk.produk_idvendor',)
-        ->join('size','size.size_id','=','produk.produk_idsize')
-        ->join('band','band.band_id','=','produk.produk_idband')
+        $edit = Product::join('vendor','vendor.vendor_id','=','produk.product_idvendor',)
+        ->join('size','size.size_id','=','produk.product_idsize')
+        ->join('band','band.band_id','=','produk.product_idband')
         ->select('produk.*','size.size_id','size.size_nama','vendor.vendor_id','vendor.vendor_nama','band.band_id','band.band_nama')
-        ->where('produk.produk_id', $id)->first();
+        ->where('produk.product_id', $id)->first();
 
         $vendor = Vendor::get();
         $size = Size::get();
@@ -138,14 +138,14 @@ class PenjualanController extends Controller
 
     public function update(Request $request)
     {
-        $produk = Produk::where('produk_id', $request->v)->first();
+        $produk = Product::where('product_id', $request->v)->first();
         $update = collect($request->all());
 
 
-        if ($request->file('produk_foto') == '') {
-            $fileurl = $produk->produk_foto;
+        if ($request->file('product_foto') == '') {
+            $fileurl = $produk->product_foto;
     } else {
-        $file = $request->file('produk_foto');
+        $file = $request->file('product_foto');
         $fileArray = ['files' => $file];
         $rules = ['files' => 'mimes:jpeg,jpg,png,gif|required|max:100000'];
         $validator = Validator::make($fileArray, $rules);
@@ -162,7 +162,7 @@ class PenjualanController extends Controller
         }
     }
 
-    $update->put('produk_foto', $fileurl);
+    $update->put('product_foto', $fileurl);
 
 
         try {
@@ -177,7 +177,7 @@ class PenjualanController extends Controller
 
     public function delete($id)
     {
-        $produk = Produk::where('produk_id', $id)->first();
+        $produk = Product::where('product_id', $id)->first();
 
         try {
             $produk->delete();
@@ -192,11 +192,10 @@ class PenjualanController extends Controller
 
 
     public function kasir(){
-        $product = Produk::join('vendor','vendor.vendor_id','=','produk.produk_idvendor',)
-        ->join('size','size.size_id','=','produk.produk_idsize')
-        ->join('band','band.band_id','=','produk.produk_idband')
-        ->select('produk.*','size.size_id','size.size_nama','vendor.vendor_id','vendor.vendor_nama','band.band_id','band.band_nama')
-        ->where('produk.produk_stok','>',0)
+        $product = Product::join('size','size.size_id','=','product.product_idsize')
+        ->join('band','band.band_id','=','product.product_idband')
+        ->select('product.*','size.size_id','size.size_nama','band.band_id','band.band_nama')
+        ->where('product.product_stok','>',0)
         ->get();
 
         $vendor = Vendor::get();
@@ -218,19 +217,19 @@ class PenjualanController extends Controller
         $barangterjual = array();
         $totalpenjualan = 0;
         foreach($request->productorders as $key => $val){
-            $produk = Produk::where('produk_id',$val)->first();
+            $produk = Product::where('product_id',$val)->first();
             $produkkeluar = new BarangTerjual;
             $produkkeluar->barangterjual_idproduk = $val;
             $produkkeluar->barangterjual_idpenjualan = $addpenjualan->penjualan_id;
             $produkkeluar->barangterjual_qty = $request->qtyorders[$key];
-            $produkkeluar->barangterjual_totalbarangterjual = $produk->produk_hargajual*$request->qtyorders[$key];
+            $produkkeluar->barangterjual_totalbarangterjual = $produk->product_hargajual*$request->qtyorders[$key];
             $produkkeluar->barangterjual_tanggalbarangterjual = $request->penjualan_tanggalpenjualan;
             $produkkeluar->barangterjual_userid = Auth::user()->id;
-            $produk->produk_stok = $produk->produk_stok-$request->qtyorders[$key];
+            $produk->product_stok = $produk->product_stok-$request->qtyorders[$key];
             $produk->update();
             $produkkeluar->save();
             array_push($barangterjual,$produkkeluar->barangterjual_id);
-            $totalpenjualan = $totalpenjualan+($produk->produk_hargajual*$request->qtyorders[$key]);
+            $totalpenjualan = $totalpenjualan+($produk->product_hargajual*$request->qtyorders[$key]);
         }
 
 

@@ -97,7 +97,7 @@ Route::group(['prefix' => 'size'], function() {
    });
 
    Route::group(['prefix' => 'productapi'], function() {
-    Route::post('getproduct',[App\Http\Controllers\ProdukController::class, 'getproduct'])->middleware('auth');
+    Route::post('getproduct',[App\Http\Controllers\ProductController::class, 'getproduct'])->middleware('auth');
    });
 
 

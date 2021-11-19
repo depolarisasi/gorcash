@@ -276,10 +276,9 @@ class ProductController extends Controller
     }
 
     public function getproduct(Request $request){
-        $produk = Product::join('vendor','vendor.vendor_id','=','product.product_idvendor',)
-        ->join('size','size.size_id','=','product.product_idsize')
+        $produk = Product::join('size','size.size_id','=','product.product_idsize')
         ->join('band','band.band_id','=','product.product_idband')
-        ->select('product.*','size.size_id','size.size_nama','vendor.vendor_id','vendor.vendor_nama','band.band_id','band.band_nama')
+        ->select('product.*','size.size_id','size.size_nama','band.band_id','band.band_nama')
         ->where('product.product_id',$request->productid)
         ->first();
         return $produk->toArray();

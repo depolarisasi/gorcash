@@ -74,7 +74,7 @@
                     <div class="col-md-6">
                         <select class="form-control select2" id="productlist" name="param">
                             @foreach($product as $p)
-                            <option value="{{$p->produk_id}}">{{$p->produk_sku}} - {{$p->produk_nama}} ({{$p->size_nama}})</option>
+                            <option value="{{$p->product_id}}">{{$p->product_sku}} - {{$p->product_nama}} ({{$p->size_nama}})</option>
                             @endforeach
                            </select>
                     </div>
@@ -295,29 +295,29 @@ if(x <= max_fields){ //max input box allowed
 x++; //text box increment
                 wrapper.append(`<tr id="R${x}">
 <td class="d-flex align-items-center font-weight-bolder">
-<a href="#" class="text-dark text-hover-primary">${data["produk_sku"]} - ${data["produk_nama"]} ${data["size_nama"]}</a>
+<a href="#" class="text-dark text-hover-primary">${data["product_sku"]} - ${data["product_nama"]} ${data["size_nama"]}</a>
 </td>
 <td class="text-center align-middle">
-<button class="btn btn-xs btn-light-success btn-icon kurangqty" data-idproduct="${data["produk_id"]}">
+<button class="btn btn-xs btn-light-success btn-icon kurangqty" data-idproduct="${data["product_id"]}">
     <i class="ki ki-minus icon-xs"></i>
 </button>
-<span class="mr-2 font-weight-bolder" id="qty${data["produk_id"]}" data-qtyordered="1">1</span>
-<button class="btn btn-xs btn-light-success btn-icon tambahqty" data-idproduct="${data["produk_id"]}">
+<span class="mr-2 font-weight-bolder" id="qty${data["product_id"]}" data-qtyordered="1">1</span>
+<button class="btn btn-xs btn-light-success btn-icon tambahqty" data-idproduct="${data["product_id"]}">
     <i class="ki ki-plus icon-xs"></i>
 </button>
 </td>
-<td class="text-right align-middle font-weight-bolder font-size-h5" id="price${data["produk_id"]}" data-priceordered="${data["produk_hargajual"]}">${formatter.format(data["produk_hargajual"])}</td>
+<td class="text-right align-middle font-weight-bolder font-size-h5" id="price${data["product_id"]}" data-priceordered="${data["product_hargajual"]}">${formatter.format(data["product_hargajual"])}</td>
 <td class="text-right align-middle">
-<button class="btn btn-xs btn-danger remove_field btn-icon" data-idproduct="${data["produk_id"]}">
+<button class="btn btn-xs btn-danger remove_field btn-icon" data-idproduct="${data["product_id"]}">
 <i class="fas fa-trash"></i>
 </button>
 </td>
 </tr> `);
-wrapper.append(`<input id="IP${data["produk_id"]}" type="hidden" name="productorders[]" value="${data["produk_id"]}">`);
-wrapper.append(`<input id="IQ${data["produk_id"]}" type="hidden" name="qtyorders[]" value="1">`);
-total = total+parseInt(data["produk_hargajual"])
+wrapper.append(`<input id="IP${data["product_id"]}" type="hidden" name="productorders[]" value="${data["product_id"]}">`);
+wrapper.append(`<input id="IQ${data["product_id"]}" type="hidden" name="qtyorders[]" value="1">`);
+total = total+parseInt(data["product_hargajual"])
 document.getElementById('total').innerHTML = formatter.format(total);
-tambahharga(data["produk_hargajual"]);
+tambahharga(data["product_hargajual"]);
 console.log(x);
             },
             error: function(data) {
@@ -393,7 +393,7 @@ priceordered = document.getElementById('price'+produk).getAttribute('data-priceo
                 },
             success: function(data){
             minstok = 1;
-            maxstok = data["produk_stok"];
+            maxstok = data["product_stok"];
 
 if(qtyordered >= maxstok){
 qtyordered = maxstok;
@@ -402,15 +402,15 @@ document.getElementById('qty'+produk).innerHTML = qtyordered;
 $('#IQ'+produk).val(qtyordered);
 }else {
     qtyordered = parseInt(qtyordered)+1;
-    priceordered = parseInt(priceordered)+parseInt(data["produk_hargajual"]);
+    priceordered = parseInt(priceordered)+parseInt(data["product_hargajual"]);
     document.getElementById('qty'+produk).dataset.qtyordered = qtyordered;
     document.getElementById('price'+produk).dataset.priceordered = priceordered;
     $('#IQ'+produk).val(qtyordered);
     document.getElementById('qty'+produk).innerHTML = qtyordered;
     document.getElementById('price'+produk).innerHTML = formatter.format(priceordered);
-    total = total+parseInt(data["produk_hargajual"])
+    total = total+parseInt(data["product_hargajual"])
     document.getElementById('total').innerHTML = formatter.format(total);
-    tambahharga(data["produk_hargajual"]);
+    tambahharga(data["product_hargajual"]);
 }
             },
             error: function(data) {
@@ -434,7 +434,7 @@ priceordered = document.getElementById('price'+produk).getAttribute('data-priceo
                 },
             success: function(data){
             minstok = 1;
-            maxstok = data["produk_stok"];
+            maxstok = data["product_stok"];
 
 if(qtyordered <= minstok){
 qtyordered = minstok;
@@ -443,15 +443,15 @@ document.getElementById('qty'+produk).dataset.qtyordered = qtyordered;
 $('#IQ'+produk).val(qtyordered);
 }else {
     qtyordered = parseInt(qtyordered)-1;
-    priceordered = parseInt(priceordered)-parseInt(data["produk_hargajual"]);
+    priceordered = parseInt(priceordered)-parseInt(data["product_hargajual"]);
     document.getElementById('qty'+produk).dataset.qtyordered = qtyordered;
     document.getElementById('price'+produk).dataset.priceordered = priceordered;
     $('#IQ'+produk).val(qtyordered);
     document.getElementById('qty'+produk).innerHTML = qtyordered;
     document.getElementById('price'+produk).innerHTML = formatter.format(priceordered);
-    total = total-parseInt(data["produk_hargajual"])
+    total = total-parseInt(data["product_hargajual"])
     document.getElementById('total').innerHTML = formatter.format(total);
-    kurangharga(data["produk_hargajual"]);
+    kurangharga(data["product_hargajual"]);
 }
             },
             error: function(data) {
