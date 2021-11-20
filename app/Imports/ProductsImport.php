@@ -38,7 +38,7 @@ class ProductsImport implements ToCollection, WithHeadingRow
                          $vendor = $row['product_vendor'];
 
 
-                         if($request->product_tanggalpublish == NULL){
+                         if($row['product_tanggalpublish'] == NULL){
                         $status = 0;
                          }else {
                         $status = 1;
