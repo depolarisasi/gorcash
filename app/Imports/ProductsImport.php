@@ -35,7 +35,7 @@ class ProductsImport implements ToCollection, WithHeadingRow
                          $stokakhir = 0;
                          }
 
-                         $vendor = implode(',',$row['product_vendor']);
+                         $vendor = $row['product_vendor'];
 
 
                          if($request->product_tanggalpublish == NULL){
