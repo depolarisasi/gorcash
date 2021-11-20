@@ -308,9 +308,11 @@ class ProductController extends Controller
         if($request->file('product') != NULL) {
             Excel::import(new ProductsImport, request()->file('product'));
         }else {
-
+            toast('File kosong','error');
+            return redirect('/produk');
         }
 
-        return redirect('/')->with('success', 'All good!');
+        toast('Berhasil Menambah Produk','success');
+        return redirect('/produk');
     }
 }
