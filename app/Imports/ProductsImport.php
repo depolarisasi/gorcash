@@ -25,17 +25,17 @@ class ProductsImport implements ToCollection, WithHeadingRow
                     $skuvariant = $row['product_mastersku'].$key;
                     $checksku = Product::where('product_sku',$skuvariant)->first();
                         if($checksku == null){
-                          if($request->product_idsize == $key){
+                          if($row['product_idsize'] == $key){
                             $idsize = $key;
-                          $stok = $request->product_stok;
-                          $stokakhir = $request->product_stok;
+                          $stok = $row['product_stok'];
+                          $stokakhir = $row['product_stokakhir'];
                           }else {
                          $idsize = $key;
                          $stok = 0;
                          $stokakhir = 0;
                          }
 
-                         $vendor = implode(',',$request->product_vendor);
+                         $vendor = implode(',',$row['product_vendor']);
 
 
                          if($request->product_tanggalpublish == NULL){
