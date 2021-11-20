@@ -2,6 +2,12 @@
 @section('title','Produk - ')
 @section('css')
 <link href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css">
+<link href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css">
+<link href="https://cdn.datatables.net/buttons/2.0.1/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css">
+
+
+     
+
 @endsection
 @section('content')
 	<!--begin::Content-->
@@ -25,8 +31,7 @@
 </h3>
 <div class="card-toolbar">
 <a href="{{url('produk/new')}}" class="btn btn-primary btn-md font-size-sm"><i class="fas fa-plus"></i> Buat</a>
-<a href="{{url('produk/import')}}" class="btn btn-primary btn-md font-size-sm ml-2"><i class="fas fa-plus"></i> Import</a>
-<a href="{{url('produk/export')}}" class="btn btn-primary btn-md font-size-sm ml-2"><i class="fas fa-plus"></i> Export</a>
+<a href="{{url('produk/import')}}" class="btn btn-primary btn-md font-size-sm ml-2"><i class="fas fa-plus"></i> Import</a> 
 </div>
 </div>
 <!--end::Header-->
@@ -39,10 +44,7 @@
 		<div class="col-lg-10 col-xl-10">
 			<div class="row align-items-center">
 				<div class="col-md-3 my-2 my-md-0">
-					<div class="input-icon">
-						<input type="text" class="form-control" placeholder="Search..." id="kt_datatable_search_query" />
-						<span><i class="flaticon2-search-1 text-muted"></i></span>
-					</div>
+					 
 				</div>
 
                 				<div class="col-md-3 my-2 my-md-0">
@@ -137,9 +139,9 @@
 
 					<td>{{$p->product_vendor}}</td>
                     <td>{{$p->band_nama}}</td>
-                    <td><p><span class="label label-danger label-md label-inline mr-2">Beli : Rp{{$p->product_hargabeli}}</span> </p>
-                        <p><span class="label label-primary label-md label-inline mr-2">Jual : Rp{{$p->product_hargajual}}</span> </p>
-                        <p><span class="label label-success label-md label-inline mr-2">Profit : Rp{{$p->product_hargajual - $p->product_hargabeli}}</span> </p></td>
+                    <td><p><span class="label label-danger label-md label-inline mr-2">Rp{{$p->product_hargabeli}}</span> </p>
+                        <p><span class="label label-primary label-md label-inline mr-2">Rp{{$p->product_hargajual}}</span> </p>
+                        <p><span class="label label-success label-md label-inline mr-2">Rp{{$p->product_hargajual - $p->product_hargabeli}}</span> </p></td>
 					<td>{{$p->product_stok}}</td>
 					<td>
                         <a href="{{url('/produk/select/'.$p->product_mastersku)}}" class="btn btn-icon btn-xs btn-primary"><i class="fas fa-info-circle nopadding"></i></a>
@@ -169,12 +171,21 @@
 @section('js')
 <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap4.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.0.1/js/dataTables.buttons.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.0.1/js/buttons.html5.min.js"></script>
+
 
 <script>
- $('#product').DataTable({
-        select: {
-            style: 'multi'
-        },
+ tabel = $('#product').DataTable({
+    dom: 'Bfrtip',
+        buttons: [
+            'copyHtml5',
+            'excelHtml5',
+            'csvHtml5', 
+        ],
         search: {
 				input: $('#kt_datatable_search_query'),
 				key: 'generalSearch'
@@ -188,15 +199,15 @@
 
 
         $('#kt_datatable_search_size').on('change', function() {
-            datatable.search($(this).val().toLowerCase(), 'Size');
+            tabel.search($(this).val().toLowerCase());
         });
 
         $('#kt_datatable_search_band').on('change', function() {
-            datatable.search($(this).val().toLowerCase(), 'Band');
+            tabel.search($(this).val().toLowerCase());
         });
 
         $('#kt_datatable_search_vendor').on('change', function() {
-            datatable.search($(this).val().toLowerCase(), 'Vendor');
+            tabel.search($(this).val().toLowerCase());
         });
 
         $('#kt_datatable_search_size, #kt_datatable_search_band,#kt_datatable_search_vendor').selectpicker();

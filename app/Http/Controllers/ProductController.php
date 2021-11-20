@@ -88,6 +88,8 @@ class ProductController extends Controller
                 if ($validator->fails()) {
                     // Redirect or return json to frontend with a helpful message to inform the user
                     // that the provided file was not an adFile bukan gambar
+
+                 toast('File bukanlah gambar','error');
                     return redirect()->back();
                 } else {
                     $img_id = mt_rand(1, 10000);
@@ -219,8 +221,7 @@ class ProductController extends Controller
         $validator = Validator::make($fileArray, $rules);
         if ($validator->fails()) {
             // Redirect or return json to frontend with a helpful message to inform the user
-            // that the provided file was not an adequate type
-
+            // that the provided file was not an adequate type 
                    toast('File bukan gambar','error');
             return redirect()->back();
         } else {

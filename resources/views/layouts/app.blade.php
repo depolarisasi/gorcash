@@ -259,7 +259,7 @@
 			<!--begin::Wrapper-->
 			<div class="d-flex flex-column flex-row-fluid wrapper" id="kt_wrapper">
 				 @extends('layouts.header')
-<div class="mt-10">
+<div class="mt-5">
 			@yield('content')
 </div>
 

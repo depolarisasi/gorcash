@@ -38,7 +38,7 @@ class PenjualanController extends Controller
                 if ($barangterjual) {
                     $produk = Product::where('product_id',$barangterjual->barangterjual_idproduk)->first();
                     $size = Size::where('size_id',$produk->product_idsize)->first();
-                    array_push($barangarray, $produk->product_nama." (".$size->size_nama.")"." x".$barangterjual->barangterjual_qty);
+                    array_push($barangarray, $produk->product_sku.' - '.$produk->product_nama." (".$size->size_nama.")"." x".$barangterjual->barangterjual_qty);
                 }
             }
             foreach (explode(',', $p->penjualan_daftarpotongan) as $p) {
@@ -55,8 +55,9 @@ class PenjualanController extends Controller
     array_push($potongan, $potonganarray);
     array_push($pot, $potonghargaarray);
         }
-        return view('penjualan.index')->with(compact('penjualan','barang','potongan','pot'));
-        //return $pot;
+       return view('penjualan.index')->with(compact('penjualan','barang','potongan','pot'));
+       //return $pot;
+      
     }
 
     public function create()
@@ -66,130 +67,81 @@ class PenjualanController extends Controller
         $band = Band::get();
         return view('penjualan.new')->with(compact('vendor','size','band'));
     }
-
-    public function store(Request $request)
-    {
-        $checksku = Product::where('product_sku',$request->product_sku)->first();
-        if($checksku){
-        notify()->danger('SKU Sudah Ada!');
-            return redirect('produk');
-        }
-        $store = collect($request->all());
-
-
-        if ($request->file('product_foto') == '') {
-            $fileurl = '';
-    } else {
-        $file = $request->file('product_foto');
-        $fileArray = ['product_foto' => $file];
-        $rules = ['product_foto' => 'mimes:jpeg,jpg,png,gif|required|max:100000'];
-        $validator = Validator::make($fileArray, $rules);
-        if ($validator->fails()) {
-            // Redirect or return json to frontend with a helpful message to inform the user
-            // that the provided file was not an adequate type
-        notify()->error('File yang diupload bukanlah gambar !');
-            return redirect()->back();
-        } else {
-            $img_id = mt_rand(1, 10000);
-            $fileName = $img_id.time().'.'.$file->getClientOriginalName();
-            Image::make($file)->encode('jpg', 90)->save('product/'.$fileName);
-            $fileurl = 'product/'.$fileName;
-        }
-    }
-
-    $store->put('product_foto', $fileurl);
-
-
-        try {
-        Product::create($store->all());
-        } catch (QE $e) {
-            notify()->warning('Database Error');
-            return redirect()->back();
-        }
-        notify()->success('Penambahan Produk Berhasil');
-        return redirect('produk');
-    }
+ 
 
     public function show($id)
     {
-        $show = Product::join('vendor','vendor.vendor_id','=','produk.product_idvendor',)
-        ->join('size','size.size_id','=','produk.product_idsize')
-        ->join('band','band.band_id','=','produk.product_idband')
-        ->select('produk.*','size.size_id','size.size_nama','vendor.vendor_id','vendor.vendor_nama','band.band_id','band.band_nama')
-        ->where('produk.product_id', $id)->first();
+        $penjualan = Penjualan::join('users','penjualan.penjualan_userid','=','users.id')
+        ->select('penjualan.*','users.name')
+        ->where('penjualan.penjualan_id',$id)->first();
 
-        return view('penjualan.show')->with(compact('show'));
-    }
+        $barangterjual = BarangTerjual::join('product','barangterjual.barangterjual_idproduk','=','product.product_id')
+        ->select('product.product_sku','product.product_mastersku','product.product_nama','product.product_hargajual','product.product_hargabeli','product.product_foto','barangterjual.*')
+        ->where('barangterjual.barangterjual_idpenjualan',$id)->get();
+        $barang = []; //array penampung informasi produk untuk listing produk di avail_pen
+        $potongan = []; //array penampung informasi produk untuk listing produk di avail_pen
+        $pot = []; //array penampung informasi produk untuk listing produk di avail_pen
 
-    public function edit($id)
-    {
-        $edit = Product::join('vendor','vendor.vendor_id','=','produk.product_idvendor',)
-        ->join('size','size.size_id','=','produk.product_idsize')
-        ->join('band','band.band_id','=','produk.product_idband')
-        ->select('produk.*','size.size_id','size.size_nama','vendor.vendor_id','vendor.vendor_nama','band.band_id','band.band_nama')
-        ->where('produk.product_id', $id)->first();
+        if($penjualan){ 
+            $barangarray = [];
+            foreach (explode(',', $penjualan->penjualan_barangterjual) as $b) {
+                $terjual = BarangTerjual::where('barangterjual_id', $b)->first();
+                if ($terjual) {
+                    $produk = Product::where('product_id',$terjual->barangterjual_idproduk)->first();
+                    $size = Size::where('size_id',$produk->product_idsize)->first();
+                    array_push($barangarray, $produk->product_sku.' - '.$produk->product_nama." (".$size->size_nama.")"." x".$terjual->barangterjual_qty);
+                }
+            }
+            foreach (explode(',', $penjualan->penjualan_daftarpotongan) as $p) {
+                $potonganarray = [];
+                $potonghargaarray = [];
+                $riwayatpotongan = RiwayatPotongan::where('riwayatpotongan_id', $p)->first();
+                if ($riwayatpotongan) {
+                    array_push($potonganarray, $riwayatpotongan->riwayatpotongan_namapotongan);
+                    array_push($potonghargaarray, $riwayatpotongan->riwayatpotongan_jumlahpotongan);
+                }
+            }
 
-        $vendor = Vendor::get();
-        $size = Size::get();
-        $band = Band::get();
-
-        return view('penjualan.edit')->with(compact('edit','vendor','size','band'));
-    }
-
-    public function update(Request $request)
-    {
-        $produk = Product::where('product_id', $request->v)->first();
-        $update = collect($request->all());
-
-
-        if ($request->file('product_foto') == '') {
-            $fileurl = $produk->product_foto;
-    } else {
-        $file = $request->file('product_foto');
-        $fileArray = ['files' => $file];
-        $rules = ['files' => 'mimes:jpeg,jpg,png,gif|required|max:100000'];
-        $validator = Validator::make($fileArray, $rules);
-        if ($validator->fails()) {
-            // Redirect or return json to frontend with a helpful message to inform the user
-            // that the provided file was not an adequate type
-        notify()->error('File yang diupload bukanlah gambar !');
-            return redirect()->back();
-        } else {
-            $img_id = mt_rand(1, 10000);
-            $fileName = $img_id.time().'.'.$file->getClientOriginalName();
-            Image::make($file)->encode('jpg', 90)->save('product/'.$fileName);
-            $fileurl = 'product/'.$fileName;
-        }
-    }
-
-    $update->put('product_foto', $fileurl);
-
-
-        try {
-        $produk->update($update->all());
-        } catch (QE $e) {
-            notify()->warning('Database Error');
+    array_push($barang, $barangarray);
+    array_push($potongan, $potonganarray);
+    array_push($pot, $potonghargaarray); 
+       return view('penjualan.show')->with(compact('penjualan','barang','barangterjual','potongan','pot'));
+     // return $barangterjual;
+        }else {
+            
+            toast('Penjualan Tidak Ditemukan','error');
             return redirect()->back();
         }
-        notify()->success('Pengubahan Size Berhasil');
-        return redirect('produk');
-    }
 
+    }
+  
     public function delete($id)
     {
-        $produk = Product::where('product_id', $id)->first();
+        $penjualan = Penjualan::where('penjualan_id', $id)->first();
 
-        try {
-            $produk->delete();
-        } catch (QE $e) {
-            return $e;
-        } //show db error message
+        if($penjualan){
+            foreach (explode(',', $penjualan->penjualan_barangterjual) as $b) {
+                $barangterjual = BarangTerjual::where('barangterjual_id', $b)->first();
+                if ($barangterjual) {
+                    $barangterjual->delete();
+                }
+            }
+            foreach (explode(',', $penjualan->penjualan_daftarpotongan) as $p) { 
+                $riwayatpotongan = RiwayatPotongan::where('riwayatpotongan_id', $p)->first();
+                if ($riwayatpotongan) {
+                    $riwayatpotongan->delete();
+                }
+            }
+            $penjualan->delete();
+        }else { 
+            toast('Penjualan Tidak Ditemukan','error');
+            return redirect()->back();
+        } 
 
-        notify()->success('Size telah sukses dihapus !');
-
-        return redirect('produk');
+        toast('Penjualan Berhasil Dihapus','success');
+        return redirect('penjualan');
     }
-
+ 
 
     public function kasir(){
         $product = Product::join('size','size.size_id','=','product.product_idsize')
@@ -232,7 +184,11 @@ class PenjualanController extends Controller
             $totalpenjualan = $totalpenjualan+($produk->product_hargajual*$request->qtyorders[$key]);
         }
 
+        $updatepenjualan = Penjualan::where('penjualan_id',$addpenjualan->penjualan_id)->first();
+        $updatepenjualan->penjualan_barangterjual = implode(",", $barangterjual);
+        $updatepenjualan->penjualan_totalpenjualan = $totalpenjualan; 
 
+        if($request->potonganname != NULL){
         $potonganpenjualan = array();
         $totalpotongan = 0;
         foreach($request->potonganname as $key => $val){
@@ -246,17 +202,18 @@ class PenjualanController extends Controller
             $riwayatid = $riwayat->riwayatpotongan_id;
             array_push($potonganpenjualan,$riwayatid);
             $totalpotongan = $totalpotongan+$request->potongantotal[$key];
-        }
-
-        $updatepenjualan = Penjualan::where('penjualan_id',$addpenjualan->penjualan_id)->first();
-        $updatepenjualan->penjualan_barangterjual = implode(",", $barangterjual);
-        $updatepenjualan->penjualan_totalpenjualan = $totalpenjualan;
+          } 
+          
         $updatepenjualan->penjualan_daftarpotongan = implode(",", $potonganpenjualan);
-        $updatepenjualan->penjualan_totalpotongan = $totalpotongan;
+        $updatepenjualan->penjualan_totalpotongan = $totalpotongan; 
+        }else {
+
+        } 
         $updatepenjualan->update();
 
 
-        notify()->success('Penjualan telah sukses ditambahkan !');
+        
+        toast('Penjualan Berhasil Ditambahkan','success');
 
         return redirect('kasir');
     }

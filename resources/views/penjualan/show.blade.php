@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title','Detail Produk - ')
+@section('title','Detail Penjualan - ')
 @section('content')
 	<!--begin::Content-->
     <div class="content  d-flex flex-column flex-column-fluid" id="kt_content">
@@ -13,114 +13,114 @@
 <div class="row">
 <div class="col-lg-12">
     <div class="card card-custom gutter-b">
-        <!--begin::Card Body-->
-        <div class="card-body d-flex rounded bg-danger p-12 flex-column flex-md-row flex-lg-column flex-xxl-row">
-            <!--begin::Image-->
-            <div class="bgi-no-repeat bgi-position-center bgi-size-cover h-300px h-md-auto h-lg-300px h-xxl-auto mw-100 w-550px" style="background-image: url('{{url($show->produk_foto)}}')"></div>
-            <!--end::Image-->
-            <!--begin::Card-->
-            <div class="card card-custom w-auto w-md-300px w-lg-auto w-xxl-300px ml-auto">
-                <!--begin::Card Body-->
-                <div class="card-body px-12 py-10">
-                    <h3 class="font-weight-bolder font-size-h2 mb-1">
-                        <a href="#" class="text-dark-75">{{$show->produk_nama}}</a>
-                    </h3>
-                    <div class="text-primary font-size-h4">Harga Jual Rp {{$show->produk_hargajual}}</div>
-                    <div class="text-primary font-size-h4 mb-9">Harga Beli Rp {{$show->produk_hargabeli}}</div>
-                    <!--begin::Info-->
-                    <div class="d-flex mb-3">
-                        <span class="text-dark-50 flex-root font-weight-bold">SKU</span>
-                        <span class="text-dark flex-root font-weight-bold">{{$show->produk_sku}}</span>
+        <div class="card-body p-0">
+            <!-- begin: Invoice-->
+            <!-- begin: Invoice header-->
+            <div class="row justify-content-center py-8 px-8 py-md-27 px-md-0">
+                <div class="col-md-10">
+                    <div class="d-flex justify-content-between pb-10 pb-md-20 flex-column flex-md-row">
+                        <h1 class="display-4 font-weight-boldest mb-10">Detail Penjualan</h1>
+                        <div class="d-flex flex-column align-items-md-end px-0">
+                            <!--begin::Logo-->
+                            <a href="#" class="mb-5">
+                                <img src="{{asset('assets/media/logos/logo-light.png')}}" alt="">
+                            </a>
+                            <!--end::Logo-->
+                            <span class="d-flex flex-column align-items-md-end opacity-70">
+                                <span>Jl Guntursari Wetan No 1,  Jl. Guntursari Wetan No.1, Turangga, Kec. Lengkong</span>
+                                <span>Kota Bandung, Jawa Barat 40264</span>
+                            </span>
+                        </div>
                     </div>
-                    <div class="d-flex mb-3">
-                        <span class="text-dark-50 flex-root font-weight-bold">Size</span>
-                        <span class="text-dark flex-root font-weight-bold">{{$show->size_nama}}</span>
+                    <div class="border-bottom w-100"></div>
+                    <div class="d-flex justify-content-between pt-6">
+                        <div class="d-flex flex-column flex-root">
+                            <span class="font-weight-bolder mb-2">Tanggal Penjualan</span>
+                            <span class="opacity-70">{{$penjualan->penjualan_tanggalpenjualan}}</span>
+                        </div>
+                        
+                        <div class="d-flex flex-column flex-root">
+                            <span class="font-weight-bolder mb-2">Informasi Penjualan.</span>
+                            <span>Invoice No : {{$penjualan->penjualan_invoice}}</span>
+                            <span>Channel : {{$penjualan->penjualan_channel}}</span>
+                                <span>Nama Customer : {{$penjualan->penjualan_customername}}</span>
+                                <span>Kasir : {{$penjualan->name}}</span> 
+                        </div>
                     </div>
-                    <div class="d-flex mb-3">
-                        <span class="text-dark-50 flex-root font-weight-bold">Band</span>
-                        <span class="text-dark flex-root font-weight-bold">{{$show->band_nama}}</span>
-                    </div>
-                    <div class="d-flex mb-3">
-                        <span class="text-dark-50 flex-root font-weight-bold">Vendor</span>
-                        <span class="text-dark flex-root font-weight-bold">{{$show->vendor_nama}}</span>
-                    </div>
-                    <div class="d-flex">
-                        <span class="text-dark-50 flex-root font-weight-bold">In Stock</span>
-                        <span class="text-dark flex-root font-weight-bold">{{$show->produk_stok}}</span>
-                    </div>
-                    <!--end::Info-->
                 </div>
-                <!--end::Card Body-->
             </div>
-            <!--end::Card-->
+            <!-- end: Invoice header-->
+            <!-- begin: Invoice body-->
+            <div class="row justify-content-center py-8 px-8 py-md-10 px-md-0">
+                <div class="col-md-10">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th class="pl-0 font-weight-bold text-muted text-uppercase">Item yang Dibeli</th>
+                                    <th class="text-right font-weight-bold text-muted text-uppercase">Qty</th>
+                                    <th class="text-right font-weight-bold text-muted text-uppercase">Unit Price</th>
+                                    <th class="text-right pr-0 font-weight-bold text-muted text-uppercase">Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($barangterjual as $b)
+                                <tr class="font-weight-boldest">
+                                    <td class="border-0 pl-0 pt-7 d-flex align-items-center">
+                                    <!--begin::Symbol-->
+                                    <div class="symbol symbol-40 flex-shrink-0 mr-4 bg-light">
+                                      <img src="{{asset($b->product_foto?$b->product_foto:"/assets/nopicture.png")}}" class="img-fluid" style="width:50px !important; height:50px !important;">
+                                    </div>
+                                    <!--end::Symbol-->
+                                    {{$b->product_nama}}</td>
+                                    <td class="text-right pt-7 align-middle">{{$b->barangterjual_qty}}</td>
+                                    <td class="text-right pt-7 align-middle">{{$b->product_hargajual}}</td>
+                                    <td class="text-primary pr-0 pt-7 text-right align-middle">{{$b->barangterjual_totalbarangterjual}}</td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!-- end: Invoice body-->
+            <!-- begin: Invoice footer-->
+            <div class="row justify-content-center bg-gray-100 py-8 px-8 py-md-10 px-md-0 mx-0">
+                <div class="col-md-10">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th class="font-weight-bold text-muted text-uppercase">PAYMENT TYPE</th>  
+                                    <th class="font-weight-bold text-muted text-uppercase text-right">TOTAL PAID</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="font-weight-bolder">
+                                    <td>{{$penjualan->penjualan_paymentype}}</td> 
+                                    <td class="text-primary font-size-h3 font-weight-boldest text-right">{{$penjualan->penjualan_paymenttotal}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!-- end: Invoice footer-->
+            <!-- begin: Invoice action-->
+            <div class="row justify-content-center py-8 px-8 py-md-10 px-md-0">
+                <div class="col-md-10">
+                    <div class="d-flex justify-content-between">
+                        <button type="button" class="btn btn-light-primary font-weight-bold" onclick="window.print();">Download Order Details</button>
+                        <button type="button" class="btn btn-primary font-weight-bold" onclick="window.print();">Print Order Details</button>
+                    </div>
+                </div>
+            </div>
+            <!-- end: Invoice action-->
+            <!-- end: Invoice-->
         </div>
-        <!--end::Card Body-->
     </div>
 <!--begin::Advance Table Widget 4-->
-<div class="card card-custom gutter-b">
-<!--begin::Header-->
-<div class="card-header border-0 py-5">
-<h3 class="card-title align-items-start flex-column">
-<span class="card-label font-weight-bolder text-dark">Riwayat Penjualan Produk (Keluar)</span>
-</h3>
-</div>
-<!--end::Header-->
-
-<!--begin::Body-->
-<div class="card-body pt-0 pb-3">
-    <table class="datatable datatable-bordered datatable-head-custom" id="kt_datatable">
-        <thead>
-            <tr>
-                <th>Foto</th>
-                <th>SKU</th>
-                <th>Nama Produk</th>
-                <th>Size</th>
-                <th>Vendor</th>
-                <th>Band</th>
-                <th>Harga</th>
-                <th>Stok</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td><img src="#" class="img-fluid w-50 h-100"></td>
-                <td>{{$show->produk_sku}}</td>
-                <td>{{$show->produk_nama}}</td>
-                <td>
-                    @if($show->produk_idsize == 1)
-                    S
-                    @elseif($show->produk_idsize == 2)
-                    M
-                    @elseif($show->produk_idsize == 3)
-                    L
-                    @elseif($show->produk_idsize == 4)
-                    XL
-                    @elseif($show->produk_idsize == 5)
-                    XXL
-                    @elseif($show->produk_idsize == 6)
-                    XXXL
-                    @elseif($show->produk_idsize == 7)
-                    ALL SIZE
-                    @endif
-                   </td>
-                <td>{{$show->vendor_nama}}</td>
-                <td>{{$show->band_nama}}</td>
-                <td>{{$show->produk_hargajual}}</td>
-                <td>{{$show->produk_stok}}</td>
-                <td>
-                    <a href="{{url('/produk/detail/'.$show->produk_id)}}" class="btn btn-sm btn-primary"><i class="fas fa-info-circle nopadding"></i></a>
-                    <a href="{{url('/produk/edit/'.$show->produk_id)}}" class="btn btn-sm btn-warning"><i class="fas fa-edit nopadding"></i></a>
-                    <button type="button" href="{{url('/produk/delete/'.$show->produk_id)}}" class="deletebtn btn btn-sm btn-danger"><i class="fas fa-trash nopadding"></i></button>
-                </td>
-            </tr>
-
-        </tbody>
-    </table>
-
-</div>
-<!--end::Body-->
-</div>
+ 
 <!--end::Advance Table Widget 4-->
 </div>
 </div>

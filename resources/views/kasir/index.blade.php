@@ -31,47 +31,20 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group row mt-4">
-                    <label class="col-md-2">Invoice No</label>
-                    <div class="col-md-10">
+                    <label class="col-md-4">Invoice No</label>
+                    <div class="col-md-8">
                     <input id="name" type="text" class="form-control" name="penjualan_invoice"  required >
                     </div>
                   </div>
                   <div class="form-group row mt-4">
-                    <label class="col-md-2">Nama Customer</label>
-                    <div class="col-md-10">
+                    <label class="col-md-4">Nama Customer</label>
+                    <div class="col-md-8">
                     <input id="name" type="text" class="form-control" name="penjualan_customername" required>
                     </div>
                   </div>
-            </div>
-            <div class="col-md-6">
-                <div class="form-group row mt-4">
-                    <label class="col-md-2">Channel</label>
-                    <div class="col-md-10">
-                      <select class="multisteps-form__input form-control" name="penjualan_channel" required>
-                        <option value="Toko Offline">Toko Offline</option>
-                        <option value="Website">Website</option>
-                        <option value="Shopee">Shopee</option>
-                        <option value="Tokopedia">Tokopedia</option>
-                        <option value="Blibli">Blibli</option>
-                        <option value="Zalora">Zalora</option>
-                      </select>
-                    </div>
-                  </div>
-                    <div class="form-group row mt-4">
-                        <label class="col-md-2">Tanggal Penjualan</label>
-                        <div class="col-md-10">
-                            <input class="form-control" type="date" name="penjualan_tanggalpenjualan"/>
-                        </div>
-                      </div>
-
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-6">
-                <div class="form-group row mt-4">
-                    <label class="col-md-2">Add Product SKU</label>
-                    <div class="col-md-6">
+                  <div class="form-group row mt-4">
+                    <label class="col-md-4">Add Product SKU</label>
+                    <div class="col-md-8">
                         <select class="form-control select2" id="productlist" name="param">
                             @foreach($product as $p)
                             <option value="{{$p->product_id}}">{{$p->product_sku}} - {{$p->product_nama}} ({{$p->size_nama}})</option>
@@ -79,11 +52,60 @@
                            </select>
                     </div>
                   </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group row mt-4">
+                    <label class="col-md-4">Channel</label>
+                    <div class="col-md-8">
+                      <select class="multisteps-form__input form-control" name="penjualan_channel" required>
+                        <option value="Toko Offline">Toko Offline</option>
+                        <option value="Website">Website</option>
+                        <option value="Shopee">Shopee</option>
+                        <option value="Tokopedia">Tokopedia</option>
+                        <option value="Blibli">Blibli</option>
+                        <option value="BukaLapak">BukaLapak</option>
+                      </select>
+                    </div>
+                  </div>
+                    <div class="form-group row mt-4">
+                        <label class="col-md-4">Tanggal Penjualan</label>
+                        <div class="col-md-8">
+                            <input class="form-control" type="date" name="penjualan_tanggalpenjualan"/>
+                        </div>
+                      </div>
+                      <div class="form-group row mt-4">
+                        <label class="col-md-4">Type Pembayaran</label>
+                        <div class="col-md-8">
+                            <select class="multisteps-form__input form-control" name="penjualan_paymentype" required>
+                                <option value="Cash">Cash</option>
+                                <option value="GoPay">GoPay</option>
+                                <option value="ShopeePay">ShopeePay</option>
+                                <option value="OVO">OVO</option>
+                                <option value="Transfer Bank BCA">Transfer Bank BCA</option>
+                                <option value="Transfer Bank BNI">Transfer Bank BNI</option>
+                                <option value="Transfer Bank Mandiri">Transfer Bank Mandiri</option>
+                                <option value="Debit/Kartu Kredit">Debit/Kartu Kredit</option>
+                                <option value="Marketplace">Marketplace</option> 
+                              </select>
+                        </div>
+                      </div>
+                      <div class="form-group row mt-4">
+                        <label class="col-md-4">Jumlah Pembayaran</label>
+                        <div class="col-md-8">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                  <span class="input-group-text" id="paymenttotal">Rp</span>
+                                </div> 
+                                <input class="form-control" type="text" name="penjualan_paymenttotal" aria-label="Payment" aria-describedby="paymenttotal" required/>
+                              </div>
+                             
+                        </div>
+                      </div>
 
             </div>
-
         </div>
 
+     
 <!--begin::Shopping Cart-->
 <div class="table-responsive">
 <table class="table">
