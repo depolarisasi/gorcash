@@ -50,8 +50,8 @@ th.price {
     max-width: 58mm;
     height: auto;
       display: block;
-  margin: 1mm;
-  box-shadow: 0 0 0.5cm rgba(0,0,0,0.5);
+  margin: 0;
+  padding: 0;
 }
 
 img {
@@ -64,6 +64,8 @@ img {
         width: 58mm;
     max-width: 58mm;
     height: auto;
+  margin: 0;
+  padding: 0;
     }
     .hidden-print,
     .hidden-print * {
