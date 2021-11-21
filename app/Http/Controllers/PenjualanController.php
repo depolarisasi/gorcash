@@ -119,7 +119,7 @@ class PenjualanController extends Controller
         //$pdf->save($path.$fileName); 
         //return $data;   
         $pdf->setPaper('a8', 'portrait')->dpi('72')->stream($fileName);
-        return view('penjualan.struk')->with(compact('data','penjualan','barangterjual','daftarpotongan'));
+       // return view('penjualan.struk')->with(compact('data','penjualan','barangterjual','daftarpotongan'));
     }
   
     public function delete($id)
