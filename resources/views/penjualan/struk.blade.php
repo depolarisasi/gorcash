@@ -102,7 +102,9 @@
   <div id="invoice-POS">
     
     <center id="top">
-      <div class="logo"></div>
+      <center>
+          <img src="{{asset('assets/media/logos/logo-light.png')}}" width="70px;" height="40px;">
+      </center>
       <div class="info"> 
         <h2>Gorilla Coach</h2>
         <p> Jl. Guntursari Wetan No. 1 </br>
@@ -116,12 +118,12 @@
       <div class="info">
         <h2>Struk Penjualan</h2>
         <p> 
-            Tanggal :  </br>
-            Invoice   : </br>
-            Channel   : </br>
-            Customer   : </br>
-            Payment Type   :  </br>
-            Payment Total   : </br>
+            Tanggal : {{$data[0]['penjualan_tanggalpenjualan']}} </br>
+            Invoice   : {{$data[0]['penjualan_invoice']}}  </br>
+            Channel   : {{$data[0]['penjualan_channel']}} </br>
+            Customer   : {{$data[0]['penjualan_customername']}} </br>
+            Payment Type   :  {{$data[0]['penjualan_paymentype']}} </br>
+            Payment Total   : {{$data[0]['penjualan_paymenttotal']}}  </br>
         </p>
       </div>
     </div><!--End Invoice Mid-->
@@ -133,32 +135,44 @@
 							<tr class="tabletitle">
 								<td class="item"><h2>Item</h2></td>
 								<td class="Hours"><h2>Qty</h2></td>
+								<td class="Hours"><h2>Price</h2></td>
 								<td class="Rate"><h2>Sub Total</h2></td>
 							</tr>
 
-							<tr class="service">
-								<td class="tableitem"><p class="itemtext">Communication</p></td>
-								<td class="tableitem"><p class="itemtext">5</p></td>
-								<td class="tableitem"><p class="itemtext">$375.00</p></td>
-							</tr>
+                            @foreach($data[2] as $b)
+                            <tr class="font-weight-boldest">
+                                <td class="border-0 pl-0 pt-7 d-flex align-items-center">
+                                    <p class="itemtext"> {{$b['product_sku']}} - {{$b['product_nama']}} ({{$b['size_nama']}}) </p></td>
+                                <td class="text-right pt-7 align-middle"><p class="itemtext">{{$b['barangterjual_qty']}}</p></td>
+                                <td class="text-right pt-7 align-middle"><p class="itemtext">@money($b['product_hargajual'])</p></td>
+                                <td class="text-primary pr-0 pt-7 text-right align-middle"><p class="itemtext">@money($b['barangterjual_totalbarangterjual'])</p></td>
+                            </tr>
+                            @endforeach
+
+		
 
 				 
 							<tr class="tabletitle">
                                 <td class="item"><h2>Potongan</h2></td>
 								<td class="Hours"></td>
+								<td class="Hours"></td>
 								<td class="Rate"><h2>Sub Total</h2></td>
 							</tr>
-
+                            @foreach($data[1] as $p)
                             <tr class="service">
-								<td class="tableitem"><p class="itemtext">Communication</p></td>
-								<td class="tableitem"><p class="itemtext">5</p></td>
-								<td class="tableitem"><p class="itemtext">$375.00</p></td>
-							</tr> 
+								<td class="tableitem"><p class="itemtext">{{$p->riwayatpotongan_namapotongan}}</p></td>
+								<td class="tableitem"><p class="itemtext"></p></td>
+								<td class="tableitem"><p class="itemtext">@money($p->riwayatpotongan_jumlahpotongan)</p></td>
+							</tr>  
+                            @endforeach
+
+                           
 
 							<tr class="tabletitle">
 								<td></td>
+								<td></td>
 								<td class="Rate"><h2>Total</h2></td>
-								<td class="payment"><h2>$3,644.25</h2></td>
+								<td class="payment"><h2>@money($penjualan->penjualan_totalpenjualan - ($penjualan->penjualan_totalpotongan?$penjualan->penjualan_totalpotongan:0))</h2></td>
 							</tr>
 
 						</table>
@@ -171,5 +185,8 @@
 
 				</div><!--End InvoiceBot-->
   </div><!--End Invoice-->    
+  <script>
+      window.print();
+      </script>
 </body>
 </html>

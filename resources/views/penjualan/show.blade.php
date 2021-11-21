@@ -70,7 +70,7 @@
                                 </tr>
                                 @endforeach
                                 <tr class="font-weight-boldest">
-                                    <td colspan="4" class="text-primary font-size-h3 font-weight-boldest text-right">@money($penjualan->penjualan_totalpenjualan)</td>
+                                    <td colspan="4" class="text-primary font-size-h3 font-weight-boldest text-right">{{$penjualan->penjualan_totalpenjualan}}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -96,7 +96,7 @@
                                 </tr>
                                 @endforeach
                                 <tr class="font-weight-bolder">
-                                    <td colspan="2" class="text-primary font-size-h3 font-weight-boldest text-right">@money($penjualan->penjualan_totalpotongan)</td>
+                                    <td colspan="2" class="text-primary font-size-h3 font-weight-boldest text-right"{{$penjualan->penjualan_totalpenjualan}}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -112,7 +112,7 @@
                             <tbody>
                                 <tr class="font-weight-bolder">
                                     <td>Total Pendapatan</td>
-                                    <td class="text-primary font-size-h3 font-weight-boldest text-right">@money($penjualan->penjualan_totalpenjualan - $penjualan->penjualan_totalpotongan)</td>
+                                    <td class="text-primary font-size-h3 font-weight-boldest text-right">{{$penjualan->penjualan_totalpenjualan}}</td>
                                 </tr>
                             </tbody>
                         </table>

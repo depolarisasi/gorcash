@@ -104,7 +104,7 @@
                         <td>@money($p->penjualan_totalpenjualan?$p->penjualan_totalpenjualan:0)</td>
                         <td>@money($p->penjualan_totalpotongan?$p->penjualan_totalpotongan:0)</td> 
                         <td>@money($p->penjualan_paymenttotal)</td>
-                        <td>{{$p->penjualan_paymenttype}}</td>
+                        <td>{{$p->penjualan_paymentype}}</td>
                         <td>
                             <a href="{{url('/penjualan/detail/'.$p->penjualan_id)}}" class="btn btn-icon btn-xs btn-primary"><i class="fas fa-info-circle nopadding"></i></a>
                             @if($p->penjualan_receipt != NULL)<a href="{{url('/penjualan/struk/'.$p->penjualan_id)}}" class="btn btn-icon btn-xs btn-info"><i class="fas fa-print nopadding"></i></a>@endif 
@@ -151,6 +151,7 @@
             'copyHtml5',
             'excelHtml5',
             'csvHtml5', 
+            'pdfHtml5',
         ],
         search: {
 				input: $('#kt_datatable_search_query'),
