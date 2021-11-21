@@ -115,10 +115,10 @@ class PenjualanController extends Controller
        
         //$pdf->save($path.$fileName); 
         //return $data;   
-        $pdf->stream($fileName);
+    //    $pdf->stream($fileName);
     //   // return $data;
         
-    //return view('penjualan.struk')->with(compact('penjualan','barangterjual','daftarpotongan'));
+    return view('penjualan.struk')->with(compact('penjualan','barangterjual','daftarpotongan'));
     }
   
     public function delete($id)
