@@ -107,15 +107,6 @@ class PenjualanController extends Controller
         ->where('barangterjual.barangterjual_idpenjualan',$id)->get();
         $daftarpotongan = RiwayatPotongan::where('riwayatpotongan_idpenjualan',$id)->get();
        
-        $data = ['logo'       => "assets/media/logos/logo-light.png",
-            'header'                   => " <h2>Gorilla Coach</h2>
-                                             <p> Jl. Guntursari Wetan No. 1 </br>
-                                              Buah Batu - Jawa Barat </br>
-                                             Phone : 0813-2159-3244   </br>",
-            'penjualan'      => $penjualan,
-            'barangterjual'                   => $barangterjual,
-            'potongan'                   => $daftarpotongan,
-        ];
       
         $pdf = PDF::loadView('penjualan.struk', $data);
         $path = public_path('pdf/');
@@ -124,9 +115,10 @@ class PenjualanController extends Controller
        
         //$pdf->save($path.$fileName); 
         //return $data;   
-        $pdf->setPaper('a8', 'portrait')->stream($fileName);
-      // return $data;
-        // return view('penjualan.struk')->with(compact('data','penjualan','barangterjual','daftarpotongan'));
+        $pdf->stream($fileName);
+    //   // return $data;
+        
+    //return view('penjualan.struk')->with(compact('penjualan','barangterjual','daftarpotongan'));
     }
   
     public function delete($id)
