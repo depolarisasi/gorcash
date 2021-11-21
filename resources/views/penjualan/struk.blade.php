@@ -79,7 +79,7 @@ img {
         <br>
         <br>
         <br>
-       <center> <img src="{{asset('assets/media/logos/logo-light.png')}}" style="width: 90px !important; height: 25px; " alt="Logo"></center>
+       <center> <img src="{{asset('assets/media/logos/logo-light.png')}}" style="width: 140px !important; height: 70px; " alt="Logo"></center>
         <p class="centered">GORILLA COACH </br>
             Jl. Guntursari Wetan No. 1 </br>
             Buah Batu - Jawa Barat </br>
