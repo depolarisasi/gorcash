@@ -16,24 +16,15 @@
         <div class="card-body p-0">
             <!-- begin: Invoice-->
             <!-- begin: Invoice header-->
-            <div class="row justify-content-center py-8 px-8 py-md-27 px-md-0">
+            <div class="row justify-content-center py-8 px-8 py-md-10 px-md-0">
                 <div class="col-md-10">
-                    <div class="d-flex justify-content-between pb-10 pb-md-20 flex-column flex-md-row">
-                        <h1 class="display-4 font-weight-boldest mb-10">Detail Penjualan</h1>
-                        <div class="d-flex flex-column align-items-md-end px-0">
-                            <!--begin::Logo-->
-                            <a href="#" class="mb-5">
-                                <img src="{{asset('assets/media/logos/logo-light.png')}}" alt="">
-                            </a>
-                            <!--end::Logo-->
-                            <span class="d-flex flex-column align-items-md-end opacity-70">
-                                <span>Jl Guntursari Wetan No 1,  Jl. Guntursari Wetan No.1, Turangga, Kec. Lengkong</span>
-                                <span>Kota Bandung, Jawa Barat 40264</span>
-                            </span>
-                        </div>
+                    <div class="d-flex justify-content-between pb-5 pb-md-10 flex-column flex-md-row">
+                        <h1 class="display-4 font-weight-boldest">Detail Penjualan</h1>
+                        <div class="card-toolbar">
+                            <a href="{{url('penjualan/')}}" class="btn btn-primary btn-md font-size-sm"><i class="fas fa-arrow-left"></i> Kembali</a>
+                            </div>
                     </div>
-                    <div class="border-bottom w-100"></div>
-                    <div class="d-flex justify-content-between pt-6">
+                    <div class="d-flex justify-content-between">
                         <div class="d-flex flex-column flex-root">
                             <span class="font-weight-bolder mb-2">Tanggal Penjualan</span>
                             <span class="opacity-70">{{$penjualan->penjualan_tanggalpenjualan}}</span>
@@ -57,10 +48,10 @@
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th class="pl-0 font-weight-bold text-muted text-uppercase">Item yang Dibeli</th>
+                                    <th class="pl-0 font-weight-bold text-muted text-uppercase">NAMA BARANG</th>
                                     <th class="text-right font-weight-bold text-muted text-uppercase">Qty</th>
-                                    <th class="text-right font-weight-bold text-muted text-uppercase">Unit Price</th>
-                                    <th class="text-right pr-0 font-weight-bold text-muted text-uppercase">Amount</th>
+                                    <th class="text-right font-weight-bold text-muted text-uppercase">HARGA SATUAN</th>
+                                    <th class="text-right pr-0 font-weight-bold text-muted text-uppercase">TOTAL</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -72,17 +63,63 @@
                                       <img src="{{asset($b->product_foto?$b->product_foto:"/assets/nopicture.png")}}" class="img-fluid" style="width:50px !important; height:50px !important;">
                                     </div>
                                     <!--end::Symbol-->
-                                    {{$b->product_nama}}</td>
+                                    {{$b->product_sku}} - {{$b->product_nama}} ({{$b->size_nama}})</td>
                                     <td class="text-right pt-7 align-middle">{{$b->barangterjual_qty}}</td>
-                                    <td class="text-right pt-7 align-middle">{{$b->product_hargajual}}</td>
-                                    <td class="text-primary pr-0 pt-7 text-right align-middle">{{$b->barangterjual_totalbarangterjual}}</td>
+                                    <td class="text-right pt-7 align-middle">@money($b->product_hargajual)</td>
+                                    <td class="text-primary pr-0 pt-7 text-right align-middle">@money($b->barangterjual_totalbarangterjual)</td>
                                 </tr>
                                 @endforeach
+                                <tr class="font-weight-boldest">
+                                    <td colspan="4" class="text-primary font-size-h3 font-weight-boldest text-right">@money($penjualan->penjualan_totalpenjualan)</td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
+            @if($daftarpotongan)
+            <div class="row justify-content-center bg-gray-50 py-8 px-8 py-md-10 px-md-0 mx-0">
+                <div class="col-md-10">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th class="font-weight-bold text-muted text-uppercase">POTONGAN</th>  
+                                    <th class="font-weight-bold text-muted text-uppercase text-right">TOTAL POTONGAN</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($daftarpotongan as $p)
+                                <tr class="font-weight-bolder">
+                                    <td>{{$p->riwayatpotongan_namapotongan}}</td> 
+                                    <td class="text-primary pr-0 pt-7 text-right align-middle">@money($p->riwayatpotongan_jumlahpotongan)</td>
+                                </tr>
+                                @endforeach
+                                <tr class="font-weight-bolder">
+                                    <td colspan="2" class="text-primary font-size-h3 font-weight-boldest text-right">@money($penjualan->penjualan_totalpotongan)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            @endif
+
+            <div class="row justify-content-center py-8 px-8 py-md-10 px-md-0 mx-0">
+                <div class="col-md-10">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <tbody>
+                                <tr class="font-weight-bolder">
+                                    <td>Total Pendapatan</td>
+                                    <td class="text-primary font-size-h3 font-weight-boldest text-right">@money($penjualan->penjualan_totalpenjualan - $penjualan->penjualan_totalpotongan)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
             <!-- end: Invoice body-->
             <!-- begin: Invoice footer-->
             <div class="row justify-content-center bg-gray-100 py-8 px-8 py-md-10 px-md-0 mx-0">
@@ -109,10 +146,10 @@
             <!-- begin: Invoice action-->
             <div class="row justify-content-center py-8 px-8 py-md-10 px-md-0">
                 <div class="col-md-10">
-                    <div class="d-flex justify-content-between">
-                        <button type="button" class="btn btn-light-primary font-weight-bold" onclick="window.print();">Download Order Details</button>
-                        <button type="button" class="btn btn-primary font-weight-bold" onclick="window.print();">Print Order Details</button>
-                    </div>
+                  
+                        <button type="button" class="btn btn-light-primary font-weight-bold" onclick="window.print();"><i class="fas fa-print"></i> Print Halaman Ini</button>
+                        <button type="button" class="btn btn-primary font-weight-bold" onclick="window.print();"><i class="fas fa-print"></i> Print Struk Pembelian</button>
+                    
                 </div>
             </div>
             <!-- end: Invoice action-->

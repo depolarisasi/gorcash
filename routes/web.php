@@ -109,6 +109,7 @@ Route::group(['prefix' => 'size'], function() {
     Route::get('/edit/{id}',[App\Http\Controllers\PenjualanController::class, 'edit'])->middleware('auth');
     Route::post('/update',[App\Http\Controllers\PenjualanController::class, 'update'])->middleware('auth');
     Route::get('/delete/{id}',[App\Http\Controllers\PenjualanController::class, 'delete'])->middleware('auth');
+    Route::get('/struk/{id?}',[App\Http\Controllers\PenjualanController::class, 'receipt'])->middleware('auth');
 
    });
 

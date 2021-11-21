@@ -19,6 +19,7 @@ use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Facades\File;
 use Intervention\Image\ImageManagerStatic as Image;
 use Carbon\Carbon;
+use PDF;
 
 
 class PenjualanController extends Controller
@@ -76,43 +77,25 @@ class PenjualanController extends Controller
         ->where('penjualan.penjualan_id',$id)->first();
 
         $barangterjual = BarangTerjual::join('product','barangterjual.barangterjual_idproduk','=','product.product_id')
-        ->select('product.product_sku','product.product_mastersku','product.product_nama','product.product_hargajual','product.product_hargabeli','product.product_foto','barangterjual.*')
+        ->join('size','product.product_idsize','=','size.size_nama')
+        ->select('product.product_sku','product.product_mastersku','size.size_nama','product.product_nama','product.product_hargajual','product.product_hargabeli','product.product_foto','barangterjual.*')
         ->where('barangterjual.barangterjual_idpenjualan',$id)->get();
-        $barang = []; //array penampung informasi produk untuk listing produk di avail_pen
-        $potongan = []; //array penampung informasi produk untuk listing produk di avail_pen
-        $pot = []; //array penampung informasi produk untuk listing produk di avail_pen
-
+        $daftarpotongan = RiwayatPotongan::where('riwayatpotongan_idpenjualan',$id)->get();
         if($penjualan){ 
-            $barangarray = [];
-            foreach (explode(',', $penjualan->penjualan_barangterjual) as $b) {
-                $terjual = BarangTerjual::where('barangterjual_id', $b)->first();
-                if ($terjual) {
-                    $produk = Product::where('product_id',$terjual->barangterjual_idproduk)->first();
-                    $size = Size::where('size_id',$produk->product_idsize)->first();
-                    array_push($barangarray, $produk->product_sku.' - '.$produk->product_nama." (".$size->size_nama.")"." x".$terjual->barangterjual_qty);
-                }
-            }
-            foreach (explode(',', $penjualan->penjualan_daftarpotongan) as $p) {
-                $potonganarray = [];
-                $potonghargaarray = [];
-                $riwayatpotongan = RiwayatPotongan::where('riwayatpotongan_id', $p)->first();
-                if ($riwayatpotongan) {
-                    array_push($potonganarray, $riwayatpotongan->riwayatpotongan_namapotongan);
-                    array_push($potonghargaarray, $riwayatpotongan->riwayatpotongan_jumlahpotongan);
-                }
-            }
-
-    array_push($barang, $barangarray);
-    array_push($potongan, $potonganarray);
-    array_push($pot, $potonghargaarray); 
-       return view('penjualan.show')->with(compact('penjualan','barang','barangterjual','potongan','pot'));
+            $totalbarang = $barangterjual->sum('barangterjual.barangterjual_totalbarangterjual');
+            $totalpotongan = $daftarpotongan->sum('riwayatpotongan.riwayatpotongan_jumlahpotongan');
+       return view('penjualan.show')->with(compact('penjualan','barangterjual','daftarpotongan','totalbarang','totalpotongan'));
      // return $barangterjual;
         }else {
             
             toast('Penjualan Tidak Ditemukan','error');
-            return redirect()->back();
+            return redirect('penjualan');
         }
 
+    }
+
+    public function receipt(){
+        return view('penjualan.struk');
     }
   
     public function delete($id)
@@ -208,13 +191,27 @@ class PenjualanController extends Controller
         $updatepenjualan->penjualan_totalpotongan = $totalpotongan; 
         }else {
 
-        } 
-        $updatepenjualan->update();
-
-
+        }  
+        $barangterjual = BarangTerjual::join('product','barangterjual.barangterjual_idproduk','=','product.product_id')
+        ->join('size','product.product_idsize','=','size.size_nama')
+        ->select('product.product_sku','product.product_mastersku','size.size_nama','product.product_nama','product.product_hargajual','product.product_hargabeli','product.product_foto','barangterjual.*')
+        ->where('barangterjual.barangterjual_idpenjualan',$updatepenjualan->penjualan_id)->get();
+        $daftarpotongan = RiwayatPotongan::where('riwayatpotongan_idpenjualan',$updatepenjualan->penjualan_id)->get();
+        $data = array();
+        array_push($data, $updatepenjualan);
+        array_push($data, $daftarpotongan);
+        array_push($data, $barangterjual);
+        $pdf = PDF::loadView('penjualan.struk', $data);
+        $path = public_path('pdf/');
+        $random = substr(md5(mt_rand()), 0, 7);
+        $fileName =  $addpenjualan->penjualan_id.'_'.$addpenjualan->penjualan_tanggalpenjualan.$random.'.pdf' ;
+        $updatepenjualan->penjualan_receipt = $path.$fileName;
+        $pdf->save($path.$fileName); 
+ 
+        $updatepenjualan->update(); 
         
         toast('Penjualan Berhasil Ditambahkan','success');
 
-        return redirect('kasir');
+        return $data;
     }
 }
