@@ -7,10 +7,9 @@
     <title>Struk Penjualan</title>
     <style>
 #invoice-POS {
-  box-shadow: 0 0 1in -0.25in rgba(0, 0, 0, 0.5);
   padding: 2mm;
   margin: 0 auto;
-  width: 44mm;
+  width: 58mm;
   background: #FFF;
 }
 #invoice-POS ::selection {
@@ -100,7 +99,6 @@
 <body>
     
   <div id="invoice-POS">
-    
     <center id="top">
       <center>
           <img src="{{asset('assets/media/logos/logo-light.png')}}" width="70px;" height="40px;">
