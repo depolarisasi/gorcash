@@ -108,10 +108,10 @@ class PenjualanController extends Controller
         $daftarpotongan = RiwayatPotongan::where('riwayatpotongan_idpenjualan',$id)->get();
        
       
-        $pdf = PDF::loadView('penjualan.struk', $data);
-        $path = public_path('pdf/');
-        $random = substr(md5(mt_rand()), 0, 7);
-        $fileName =  $penjualan->penjualan_id.'_'.$penjualan->penjualan_tanggalpenjualan.$random.'.pdf' ;
+        // $pdf = PDF::loadView('penjualan.struk', $data);
+        // $path = public_path('pdf/');
+        // $random = substr(md5(mt_rand()), 0, 7);
+        // $fileName =  $penjualan->penjualan_id.'_'.$penjualan->penjualan_tanggalpenjualan.$random.'.pdf' ;
        
         //$pdf->save($path.$fileName); 
         //return $data;   
