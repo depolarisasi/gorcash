@@ -76,11 +76,16 @@ img {
 </head>
 <body>
     <div class="ticket">
-       <center> <img src="{{asset('assets/media/logos/logo-light.png')}}" style="width: 60px !important; height: 40px; " alt="Logo"></center>
+        <br>
+        <br>
+        <br>
+       <center> <img src="{{asset('assets/media/logos/logo-light.png')}}" style="width: 170px !important; height: 80px; " alt="Logo"></center>
         <p class="centered">GORILLA COACH </br>
             Jl. Guntursari Wetan No. 1 </br>
             Buah Batu - Jawa Barat </br>
            Phone : 0813-2159-3244   </br></p>
+           
+        <br>
             <p> 
                 Tanggal : {{$penjualan->penjualan_tanggalpenjualan}} </br>
                 Invoice   :  {{$penjualan->penjualan_invoice}}</br>
@@ -88,6 +93,8 @@ img {
                 Customer   : {{$penjualan->penjualan_customername}} </br>
                 Payment Type   :  {{$penjualan->penjualan_paymentype}}</br>
             </p>
+            
+        <br>
         <table>
             <thead>
                 <tr>
