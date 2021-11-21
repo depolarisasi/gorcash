@@ -11,6 +11,7 @@
     font-family: 'Times New Roman';
 }
 
+
 td,
 th,
 tr,
@@ -45,8 +46,12 @@ th.price {
 }
 
 .ticket {
-    width: 155px;
-    max-width: 155px;
+    width: 58mm;
+    max-width: 58mm;
+    height: auto;
+      display: block;
+  margin: 1mm;
+  box-shadow: 0 0 0.5cm rgba(0,0,0,0.5);
 }
 
 img {
@@ -55,6 +60,11 @@ img {
 }
 
 @media print {
+    .ticket {
+        width: 58mm;
+    max-width: 58mm;
+    height: auto;
+    }
     .hidden-print,
     .hidden-print * {
         display: none !important;
@@ -79,20 +89,20 @@ img {
         <table>
             <thead>
                 <tr>
-                    <th class="quantity">Qty</th>
-                    <th class="description">Produk</th>
-                    <th class="price">Harga</th>
-                    <th class="price">Total</th>
+                    <th width="10%">Qty</th>
+                    <th width="30%">Produk</th>
+                    <th width="30%">Harga</th>
+                    <th width="30%">Total</th>
                 </tr>
             </thead>
             <tbody>
                 
                 @foreach($barangterjual as $b)
                 <tr>
-                    <td class="quantity">{{$b->barangterjual_qty}}</td>
-                    <td class="description">{{$b->product_sku}} - {{$b->product_nama}} ({{$b->size_nama}})</td>
-                    <td class="price">@money($b->product_hargajual)</td>
-                    <td class="price">@money($b->barangterjual_totalbarangterjual)</td>
+                    <td width="1    0%">{{$b->barangterjual_qty}}</td>
+                    <td width="30%">{{$b->product_sku}} - {{$b->product_nama}} ({{$b->size_nama}})</td>
+                    <td width="30%">@money($b->product_hargajual)</td>
+                    <td width="30%">@money($b->barangterjual_totalbarangterjual)</td>
                 </tr>
                 @endforeach
               
@@ -102,18 +112,16 @@ img {
         <table>
             <thead>
                 <tr>
-                    <th class="quantity">Qty</th>
-                    <th class="description">Potongan</th>
-                    <th class="price">Total</th>
+                    <th width="50%">Potongan</th>
+                    <th width="50%">Total</th>
                 </tr>
             </thead>
             <tbody>
                 
                 @foreach($daftarpotongan as $p)
                 <tr>
-                    <td class="description">{{$p->riwayatpotongan_namapotongan}}</td>
-                    <td class="description"></td>
-                    <td class="price">@money($p->riwayatpotongan_jumlahpotongan)</td>
+                    <td width="50%">{{$p->riwayatpotongan_namapotongan}}</td>
+                    <td width="50%">@money($p->riwayatpotongan_jumlahpotongan)</td>
                 </tr>
                 @endforeach
               
@@ -123,11 +131,11 @@ img {
         <table>
             <tbody>
                 <tr>
-                    <td class="description">Total</td>
+                    <td width="25%">Total</td>
                     <td width="75%"><span style="float:right;">@money((int)$penjualan->penjualan_totalpenjualan - (int)$penjualan->penjualan_totalpotongan)</span></td>
                 </tr>
                 <tr>
-                    <td class="description">Pembayaran</td>
+                    <td width="25%">Pembayaran</td>
                     <td width="75%"><span style="float:right;">@money($penjualan->penjualan_paymenttotal)</span></td>
                 </tr>
             </tbody>
