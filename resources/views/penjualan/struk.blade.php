@@ -65,7 +65,6 @@
   border-radius: 50px;
 }
 #invoice-POS .info {
-  display: block;
   margin-left: 0;
 }
 #invoice-POS .title {
@@ -156,6 +155,7 @@
                             @foreach($potongan as $p)
                             <tr class="service">
 								<td class="tableitem"><p class="itemtext">{{$p->riwayatpotongan_namapotongan}}</p></td>
+								<td class="tableitem"><p class="itemtext"></p></td>
 								<td class="tableitem"><p class="itemtext"></p></td>
 								<td class="tableitem"><p class="itemtext">@money($p->riwayatpotongan_jumlahpotongan)</p></td>
 							</tr>  
