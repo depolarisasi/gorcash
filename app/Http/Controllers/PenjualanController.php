@@ -106,20 +106,27 @@ class PenjualanController extends Controller
         ->select('product.product_sku','product.product_mastersku','size.size_nama','product.product_nama','product.product_hargajual','product.product_hargabeli','product.product_foto','barangterjual.*')
         ->where('barangterjual.barangterjual_idpenjualan',$id)->get();
         $daftarpotongan = RiwayatPotongan::where('riwayatpotongan_idpenjualan',$id)->get();
-        $data = array();
-        array_push($data, $penjualan);
-        array_push($data, $daftarpotongan->toArray());
-        array_push($data, $barangterjual->toArray());
+       
+        $data = ['logo'       => "assets/media/logos/logo-light.png",
+            'header'                   => " <h2>Gorilla Coach</h2>
+                                             <p> Jl. Guntursari Wetan No. 1 </br>
+                                              Buah Batu - Jawa Barat </br>
+                                             Phone : 0813-2159-3244   </br>",
+            'penjualan'      => $penjualan,
+            'barangterjual'                   => $barangterjual,
+            'potongan'                   => $daftarpotongan,
+        ];
       
-         $pdf = PDF::loadView('penjualan.struk', $data);
+        $pdf = PDF::loadView('penjualan.struk', $data);
         $path = public_path('pdf/');
         $random = substr(md5(mt_rand()), 0, 7);
-        $fileName =  $addpenjualan->penjualan_id.'_'.$addpenjualan->penjualan_tanggalpenjualan.$random.'.pdf' ;
-        $updatepenjualan->penjualan_receipt = $path.$fileName;
+        $fileName =  $penjualan->penjualan_id.'_'.$penjualan->penjualan_tanggalpenjualan.$random.'.pdf' ;
+       
         //$pdf->save($path.$fileName); 
         //return $data;   
-        $pdf->setPaper('a8', 'portrait')->dpi('72')->stream($fileName);
-       // return view('penjualan.struk')->with(compact('data','penjualan','barangterjual','daftarpotongan'));
+        $pdf->setPaper('a8', 'portrait')->stream($fileName);
+      // return $data;
+        // return view('penjualan.struk')->with(compact('data','penjualan','barangterjual','daftarpotongan'));
     }
   
     public function delete($id)

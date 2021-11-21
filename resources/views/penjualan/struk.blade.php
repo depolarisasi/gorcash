@@ -53,7 +53,7 @@
 #invoice-POS #top .logo {
   height: 40px;
   width: 70px;
-  background: url({{asset('assets/media/logos/logo-light.png')}}) no-repeat;
+  background: url({{asset($logo)}}) no-repeat;
   background-size: 70px 40px;
 }
 #invoice-POS .clientlogo {
@@ -101,13 +101,10 @@
   <div id="invoice-POS">
     <center id="top">
       <center>
-          <img src="{{asset('assets/media/logos/logo-light.png')}}" width="70px;" height="40px;">
+          <img src="{{asset($logo)}}" width="70px;" height="40px;">
       </center>
       <div class="info"> 
-        <h2>Gorilla Coach</h2>
-        <p> Jl. Guntursari Wetan No. 1 </br>
-            Buah Batu - Jawa Barat </br>
-            Phone : 0813-2159-3244   </br>
+       {{$header}}
         </p>
       </div><!--End Info-->
     </center><!--End InvoiceTop-->
@@ -116,12 +113,12 @@
       <div class="info">
         <h2>Struk Penjualan</h2>
         <p> 
-            Tanggal : {{$data[0]['penjualan_tanggalpenjualan']}} </br>
-            Invoice   : {{$data[0]['penjualan_invoice']}}  </br>
-            Channel   : {{$data[0]['penjualan_channel']}} </br>
-            Customer   : {{$data[0]['penjualan_customername']}} </br>
-            Payment Type   :  {{$data[0]['penjualan_paymentype']}} </br>
-            Payment Total   : {{$data[0]['penjualan_paymenttotal']}}  </br>
+            Tanggal : {{$penjualan->penjualan_tanggalpenjualan}} </br>
+            Invoice   :  {{$penjualan->penjualan_invoice}}</br>
+            Channel   : {{$penjualan->penjualan_channel}}</br>
+            Customer   : {{$penjualan->penjualan_customername}} </br>
+            Payment Type   :  {{$penjualan->penjualan_paymentype}}</br>
+            Payment Total   : {{$penjualan->penjualan_paymenttotal}}  </br>
         </p>
       </div>
     </div><!--End Invoice Mid-->
@@ -137,13 +134,13 @@
 								<td class="Rate"><h2>Sub Total</h2></td>
 							</tr>
 
-                            @foreach($data[2] as $b)
+                            @foreach($barangterjual as $b)
                             <tr class="font-weight-boldest">
                                 <td class="border-0 pl-0 pt-7 d-flex align-items-center">
-                                    <p class="itemtext"> {{$b['product_sku']}} - {{$b['product_nama']}} ({{$b['size_nama']}}) </p></td>
-                                <td class="text-right pt-7 align-middle"><p class="itemtext">{{$b['barangterjual_qty']}}</p></td>
-                                <td class="text-right pt-7 align-middle"><p class="itemtext">@money($b['product_hargajual'])</p></td>
-                                <td class="text-primary pr-0 pt-7 text-right align-middle"><p class="itemtext">@money($b['barangterjual_totalbarangterjual'])</p></td>
+                                    <p class="itemtext"> {{$b->product_sku}} - {{$b->product_nama}} ({{$b->size_nama}}) </p></td>
+                                <td class="text-right pt-7 align-middle"><p class="itemtext">{{$b->barangterjual_qty}}</p></td>
+                                <td class="text-right pt-7 align-middle"><p class="itemtext">@money($b->product_hargajual)</p></td>
+                                <td class="text-primary pr-0 pt-7 text-right align-middle"><p class="itemtext">@money($b->barangterjual_totalbarangterjual)</p></td>
                             </tr>
                             @endforeach
 
@@ -156,7 +153,7 @@
 								<td class="Hours"></td>
 								<td class="Rate"><h2>Sub Total</h2></td>
 							</tr>
-                            @foreach($data[1] as $p)
+                            @foreach($potongan as $p)
                             <tr class="service">
 								<td class="tableitem"><p class="itemtext">{{$p->riwayatpotongan_namapotongan}}</p></td>
 								<td class="tableitem"><p class="itemtext"></p></td>
