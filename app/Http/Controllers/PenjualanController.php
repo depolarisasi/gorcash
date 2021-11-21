@@ -111,9 +111,14 @@ class PenjualanController extends Controller
         array_push($data, $daftarpotongan->toArray());
         array_push($data, $barangterjual->toArray());
       
-        
+         $pdf = PDF::loadView('penjualan.struk', $data);
+        $path = public_path('pdf/');
+        $random = substr(md5(mt_rand()), 0, 7);
+        $fileName =  $addpenjualan->penjualan_id.'_'.$addpenjualan->penjualan_tanggalpenjualan.$random.'.pdf' ;
+        $updatepenjualan->penjualan_receipt = $path.$fileName;
+        //$pdf->save($path.$fileName); 
         //return $data;   
-        //$pdf->stream($fileName);
+        $pdf->setPaper('a8', 'portrait')->dpi('72')->stream($fileName);
         return view('penjualan.struk')->with(compact('data','penjualan','barangterjual','daftarpotongan'));
     }
   
