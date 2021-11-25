@@ -23,53 +23,130 @@ class BarcodeDBController extends Controller
 {
     public function index()
     {
-        $barcode = BarcodeDB::get();
+        $barcode = BarcodeDB::join('band','band.band_id','=','barcode.barcode_productband')
+        ->join('type','type.type_id','=','barcode.barcode_producttype')
+        ->join('color','color.color_id','=','barcode.barcode_productcolor')
+        ->select('barcode.*','type.type_id','color.color_id','band.band_id','band.band_nama','type.type_name','color.color_nama')
+        ->get();
+
+
         return view('barcode.index')->with(compact('barcode'));
     }
 
     public function create()
     {
-        return view('barcode.new');
+        $band = Band::get();
+        $color = Color::get();
+        $type = TypeProduct::get();
+        return view('barcode.new')->with(compact('band','color','type'));
     }
 
     public function store(Request $request)
     {
-        $store = collect($request->all());
-        try {
-        BarcodeDB::create($store->all());
-        } catch (QE $e) {
-            notify()->warning('Database Error');
+        $barcode = BarcodeDB::where('barcode_id',$request->barcode_id)->first();
+        if($barcode){
+            toast('Master SKU sudah ada!','error');
             return redirect()->back();
+        }else {
+        $databand = Band::where('band_id',$request->barcode_productband)->first();
+        $firstbandletter =  substr($databand->band_nama, 0, 1);
+        $datatype = TypeProduct::where('type_id',$request->barcode_producttype)->first();
+        $datacolor = Color::where('color_id',$request->barcode_productcolor)->first();
+        $sericode = BarcodeDB::where('barcode_productband',$request->barcode_productband)->count();
+        if($sericode < 10){
+            if($sericode != 0) {
+                $countseri = $sericode+1;
+                $serivarian = "0".$countseri.$firstbandletter;
+            }else {
+            $countseri = 1;
+            $serivarian = "0".$countseri.$firstbandletter;
+            }
+        }else {
+            $countseri = $sericode+1;
+            $serivarian = $countseri.$firstbandletter;
         }
-        notify()->success('Penambahan Warna Berhasil');
+        $mastersku = $databand->band_code.$datatype->type_code.$serivarian.$datacolor->color_code;
+        $store = collect($request->all());
+        $store->put('barcode_mastersku', $mastersku);
+
+        try {
+            BarcodeDB::create($store->all());
+            } catch (QE $e) {
+                notify()->warning('Database Error');
+                return redirect()->back();
+            }
+        }
+
+        toast('Master SKU sudah ditambahkan!','error');
         return redirect('barcode');
     }
 
     public function show($id)
     {
-        $show = BarcodeDB::where('barcode_id', $id)->first();
+        $show = BarcodeDB::join('band','band.band_id','=','barcode.barcode_productband')
+        ->join('type','type.type_id','=','barcode.barcode_producttype')
+        ->join('color','color.color_id','=','barcode.barcode_productcolor')
+        ->select('barcode.*','type.type_id','type.type_category','color.color_id','band.band_id','band.band_nama','type.type_name','color.color_nama')
+        ->where('barcode_id', $id)->first();
 
         return view('barcode.show')->with(compact('show'));
     }
 
     public function edit($id)
     {
-        $edit = BarcodeDB::where('barcode_id', $id)->first();
+        $edit = BarcodeDB::join('band','band.band_id','=','barcode.barcode_productband')
+        ->join('type','type.type_id','=','barcode.barcode_producttype')
+        ->join('color','color.color_id','=','barcode.barcode_productcolor')
+        ->select('barcode.*','type.type_id','type.type_category','color.color_id','color.color_code','band.band_id','band.band_nama','type.type_name','color.color_nama')
+        ->where('barcode_id', $id)->first();
 
-        return view('barcode.edit')->with(compact('edit'));
+        $band = Band::get();
+        $color = Color::get();
+        $type = TypeProduct::get();
+
+        return view('barcode.edit')->with(compact('edit','band','color','type'));
     }
 
     public function update(Request $request)
     {
         $barcode = BarcodeDB::where('barcode_id', $request->barcode_id)->first();
-        $update = collect($request->all());
-        try {
-        $barcode->update($update->all());
-        } catch (QE $e) {
-            notify()->warning('Database Error');
-            return redirect()->back();
+
+        $databand = Band::where('band_id',$request->barcode_productband)->first();
+        $firstbandletter =  substr($databand->band_nama, 0, 1);
+        $datatype = TypeProduct::where('type_id',$request->barcode_producttype)->first();
+        $datacolor = Color::where('color_id',$request->barcode_productcolor)->first();
+        $sericode = BarcodeDB::where('barcode_productband',$request->barcode_productband)->count();
+        if($sericode < 10){
+            if($sericode != 0) {
+                $countseri = $sericode+1;
+                $serivarian = "0".$countseri.$firstbandletter;
+            }else {
+            $countseri = 1;
+            $serivarian = "0".$countseri.$firstbandletter;
+            }
         }
-        notify()->success('Pengubahan Warna Berhasil');
+        $mastersku = $databand->band_code.$datatype->type_code.$serivarian.$datacolor->color_code;
+        $store = collect($request->all());
+        $store->put('barcode_mastersku', $mastersku);
+
+        try {
+            $barcode->update($store->all());
+            $product = Product::where('product_mastersku', $mastersku)->get();
+             foreach($product as $p){
+                 $product->product_mastersku = $mastersku;
+                 $product->product_color = $request->barcode_productcolor;
+                 $product->product_typeid = $request->barcode_producttype;
+                 $product->product_idband = $request->barcode_productband;
+                 $product->product_sku = $mastersku.$product->product_idsize;
+                 $product->update();
+
+             }
+            } catch (QE $e) {
+                toast('Database Error!','error');
+                return redirect()->back();
+            }
+
+        toast('Master SKU sudah diubah!','success');
         return redirect('barcode');
     }
 
@@ -83,8 +160,7 @@ class BarcodeDBController extends Controller
             return $e;
         } //show db error message
 
-        notify()->success('Warna telah sukses dihapus !');
-
+        toast('Master SKU sudah dihapus!','success');
         return redirect('barcode');
     }
 

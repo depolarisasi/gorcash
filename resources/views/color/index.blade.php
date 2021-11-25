@@ -53,8 +53,8 @@
     </div>
     </td>
 <td>
-    <a href="{{url('/color/edit/'.$color->color_id)}}" class="btn btn-sm btn-warning"><i class="fas fa-edit nopadding"></i></a>
-    <button type="button" href="{{url('/color/delete/'.$color->color_id)}}" class="deletebtn btn btn-sm btn-danger"><i class="fas fa-trash nopadding"></i></button></td>
+    <a href="{{url('/color/edit/'.$color->color_id)}}" class="btn btn-xs btn-icon btn-warning"><i class="fas fa-edit nopadding"></i></a>
+    <button type="button" href="{{url('/color/delete/'.$color->color_id)}}" class="deletebtn btn btn-xs btn-icon btn-danger"><i class="fas fa-trash nopadding"></i></button></td>
 </td>
 </tr>
 @endforeach
