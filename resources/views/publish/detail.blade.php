@@ -40,6 +40,7 @@
 				<tr>
 					<th width="10%">SKU</th>
 					<th width="25%">Nama Produk</th>
+					<th width="5%">Stok Awal</th>
 					<th width="15%">Tag</th>
 					<th width="15%">Material</th>
 					<th width="15%">Made In</th>
@@ -52,6 +53,8 @@
 				<tr>
 					<td>{{$p->product_sku}}</td>
 					<td>{{$p->product_nama}} ({{$p->size_nama}})</td>
+					<td>{{$p->product_stok}}</td>
+					<td>{{$p->product_stokakhir}}</td>
 					<td>{{$p->product_tag}}</td>
 					<td>{{$p->product_material}}</td>
 					<td>{{$p->product_madein}}</td>

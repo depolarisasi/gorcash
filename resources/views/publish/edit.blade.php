@@ -41,11 +41,13 @@
 			<thead>
 				<tr>
 					<th width="10%">SKU</th>
-					<th width="25%">Nama Produk</th>
-					<th width="15%">Tag</th>
-					<th width="15%">Material</th>
-					<th width="15%">Made In</th>
-					<th width="15%">Condition</th>
+					<th width="20%">Nama Produk</th>
+					<th width="8%">Stok Awal</th>
+					<th width="8%">Stok Akhir</th>
+					<th width="10%">Tag</th>
+					<th width="10%">Material</th>
+					<th width="10%">Made In</th>
+					<th width="10%">Condition</th>
 					<th width="5%">Action</th>
 				</tr>
 			</thead>
@@ -58,11 +60,13 @@
                     <input type="hidden" name="product_id[]" value="{{$p->product_id}}">
 					<td>{{$p->product_sku}}</td>
 					<td>{{$p->product_nama}} ({{$p->size_nama}})</td>
-					<td> <input type="text" class="form-control" name="product_tag[]" value="{{$p->product_tag}}"></td>
-					<td> <input type="text" class="form-control" name="product_material[]" value="{{$p->product_material}}"></td>
-					<td> <input type="text" class="form-control" name="product_madein[]" value="{{$p->product_madein}}"></td>
-					<td> <input type="text" class="form-control" name="product_condition[]" value="{{$p->product_condition}}"></td>
-					<td> <button type="button" href="{{url('/publish/delete/'.$p->publish_groupid)}}" class="deletebtn btn btn-icon btn-xs btn-danger"><i class="fas fa-trash nopadding"></i></button>
+                    <td><input type="number" class="form-control" name="product_stok[]" value="{{$p->product_stok}}"></td>
+                    <td><input type="number" class="form-control" name="product_stokakhir[]" value="{{$p->product_stokakhir}}"></td>
+					<td><input type="text" class="form-control" name="product_tag[]" value="{{$p->product_tag}}"></td>
+					<td><input type="text" class="form-control" name="product_material[]" value="{{$p->product_material}}"></td>
+					<td><input type="text" class="form-control" name="product_madein[]" value="{{$p->product_madein}}"></td>
+					<td><input type="text" class="form-control" name="product_condition[]" value="{{$p->product_condition}}"></td>
+					<td><button type="button" href="{{url('/publish/delete/'.$p->publish_groupid)}}" class="deletebtn btn btn-icon btn-xs btn-danger"><i class="fas fa-trash nopadding"></i></button>
                     </td>
 				</tr>
                 @endforeach

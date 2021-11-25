@@ -53,6 +53,8 @@ class PublishController extends Controller
                 $publish->publish_productid = $p->product_id;
                 $publish->publish_tanggal = $dateinput;
                 $publish->publish_groupid = $rand;
+                $publish->publish_stok = $p->product_stok;
+                $publish->publish_stokakhir = $p->product_stokakhir;
                 $publish->save();
 
                 $product = Product::where('product_id',$p->product_id)->first();
@@ -98,7 +100,9 @@ class PublishController extends Controller
         ,'product.product_material'
         ,'product.product_tag'
         ,'product.product_madein'
-        ,'product.product_condition')
+        ,'product.product_condition'
+        ,'product.product_stok'
+        ,'product.product_stokakhir')
         ->where('publish.publish_groupid',$id)->get();
         $infopub = BarangPublish::where('publish_groupid',$id)->first();
 
@@ -113,7 +117,9 @@ class PublishController extends Controller
         ,'product.product_material'
         ,'product.product_tag'
         ,'product.product_madein'
-        ,'product.product_condition')
+        ,'product.product_condition'
+        ,'product.product_stok'
+        ,'product.product_stokakhir')
         ->where('publish.publish_groupid',$id)->get();
 
         return view('publish.edit')->with(compact('publish'));
@@ -151,6 +157,11 @@ class PublishController extends Controller
             $product->product_material = $request->product_material[$key];
             $product->product_madein = $request->product_madein[$key];
             $product->product_condition = $request->product_condition[$key];
+            $product->product_stok = $request->product_stok[$key];
+            $product->product_stokakhir = $request->product_stokakhir[$key];
+            $publish = BarangPublish::where('publish_id',$request->publish_id)->first();
+            $editpublish->publish_stok = $request->product_stok[$key];
+            $editpublish->publish_stokakhir = $request->product_stokakhir[$key];
             try {
 
             $product->update();

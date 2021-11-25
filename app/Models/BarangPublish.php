@@ -26,6 +26,8 @@ class BarangPublish extends Model
     protected $fillable = ['publish_productid',
     'publish_tanggal',
     'publish_groupid',
+    'publish_stok',
+    'publish_stokakhir',
         'created_at',
         'updated_at', ];
 }
