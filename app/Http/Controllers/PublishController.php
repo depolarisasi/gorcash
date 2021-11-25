@@ -29,7 +29,6 @@ class PublishController extends Controller
             $productcount = BarangPublish::where('publish_groupid',$pub->publish_groupid)->count();
             $publish[$key]['count'] = $productcount;
         }
-
         return view('publish.index')->with(compact('publish','tanggal'));
     }
 
@@ -50,7 +49,7 @@ class PublishController extends Controller
 
                 $product = Product::where('product_id',$p->product_id)->first();
                 $product->product_status = 1;
-                $product->product_status = $request->tanggalpublish;
+                $product->product_tanggalpublish = $request->tanggalpublish;
                 $product->update();
                 $pubcount = PublishCounter::where('publishcount_pubid',$publish->publish_id)->first();
                 if($pubcount){

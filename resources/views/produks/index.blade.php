@@ -124,6 +124,7 @@
 					<th>Harga</th>
 					<th>Stok</th>
 					<th>Stok Akhir</th>
+					<th>Published ?</th>
 					<th>Action</th>
 				</tr>
 			</thead>
@@ -144,6 +145,11 @@
                         <p><span class="label label-success label-md label-inline mr-2">Rp{{$p->product_hargajual - $p->product_hargabeli}}</span> </p></td>
 					<td>{{$p->product_stok}}</td>
                     <td>{{$p->product_stokakhir}}</td>
+                    <td>@if($p->product_status == 1)
+                        <p><span class="label label-success label-md label-inline mr-2">Sudah {{$p->product_tanggalpublish}}</span> </p>
+                    @else
+                    <p><span class="label label-danger label-md label-inline mr-2">Belum </span> </p>
+                    @endif</td>
 					<td>
                         @if($p->product_productlama == 1)
                         <a href="{{url('/produk/detail/'.$p->product_id)}}" class="btn btn-icon btn-xs btn-primary"><i class="fas fa-info-circle nopadding"></i></a>
