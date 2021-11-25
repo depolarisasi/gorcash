@@ -59,9 +59,8 @@
 		<table class="table table-striped table-bordered mt-5" id="product">
 			<thead>
 				<tr>
-					<th>Group ID</th>
 					<th>Tanggal</th>
-					<th>Nama Publikasi</th>
+					<th>Publish</th>
 					<th>Jumlah Produk</th>
 					<th>Action</th>
 				</tr>
@@ -70,7 +69,6 @@
 
                 @foreach($publish as $p)
 				<tr>
-                    <td>{{$p->publish_groupid}}</td>
 					<td>{{$p->publish_tanggal}}</td>
 					<td>{{$p->publish_name}}</td>
 					<td>{{$p->count}}</td>

@@ -37,10 +37,18 @@ class PublishController extends Controller
         $ids = explode(',',$request->ids);
         $rand = mt_rand(1,9999).$this->generateRandomString(5);
         $today = Carbon::now()->format('d-m-Y');
+        $weekofmonth = Carbon::now()->weekOfMonth;
+        $todaydate = Carbon::now()->format('M Y');
         $dateinput = Carbon::now()->format('Y-m-d');
         foreach($ids as $id){
-            $product = Product::where('product_mastersku', $id)->where('product_stok','>', 0)->get();
+
+
+            $product = Product::where('product_mastersku', $id)->where('product_stok','>', 0)
+            ->where('product_status', 0)->get();
+
+
             foreach($product as $p){
+
                 $publish = new BarangPublish;
                 $publish->publish_productid = $p->product_id;
                 $publish->publish_tanggal = $dateinput;
@@ -52,21 +60,23 @@ class PublishController extends Controller
                 $product->product_tanggalpublish = $dateinput;
                 $product->update();
             }
+
+
             $pubcount = PublishCounter::where('publishcount_pubtanggal',$dateinput)->first();
             if($pubcount){
                 $pubcount->publishcount_count = $pubcount->publishcount_count+1;
                 $pubcount->update();
                 $editpublish = BarangPublish::where('publish_id',$publish->publish_id)->first();
-                $editpublish->publish_name = "Publish tanggal ".$today." ke ".$pubcount->publishcount_count;
+                $editpublish->publish_name = "Minggu ".$weekofmonth.' '.$todaydate;
                 $editpublish->update();
             }else {
             $count = new PublishCounter;
             $count->publishcount_pubtanggal = $dateinput;
-            $count->publishcount_pubid = $publish->publish_id;
+            $count->publishcount_pubid = $request->publish_groupid;
             $count->publishcount_count = 1;
             $count->save();
             $editpublish = BarangPublish::where('publish_id',$publish->publish_id)->first();
-            $editpublish->publish_name = "Publish tanggal ".$today." ke ".$count->publishcount_count;
+            $editpublish->publish_name = "Minggu ".$weekofmonth.' '.$todaydate;
             $editpublish->update();
             }
         }
@@ -114,22 +124,24 @@ class PublishController extends Controller
         $rand = mt_rand(1,9999).$this->generateRandomString(5);
         $today = Carbon::now()->format('d-m-Y');
         $dateinput = Carbon::now()->format('Y-m-d');
-
+        $weekofmonth = Carbon::now()->weekOfMonth;
+        $todaydate = Carbon::now()->format('M Y');
         $pubcount = PublishCounter::where('publishcount_pubtanggal',$request->tanggalpublish)
-        ->where('publishcount_pubid',$request->publish_id)->first();
+        ->where('publishcount_pubid',$request->publish_groupid)->first();
             if($pubcount){
                 $pubcount->publishcount_count = $pubcount->publishcount_count+1;
                 $pubcount->update();
                 $editpublish = BarangPublish::where('publish_id',$request->publish_id)->first();
-                $editpublish->publish_name = "Publish tanggal ".$today." ke ".$pubcount->publishcount_count;
+                $editpublish->publish_name = "Minggu ".$weekofmonth.' '.$todaydate;
                 $editpublish->update();
             }else {
             $count = new PublishCounter;
+            $count->publishcount_pubid = $request->publish_groupid;
             $count->publishcount_pubtanggal = $request->tanggalpublish;
             $count->publishcount_count = 1;
             $count->save();
             $editpublish = BarangPublish::where('publish_id',$request->publish_id)->first();
-            $editpublish->publish_name = "Publish tanggal ".$today." ke ".$count->publishcount_count;
+            $editpublish->publish_name = "Minggu ".$weekofmonth.' '.$todaydate;
             $editpublish->update();
             }
 
