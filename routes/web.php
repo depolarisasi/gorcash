@@ -142,6 +142,15 @@ Route::group(['prefix' => 'size'], function() {
 
    });
 
+   Route::group(['prefix' => 'barcode'], function() {
+    Route::get('/',[App\Http\Controllers\BarcodeDBController::class, 'index'])->middleware('auth');
+    Route::get('/new',[App\Http\Controllers\BarcodeDBController::class, 'create'])->middleware('auth');
+    Route::post('/store',[App\Http\Controllers\BarcodeDBController::class, 'store'])->middleware('auth');
+    Route::get('/edit/{id}',[App\Http\Controllers\BarcodeDBController::class, 'edit'])->middleware('auth');
+    Route::post('/update',[App\Http\Controllers\BarcodeDBController::class, 'update'])->middleware('auth');
+    Route::get('/delete/{id}',[App\Http\Controllers\BarcodeDBController::class, 'delete'])->middleware('auth');
+   });
+
 
 
 
