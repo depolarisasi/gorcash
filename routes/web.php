@@ -130,6 +130,18 @@ Route::group(['prefix' => 'size'], function() {
 
    });
 
+    Route::group(['prefix' => 'stockopname'], function() {
+    Route::get('/',[App\Http\Controllers\PenjualanController::class, 'index'])->middleware('auth');
+    Route::get('/detail/{id}',[App\Http\Controllers\PenjualanController::class, 'show'])->middleware('auth');
+    Route::get('/new',[App\Http\Controllers\PenjualanController::class, 'create'])->middleware('auth');
+    Route::post('/store',[App\Http\Controllers\PenjualanController::class, 'store'])->middleware('auth');
+    Route::get('/edit/{id}',[App\Http\Controllers\PenjualanController::class, 'edit'])->middleware('auth');
+    Route::post('/update',[App\Http\Controllers\PenjualanController::class, 'update'])->middleware('auth');
+    Route::get('/delete/{id}',[App\Http\Controllers\PenjualanController::class, 'delete'])->middleware('auth');
+    Route::get('/struk/{id?}',[App\Http\Controllers\PenjualanController::class, 'receipt'])->middleware('auth');
+
+   });
+
 
 
 

@@ -26,6 +26,7 @@ class PublishCounter extends Model
     protected $fillable = [
     'publishcount_pubid',
     'publishcount_count',
+    'publishcount_pubtanggal',
         'created_at',
         'updated_at', ];
 }

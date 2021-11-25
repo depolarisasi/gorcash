@@ -53,6 +53,7 @@
 
                 @foreach($publish as $p)
 				<tr>
+                    <input type="hidden" name="publish_id[]" value="{{$p->publish_id}}">
                     <input type="hidden" name="tanggalpublish" value="{{$p->publish_tanggalpublish}}">
                     <input type="hidden" name="product_id[]" value="{{$p->product_id}}">
 					<td>{{$p->product_sku}}</td>

@@ -39,7 +39,7 @@ class PublishController extends Controller
         $today = Carbon::now()->format('d-m-Y');
         $dateinput = Carbon::now()->format('Y-m-d');
         foreach($ids as $id){
-            $product = Product::where('product_mastersku', $id)->get();
+            $product = Product::where('product_mastersku', $id)->where('product_stok','>', 0)->get();
             foreach($product as $p){
                 $publish = new BarangPublish;
                 $publish->publish_productid = $p->product_id;
@@ -49,24 +49,25 @@ class PublishController extends Controller
 
                 $product = Product::where('product_id',$p->product_id)->first();
                 $product->product_status = 1;
-                $product->product_tanggalpublish = $request->tanggalpublish;
+                $product->product_tanggalpublish = $dateinput;
                 $product->update();
-                $pubcount = PublishCounter::where('publishcount_pubid',$publish->publish_id)->first();
-                if($pubcount){
-                    $pubcount->publishcount_count = $pubcount->publishcount_count+1;
-                    $pubcount->update();
-                    $editpublish = BarangPublish::where('publish_id',$publish->publish_id)->first();
-                    $editpublish->publish_name = "Publish tanggal ".$today." ke ".$pubcount->publishcount_count;
-                    $editpublish->update();
-                }else {
-                $count = new PublishCounter;
-                $count->publishcount_pubid = $publish->publish_id;
-                $count->publishcount_count = 1;
-                $count->save();
+            }
+            $pubcount = PublishCounter::where('publishcount_pubtanggal',$dateinput)->first();
+            if($pubcount){
+                $pubcount->publishcount_count = $pubcount->publishcount_count+1;
+                $pubcount->update();
                 $editpublish = BarangPublish::where('publish_id',$publish->publish_id)->first();
-                $editpublish->publish_name = "Publish tanggal ".$today." ke ".$count->publishcount_count;
+                $editpublish->publish_name = "Publish tanggal ".$today." ke ".$pubcount->publishcount_count;
                 $editpublish->update();
-                }
+            }else {
+            $count = new PublishCounter;
+            $count->publishcount_pubtanggal = $dateinput;
+            $count->publishcount_pubid = $publish->publish_id;
+            $count->publishcount_count = 1;
+            $count->save();
+            $editpublish = BarangPublish::where('publish_id',$publish->publish_id)->first();
+            $editpublish->publish_name = "Publish tanggal ".$today." ke ".$count->publishcount_count;
+            $editpublish->update();
             }
         }
 
@@ -110,6 +111,28 @@ class PublishController extends Controller
 
     public function update(Request $request)
     {
+        $rand = mt_rand(1,9999).$this->generateRandomString(5);
+        $today = Carbon::now()->format('d-m-Y');
+        $dateinput = Carbon::now()->format('Y-m-d');
+
+        $pubcount = PublishCounter::where('publishcount_pubtanggal',$request->tanggalpublish)
+        ->where('publishcount_pubid',$request->publish_id)->first();
+            if($pubcount){
+                $pubcount->publishcount_count = $pubcount->publishcount_count+1;
+                $pubcount->update();
+                $editpublish = BarangPublish::where('publish_id',$request->publish_id)->first();
+                $editpublish->publish_name = "Publish tanggal ".$today." ke ".$pubcount->publishcount_count;
+                $editpublish->update();
+            }else {
+            $count = new PublishCounter;
+            $count->publishcount_pubtanggal = $request->tanggalpublish;
+            $count->publishcount_count = 1;
+            $count->save();
+            $editpublish = BarangPublish::where('publish_id',$request->publish_id)->first();
+            $editpublish->publish_name = "Publish tanggal ".$today." ke ".$count->publishcount_count;
+            $editpublish->update();
+            }
+
         foreach($request->product_id as $key => $pid){
             $product = Product::where('product_id',$pid)->first();
             $product->product_tag = $request->product_tag[$key];

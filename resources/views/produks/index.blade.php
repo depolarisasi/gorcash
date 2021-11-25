@@ -146,7 +146,7 @@
 					<td>{{$p->product_stok}}</td>
                     <td>{{$p->product_stokakhir}}</td>
                     <td>@if($p->product_status == 1)
-                        <p><span class="label label-success label-md label-inline mr-2">Sudah {{$p->product_tanggalpublish}}</span> </p>
+                        <p><span class="label label-success label-md label-inline mr-2">Sudah</span> {{\Carbon\Carbon::parse($p->product_tanggalpublish)->format('d-m-Y')}}</p>
                     @else
                     <p><span class="label label-danger label-md label-inline mr-2">Belum </span> </p>
                     @endif</td>
