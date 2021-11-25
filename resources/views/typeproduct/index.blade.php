@@ -36,6 +36,7 @@
 <tr class="text-left">
 <th style="min-width: 50px"><span class="text-dark-75">Nama Type Produk</span></th>
 <th style="min-width: 50px"><span class="text-dark-75">Code Type Produk</span></th>
+<th style="min-width: 50px"><span class="text-dark-75">Category Type Produk</span></th>
 <th style="min-width: 80px">Action</th>
 </tr>
 </thead>
@@ -52,9 +53,14 @@
         <a href="#" class="text-dark-75 mb-1">{{$type->type_code}}</a>
     </div>
     </td>
+    <td class="pl-3 py-3">
+    <div class="d-flex align-items-center">
+        <a href="#" class="text-dark-75 mb-1">{{$type->type_category}}</a>
+    </div>
+    </td>
 <td>
-    <a href="{{url('/type/edit/'.$type->type_id)}}" class="btn btn-sm btn-warning"><i class="fas fa-edit nopadding"></i></a>
-    <button type="button" href="{{url('/type/delete/'.$type->type_id)}}" class="deletebtn btn btn-sm btn-danger"><i class="fas fa-trash nopadding"></i></button></td>
+    <a href="{{url('/type/edit/'.$type->type_id)}}" class="btn btn-xs btn-icon btn-warning"><i class="fas fa-edit nopadding"></i></a>
+    <button type="button" href="{{url('/type/delete/'.$type->type_id)}}" class="deletebtn btn btn-xs btn-icon btn-danger"><i class="fas fa-trash nopadding"></i></button></td>
 </td>
 </tr>
 @endforeach
@@ -118,12 +124,6 @@
 
            var table = $("#basic-datatable").DataTable({
 
-                 language: { paginate: {
-                    previous: "<i class='uil uil-angle-left'>",
-                    next: "<i class='uil uil-angle-right'>" } },
-            drawCallback: function () {
-                $(".dataTables_paginate > .pagination").addClass("pagination-rounded");
-                }
                             });
 
                             </script>

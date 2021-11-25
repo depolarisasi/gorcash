@@ -43,6 +43,17 @@
             <input id="name" type="text" class="form-control" name="size_code"  required autofocus>
             </div>
           </div>
+          <div class="form-group row mt-4">
+            <label class="col-md-2">Size</label>
+            <div class="col-md-3">
+              <select class="multisteps-form__input form-control" name="size_category" required>
+                <option value="Dewasa">Dewasa</option>
+                <option value="Anak Anak">Anak Anak</option>
+                <option value="Barang">Barang</option>
+              </select>
+            </div>
+          </div>
+
 
       <div class="form-group row mt-4">
         <div class="col-md-6">

@@ -105,6 +105,7 @@ Route::group(['prefix' => 'size'], function() {
     Route::get('/{groupname}',[App\Http\Controllers\PublishController::class, 'edit'])->middleware('auth');
     Route::post('/update',[App\Http\Controllers\PublishController::class, 'update'])->middleware('auth');
     Route::get('/detail/{groupname}',[App\Http\Controllers\PublishController::class, 'show'])->middleware('auth');
+    Route::get('/delete/{groupname}',[App\Http\Controllers\PublishController::class, 'delete'])->middleware('auth');
    });
 
    Route::group(['prefix' => 'kasir'], function() {

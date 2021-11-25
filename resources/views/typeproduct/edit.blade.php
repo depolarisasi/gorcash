@@ -43,6 +43,17 @@
             <input id="name" type="text" class="form-control" name="type_code" value="{{$edit->type_code}}" required autofocus>
             </div>
           </div>
+          <div class="form-group row mt-4">
+            <label class="col-md-2">Category Type Produk</label>
+            <div class="col-md-3">
+                <select class="multisteps-form__input form-control" name="type_category" required>
+                    <option value="Dewasa" @if($edit->type_category == "Dewasa") selected @endif>Dewasa</option>
+                    <option value="Anak Anak" @if($edit->type_category == "Anak Anak") selected @endif>Anak Anak</option>
+                    <option value="Barang" @if($edit->type_category == "Barang") selected @endif>Barang</option>
+                  </select>
+            </div>
+          </div>
+
 
       <div class="form-group row mt-4">
         <div class="col-md-6">

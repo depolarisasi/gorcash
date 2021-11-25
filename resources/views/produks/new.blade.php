@@ -77,7 +77,7 @@
                     <div class="col-md-10">
                       <select class="form-control select2" name="product_typeid" id="selecttype" required>
                         @foreach($type as $type)
-                        <option value="{{$type->type_id}}">{{$type->type_name}}</option>
+                        <option value="{{$type->type_id}}" data-category="{{$type->type_category}}">({{$type->type_category}}) {{$type->type_name}}</option>
                         @endforeach
 
                       </select>
@@ -104,17 +104,17 @@
                           </select>
                         </div>
                       </div>
-                    <div class="form-group row mt-4">
+
+                    {{-- <div class="form-group row mt-4">
                         <label class="col-md-2">Size <span class="text-danger">*</span></label>
                         <div class="col-md-10">
                           <select class="form-control select2" id="selectsize" name="product_idsize" required>
-                            @foreach($size as $s)
+                             foreach($size as $s)
                             <option value="{{$s->size_id}}">{{$s->size_nama}}</option>
-                            @endforeach
-
+                             endforeach
                           </select>
                         </div>
-                      </div>
+                      </div> --}}
                       <div class="form-group row mt-4">
                         <label class="col-md-2">Band <span class="text-danger">*</span></label>
                         <div class="col-md-10">
@@ -130,18 +130,6 @@
 
             </div>
             <div class="col-md-6">
-                <div class="form-group row mt-4">
-                    <label class="col-md-2">Harga Beli <span class="text-danger">*</span></label>
-                    <div class="col-md-10">
-                    <input id="name" type="text" class="form-control" name="product_hargabeli" required>
-                    </div>
-                  </div>
-                <div class="form-group row mt-4">
-                    <label class="col-md-2">Harga Jual <span class="text-danger">*</span></label>
-                    <div class="col-md-10">
-                    <input id="name" type="text" class="form-control" name="product_hargajual" required>
-                    </div>
-                  </div>
                   <div class="form-group row mt-4">
                     <label class="col-md-2">Material</label>
                     <div class="col-md-10">
@@ -173,12 +161,6 @@
                             <label class="custom-file-label" for="fotoproduk">Choose file</label>
                       </div>
                     </div>
-                    <div class="form-group row mt-4">
-                        <label class="col-md-2">Stock Awal <span class="text-danger">*</span></label>
-                        <div class="col-md-10">
-                        <input id="name" type="number" min="0" class="form-control" name="product_stok" required>
-                        </div>
-                      </div>
 
                     <div class="form-group row mt-4">
                         <label class="col-md-2">Tanggal Beli</label>
@@ -193,6 +175,91 @@
                         </div>
                       </div>
 
+            </div>
+        </div>
+
+        <div id="sizedewasa" class="row collapse">
+            <div class="col-md-12">
+            <table class="table table-bordered mt-5" id="product">
+                <thead>
+                    <tr>
+                        <th width="10%">Size</th>
+                        <th width="15%">Harga Beli</th>
+                        <th width="15%">Harga Jual</th>
+                        <th width="15%">Stok</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($sizedewasa as $sd)
+                    <tr>
+                        <input type="hidden" name="sized_id[]" value="{{$sd->size_id}}">
+                        <td>{{$sd->size_nama}}</td>
+                        <td><input type="text" value="0" class="form-control" name="hargabelid[]"></td>
+                        <td><input type="text" value="0" class="form-control" name="hargajuald[]"></td>
+                        <td><input type="text" value="0" class="form-control" name="stokawald[]"></td>
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+            </div>
+        </div>
+
+        <div id="sizeanakanak" class="row collapse">
+            <div class="col-md-12">
+            <table class="table table-bordered mt-5" id="product">
+                <thead>
+                    <tr>
+                        <th width="10%">Size</th>
+                        <th width="15%">Harga Beli</th>
+                        <th width="15%">Harga Jual</th>
+                        <th width="15%">Stok</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @foreach($sizeanak as $sa)
+                    <tr>
+                        <input type="hidden" name="sizea_id[]" value="{{$sa->size_id}}">
+                        <td>{{$sa->size_nama}}</td>
+                        <td><input type="text" value="0" class="form-control" name="hargabelia[]"></td>
+                        <td><input type="text" value="0" class="form-control" name="hargajuala[]"></td>
+                        <td><input type="text" value="0" class="form-control" name="stokawala[]"></td>
+                        </td>
+                    </tr>
+                    @endforeach
+
+                </tbody>
+            </table>
+            </div>
+        </div>
+
+        <div id="sizebarang" class="row collapse">
+            <div class="col-md-12">
+            <table class="table table-bordered mt-5" id="product">
+                <thead>
+                    <tr>
+                        <th width="10%">Size</th>
+                        <th width="15%">Harga Beli</th>
+                        <th width="15%">Harga Jual</th>
+                        <th width="15%">Stok</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @foreach($sizebarang as $sb)
+                    <tr>
+                        <input type="hidden" name="sizeb_id[]" value="{{$sb->size_id}}">
+                        <td>{{$sb->size_nama}}</td>
+                        <td><input type="text" value="0" class="form-control" name="hargabelib[]"></td>
+                        <td><input type="text" value="0" class="form-control" name="hargajualb[]"></td>
+                        <td><input type="text" value="0" class="form-control" name="stokawalb[]"></td>
+                        </td>
+                    </tr>
+                    @endforeach
+
+                </tbody>
+            </table>
             </div>
         </div>
 
@@ -224,6 +291,24 @@
 <script>
     // A $( document ).ready() block.
 $( document ).ready(function() {
+    kategori = $('#selecttype option:selected').attr('data-category');
+    if(kategori == "Dewasa") {
+                    $('#sizedewasa').collapse('show');
+                    $('#sizeanakanak').collapse('hide');
+                    $('#sizebarang').collapse('hide');
+
+                }else if(kategori == "Anak Anak") {
+                    $('#sizedewasa').collapse('hide');
+                    $('#sizeanakanak').collapse('show');
+                    $('#sizebarang').collapse('hide');
+
+                }else if(kategori == "Barang") {
+                    $('#sizedewasa').collapse('hide');
+                    $('#sizeanakanak').collapse('hide');
+                    $('#sizebarang').collapse('show');
+
+                }
+
     selected = $("#selectsku").val();
             console.log(selected);
                 if(selected == "NEW") {
@@ -269,6 +354,55 @@ $( document ).ready(function() {
                 }
                 else {
                     $('#skulama').collapse('hide');
+                }
+});
+
+$("#selecttype").change(function() {
+            selected = $("#selecttype").val();
+            kategori = $('#selecttype option:selected').attr('data-category');
+            console.log(selected);
+                if(kategori == "Dewasa") {
+                    $('#sizedewasa').collapse('show');
+                    $('#sizeanakanak').collapse('hide');
+                    $('#sizebarang').collapse('hide');
+                    console.log(kategori);
+                }else if(kategori == "Anak Anak") {
+                    $('#sizedewasa').collapse('hide');
+                    $('#sizeanakanak').collapse('show');
+                    $('#sizebarang').collapse('hide');
+                    console.log(kategori);
+                }else if(kategori == "Barang") {
+                    $('#sizedewasa').collapse('hide');
+                    $('#sizeanakanak').collapse('hide');
+                    $('#sizebarang').collapse('show');
+                    console.log(kategori);
+                }
+                else {
+                $.ajax({
+                url: $('#ajax').val(),
+                type: 'GET',
+                data: {'mastersku' : selected},
+                success: function (data) {
+                    if (data['status'] == "Success") {
+                        $('#selecttype option:contains(' + data['product_type'] + ')').prop({selected: true});
+                        $('#selectband option:contains(' + data['product_band'] + ')').prop({selected: true});
+                        $('#selectcolor option:contains(' + data['product_color'] + ')').prop({selected: true});
+                        $('#product_name').val( data['product_nama']);
+                        $('#selecttype').prop("disabled", true);
+                    $('#selectband').prop("disabled", true);
+                    $('#selectcolor').prop("disabled", true);
+                    $('#product_name').prop("disabled", true);
+                    } else if (data['status'] == "Failed") {
+                      console.log("No Product Selected");
+                    } else {
+                      console.log(data);
+                    }
+                },
+                error: function (data) {
+                    console.log(data.responseText);
+                }
+            });
+
                 }
 });
 

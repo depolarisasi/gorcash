@@ -33,15 +33,20 @@
 
 <div class="mb-7">
 	<div class="row align-items-center">
-		<div class="col-lg-10 col-xl-10">
-			<div class="d-flex align-items-center">
-                <label class="mr-3 mb-0 d-none d-md-block">Tanggal :</label>
-                <select class="form-control" id="kt_datatable_search_size">
+		<div class="col-lg-2">
+            <p>Pilih Tanggal Publish</p>
+		</div>
+        <div class="col-md-4">
+            <div class="d-flex align-items-center">
+                <select class="form-control" id="kt_datatable_search_tanggal">
                     <option value="">All</option>
+                    @foreach ($tanggal as $t)
+                    <option value="{{$t}}">{{$t}}</option>
+                    @endforeach
                 </select>
             </div>
-		</div>
-		<div class="col-lg-2 col-xl-2 mt-5 mt-lg-0">
+        </div>
+		<div class="col-md-2">
 			<a href="#" class="btn btn-light-primary px-6 font-weight-bold">
 				Search
 			</a>
@@ -112,7 +117,7 @@
             'csvHtml5',
         ],
         search: {
-				input: $('#kt_datatable_search_query'),
+				input: $('#kt_datatable_search_tanggal'),
 				key: 'generalSearch'
 			},
         "paging":   true,
@@ -123,19 +128,10 @@
     } );
 
 
-        $('#kt_datatable_search_size').on('change', function() {
+        $('#kt_datatable_search_tanggal').on('change', function() {
             tabel.search($(this).val().toLowerCase());
         });
-
-        $('#kt_datatable_search_band').on('change', function() {
-            tabel.search($(this).val().toLowerCase());
-        });
-
-        $('#kt_datatable_search_vendor').on('change', function() {
-            tabel.search($(this).val().toLowerCase());
-        });
-
-        $('#kt_datatable_search_size, #kt_datatable_search_band,#kt_datatable_search_vendor').selectpicker();
+        $('#kt_datatable_search_tanggal').selectpicker();
 
 </script>
 <script>

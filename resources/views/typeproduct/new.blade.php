@@ -43,6 +43,16 @@
             <input id="name" type="text" class="form-control" name="type_code"  required autofocus>
             </div>
           </div>
+          <div class="form-group row mt-4">
+            <label class="col-md-2">Category Type Produk</label>
+            <div class="col-md-3">
+                <select class="multisteps-form__input form-control" name="type_category" required>
+                  <option value="Dewasa">Dewasa</option>
+                  <option value="Anak Anak">Anak Anak</option>
+                  <option value="Barang">Barang</option>
+                </select>
+              </div>
+          </div>
 
       <div class="form-group row mt-4">
         <div class="col-md-6">

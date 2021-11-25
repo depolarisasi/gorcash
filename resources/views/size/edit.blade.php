@@ -43,6 +43,16 @@
             <input id="name" type="text" class="form-control" name="size_code" value="{{$edit->size_code}}" required autofocus>
             </div>
           </div>
+          <div class="form-group row mt-4">
+            <label class="col-md-2">Size</label>
+            <div class="col-md-3">
+              <select class="multisteps-form__input form-control" name="size_category" required>
+                <option value="Dewasa" @if($edit->size_category == "Dewasa") selected @endif>Dewasa</option>
+                <option value="Anak Anak" @if($edit->size_category == "Anak Anak") selected @endif>Anak Anak</option>
+                <option value="Barang" @if($edit->size_category == "Barang") selected @endif>Barang</option>
+              </select>
+            </div>
+          </div>
 
       <div class="form-group row mt-4">
         <div class="col-md-6">

@@ -121,58 +121,87 @@ class ProductController extends Controller
     {
         $vendor = Vendor::get();
         $size = Size::get();
+        $sizeanak = Size::where('size_category','Anak Anak')->get();
+        $sizedewasa = Size::where('size_category','Dewasa')->get();
+        $sizebarang = Size::where('size_category','Barang')->get();
         $band = Band::get();
         $color = Color::get();
         $type = TypeProduct::get();
         $barcode = BarcodeDB::get();
-        return view('produks.new')->with(compact('vendor','size','band','color','type','barcode'));
+        return view('produks.new')->with(compact('vendor','size','band','color','type','barcode','sizeanak','sizedewasa','sizebarang'));
     }
 
     public function store(Request $request)
     {
         $masterskus = $request->product_mastersku;
         if($masterskus != "NEW") {
-                $size = $request->product_idsize;
-                $skuvariant = $masterskus.$size;
-                $checksku = Product::where('product_sku',$skuvariant)->first();
-                $masterdata = BarcodeDB::where('barcode_mastersku', $masterskus)->first();
-                if($masterdata && $masterdata->barcode_productname == $request->product_nama){
-                    if($checksku == null){
-                            $store = collect($request->all());
-                            $store->put('product_mastersku', $masterskus);
-                            $store->put('product_idsize', $request->product_idsize);
-                            $store->put('product_idband', $masterdata->barcode_productband);
-                            $store->put('product_typeid', $masterdata->barcode_producttype);
-                            $store->put('product_color', $masterdata->barcode_productcolor);
-                            $store->put('product_sku', $skuvariant);
-                            $store->put('product_stok', $request->product_stok);
-                            $store->put('product_stokakhir', $request->product_stok);
-                            $store->put('product_foto', $this->uploadImage($request->file('product_foto')));
-                            $vendor = implode(',',$request->product_vendor);
-                            $store->put('product_vendor', $vendor);
-                            $store->put('product_productlama', $request->product_productlama);
-                        if($request->product_tanggalpublish == NULL){
-                            $status = 0;
-                        }else {
-                            $status = 1;
-                        }
-                        $store->put('product_status', $status);
+                $typecategory = TypeProduct::where('type_id',$request->product_typeid)->first();
+                if($typecategory->type_category == "Dewasa"){
+                    $size = $request->sized_id;
+                    $hargabeli = $request->hargabelid;
+                    $hargajual = $request->hargajuald;
+                    $stok = $request->stokawald;
 
-                        try {
-                            Product::create($store->all());
-                            } catch (QE $e) {
+                }else if($typecategory->type_category == "Anak Anak"){
+                    $size = $request->sizea_id;
+                    $hargabeli = $request->hargabelia;
+                    $hargajual = $request->hargajuala;
+                    $stok = $request->stokawala;
 
-                    toast('Database error','error');
-                                return redirect()->back();
+                }else if($typecategory->type_category == "Barang"){
+                    $size = $request->sizeb_id;
+                    $hargabeli = $request->hargabelib;
+                    $hargajual = $request->hargajualb;
+                    $stok = $request->stokawalb;
+                }
+
+                foreach($size as $key => $s){
+                    $sizeselected = $s;
+                    $skuvariant = $masterskus.$sizeselected;
+                    $checksku = Product::where('product_sku',$skuvariant)->first();
+                    $masterdata = BarcodeDB::where('barcode_mastersku', $masterskus)->first();
+                    if($masterdata && $masterdata->barcode_productname != $request->product_nama){
+                        if($checksku == null){
+                                $store = collect($request->all());
+                                $store->put('product_mastersku', $masterskus);
+                                $store->put('product_idsize', $sizeselected);
+                                $store->put('product_idband', $masterdata->barcode_productband);
+                                $store->put('product_typeid', $masterdata->barcode_producttype);
+                                $store->put('product_color', $masterdata->barcode_productcolor);
+                                $store->put('product_sku', $skuvariant);
+                                $store->put('product_hargajual', $hargajual[$key]);
+                                $store->put('product_hargabeli', $hargabeli[$key]);
+                                $store->put('product_stok', $stok[$key]);
+                                $store->put('product_stokakhir', $stok[$key]);
+                                $store->put('product_foto', $this->uploadImage($request->file('product_foto')));
+                                $vendor = implode(',',$request->product_vendor);
+                                $store->put('product_vendor', $vendor);
+                                $store->put('product_productlama', $request->product_productlama);
+                            if($request->product_tanggalpublish == NULL){
+                                $status = 0;
+                            }else {
+                                $status = 1;
                             }
+                            $store->put('product_status', $status);
+
+                            try {
+                                Product::create($store->all());
+                                } catch (QE $e) {
+
+                        toast('Database error','error');
+                                    return redirect()->back();
+                                }
+                        }else {
+                            toast('Produk Sudah Ada!','error');
+                            return redirect()->back();
+                        }
                     }else {
-                        toast('Produk Sudah Ada!','error');
+                        toast('Nama Desain di Database Barcode berbeda dengan Nama Produk, Produk Berbeda?','error');
                         return redirect()->back();
                     }
-                }else {
-                    toast('Nama Desain di Database Barcode berbeda dengan Nama Produk, Produk Berbeda?','error');
-                    return redirect()->back();
                 }
+
+
         }else {
             $masterdata = new BarcodeDB;
             $masterdata->barcode_productband = $request->product_idband;
@@ -183,15 +212,42 @@ class ProductController extends Controller
             $masterdata->barcode_mastersku = $newbarcode["sku"];
             $masterdata->barcode_productseri = $newbarcode["seri"];
             $masterdata->save();
-            $skuvariant = $newbarcode["sku"].$request->product_idsize;
+
+
+            $typecategory = TypeProduct::where('type_id',$request->product_typeid)->first();
+            if($typecategory->type_category == "Dewasa"){
+                $size = $request->sized_id;
+                $hargabeli = $request->hargabelid;
+                $hargajual = $request->hargajuald;
+                $stok = $request->stokawald;
+
+            }else if($typecategory->type_category == "Anak Anak"){
+                $size = $request->sizea_id;
+                $hargabeli = $request->hargabelia;
+                $hargajual = $request->hargajuala;
+                $stok = $request->stokawala;
+
+            }else if($typecategory->type_category == "Barang"){
+                $size = $request->sizeb_id;
+                $hargabeli = $request->hargabelib;
+                $hargajual = $request->hargajualb;
+                $stok = $request->stokawalb;
+            }
+
+            foreach($size as $key => $s){
+            $sizeselected = $s;
+            $skuvariant = $newbarcode["sku"].$s;
             $store = collect($request->all());
             $store->put('product_mastersku', $newbarcode["sku"]);
             $store->put('product_sku', $skuvariant);
+            $store->put('product_idsize', $sizeselected);
             $store->put('product_idband', $masterdata->barcode_productband);
             $store->put('product_typeid', $masterdata->barcode_producttype);
             $store->put('product_color', $masterdata->barcode_productcolor);
-            $store->put('product_stok', $request->product_stok);
-            $store->put('product_stokakhir', $request->product_stok);
+            $store->put('product_hargajual', $hargajual[$key]);
+            $store->put('product_hargabeli', $hargabeli[$key]);
+            $store->put('product_stok', $stok[$key]);
+            $store->put('product_stokakhir', $stok[$key]);
             $store->put('product_foto', $this->uploadImage($request->file('product_foto')));
             $vendor = implode(',',$request->product_vendor);
             $store->put('product_vendor', $vendor);
@@ -208,8 +264,11 @@ class ProductController extends Controller
                 } catch (QE $e) {
 
         toast('Database error','error');
-                    return redirect()->back();
-                }
+        return redirect()->back();
+        }
+            }
+
+
         }
 
         toast('Berhasil Menambahkan Produk dan Variasi','success');

@@ -133,7 +133,7 @@
 				<tr>
                     <td><input type="checkbox" class="selectproduct" name="selected_product" data-id="{{$p->product_mastersku}}" value="{{$p->product_mastersku}}" ></td>
                     <td><img src="{{asset($p->product_foto?$p->product_foto:"/assets/nopicture.png")}}" class="img-fluid" style="width: 50px !important; height: 50px !important;"></td>
-					<td>{{$p->product_sku}}</td>
+					<td>{{$p->product_mastersku}}</td>
 					<td>{{$p->product_nama}}</td>
 					<td>{{$p->product_idsize}}</td>
 

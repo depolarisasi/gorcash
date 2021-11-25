@@ -16,7 +16,7 @@ class SizeController extends Controller
 {
     public function index()
     {
-        $size = Size::get();
+        $size = Size::orderBy('size_id','ASC')->get();
         return view('size.index')->with(compact('size'));
     }
 

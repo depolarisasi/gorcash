@@ -24,6 +24,7 @@ class TypeProduct extends Model
      */
     protected $fillable = ['type_name',
         'type_code',
+        'type_category',
         'created_at',
         'updated_at', ];
 }

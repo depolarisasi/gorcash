@@ -40,6 +40,7 @@
 <tr class="text-left">
 <th style="min-width: 50px"><span class="text-dark-75">Nama Size</span></th>
 <th style="min-width: 50px"><span class="text-dark-75">Code Size</span></th>
+<th style="min-width: 50px"><span class="text-dark-75">Kategori</span></th>
 <th style="min-width: 80px">Action</th>
 </tr>
 </thead>
@@ -54,6 +55,11 @@
 <td class="pl-3 py-3">
     <div class="d-flex align-items-center">
         <a href="#" class="text-dark-75 mb-1">{{$size->size_code}}</a>
+    </div>
+    </td>
+<td class="pl-3 py-3">
+    <div class="d-flex align-items-center">
+        <a href="#" class="text-dark-75 mb-1">{{$size->size_category}}</a>
     </div>
     </td>
 <td>

@@ -21,15 +21,16 @@ class PublishController extends Controller
         return substr(str_shuffle(str_repeat($x='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', ceil($length/strlen($x)) )),1,$length);
     }
 
-    public function index()
+    public function index(Request $request)
     {
+        $tanggal = BarangPublish::distinct('publish_tanggal')->orderBy('publish_tanggal', 'desc')->pluck('publish_tanggal');
         $publish = BarangPublish::groupBy('publish_groupid')->get();
         foreach($publish as $key => $pub){
             $productcount = BarangPublish::where('publish_groupid',$pub->publish_groupid)->count();
             $publish[$key]['count'] = $productcount;
         }
 
-        return view('publish.index')->with(compact('publish'));
+        return view('publish.index')->with(compact('publish','tanggal'));
     }
 
     public function apimasspublish(Request $request){
@@ -47,7 +48,7 @@ class PublishController extends Controller
                 $publish->publish_groupid = $rand;
                 $publish->save();
 
-                $product = Product::where('product_id',$id)->first();
+                $product = Product::where('product_id',$p->product_id)->first();
                 $product->product_status = 1;
                 $product->product_status = $request->tanggalpublish;
                 $product->update();
@@ -78,20 +79,6 @@ class PublishController extends Controller
     ]);
 
 }
-
-
-    public function store(Request $request)
-    {
-        $store = collect($request->all());
-        try {
-        Size::create($store->all());
-        } catch (QE $e) {
-            notify()->warning('Database Error');
-            return redirect()->back();
-        }
-        notify()->success('Penambahan Size Berhasil');
-        return redirect('publish');
-    }
 
     public function show($id)
     {
@@ -130,30 +117,33 @@ class PublishController extends Controller
             $product->product_material = $request->product_material[$key];
             $product->product_madein = $request->product_madein[$key];
             $product->product_condition = $request->product_condition[$key];
-
             try {
 
             $product->update();
                 } catch (QE $e) {
-                    notify()->warning('Database Error');
+                    toast('Database error','error');
                     return redirect()->back();
                 }
         }
-        notify()->success('Publish Berhasil');
+         toast('Ubah Publish Berhasil','success');
         return redirect('publish');
     }
 
-    public function delete($id)
+    public function delete($groupid)
     {
-        $size = Size::where('size_id', $id)->first();
-
+        $publish = BarangPublish::where('publish_groupid', $groupid)->get();
         try {
-            $size->delete();
+        foreach($publish as $pid){
+            $product = Product::where('product_id',$pid->publish_productid)->first();
+            $product->product_status = 0;
+            $product->product_tanggalpublish = null;
+            $product->update();
+            $pid->delete();
+        }
         } catch (QE $e) {
             return $e;
         } //show db error message
-
-        notify()->success('Size telah sukses dihapus !');
+        toast('Publish telah sukses dihapus dan Status berhasil diubah !','success');
 
         return redirect('publish');
     }
