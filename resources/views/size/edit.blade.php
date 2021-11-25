@@ -30,11 +30,17 @@
 <div class="tab-content">
     <form method="POST" action="{{url('size/update')}}">
         @csrf
-        <input type="hidden" name="v" value="{{$edit->size_id}}">
+        <input type="hidden" name="size_id" value="{{$edit->size_id}}">
         <div class="form-group row mt-4">
             <label class="col-md-2">Nama Size</label>
             <div class="col-md-3">
             <input id="name" type="text" class="form-control" name="size_nama" value="{{$edit->size_nama}}" required autofocus>
+            </div>
+          </div>
+          <div class="form-group row mt-4">
+            <label class="col-md-2">Code Size</label>
+            <div class="col-md-3">
+            <input id="name" type="text" class="form-control" name="size_code" value="{{$edit->size_code}}" required autofocus>
             </div>
           </div>
 

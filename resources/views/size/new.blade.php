@@ -37,6 +37,12 @@
             <input id="name" type="text" class="form-control" name="size_nama"  required autofocus>
             </div>
           </div>
+          <div class="form-group row mt-4">
+            <label class="col-md-2">Code Size</label>
+            <div class="col-md-3">
+            <input id="name" type="text" class="form-control" name="size_code"  required autofocus>
+            </div>
+          </div>
 
       <div class="form-group row mt-4">
         <div class="col-md-6">

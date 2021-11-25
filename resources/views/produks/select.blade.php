@@ -24,7 +24,7 @@
 <span class="card-label font-weight-bolder text-dark">Ubah Variasi dalam Produk</span>
 </h3>
 <div class="card-toolbar">
-<a href="{{url('produk/new')}}" class="btn btn-primary btn-md font-size-sm"><i class="fas fa-arrow-left"></i> Kembali</a>
+<a href="{{url('produk/')}}" class="btn btn-primary btn-md font-size-sm"><i class="fas fa-arrow-left"></i> Kembali</a>
 </div>
 </div>
 <!--end::Header-->
@@ -52,6 +52,7 @@
 					<th width="5%">Select</th>
 					<th>Foto</th>
 					<th>Master SKU</th>
+                    <th>SKU</th>
 					<th>Nama Produk</th>
 					<th>Size</th>
 					<th>Vendor</th>
@@ -68,6 +69,7 @@
                     <td><input type="checkbox" class="selectproduct" name="selected_product" data-id="{{$p->product_sku}}" value="{{$p->product_sku}}" ></td>
                     <td><img src="{{asset($p->product_foto)}}" class="img-fluid" style="width: 50px !important; height: 50px !important;"></td>
 					<td>{{$p->product_mastersku}}</td>
+                    <td>{{$p->product_sku}}</td>
 					<td>{{$p->product_nama}}</td>
 					<td>
                         @if($p->product_idsize == 1)
@@ -89,9 +91,9 @@
 
 					<td>{{$p->product_vendor}}</td>
                     <td>{{$p->band_nama}}</td>
-                    <td><p><span class="label label-danger label-md label-inline mr-2">Beli : Rp{{$p->product_hargabeli}}</span> </p>
-                        <p><span class="label label-primary label-md label-inline mr-2">Jual : Rp{{$p->product_hargajual}}</span> </p>
-                        <p><span class="label label-success label-md label-inline mr-2">Profit : Rp{{$p->product_hargajual - $p->product_hargabeli}}</span> </p></td>
+                    <td><p><span class="label label-danger label-lg label-inline mr-2">Rp{{$p->product_hargabeli}}</span> </p>
+                        <p><span class="label label-primary label-lg label-inline mr-2">Rp{{$p->product_hargajual}}</span> </p>
+                        <p><span class="label label-success label-lg label-inline mr-2">Rp{{$p->product_hargajual - $p->product_hargabeli}}</span> </p></td>
 					<td>{{$p->product_stok}}</td>
 					<td>
                         <a href="{{url('/produk/detail/'.$p->product_id)}}" class="btn btn-icon btn-xs btn-primary"><i class="fas fa-info-circle nopadding"></i></a>

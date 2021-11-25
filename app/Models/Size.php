@@ -24,6 +24,7 @@ class Size extends Model
      * @var array
      */
     protected $fillable = ['size_nama',
+        'size_code',
         'created_at',
         'updated_at', ];
 }

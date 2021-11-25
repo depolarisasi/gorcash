@@ -51,6 +51,15 @@ Route::group(['prefix' => 'size'], function() {
     Route::get('/delete/{id}',[App\Http\Controllers\SizeController::class, 'delete'])->middleware('auth');
    });
 
+   Route::group(['prefix' => 'type'], function() {
+    Route::get('/',[App\Http\Controllers\TypeProductController::class, 'index'])->middleware('auth');
+    Route::get('/new',[App\Http\Controllers\TypeProductController::class, 'create'])->middleware('auth');
+    Route::post('/store',[App\Http\Controllers\TypeProductController::class, 'store'])->middleware('auth');
+    Route::get('/edit/{id}',[App\Http\Controllers\TypeProductController::class, 'edit'])->middleware('auth');
+    Route::post('/update',[App\Http\Controllers\TypeProductController::class, 'update'])->middleware('auth');
+    Route::get('/delete/{id}',[App\Http\Controllers\TypeProductController::class, 'delete'])->middleware('auth');
+   });
+
    Route::group(['prefix' => 'color'], function() {
     Route::get('/',[App\Http\Controllers\ColorController::class, 'index'])->middleware('auth');
     Route::get('/new',[App\Http\Controllers\ColorController::class, 'create'])->middleware('auth');
@@ -87,9 +96,16 @@ Route::group(['prefix' => 'size'], function() {
    Route::group(['prefix' => 'api'], function() {
     Route::post('/massdelete',[App\Http\Controllers\ProductController::class, 'apimassdelete'])->middleware('auth');
     Route::post('/deletesku',[App\Http\Controllers\ProductController::class, 'apideletesku'])->middleware('auth');
-
+    Route::post('/publish',[App\Http\Controllers\PublishController::class, 'apimasspublish'])->middleware('auth');
+    Route::get('/getproductmastersku',[App\Http\Controllers\BarcodeDBController::class, 'getproductmastersku'])->middleware('auth');
    });
 
+   Route::group(['prefix' => 'publish'], function() {
+    Route::get('/',[App\Http\Controllers\PublishController::class, 'index'])->middleware('auth');
+    Route::get('/{groupname}',[App\Http\Controllers\PublishController::class, 'edit'])->middleware('auth');
+    Route::post('/update',[App\Http\Controllers\PublishController::class, 'update'])->middleware('auth');
+    Route::get('/detail/{groupname}',[App\Http\Controllers\PublishController::class, 'show'])->middleware('auth');
+   });
 
    Route::group(['prefix' => 'kasir'], function() {
     Route::get('/',[App\Http\Controllers\PenjualanController::class, 'kasir'])->middleware('auth');

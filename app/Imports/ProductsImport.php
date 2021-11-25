@@ -4,6 +4,10 @@ namespace App\Imports;
 
 use App\Models\Product;
 use App\Models\Vendor;
+use App\Models\Band;
+use App\Models\Color;
+use App\Models\TypeProduct;
+use App\Models\BarcodeDB;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToCollection;
@@ -16,59 +20,128 @@ class ProductsImport implements ToCollection, WithHeadingRow
     *
     * @return \Illuminate\Database\Eloquent\Model|null
     */
+
+    public function generateMasterSKU($band, $type, $nama, $color){
+        $databand = Band::where('band_id',$band)->first();
+        $firstbandletter =  substr($databand->band_nama, 0, 1);
+        $datatype = TypeProduct::where('type_id',$type)->first();
+        $datacolor = Color::where('color_id',$color)->first();
+        $sericode = BarcodeDB::where('barcode_productband',$band)->count();
+        if($sericode < 10){
+            if($sericode != 0) {
+                $countseri = $sericode+1;
+                $serivarian = "0".$countseri.$firstbandletter;
+            }else {
+            $countseri = 1;
+            $serivarian = "0".$countseri.$firstbandletter;
+            }
+        }else {
+            $countseri = $sericode+1;
+            $serivarian = $countseri.$firstbandletter;
+        }
+        $mastersku = $databand->band_code.$datatype->type_code.$serivarian.$datacolor->color_code;
+        return ["sku" => $mastersku, "seri" => $serivarian];
+    }
+
     public function collection(Collection $rows)
     {
         foreach ($rows as $row) {
             if ($row->filter()->isNotEmpty()) {
-                $size = [1 => "S",2 => "M",3 => "L",4 => "XL", 5 => "2XL"];
-                foreach($size as $key => $s){
-                    $skuvariant = $row['product_mastersku'].$key;
-                    $checksku = Product::where('product_sku',$skuvariant)->first();
-                        if($checksku == null){
-                          if($row['product_idsize'] == $key){
-                            $idsize = $key;
-                          $stok = $row['product_stok'];
-                          $stokakhir = $row['product_stokakhir'];
-                          }else {
-                         $idsize = $key;
-                         $stok = 0;
-                         $stokakhir = 0;
-                         }
-
-                         $vendor = $row['product_vendor'];
-
-
-                         if($row['product_tanggalpublish'] == NULL){
+                $masterskus = $row['product_mastersku'];
+                if($masterskus != NULL) {
+                        $size = $row['product_idsize'];
+                        $skuvariant = $masterskus.$size;
+                        $checksku = Product::where('product_sku',$skuvariant)->first();
+                        $masterdata = BarcodeDB::where('barcode_mastersku', $masterskus)->first();
+                        if($masterdata && $masterdata->barcode_productname == $row['product_nama']){
+                            if($checksku == null){
+                                    $vendor = implode(',',$row['product_vendor']);
+                                         if($row['product_tanggalpublish'] == NULL){
+                                             $status = 0;
+                                            }else {
+                                             $status = 1;
+                                             }
+                                try {
+                                    $insert = new Product();
+                                    $insert->insertOrIgnore([
+                                        'product_productlama' => $row['product_productlama'],
+                                        'product_barcodevendor' => $vendor,
+                                        'product_mastersku' => $masterskus,
+                                        'product_sku' => $skuvariant,
+                                        'product_nama' => $masterdata->barcode_productname,
+                                        'product_vendor' => $vendor,
+                                        'product_idsize' =>  $row['product_idsize'],
+                                        'product_idband'  => $masterdata->barcode_productband,
+                                        'product_typeid'  => $masterdata->barcode_producttype,
+                                        'product_color'  => $masterdata->barcode_productcolor,
+                                        'product_hargajual' => $row['product_hargajual'],
+                                        'product_hargabeli' => $row['product_hargabeli'],
+                                        'product_tag' => $row['product_tag'],
+                                        'product_material' => $row['product_material'],
+                                        'product_madein' => $row['product_condition'],
+                                        'product_foto' => $row['product_foto'],
+                                        'product_stok' => $row['product_stok'],
+                                        'product_stokakhir' => $row['product_stok'],
+                                        'product_color' => $row['product_color'],
+                                        'product_tanggalbeli' => $row['product_tanggalbeli'],
+                                        'product_status' => $status,
+                                        'product_tanggalpublish' => $row['product_tanggalpublish'],
+                                    ]);
+                                    } catch (QE $e) {
+                                        return $e;
+                                    }
+                            }
+                        }
+                }else {
+                    $masterdata = new BarcodeDB;
+                    $masterdata->barcode_productband = $row['product_idband'];
+                    $masterdata->barcode_producttype = $row['product_typeid'];
+                    $masterdata->barcode_productcolor = $row['product_color'];
+                    $masterdata->barcode_productname = $row['product_nama'];
+                    $newbarcode = $this->generateMasterSKU($row['product_idband'],$row['product_typeid'],$row['product_nama'],$row['product_color']);
+                    $masterdata->barcode_mastersku = $newbarcode["sku"];
+                    $masterdata->barcode_productseri = $newbarcode["seri"];
+                    $masterdata->save();
+                    $skuvariant = $newbarcode["sku"].$row['product_idsize'];
+                    $explodevendor = explode(',',$row['product_vendor']);
+                    $vendor = implode(',',$explodevendor);
+                    if($row['product_tanggalpublish'] == NULL){
                         $status = 0;
-                         }else {
+                    }else {
                         $status = 1;
-                         }
-                         $insert = new Product();
-                         $insert->insertOrIgnore([
-                             'product_barcodevendor' => $row['product_barcodevendor'],
-                             'product_mastersku' => $row['product_mastersku'],
-                             'product_sku' => $skuvariant,
-                             'product_nama' => $row['product_nama'],
-                             'product_vendor' => $vendor,
-                             'product_idsize' => $idsize,
-                             'product_idband'  => $row['product_idband'],
-                             'product_hargajual' => $row['product_hargajual'],
-                             'product_hargabeli' => $row['product_hargabeli'],
-                             'product_tag' => $row['product_tag'],
-                             'product_material' => $row['product_material'],
-                             'product_madein' => $row['product_condition'],
-                             'product_foto' => $row['product_foto'],
-                             'product_stok' => $stok,
-                             'product_color' => $row['product_color'],
-                             'product_tanggalbeli' => $row['product_tanggalbeli'],
-                             'product_stokakhir' => $stokakhir,
-                             'product_status' => $status,
-                             'product_tanggalpublish' => $row['product_tanggalpublish'],
-                         ]);
+                    }
 
-                 }
-
+                    try {
+                        $insert = new Product();
+                        $insert->insertOrIgnore([
+                            'product_productlama' => $row['product_productlama'],
+                            'product_barcodevendor' => $vendor,
+                            'product_mastersku' => $newbarcode["sku"],
+                            'product_sku' => $skuvariant,
+                            'product_nama' => $masterdata->barcode_productname,
+                            'product_vendor' => $vendor,
+                            'product_idsize' =>  $row['product_idsize'],
+                            'product_idband'  => $masterdata->barcode_productband,
+                            'product_typeid'  => $masterdata->barcode_producttype,
+                            'product_color'  => $masterdata->barcode_productcolor,
+                            'product_hargajual' => $row['product_hargajual'],
+                            'product_hargabeli' => $row['product_hargabeli'],
+                            'product_tag' => $row['product_tag'],
+                            'product_material' => $row['product_material'],
+                            'product_madein' => $row['product_condition'],
+                            'product_foto' => $row['product_foto'],
+                            'product_stok' => $row['product_stok'],
+                            'product_stokakhir' => $row['product_stok'],
+                            'product_color' => $row['product_color'],
+                            'product_tanggalbeli' => $row['product_tanggalbeli'],
+                            'product_status' => $status,
+                            'product_tanggalpublish' => $row['product_tanggalpublish'],
+                        ]);
+                        } catch (QE $e) {
+                            return $e;
+                        }
                 }
+
             }
         }
     }

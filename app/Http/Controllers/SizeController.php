@@ -59,8 +59,7 @@ class SizeController extends Controller
         try {
         $size->update($update->all());
         } catch (QE $e) {
-            notify()->warning('Database Error');
-            return redirect()->back();
+            return $e;
         }
         notify()->success('Pengubahan Size Berhasil');
         return redirect('size');

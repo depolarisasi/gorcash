@@ -1,5 +1,9 @@
 @extends('layouts.app')
 @section('title','Band - ')
+@section('css')
+<link href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css">
+<link href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css">
+@endsection
 @section('content')
 	<!--begin::Content-->
     <div class="content  d-flex flex-column flex-column-fluid" id="kt_content">
@@ -31,10 +35,11 @@
 <div class="tab-content">
 <!--begin::Table-->
 <div class="table-responsive">
-    <table id="basic-datatable" class="table dt-responsive table-bordered nowrap" style="width:100%">
+    <table id="table" class="table table-striped table-bordered mt-5" style="width:100%">
 <thead>
 <tr class="text-left">
 <th style="min-width: 50px"><span class="text-dark-75">Nama Band</span></th>
+<th style="min-width: 50px"><span class="text-dark-75">Code Band</span></th>
 <th style="min-width: 80px">Action</th>
 </tr>
 </thead>
@@ -43,12 +48,17 @@
 <tr>
 <td class="pl-3 py-3">
 <div class="d-flex align-items-center">
-    <a href="#" class="text-dark-75 mb-1">{{$b->band_nama}}</a>
+    {{$b->band_nama}}
 </div>
 </td>
+<td class="pl-3 py-3">
+    <div class="d-flex align-items-center">
+        {{$b->band_code}}
+    </div>
+    </td>
 <td>
-    <a href="{{url('/band/edit/'.$b->band_id)}}" class="btn btn-sm btn-warning"><i class="fas fa-edit nopadding"></i></a>
-    <button type="button" href="{{url('/band/delete/'.$b->band_id)}}" class="deletebtn btn btn-sm btn-danger"><i class="fas fa-trash nopadding"></i></button></td>
+    <a href="{{url('/band/edit/'.$b->band_id)}}" class="btn btn-xs btn-icon btn-warning"><i class="fas fa-edit nopadding"></i></a>
+    <button type="button" href="{{url('/band/delete/'.$b->band_id)}}" class="deletebtn btn btn-xs btn-icon btn-danger"><i class="fas fa-trash nopadding"></i></button></td>
 </td>
 </tr>
 @endforeach
@@ -72,12 +82,8 @@
 </div>
 <!--end::Content-->
 @section('js')
-<script src="{{asset('assets/libs/datatables/jquery.dataTables.min.js')}}"></script>
-<script src="{{asset('assets/libs/datatables/dataTables.bootstrap4.min.js')}}"></script>
-<script src="{{asset('assets/libs/datatables/dataTables.responsive.min.js')}}"></script>
-<script src="{{asset('assets/libs/datatables/responsive.bootstrap4.min.js')}}"></script>>
-<script src="{{asset('assets/libs/datatables/dataTables.buttons.min.js')}}"></script>
-<script src="{{asset('assets/libs/datatables/buttons.bootstrap4.min.js')}}"></script>
+<script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap4.min.js"></script>
 <script>
     $(document).ready(function(){
 
@@ -110,15 +116,11 @@
           });
             });
 
-           var table = $("#basic-datatable").DataTable({
+            var table = $("#table").DataTable({
+            "paging":   true,
+            "ordering": true,
+           });
 
-                 language: { paginate: {
-                    previous: "<i class='uil uil-angle-left'>",
-                    next: "<i class='uil uil-angle-right'>" } },
-            drawCallback: function () {
-                $(".dataTables_paginate > .pagination").addClass("pagination-rounded");
-                }
-                            });
 
                             </script>
 @endsection

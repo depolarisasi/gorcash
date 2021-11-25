@@ -23,6 +23,7 @@ class Band extends Model
      * @var array
      */
     protected $fillable = ['band_nama',
+    'band_code',
         'created_at',
         'updated_at', ];
 }

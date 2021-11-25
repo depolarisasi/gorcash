@@ -9,6 +9,8 @@ use App\Models\Vendor;
 use App\Models\Band;
 use App\Models\Product;
 use App\Models\Color;
+use App\Models\TypeProduct;
+use App\Models\BarcodeDB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Database\QueryException as QE;
@@ -22,6 +24,62 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class ProductController extends Controller
 {
+
+    public function generateMasterSKU($band, $type, $nama, $color){
+        $databand = Band::where('band_id',$band)->first();
+        $firstbandletter =  substr($databand->band_nama, 0, 1);
+        $datatype = TypeProduct::where('type_id',$type)->first();
+        $datacolor = Color::where('color_id',$color)->first();
+        $sericode = BarcodeDB::where('barcode_productband',$band)->count();
+        if($sericode < 10){
+            if($sericode != 0) {
+                $countseri = $sericode+1;
+                $serivarian = "0".$countseri.$firstbandletter;
+            }else {
+            $countseri = 1;
+            $serivarian = "0".$countseri.$firstbandletter;
+            }
+        }else {
+            $countseri = $sericode+1;
+            $serivarian = $countseri.$firstbandletter;
+        }
+        $mastersku = $databand->band_code.$datatype->type_code.$serivarian.$datacolor->color_code;
+        return ["sku" => $mastersku, "seri" => $serivarian];
+    }
+
+    public function checkBarcodeMaster($mastersku){
+        $master = BarcodeDB::where('barcode_mastersku',$mastersku)->first();
+        if($master){
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    public function uploadImage($image){
+        if ($image == '') {
+            $fileurl = '';
+    } else {
+        $file = $image;
+        $fileArray = ['product_foto' => $file];
+        $rules = ['product_foto' => 'mimes:jpeg,jpg,png,gif|required|max:100000'];
+        $validator = Validator::make($fileArray, $rules);
+        if ($validator->fails()) {
+            // Redirect or return json to frontend with a helpful message to inform the user
+            // that the provided file was not an adFile bukan gambar
+
+         toast('File bukanlah gambar','error');
+            return redirect()->back();
+        } else {
+            $img_id = mt_rand(1, 10000);
+            $fileName = $img_id.time().'.'.$file->getClientOriginalName();
+            Image::make($file)->encode('jpg', 90)->save('product/'.$fileName);
+            $fileurl = 'product/'.$fileName;
+        }
+    }
+    return $fileurl;
+    }
+
     public function index()
     {
         $produk = Product::join('size','size.size_id','=','product.product_idsize')
@@ -65,52 +123,79 @@ class ProductController extends Controller
         $size = Size::get();
         $band = Band::get();
         $color = Color::get();
-        return view('produks.new')->with(compact('vendor','size','band','color'));
+        $type = TypeProduct::get();
+        $barcode = BarcodeDB::get();
+        return view('produks.new')->with(compact('vendor','size','band','color','type','barcode'));
     }
 
     public function store(Request $request)
     {
+        $masterskus = $request->product_mastersku;
+        if($masterskus != "NEW") {
+                $size = $request->product_idsize;
+                $skuvariant = $masterskus.$size;
+                $checksku = Product::where('product_sku',$skuvariant)->first();
+                $masterdata = BarcodeDB::where('barcode_mastersku', $masterskus)->first();
+                if($masterdata && $masterdata->barcode_productname == $request->product_nama){
+                    if($checksku == null){
+                            $store = collect($request->all());
+                            $store->put('product_mastersku', $masterskus);
+                            $store->put('product_idsize', $request->product_idsize);
+                            $store->put('product_idband', $masterdata->barcode_productband);
+                            $store->put('product_typeid', $masterdata->barcode_producttype);
+                            $store->put('product_color', $masterdata->barcode_productcolor);
+                            $store->put('product_sku', $skuvariant);
+                            $store->put('product_stok', $request->product_stok);
+                            $store->put('product_stokakhir', $request->product_stok);
+                            $store->put('product_foto', $this->uploadImage($request->file('product_foto')));
+                            $vendor = implode(',',$request->product_vendor);
+                            $store->put('product_vendor', $vendor);
+                            $store->put('product_productlama', $request->product_productlama);
+                        if($request->product_tanggalpublish == NULL){
+                            $status = 0;
+                        }else {
+                            $status = 1;
+                        }
+                        $store->put('product_status', $status);
 
-        $size = [1 => "S",2 => "M",3 => "L",4 => "XL", 5 => "2XL"];
-        foreach($size as $key => $s){
-        $skuvariant = $request->product_mastersku.$key;
-        $checksku = Product::where('product_sku',$skuvariant)->first();
-        if($checksku == null){
-                $store = collect($request->all());
-                $store->put('product_sku', $skuvariant);
-                if ($request->file('product_foto') == '') {
-                    $fileurl = '';
-            } else {
-                $file = $request->file('product_foto');
-                $fileArray = ['product_foto' => $file];
-                $rules = ['product_foto' => 'mimes:jpeg,jpg,png,gif|required|max:100000'];
-                $validator = Validator::make($fileArray, $rules);
-                if ($validator->fails()) {
-                    // Redirect or return json to frontend with a helpful message to inform the user
-                    // that the provided file was not an adFile bukan gambar
+                        try {
+                            Product::create($store->all());
+                            } catch (QE $e) {
 
-                 toast('File bukanlah gambar','error');
+                    toast('Database error','error');
+                                return redirect()->back();
+                            }
+                    }else {
+                        toast('Produk Sudah Ada!','error');
+                        return redirect()->back();
+                    }
+                }else {
+                    toast('Nama Desain di Database Barcode berbeda dengan Nama Produk, Produk Berbeda?','error');
                     return redirect()->back();
-                } else {
-                    $img_id = mt_rand(1, 10000);
-                    $fileName = $img_id.time().'.'.$file->getClientOriginalName();
-                    Image::make($file)->encode('jpg', 90)->save('product/'.$fileName);
-                    $fileurl = 'product/'.$fileName;
                 }
-            }
-            if($request->product_idsize == $key){
+        }else {
+            $masterdata = new BarcodeDB;
+            $masterdata->barcode_productband = $request->product_idband;
+            $masterdata->barcode_producttype = $request->product_typeid;
+            $masterdata->barcode_productcolor = $request->product_color;
+            $masterdata->barcode_productname = $request->product_nama;
+            $newbarcode = $this->generateMasterSKU($request->product_idband,$request->product_typeid,$request->product_nama,$request->product_color);
+            $masterdata->barcode_mastersku = $newbarcode["sku"];
+            $masterdata->barcode_productseri = $newbarcode["seri"];
+            $masterdata->save();
+            $skuvariant = $newbarcode["sku"].$request->product_idsize;
+            $store = collect($request->all());
+            $store->put('product_mastersku', $newbarcode["sku"]);
+            $store->put('product_sku', $skuvariant);
+            $store->put('product_idband', $masterdata->barcode_productband);
+            $store->put('product_typeid', $masterdata->barcode_producttype);
+            $store->put('product_color', $masterdata->barcode_productcolor);
             $store->put('product_stok', $request->product_stok);
             $store->put('product_stokakhir', $request->product_stok);
-            }else {
-            $store->put('product_idsize', $key);
-            $store->put('product_stok', 0);
-            $store->put('product_stokakhir', 0);
-            }
-            $store->put('product_foto', $fileurl);
+            $store->put('product_foto', $this->uploadImage($request->file('product_foto')));
             $vendor = implode(',',$request->product_vendor);
             $store->put('product_vendor', $vendor);
-
-
+            $store->put('product_productlama', $request->product_productlama);
             if($request->product_tanggalpublish == NULL){
                 $status = 0;
             }else {
@@ -125,9 +210,7 @@ class ProductController extends Controller
         toast('Database error','error');
                     return redirect()->back();
                 }
-         }
         }
-
 
         toast('Berhasil Menambahkan Produk dan Variasi','success');
         return redirect('produk');
@@ -208,7 +291,7 @@ class ProductController extends Controller
 
     public function update(Request $request)
     {
-        $produk = Product::where('product_id', $request->v)->first();
+        $produk = Product::where('product_id', $request->product_id)->first();
         $update = collect($request->all());
 
 
@@ -221,7 +304,7 @@ class ProductController extends Controller
         $validator = Validator::make($fileArray, $rules);
         if ($validator->fails()) {
             // Redirect or return json to frontend with a helpful message to inform the user
-            // that the provided file was not an adequate type 
+            // that the provided file was not an adequate type
                    toast('File bukan gambar','error');
             return redirect()->back();
         } else {

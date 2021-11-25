@@ -6,7 +6,7 @@
 <link href="https://cdn.datatables.net/buttons/2.0.1/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css">
 
 
-     
+
 
 @endsection
 @section('content')
@@ -31,7 +31,7 @@
 </h3>
 <div class="card-toolbar">
 <a href="{{url('produk/new')}}" class="btn btn-primary btn-md font-size-sm"><i class="fas fa-plus"></i> Buat</a>
-<a href="{{url('produk/import')}}" class="btn btn-primary btn-md font-size-sm ml-2"><i class="fas fa-plus"></i> Import</a> 
+<a href="{{url('produk/import')}}" class="btn btn-primary btn-md font-size-sm ml-2"><i class="fas fa-plus"></i> Import</a>
 </div>
 </div>
 <!--end::Header-->
@@ -44,7 +44,7 @@
 		<div class="col-lg-10 col-xl-10">
 			<div class="row align-items-center">
 				<div class="col-md-3 my-2 my-md-0">
-					 
+
 				</div>
 
                 				<div class="col-md-3 my-2 my-md-0">
@@ -103,7 +103,7 @@
                         Delete All
                     </button>
 
-                    <button class="btn btn-sm btn-danger mr-2 publish_all" type="button" data-url="{{ url('api/publish') }}" id="kt_datatable_publish_all_2">
+                    <button class="btn btn-sm btn-success mr-2 publish_all" type="button" data-url="{{ url('api/publish') }}" id="kt_datatable_publish_all_2">
                        Publish All
                     </button>
 
@@ -123,6 +123,7 @@
 					<th>Band</th>
 					<th>Harga</th>
 					<th>Stok</th>
+					<th>Stok Akhir</th>
 					<th>Action</th>
 				</tr>
 			</thead>
@@ -131,11 +132,10 @@
                 @foreach($produk as $p)
 				<tr>
                     <td><input type="checkbox" class="selectproduct" name="selected_product" data-id="{{$p->product_mastersku}}" value="{{$p->product_mastersku}}" ></td>
-                    <td><img src="{{asset($p->product_foto)}}" class="img-fluid" style="width: 50px !important; height: 50px !important;"></td>
+                    <td><img src="{{asset($p->product_foto?$p->product_foto:"/assets/nopicture.png")}}" class="img-fluid" style="width: 50px !important; height: 50px !important;"></td>
 					<td>{{$p->product_sku}}</td>
 					<td>{{$p->product_nama}}</td>
-					<td>{{$p->product_idsize}}
-                       </td>
+					<td>{{$p->product_idsize}}</td>
 
 					<td>{{$p->product_vendor}}</td>
                     <td>{{$p->band_nama}}</td>
@@ -143,9 +143,15 @@
                         <p><span class="label label-primary label-md label-inline mr-2">Rp{{$p->product_hargajual}}</span> </p>
                         <p><span class="label label-success label-md label-inline mr-2">Rp{{$p->product_hargajual - $p->product_hargabeli}}</span> </p></td>
 					<td>{{$p->product_stok}}</td>
+                    <td>{{$p->product_stokakhir}}</td>
 					<td>
+                        @if($p->product_productlama == 1)
+                        <a href="{{url('/produk/detail/'.$p->product_id)}}" class="btn btn-icon btn-xs btn-primary"><i class="fas fa-info-circle nopadding"></i></a>
+                        <a href="{{url('/produk/edit/'.$p->product_id)}}" class="btn btn-icon btn-xs btn-warning"><i class="fas fa-edit nopadding"></i></a>
+                        @else
                         <a href="{{url('/produk/select/'.$p->product_mastersku)}}" class="btn btn-icon btn-xs btn-primary"><i class="fas fa-info-circle nopadding"></i></a>
                         <a href="{{url('/produk/select/'.$p->product_mastersku)}}" class="btn btn-icon btn-xs btn-warning"><i class="fas fa-edit nopadding"></i></a>
+                        @endif
                         <button type="button" href="{{url('/produk/delete/'.$p->product_mastersku)}}" class="deletebtn btn btn-icon btn-xs btn-danger"><i class="fas fa-trash nopadding"></i></button>
                     </td>
 				</tr>
@@ -184,7 +190,7 @@
         buttons: [
             'copyHtml5',
             'excelHtml5',
-            'csvHtml5', 
+            'csvHtml5',
         ],
         search: {
 				input: $('#kt_datatable_search_query'),
@@ -260,6 +266,53 @@ $('.delete_all').on('click', function(e) {
               $('table tr').filter("[data-row-id='" + value + "']").remove();
 
           });
+
+        }
+
+    }
+
+});
+
+$('.publish_all').on('click', function(e) {
+    var pub = [];
+    $(".selectproduct:checked").each(function() {
+        pub.push($(this).attr('data-id'));
+    });
+
+    if(pub.length <=0)
+    {
+        Swal.fire(
+       'Error',
+       'Silahkan Pilih Data Yang Ingin Dipublish',
+       'error'
+     )
+    }  else {
+        var check = confirm("Publish produk ini?");
+        if(check == true){
+            var join_selected_values = pub.join(",");
+            $("#kt_datatable_publish_all_2").addClass("spinner spinner-right spinner-white pr-15");
+            $.ajax({
+                url: $(this).data('url'),
+                type: 'POST',
+                data: {
+                    _token : "{{csrf_token()}}",
+                    'ids' : join_selected_values},
+                success: function (data) {
+                    if (data['success']) {
+                        window.location = "/publish/"+data['groupname'];
+                        $("#kt_datatable_publish_all_2").removeClass("spinner spinner-right spinner-white pr-15")
+                        alert(data['success']);
+                    } else if (data['error']) {
+                        alert(data['error']);
+                    } else {
+                      console.log(data);
+                    }
+                },
+                error: function (data) {
+                    console.log(data.responseText);
+                }
+            });
+
 
         }
 

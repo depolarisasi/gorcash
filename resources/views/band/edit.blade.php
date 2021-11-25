@@ -30,11 +30,17 @@
 <div class="tab-content">
     <form method="POST" action="{{url('band/update')}}">
         @csrf
-        <input type="hidden" name="v" value="{{$edit->band_id}}">
+        <input type="hidden" name="band_id" value="{{$edit->band_id}}">
         <div class="form-group row mt-4">
             <label class="col-md-2">Nama Band</label>
             <div class="col-md-3">
             <input id="name" type="text" class="form-control" name="band_nama" value="{{$edit->band_nama}}" required autofocus>
+            </div>
+          </div>
+        <div class="form-group row mt-4">
+            <label class="col-md-2">Code Band</label>
+            <div class="col-md-3">
+            <input id="name" type="text" class="form-control" name="band_code" value="{{$edit->band_code}}" required autofocus>
             </div>
           </div>
 

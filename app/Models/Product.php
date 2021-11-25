@@ -43,6 +43,9 @@ class Product extends Model
     'product_stokakhir',
     'product_status',
     'product_tanggalpublish',
+    'product_productlama',
+    'product_barcodelama',
+    'product_typeid',
         'created_at',
         'updated_at', ];
 

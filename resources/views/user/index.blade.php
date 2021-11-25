@@ -18,10 +18,10 @@
 <!--begin::Header-->
 <div class="card-header border-0 py-5">
 <h3 class="card-title align-items-start flex-column">
-<span class="card-label font-weight-bolder text-dark">Daftar Pengguna Dalam Sistem</span>
+<span class="card-label font-weight-bolder text-dark">Daftar Pengguna</span>
 </h3>
 <div class="card-toolbar">
-<a href="{{url('user/new')}}" class="btn btn-primary btn-md font-size-sm"><i class="fas fa-plus"></i> Buat</a>
+<a href="{{url('user/new')}}" class="btn btn-primary btn-md font-size-sm"><i class="fas fa-plus"></i> Tambah</a>
 </div>
 </div>
 <!--end::Header-->
@@ -65,9 +65,9 @@
 @endif
 </td>
 <td>
-    <a href="{{url('/user/detail/'.$u->id)}}" class="btn btn-sm btn-primary"><i class="fas fa-info-circle nopadding"></i></a>
-    <a href="{{url('/user/edit/'.$u->id)}}" class="btn btn-sm btn-warning"><i class="fas fa-edit nopadding"></i></a>
-    <button type="button" href="{{url('/user/delete/'.$u->id)}}" class="deletebtn btn btn-sm btn-danger"><i class="fas fa-trash nopadding"></i></button></td>
+    <a href="{{url('/user/detail/'.$u->id)}}" class="btn btn-xs btn-icon btn-primary"><i class="fas fa-info-circle nopadding"></i></a>
+    <a href="{{url('/user/edit/'.$u->id)}}" class="btn btn-xs btn-icon btn-warning"><i class="fas fa-edit nopadding"></i></a>
+    <button type="button" href="{{url('/user/delete/'.$u->id)}}" class="deletebtn btn btn-xs btn-icon btn-danger"><i class="fas fa-trash nopadding"></i></button></td>
 </td>
 </tr>
 @endforeach
