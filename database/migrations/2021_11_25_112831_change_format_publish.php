@@ -15,7 +15,7 @@ class ChangeFormatPublish extends Migration
     {
         Schema::table('publishcount', function(Blueprint $table) {
             $table->string('publishcount_pubid')->nullable()->change();
-            $table->date('publishcount_pubtanggal')->nullable();
+            $table->date('publishcount_pubtanggal')->nullable()->change();
         });
     }
 
