@@ -48,7 +48,6 @@
 					<th width="10%">Material</th>
 					<th width="10%">Made In</th>
 					<th width="10%">Condition</th>
-					<th width="5%">Action</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -66,7 +65,7 @@
 					<td><input type="text" class="form-control" name="product_material[]" value="{{$p->product_material}}"></td>
 					<td><input type="text" class="form-control" name="product_madein[]" value="{{$p->product_madein}}"></td>
 					<td><input type="text" class="form-control" name="product_condition[]" value="{{$p->product_condition}}"></td>
-					<td><button type="button" href="{{url('/publish/delete/'.$p->publish_groupid)}}" class="deletebtn btn btn-icon btn-xs btn-danger"><i class="fas fa-trash nopadding"></i></button>
+
                     </td>
 				</tr>
                 @endforeach

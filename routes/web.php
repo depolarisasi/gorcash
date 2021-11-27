@@ -98,6 +98,9 @@ Route::group(['prefix' => 'size'], function() {
     Route::post('/deletesku',[App\Http\Controllers\ProductController::class, 'apideletesku'])->middleware('auth');
     Route::post('/publish',[App\Http\Controllers\PublishController::class, 'apimasspublish'])->middleware('auth');
     Route::get('/getproductmastersku',[App\Http\Controllers\BarcodeDBController::class, 'getproductmastersku'])->middleware('auth');
+    Route::post('/getso',[App\Http\Controllers\StokOpnameController::class, 'getso'])->middleware('auth');
+    Route::post('/simpanso',[App\Http\Controllers\StokOpnameController::class, 'pausesomingguan'])->middleware('auth');
+    Route::post('/simpansobulanan',[App\Http\Controllers\StokOpnameController::class, 'pausesobulanan'])->middleware('auth');
    });
 
    Route::group(['prefix' => 'publish'], function() {
@@ -130,15 +133,20 @@ Route::group(['prefix' => 'size'], function() {
 
    });
 
-    Route::group(['prefix' => 'stockopname'], function() {
-    Route::get('/',[App\Http\Controllers\PenjualanController::class, 'index'])->middleware('auth');
-    Route::get('/detail/{id}',[App\Http\Controllers\PenjualanController::class, 'show'])->middleware('auth');
-    Route::get('/new',[App\Http\Controllers\PenjualanController::class, 'create'])->middleware('auth');
-    Route::post('/store',[App\Http\Controllers\PenjualanController::class, 'store'])->middleware('auth');
-    Route::get('/edit/{id}',[App\Http\Controllers\PenjualanController::class, 'edit'])->middleware('auth');
-    Route::post('/update',[App\Http\Controllers\PenjualanController::class, 'update'])->middleware('auth');
-    Route::get('/delete/{id}',[App\Http\Controllers\PenjualanController::class, 'delete'])->middleware('auth');
-    Route::get('/struk/{id?}',[App\Http\Controllers\PenjualanController::class, 'receipt'])->middleware('auth');
+    Route::group(['prefix' => 'stokopname'], function() {
+    Route::get('/',[App\Http\Controllers\StokOpnameController::class, 'pilihso'])->middleware('auth');
+    Route::get('/mingguan',[App\Http\Controllers\StokOpnameController::class, 'indexmingguan'])->middleware('auth');
+    Route::get('/mingguan/{pubid}',[App\Http\Controllers\StokOpnameController::class, 'somingguan'])->middleware('auth');
+    Route::get('/mingguan/edit/{pubid}',[App\Http\Controllers\StokOpnameController::class, 'resumesomingguan'])->middleware('auth');
+    Route::post('/mingguan/store',[App\Http\Controllers\StokOpnameController::class, 'storesomingguan'])->middleware('auth');
+    Route::post('/mingguan/update',[App\Http\Controllers\StokOpnameController::class, 'updatesomingguan'])->middleware('auth');
+    Route::get('/bulanan',[App\Http\Controllers\StokOpnameController::class, 'indexbulanan'])->middleware('auth');
+    Route::get('/bulanan/{pubid}',[App\Http\Controllers\StokOpnameController::class, 'sobulanan'])->middleware('auth');
+    Route::get('/bulanan/edit/{pubid}',[App\Http\Controllers\StokOpnameController::class, 'resumesobulanan'])->middleware('auth');
+    Route::post('/bulanan/store',[App\Http\Controllers\StokOpnameController::class, 'storesobulanan'])->middleware('auth');
+    Route::post('/bulanan/update',[App\Http\Controllers\StokOpnameController::class, 'updatesobulanan'])->middleware('auth');
+    Route::get('/laporan/{pubid}',[App\Http\Controllers\StokOpnameController::class, 'laporan'])->middleware('auth');
+    Route::get('/laporan/download/{pubid}',[App\Http\Controllers\StokOpnameController::class, 'laporanpdf'])->middleware('auth');
 
    });
 

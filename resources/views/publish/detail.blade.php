@@ -41,6 +41,7 @@
 					<th width="10%">SKU</th>
 					<th width="25%">Nama Produk</th>
 					<th width="5%">Stok Awal</th>
+					<th width="5%">Stok Akhir</th>
 					<th width="15%">Tag</th>
 					<th width="15%">Material</th>
 					<th width="15%">Made In</th>
@@ -99,11 +100,12 @@
 <script>
  tabel = $('#product').DataTable({
     dom: 'Bfrtip',
-        buttons: [
-            'excelHtml5',
-            'pdfHtml5',
-        ],
-
+    buttons: [{
+      extend: 'pdfHtml5',
+      customize: function(doc) {
+        doc.styles.tableHeader.fontSize = 9;
+      }
+    }],
         search: {
 				input: $('#kt_datatable_search_query'),
 				key: 'generalSearch'

@@ -10,6 +10,7 @@ use App\Models\Vendor;
 use App\Models\Band;
 use App\Models\Product;
 use App\Models\Penjualan;
+use App\Models\BarangPublish;
 use App\Models\BarangTerjual;
 use App\Models\RiwayatPotongan;
 use Illuminate\Support\Facades\Hash;
@@ -185,7 +186,7 @@ class PenjualanController extends Controller
             $produkkeluar->barangterjual_tanggalbarangterjual = $request->penjualan_tanggalpenjualan;
             $produkkeluar->barangterjual_userid = Auth::user()->id;
             $produk->product_stokakhir = $produk->product_stokakhir-$request->qtyorders[$key];
-            $publish = Publish::where('publish_productid',$val)->first();
+            $publish = BarangPublish::where('publish_productid',$val)->first();
             $publish->publish_stokakhir = $publish->publish_stokakhir-$request->qtyorders[$key];
             $publish->update();
             $produk->update();

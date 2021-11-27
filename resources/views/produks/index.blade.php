@@ -4,10 +4,7 @@
 <link href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css">
 <link href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css">
 <link href="https://cdn.datatables.net/buttons/2.0.1/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css">
-
-
-
-
+<link href="https://cdn.datatables.net/select/1.3.3/css/select.dataTables.min.css" rel="stylesheet" type="text/css">
 @endsection
 @section('content')
 	<!--begin::Content-->
@@ -92,52 +89,36 @@
 </div>
 <!--end::Search Form-->
 		<!--end: Search Form-->
-        <div class="mt-10 mb-5" >
-            <div class="mt-10 mb-5 collapse" id="kt_datatable_group_action_form_2">
-                <div class="d-flex align-items-center">
-                    <div class="font-weight-bold text-danger mr-3">
-                        Selected <span id="kt_datatable_selected_records_2">0</span> records:
-                    </div>
 
-                    <button class="btn btn-sm btn-danger mr-2 delete_all" type="button" data-url="{{ url('api/massdelete') }}" id="kt_datatable_delete_all_2">
-                        Delete All
-                    </button>
-
-                    <button class="btn btn-sm btn-success mr-2 publish_all" type="button" data-url="{{ url('api/publish') }}" id="kt_datatable_publish_all_2">
-                       Publish All
-                    </button>
-
-                </div>
-            </div>
-		</div>
 		<!--begin: Datatable-->
-		<table class="table table-striped table-bordered mt-5" id="product">
+		<table class="table table-bordered mt-5" id="product">
 			<thead>
 				<tr>
 					<th width="5%">Select</th>
 					<th>Foto</th>
-					<th>SKU</th>
+					<th>Master SKU</th>
 					<th>Nama Produk</th>
 					<th>Size</th>
 					<th>Vendor</th>
 					<th>Band</th>
 					<th>Harga</th>
-					<th>Stok</th>
+					<th>Stok Awal</th>
 					<th>Stok Akhir</th>
-					<th>Published ?</th>
 					<th>Action</th>
 				</tr>
 			</thead>
 			<tbody>
 
                 @foreach($produk as $p)
-				<tr>
-                    <td><input type="checkbox" class="selectproduct" name="selected_product" data-id="{{$p->product_mastersku}}" value="{{$p->product_mastersku}}" @if($p->product_status == 1 || $p->product_tanggalpublish != NULL) disabled @endif></td>
+				<tr @if($p->product_stok < 1 || $p->product_status == 1) class="ignore" @endif>
+                    <td></td>
                     <td><img src="{{asset($p->product_foto?$p->product_foto:"/assets/nopicture.png")}}" class="img-fluid" style="width: 50px !important; height: 50px !important;"></td>
 					<td>{{$p->product_mastersku}}</td>
-					<td>{{$p->product_nama}}</td>
+					<td> @if($p->product_status == 1)
+                        <span class="label label-success label-md label-inline mr-2">Publish</span>
+                    @endif
+                    {{$p->product_nama}}</td>
 					<td>{{$p->product_idsize}}</td>
-
 					<td>{{$p->product_vendor}}</td>
                     <td>{{$p->band_nama}}</td>
                     <td><p><span class="label label-danger label-md label-inline mr-2">Rp{{$p->product_hargabeli}}</span> </p>
@@ -145,19 +126,9 @@
                         <p><span class="label label-success label-md label-inline mr-2">Rp{{$p->product_hargajual - $p->product_hargabeli}}</span> </p></td>
 					<td>{{$p->product_stok}}</td>
                     <td>{{$p->product_stokakhir}}</td>
-                    <td>@if($p->product_status == 1)
-                        <p><span class="label label-success label-md label-inline mr-2">Sudah</span> {{\Carbon\Carbon::parse($p->product_tanggalpublish)->format('d-m-Y')}}</p>
-                    @else
-                    <p><span class="label label-danger label-md label-inline mr-2">Belum </span> </p>
-                    @endif</td>
 					<td>
-                        @if($p->product_productlama == 1)
-                        <a href="{{url('/produk/detail/'.$p->product_id)}}" class="btn btn-icon btn-xs btn-primary"><i class="fas fa-info-circle nopadding"></i></a>
-                        <a href="{{url('/produk/edit/'.$p->product_id)}}" class="btn btn-icon btn-xs btn-warning"><i class="fas fa-edit nopadding"></i></a>
-                        @else
                         <a href="{{url('/produk/select/'.$p->product_mastersku)}}" class="btn btn-icon btn-xs btn-primary"><i class="fas fa-info-circle nopadding"></i></a>
                         <a href="{{url('/produk/select/'.$p->product_mastersku)}}" class="btn btn-icon btn-xs btn-warning"><i class="fas fa-edit nopadding"></i></a>
-                        @endif
                         <button type="button" href="{{url('/produk/delete/'.$p->product_mastersku)}}" class="deletebtn btn btn-icon btn-xs btn-danger"><i class="fas fa-trash nopadding"></i></button>
                     </td>
 				</tr>
@@ -188,6 +159,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.0.1/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/select/1.3.3/js/dataTables.select.min.js"></script>
 
 
 <script>
@@ -197,15 +169,117 @@
             'copyHtml5',
             'excelHtml5',
             'csvHtml5',
+             {
+                text: 'Publish',
+                action: function () {
+                   var join_selected_values = $.map(tabel.rows('.selected').data(), function (item) {
+       				 return item[2]
+    					});
+                        if(join_selected_values.length <=0)
+    {
+        Swal.fire(
+       'Error',
+       'Silahkan Pilih Data Yang Ingin Dipublish',
+       'error'
+     )
+    }else {
+
+        $("#kt_datatable_publish_all_2").addClass("spinner spinner-right spinner-white pr-15");
+            $.ajax({
+                url: 'api/publish/',
+                type: 'POST',
+                data: {
+                    _token : "{{csrf_token()}}",
+                    'ids' : join_selected_values},
+                success: function (data) {
+                    if (data['success']) {
+                        window.location = "/publish/"+data['groupname'];
+                        $("#kt_datatable_publish_all_2").removeClass("spinner spinner-right spinner-white pr-15")
+                        alert(data['success']);
+                    } else if (data['error']) {
+                        alert(data['error']);
+                    } else {
+                      console.log(data);
+                    }
+                },
+                error: function (data) {
+                    console.log(data.responseText);
+                }
+            });
+
+    }
+
+
+                }
+            },{
+
+                text: 'Delete',
+                action: function () {
+
+                    var ids = $.map(tabel.rows('.selected').data(), function (item) {
+       				 return item[2]
+    					});
+                    if(ids.length <=0)
+    {
+        Swal.fire(
+       'Error',
+       'Silahkan Pilih Data Yang Ingin Dihapus',
+       'error'
+     )
+    }  else {
+        var check = confirm("Are you sure you want to delete selected data?");
+        if(check == true){
+            var join_selected_values = ids;
+            $.ajax({
+                url: 'api/massdelete/',
+                type: 'POST',
+                data: {
+                    _token : "{{csrf_token()}}",
+                    'ids' : join_selected_values},
+                success: function (data) {
+                    if (data['success']) {
+                        $(".selected:checked").each(function() {
+                            $(this).parents("tr").remove();
+                        });
+                        alert(data['success']);
+                    } else if (data['error']) {
+                        alert(data['error']);
+                    } else {
+                        alert('Whoops Something went wrong!!');
+                    }
+                },
+                error: function (data) {
+                    alert(data.responseText);
+                }
+            });
+          $.each(ids, function( index, value ) {
+              $('table tr').filter("[data-row-id='" + value + "']").remove();
+
+          });
+
+        }
+
+    }
+
+                }
+            },
+
         ],
         search: {
 				input: $('#kt_datatable_search_query'),
 				key: 'generalSearch'
 			},
         "paging":   true,
-        columnDefs: [
-    { orderable: false, targets: 0 }
-  ],
+        columnDefs: [ {
+            orderable: false,
+            className: 'select-checkbox',
+            targets:   0
+        } ],
+        select: {
+            style:    'multi',
+            selector: 'td:first-child'
+        },
+        order: [[ 1, 'asc' ]],
         "ordering": true,
     } );
 
@@ -327,19 +401,6 @@ $('.publish_all').on('click', function(e) {
 });
 
     $(document).ready(function(){
-        $(':checkbox:checked').prop('checked',false);
-        $(".selectproduct").change(function() {
-            checked =  $('input:checkbox:checked').length;
-            console.log(checked);
-    if(checked > 0) {
-                $('#kt_datatable_selected_records_2').html(checked);
-                    $('#kt_datatable_group_action_form_2').collapse('show');
-                }
-                else {
-                    $('#kt_datatable_group_action_form_2').collapse('hide');
-                }
-});
-
 
         $(document).on('click', '.deletebtn', function(e) {
            var href = $(this).attr('href');

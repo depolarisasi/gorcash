@@ -34,7 +34,7 @@ class PublishController extends Controller
 
     public function apimasspublish(Request $request){
 
-        $ids = explode(',',$request->ids);
+        $ids = $request->ids;
         $rand = mt_rand(1,9999).$this->generateRandomString(5);
         $today = Carbon::now()->format('d-m-Y');
         $weekofmonth = Carbon::now()->weekOfMonth;
@@ -42,13 +42,9 @@ class PublishController extends Controller
         $dateinput = Carbon::now()->format('Y-m-d');
         foreach($ids as $id){
 
-
             $product = Product::where('product_mastersku', $id)->where('product_stok','>', 0)
             ->where('product_status', 0)->get();
-
-
             foreach($product as $p){
-
                 $publish = new BarangPublish;
                 $publish->publish_productid = $p->product_id;
                 $publish->publish_tanggal = $dateinput;

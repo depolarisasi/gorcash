@@ -91,8 +91,7 @@ class ProductController extends Controller
         foreach($produk as $key => $p){
             $variant = Product::join('size','size.size_id','=','product.product_idsize')
             ->select('product.*','size.size_id','size.size_nama')
-            ->where('product.product_mastersku',$p->product_mastersku)
-            ->where('product.product_stokakhir', '>', 0)->get();
+            ->where('product.product_mastersku',$p->product_mastersku)->get();
             $vendorid = explode(',',$p->product_vendor);
             $arr = array();
             $arr2 = array();
@@ -100,14 +99,21 @@ class ProductController extends Controller
                 $name = Vendor::where('vendor_id',$p)->first();
                 array_push($arr, $name->vendor_nama);
             }
+            $stokcount = 0;
+            $stokakhir = [];
             foreach($variant as $v){
                 $size = $v->size_nama;
+                $stokcount = $stokcount+(int)$v->product_stok;
+                $stoka = $v->product_stokakhir;
                 array_push($arr2, $size);
+                array_push($stokakhir, $stoka);
             }
             $vendorname = implode(', ', $arr);
             $variantavailable = implode(', ', $arr2);
             $produk[$key]['product_vendor'] =  $vendorname;
             $produk[$key]['product_idsize'] =   $variantavailable;
+            $produk[$key]['product_stok'] =   $stokcount;
+            $produk[$key]['product_stokakhir'] =   implode(', ', $stokakhir);
         }
 
         $vendor = Vendor::get();
@@ -173,6 +179,13 @@ class ProductController extends Controller
                                 $store->put('product_hargabeli', $hargabeli[$key]);
                                 $store->put('product_stok', $stok[$key]);
                                 $store->put('product_stokakhir', $stok[$key]);
+                                if($stok[$key] >= 1){
+                                $store->put('product_stoktoko', 1);
+                                $store->put('product_stokgudang', (int)$stok[$key]-1);
+                                }elseif($stok[$key] <= 0){
+                                    $store->put('product_stoktoko', 0);
+                                    $store->put('product_stokgudang', 0);
+                                }
                                 $store->put('product_foto', $this->uploadImage($request->file('product_foto')));
                                 $vendor = implode(',',$request->product_vendor);
                                 $store->put('product_vendor', $vendor);
@@ -248,6 +261,13 @@ class ProductController extends Controller
             $store->put('product_hargabeli', $hargabeli[$key]);
             $store->put('product_stok', $stok[$key]);
             $store->put('product_stokakhir', $stok[$key]);
+            if($stok[$key] >= 1){
+                $store->put('product_stoktoko', 1);
+                $store->put('product_stokgudang', (int)$stok[$key]-1);
+                }elseif($stok[$key] <= 0){
+                    $store->put('product_stoktoko', 0);
+                    $store->put('product_stokgudang', 0);
+                }
             $store->put('product_foto', $this->uploadImage($request->file('product_foto')));
             $vendor = implode(',',$request->product_vendor);
             $store->put('product_vendor', $vendor);
@@ -430,7 +450,7 @@ class ProductController extends Controller
     public function apimassdelete(Request $request){
 
             $ids = $request->ids;
-            Product::whereIn('product_mastersku',explode(",",$ids))->delete();
+            Product::whereIn('product_mastersku',$ids)->delete();
             return response()->json(['success'=>"Products Deleted successfully."]);
 
     }

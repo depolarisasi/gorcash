@@ -1,7 +1,9 @@
 @extends('layouts.app')
-@section('title','Produk - ')
+@section('title','Stok Opname Bulanan - ')
 @section('css')
 <link href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css">
+<link href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css">
+<link href="https://cdn.datatables.net/buttons/2.0.1/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css">
 @endsection
 @section('content')
 	<!--begin::Content-->
@@ -21,93 +23,48 @@
 <!--begin::Header-->
 <div class="card-header border-0 py-5">
 <h3 class="card-title align-items-start flex-column">
-<span class="card-label font-weight-bolder text-dark">Ubah Variasi dalam Produk</span>
+<span class="card-label font-weight-bolder text-dark">Stok Opname Bulanan</span>
 </h3>
 <div class="card-toolbar">
-<a href="{{url('produk/')}}" class="btn btn-primary btn-md font-size-sm"><i class="fas fa-arrow-left"></i> Kembali</a>
-</div>
+    <a href="{{url('stokopname/bulanan/new')}}" class="btn btn-primary btn-md "><i class="fas fa-plus"></i> Lakukan Stock Opname</a>
+    </div>
 </div>
 <!--end::Header-->
 
 <!--begin::Body-->
 <div class="card-body pt-0 pb-3">
-    <div class="mt-10 mb-5" >
-        <div class="mt-10 mb-5 collapse" id="kt_datatable_group_action_form_2">
-            <div class="d-flex align-items-center">
-                <div class="font-weight-bold text-danger mr-3">
-                    Selected <span id="kt_datatable_selected_records_2">0</span> records:
-                </div>
+<
+<div class="table-responsive">
+    <table class="table table-striped table-bordered mt-5" id="product">
+        <thead>
+            <tr>
+                <th>Tanggal</th>
+                <th>Jumlah Produk</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
 
-                <button class="btn btn-sm btn-danger mr-2 delete_all" type="button" data-url="{{ url('api/deletesku') }}" id="kt_datatable_delete_all_2">
-                    Delete All
-                </button>
+            @foreach($riwayatso as $p)
+            <tr>
+                <td>{{\Carbon\Carbon::parse($p->so_date)->format('d-m-Y')}}</td>
+                <td>{{$p->count}}</td>
+                <td>
 
-            </div>
-        </div>
-    </div>
-		<!--begin: Datatable-->
-		<table class="table table-striped table-bordered mt-5" id="product">
-			<thead>
-				<tr>
-					<th width="5%">Select</th>
-					<th>Foto</th>
-					<th>Master SKU</th>
-                    <th>SKU</th>
-					<th>Nama Produk</th>
-					<th>Size</th>
-					<th>Vendor</th>
-					<th>Band</th>
-					<th>Harga</th>
-					<th>Stok Awal</th>
-					<th>Stok Akhir</th>
-					<th>Action</th>
-				</tr>
-			</thead>
-			<tbody>
+                    @if($p->so_status == 0)
+@elseif($p->so_status == 2)
+<a href="{{url('/stokopname/bulanan/edit/'.$p->so_pubgroupname)}}" class="btn btn-xs btn-warning"><i class="fas fa-info-circle nopadding"></i> Lanjutkan Stok Opname</a>
+@else
+<a href="{{url('/stokopname/laporan/'.$p->so_pubgroupname)}}" class="btn btn-xs btn-success"><i class="fas fa-info-circle nopadding"></i> Laporan Stok Opname</a>
+@endif
 
-                @foreach($produk as $p)
-				<tr>
-                    <td><input type="checkbox" class="selectproduct" name="selected_product" data-id="{{$p->product_sku}}" value="{{$p->product_sku}}" ></td>
-                    <td><img src="{{asset($p->product_foto)}}" class="img-fluid" style="width: 50px !important; height: 50px !important;"></td>
-					<td>{{$p->product_mastersku}}</td>
-                    <td>{{$p->product_sku}}</td>
-					<td>{{$p->product_nama}}</td>
-					<td>
-                        @if($p->product_idsize == 1)
-                        S
-                        @elseif($p->product_idsize == 2)
-                        M
-                        @elseif($p->product_idsize == 3)
-                        L
-                        @elseif($p->product_idsize == 4)
-                        XL
-                        @elseif($p->product_idsize == 5)
-                        XXL
-                        @elseif($p->product_idsize == 6)
-                        XXXL
-                        @elseif($p->product_idsize == 7)
-                        ALL SIZE
-                        @endif
-                       </td>
+                </td>
+            </tr>
+            @endforeach
 
-					<td>{{$p->product_vendor}}</td>
-                    <td>{{$p->band_nama}}</td>
-                    <td><p><span class="label label-danger label-lg label-inline mr-2">Rp{{$p->product_hargabeli}}</span> </p>
-                        <p><span class="label label-primary label-lg label-inline mr-2">Rp{{$p->product_hargajual}}</span> </p>
-                        <p><span class="label label-success label-lg label-inline mr-2">Rp{{$p->product_hargajual - $p->product_hargabeli}}</span> </p></td>
-                        <td>{{$p->product_stok}}</td>
-                        <td>{{$p->product_stokakhir}}</td>
-					<td>
-                        <a href="{{url('/produk/detail/'.$p->product_id)}}" class="btn btn-icon btn-xs btn-primary"><i class="fas fa-info-circle nopadding"></i></a>
-                        <a href="{{url('/produk/edit/'.$p->product_id)}}" class="btn btn-icon btn-xs btn-warning"><i class="fas fa-edit nopadding"></i></a>
-                        <button type="button" href="{{url('/produk/delete/'.$p->product_mastersku)}}" class="deletebtn btn btn-icon btn-xs btn-danger"><i class="fas fa-trash nopadding"></i></button>
-                    </td>
-				</tr>
-                @endforeach
-
-			</tbody>
-		</table>
-		<!--end: Datatable-->
+        </tbody>
+    </table>
+</div>
 </div>
 <!--end::Body-->
 </div>
@@ -125,14 +82,17 @@
 @section('js')
 <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap4.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.0.1/js/dataTables.buttons.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.0.1/js/buttons.html5.min.js"></script>
+
 
 <script>
- $('#product').DataTable({
-        select: {
-            style: 'multi'
-        },
+ tabel = $('#product').DataTable({
         search: {
-				input: $('#kt_datatable_search_query'),
+				input: $('#kt_datatable_search_tanggal'),
 				key: 'generalSearch'
 			},
         "paging":   true,
@@ -143,19 +103,10 @@
     } );
 
 
-        $('#kt_datatable_search_size').on('change', function() {
-            datatable.search($(this).val().toLowerCase(), 'Size');
+        $('#kt_datatable_search_tanggal').on('change', function() {
+            tabel.search($(this).val().toLowerCase());
         });
-
-        $('#kt_datatable_search_band').on('change', function() {
-            datatable.search($(this).val().toLowerCase(), 'Band');
-        });
-
-        $('#kt_datatable_search_vendor').on('change', function() {
-            datatable.search($(this).val().toLowerCase(), 'Vendor');
-        });
-
-        $('#kt_datatable_search_size, #kt_datatable_search_band,#kt_datatable_search_vendor').selectpicker();
+        $('#kt_datatable_search_tanggal').selectpicker();
 
 </script>
 <script>
@@ -205,6 +156,53 @@ $('.delete_all').on('click', function(e) {
               $('table tr').filter("[data-row-id='" + value + "']").remove();
 
           });
+
+        }
+
+    }
+
+});
+
+$('.publish_all').on('click', function(e) {
+    var pub = [];
+    $(".selectproduct:checked").each(function() {
+        pub.push($(this).attr('data-id'));
+    });
+
+    if(pub.length <=0)
+    {
+        Swal.fire(
+       'Error',
+       'Silahkan Pilih Data Yang Ingin Dipublish',
+       'error'
+     )
+    }  else {
+        var check = confirm("Publish produk ini?");
+        if(check == true){
+            var join_selected_values = pub.join(",");
+            $("#kt_datatable_publish_all_2").addClass("spinner spinner-right spinner-white pr-15");
+            $.ajax({
+                url: $(this).data('url'),
+                type: 'POST',
+                data: {
+                    _token : "{{csrf_token()}}",
+                    'ids' : join_selected_values},
+                success: function (data) {
+                    if (data['success']) {
+                        window.location = "/publish/"+data['groupname'];
+                        $("#kt_datatable_publish_all_2").removeClass("spinner spinner-right spinner-white pr-15")
+                        alert(data['success']);
+                    } else if (data['error']) {
+                        alert(data['error']);
+                    } else {
+                      console.log(data);
+                    }
+                },
+                error: function (data) {
+                    console.log(data.responseText);
+                }
+            });
+
 
         }
 
