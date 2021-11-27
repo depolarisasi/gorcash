@@ -14,7 +14,6 @@ class Changepubidtopubdate extends Migration
     public function up()
     {
         Schema::table('publishcount', function(Blueprint $table) {
-            $table->integer('publishcount_pubid')->nullable();
             $table->integer('publishcount_pubtanggal')->nullable();
         });
     }
