@@ -160,6 +160,36 @@ Route::group(['prefix' => 'size'], function() {
    });
 
 
+   Route::group(['prefix' => 'note'], function() {
+    Route::get('/',[App\Http\Controllers\NoteController::class, 'index'])->middleware('auth');
+    Route::get('/new',[App\Http\Controllers\NoteController::class, 'create'])->middleware('auth');
+    Route::post('/store',[App\Http\Controllers\NoteController::class, 'store'])->middleware('auth');
+    Route::get('/detail/{id}',[App\Http\Controllers\NoteController::class, 'show'])->middleware('auth');
+    Route::get('/edit/{id}',[App\Http\Controllers\NoteController::class, 'edit'])->middleware('auth');
+    Route::post('/update',[App\Http\Controllers\NoteController::class, 'update'])->middleware('auth');
+    Route::get('/delete/{id}',[App\Http\Controllers\NoteController::class, 'delete'])->middleware('auth');
+
+   });
+
+   Route::group(['prefix' => 'workflow'], function() {
+    Route::get('/',[App\Http\Controllers\BandController::class, 'index'])->middleware('auth');
+    Route::get('/new',[App\Http\Controllers\BandController::class, 'create'])->middleware('auth');
+    Route::post('/store',[App\Http\Controllers\BandController::class, 'store'])->middleware('auth');
+    Route::get('/edit/{id}',[App\Http\Controllers\BandController::class, 'edit'])->middleware('auth');
+    Route::post('/update',[App\Http\Controllers\BandController::class, 'update'])->middleware('auth');
+    Route::get('/delete/{id}',[App\Http\Controllers\BandController::class, 'delete'])->middleware('auth');
+
+   });
+
+   Route::group(['prefix' => 'ambilbarang'], function() {
+    Route::get('/',[App\Http\Controllers\BandController::class, 'index'])->middleware('auth');
+    Route::get('/new',[App\Http\Controllers\BandController::class, 'create'])->middleware('auth');
+    Route::post('/store',[App\Http\Controllers\BandController::class, 'store'])->middleware('auth');
+    Route::get('/edit/{id}',[App\Http\Controllers\BandController::class, 'edit'])->middleware('auth');
+    Route::post('/update',[App\Http\Controllers\BandController::class, 'update'])->middleware('auth');
+    Route::get('/delete/{id}',[App\Http\Controllers\BandController::class, 'delete'])->middleware('auth');
+
+   });
 
 
 require __DIR__.'/auth.php';
