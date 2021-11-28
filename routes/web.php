@@ -181,13 +181,16 @@ Route::group(['prefix' => 'size'], function() {
 
    });
 
-   Route::group(['prefix' => 'ambilbarang'], function() {
-    Route::get('/',[App\Http\Controllers\BandController::class, 'index'])->middleware('auth');
-    Route::get('/new',[App\Http\Controllers\BandController::class, 'create'])->middleware('auth');
-    Route::post('/store',[App\Http\Controllers\BandController::class, 'store'])->middleware('auth');
-    Route::get('/edit/{id}',[App\Http\Controllers\BandController::class, 'edit'])->middleware('auth');
-    Route::post('/update',[App\Http\Controllers\BandController::class, 'update'])->middleware('auth');
-    Route::get('/delete/{id}',[App\Http\Controllers\BandController::class, 'delete'])->middleware('auth');
+   Route::group(['prefix' => 'turunbarang'], function() {
+    Route::get('/',[App\Http\Controllers\TurunBarangController::class, 'index'])->middleware('auth');
+    Route::get('/new',[App\Http\Controllers\TurunBarangController::class, 'create'])->middleware('auth');
+    Route::post('/store',[App\Http\Controllers\TurunBarangController::class, 'store'])->middleware('auth');
+    Route::get('/edit/{id}',[App\Http\Controllers\TurunBarangController::class, 'edit'])->middleware('auth');
+    Route::post('/update',[App\Http\Controllers\TurunBarangController::class, 'update'])->middleware('auth');
+
+    Route::get('/kembali/{id}',[App\Http\Controllers\TurunBarangController::class, 'kembali'])->middleware('auth');
+    Route::post('/kembalikan',[App\Http\Controllers\TurunBarangController::class, 'kembalikan'])->middleware('auth');
+    Route::get('/delete/{id}',[App\Http\Controllers\TurunBarangController::class, 'delete'])->middleware('auth');
 
    });
 
