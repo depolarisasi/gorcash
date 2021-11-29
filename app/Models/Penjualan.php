@@ -32,6 +32,8 @@ class Penjualan extends Model
     'penjualan_daftarpotongan',
     'penjualan_totalpotongan',
     'penjualan_tanggalpenjualan',
+    'penjualan_diskon',
+    'penjualan_totalpendapatan',
     'penjualan_receipt',
     'penjualan_paymentype',
     'penjualan_paymenttotal',

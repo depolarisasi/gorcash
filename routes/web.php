@@ -117,7 +117,11 @@ Route::group(['prefix' => 'size'], function() {
    });
 
    Route::group(['prefix' => 'productapi'], function() {
-    Route::post('getproduct',[App\Http\Controllers\ProductController::class, 'getproduct'])->middleware('auth');
+    Route::post('getproduct',[App\Http\Controllers\ProductController::class, 'getproduct']);
+    Route::post('/apiaddbarangkasir',[App\Http\Controllers\PenjualanController::class, 'apiaddbarang']);
+    Route::post('/apitambahqtykasir',[App\Http\Controllers\PenjualanController::class, 'apiaddqtybarang']);
+    Route::post('/apikurangqtykasir',[App\Http\Controllers\PenjualanController::class, 'apiminqtybarang']);
+    Route::post('/apideletebarangkasir',[App\Http\Controllers\PenjualanController::class, 'apidelbarang']);
    });
 
 

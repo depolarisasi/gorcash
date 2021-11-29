@@ -25,6 +25,10 @@ use PDF;
 
 class PenjualanController extends Controller
 {
+    public function generateRandomString($length) {
+        return substr(str_shuffle(str_repeat($x='0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ', ceil($length/strlen($x)) )),1,$length);
+    }
+
     public function index()
     {
         $penjualan = Penjualan::get();
@@ -154,20 +158,56 @@ class PenjualanController extends Controller
         $product = Product::join('size','size.size_id','=','product.product_idsize')
         ->join('band','band.band_id','=','product.product_idband')
         ->select('product.*','size.size_id','size.size_nama','band.band_id','band.band_nama')
-        ->where('product.product_stok','>',0)
+        ->where('product.product_stokakhir','>',0)
         ->where('product.product_status','=',1)
         ->get();
+        $invoice = "#".Carbon::now()->format('dmy').mt_rand(1,99).$this->generateRandomString(5);
 
         $vendor = Vendor::get();
         $size = Size::get();
         $band = Band::get();
-        return view('kasir.index')->with(compact('product','vendor','size','band'));
+        return view('kasir.kasir')->with(compact('product','vendor','size','band','invoice'));
+    }
+
+    public function apiaddbarang(Request $request){
+        try {
+
+            $produk = Product::where('product_id',$request->productid)->first();
+            $produkkeluar = new BarangTerjual;
+            $produkkeluar->barangterjual_idproduk = $request->productid;
+            $produkkeluar->barangterjual_qty = $request->qty;
+            $produkkeluar->barangterjual_totalbarangterjual = $produk->product_hargajual;
+            $produkkeluar->barangterjual_tanggalbarangterjual = $request->tanggalpenjualan;
+            $produkkeluar->barangterjual_userid = Auth::user()->id;
+            $produkkeluar->save();
+         } catch (QE $e) {
+            return $e;
+         } //show db error message
+         $produk = Product::join('size','size.size_id','=','product.product_idsize')
+         ->join('band','band.band_id','=','product.product_idband')
+         ->select('product.*','size.size_id','size.size_nama','band.band_id','band.band_nama')
+         ->where('product.product_id',$request->productid)
+         ->first();
+         return $produk->toArray();
+    }
+
+    public function apidelbarang(Request $request){
+        try {
+            $produk = BarangTerjual::where('barangterjual_idproduk',$request->productid)
+            ->where('barangterjual_idpenjualan',NULL)
+            ->orderBy('created_at','DESC')->first();
+            $produk->delete();
+         } catch (QE $e) {
+            return response()->json(['error'=>"Error occured when deleting product."]);
+         } //show db error message
+            return response()->json(['success'=>"Products Deleted Successfully."]);
+
     }
 
     public function addpenjualan(Request $request){
         $penjualan = collect($request->all());
         $penjualan->put('penjualan_userid',Auth::user()->id);
-
+        $diskon = 0;
         try {
            $addpenjualan = Penjualan::create($penjualan->all());
         } catch (QE $e) {
@@ -178,11 +218,22 @@ class PenjualanController extends Controller
         $totalpenjualan = 0;
         foreach($request->productorders as $key => $val){
             $produk = Product::where('product_id',$val)->first();
-            $produkkeluar = new BarangTerjual;
-            $produkkeluar->barangterjual_idproduk = $val;
+            $produkkeluar = BarangTerjual::where('barangterjual_idproduk',$val)->where('barangterjual_idpenjualan',null)->first();
             $produkkeluar->barangterjual_idpenjualan = $addpenjualan->penjualan_id;
             $produkkeluar->barangterjual_qty = $request->qtyorders[$key];
+
+            if (str_contains($request->diskonproduct[$key], '%')) {
+                $disk =  trim(str_replace('%','',$request->diskonproduct[$key]));
+                $potonganharga = ($diskon*$produk->product_hargajual)/100;
+                }elseif($request->diskonproduct[$key] == ''){
+                $potonganharga = 0;
+                }else{
+                $potonganharga = $request->diskonproduct[$key];
+                }
+            $diskon = $diskon+$potonganharga;
+            $produkkeluar->barangterjual_diskon = $potonganharga;
             $produkkeluar->barangterjual_totalbarangterjual = $produk->product_hargajual*$request->qtyorders[$key];
+            $produkkeluar->barangterjual_totalpendapatan = ($produk->product_hargajual*$request->qtyorders[$key])-$potonganharga;
             $produkkeluar->barangterjual_tanggalbarangterjual = $request->penjualan_tanggalpenjualan;
             $produkkeluar->barangterjual_userid = Auth::user()->id;
             $produk->product_stokakhir = $produk->product_stokakhir-$request->qtyorders[$key];
@@ -190,7 +241,7 @@ class PenjualanController extends Controller
             $publish->publish_stokakhir = $publish->publish_stokakhir-$request->qtyorders[$key];
             $publish->update();
             $produk->update();
-            $produkkeluar->save();
+            $produkkeluar->update();
             array_push($barangterjual,$produkkeluar->barangterjual_id);
             $totalpenjualan = $totalpenjualan+($produk->product_hargajual*$request->qtyorders[$key]);
         }
@@ -217,8 +268,9 @@ class PenjualanController extends Controller
 
         $updatepenjualan->penjualan_daftarpotongan = implode(",", $potonganpenjualan);
         $updatepenjualan->penjualan_totalpotongan = $totalpotongan;
+        $updatepenjualan->penjualan_totalpendapatan = $totalpenjualan-$totalpotongan-$diskon;
         }else {
-
+            $updatepenjualan->penjualan_totalpendapatan = $totalpenjualan-$diskon;
         }
         $barangterjual = BarangTerjual::join('product','barangterjual.barangterjual_idproduk','=','product.product_id')
         ->join('size','product.product_idsize','=','size.size_nama')
@@ -234,15 +286,14 @@ class PenjualanController extends Controller
         $random = substr(md5(mt_rand()), 0, 7);
         $fileName =  $addpenjualan->penjualan_id.'_'.$addpenjualan->penjualan_tanggalpenjualan.$random.'.pdf' ;
         $updatepenjualan->penjualan_receipt = $path.$fileName;
-        $pdf->save($path.$fileName);
         $updatepenjualan->update();
 
-        //$pdf->save($path.$fileName);
-        return $data;
+       // return $data;//
     //    $pdf->stream($fileName);
     //   // return $data;
         toast('Penjualan Berhasil Ditambahkan','success');
 
-        return redirect('/penjualan');
+        return redirect('/penjualan/detail/'.$updatepenjualan->penjualan_id);
+        $pdf->save($path.$fileName);
     }
 }

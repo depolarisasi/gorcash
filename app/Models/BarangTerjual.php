@@ -27,6 +27,8 @@ class BarangTerjual extends Model
     'barangterjual_idpenjualan',
     'barangterjual_qty',
     'barangterjual_totalbarangterjual',
+    'barangterjual_diskon',
+    'barangterjual_totalpendapatan',
     'barangterjual_tanggalbarangterjual',
     'barangterjual_userid',
         'created_at',
