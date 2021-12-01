@@ -1,8 +1,10 @@
 @extends('layouts.app')
 @section('title','Band - ')
-@section('css')
+@section('css') 
 <link href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css">
 <link href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css">
+<link href="https://cdn.datatables.net/buttons/2.0.1/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css">
+<link href="https://cdn.datatables.net/select/1.3.3/css/select.dataTables.min.css" rel="stylesheet" type="text/css">
 @endsection
 @section('content')
 	<!--begin::Content-->
@@ -25,6 +27,7 @@
 <span class="card-label font-weight-bolder text-dark">Daftar Band</span>
 </h3>
 <div class="card-toolbar">
+<a href="{{url('band/import')}}" class="btn btn-primary btn-md font-size-sm mr-2"><i class="fas fa-plus"></i> Import</a>
 <a href="{{url('band/new')}}" class="btn btn-primary btn-md font-size-sm"><i class="fas fa-plus"></i> Buat </a>
 </div>
 </div>
@@ -38,6 +41,7 @@
     <table id="table" class="table table-striped table-bordered mt-5" style="width:100%">
 <thead>
 <tr class="text-left">
+<th style="width: 10%"><span class="text-dark-75">Select</span></th>
 <th style="min-width: 50px"><span class="text-dark-75">Nama Band</span></th>
 <th style="min-width: 50px"><span class="text-dark-75">Code Band</span></th>
 <th style="min-width: 80px">Action</th>
@@ -46,6 +50,7 @@
 <tbody>
     @foreach($band as $b)
 <tr>
+    <td></td>
 <td class="pl-3 py-3">
 <div class="d-flex align-items-center">
     {{$b->band_nama}}
@@ -84,6 +89,12 @@
 @section('js')
 <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap4.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.0.1/js/dataTables.buttons.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.0.1/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/select/1.3.3/js/dataTables.select.min.js"></script>
 <script>
     $(document).ready(function(){
 
@@ -117,8 +128,78 @@
             });
 
             var table = $("#table").DataTable({
-            "paging":   true,
-            "ordering": true,
+                dom: 'Blfrtip',
+        buttons: [
+           { 
+                text: 'Delete',
+                action: function () {
+
+                    var ids = $.map(tabel.rows('.selected').data(), function (item) {
+       				 return item[2]
+    					});
+                    if(ids.length <=0)
+    {
+        Swal.fire(
+       'Error',
+       'Silahkan Pilih Data Yang Ingin Dihapus',
+       'error'
+     )
+    }  else {
+        var check = confirm("Are you sure you want to delete selected data?");
+        if(check == true){
+            var join_selected_values = ids;
+            $.ajax({
+                url: 'api/massdelete/',
+                type: 'POST',
+                data: {
+                    _token : "{{csrf_token()}}",
+                    'ids' : join_selected_values},
+                success: function (data) {
+                    if (data['success']) {
+                        $(".selected:checked").each(function() {
+                            $(this).parents("tr").remove();
+                        });
+                        alert(data['success']);
+                    } else if (data['error']) {
+                        alert(data['error']);
+                    } else {
+                        alert('Whoops Something went wrong!!');
+                    }
+                },
+                error: function (data) {
+                    alert(data.responseText);
+                }
+            });
+          $.each(ids, function( index, value ) {
+              $('table tr').filter("[data-row-id='" + value + "']").remove();
+
+          });
+
+        }
+
+    }
+
+                }
+            },
+
+        ],
+        search: {
+				input: $('#kt_datatable_search_query'),
+				key: 'generalSearch'
+			},
+        "paging":   true,
+        columnDefs: [ {
+            orderable: false,
+            className: 'select-checkbox',
+            targets:   0
+        } ],
+        select: {
+            style:    'multi',
+            selector: 'td:first-child'
+        },
+        order: [[ 1, 'asc' ]],
+        "ordering": true,
+        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]]
            });
 
 

@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Database\QueryException as QE;
 use RealRashid\SweetAlert\Facades\Alert;
+use App\Imports\BandImport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class BandController extends Controller
 {
@@ -78,5 +80,21 @@ class BandController extends Controller
         notify()->success('Band telah sukses dihapus !');
 
         return redirect('band');
+    }
+
+    public function importdata(){
+        return view('band.import');
+    }
+
+    public function importing(Request $request){
+        if($request->file('band') != NULL) {
+            Excel::import(new BandImport, request()->file('band'));
+        }else {
+            toast('File kosong','error');
+            return redirect('/band');
+        }
+
+        toast('Berhasil Menambah Warna','success');
+        return redirect('/band');
     }
 }
