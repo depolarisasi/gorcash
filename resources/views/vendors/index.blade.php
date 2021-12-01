@@ -21,6 +21,7 @@
 <span class="card-label font-weight-bolder text-dark">Daftar Vendor</span>
 </h3>
 <div class="card-toolbar">
+<a href="{{url('vendors/import')}}" class="btn btn-primary btn-md font-size-sm mr-2"><i class="fas fa-plus"></i> Import</a>
 <a href="{{url('vendors/new')}}" class="btn btn-primary btn-md font-size-sm"><i class="fas fa-plus"></i> Buat</a>
 </div>
 </div>
@@ -65,9 +66,9 @@
     </span>
 </td>
 <td>
-    <a href="{{url('/vendors/detail/'.$vendor->vendor_id)}}" class="btn btn-sm btn-primary"><i class="fas fa-info-circle nopadding"></i></a>
-    <a href="{{url('/vendors/edit/'.$vendor->vendor_id)}}" class="btn btn-sm btn-warning"><i class="fas fa-edit nopadding"></i></a>
-    <button type="button" href="{{url('/vendors/delete/'.$vendor->vendor_id)}}" class="deletebtn btn btn-sm btn-danger"><i class="fas fa-trash nopadding"></i></button></td>
+    <a href="{{url('/vendors/detail/'.$vendor->vendor_id)}}" class="btn btn-xs btn-icon btn-primary"><i class="fas fa-info-circle nopadding"></i></a>
+    <a href="{{url('/vendors/edit/'.$vendor->vendor_id)}}" class="btn btn-xs btn-icon btn-warning"><i class="fas fa-edit nopadding"></i></a>
+    <button type="button" href="{{url('/vendors/delete/'.$vendor->vendor_id)}}" class="deletebtn btn btn-xs btn-icon btn-danger"><i class="fas fa-trash nopadding"></i></button></td>
 </td>
 </tr>
 @endforeach

@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Database\QueryException as QE;
 use RealRashid\SweetAlert\Facades\Alert;
+use App\Imports\TypeImport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class TypeProductController extends Controller
 {
@@ -77,4 +79,21 @@ class TypeProductController extends Controller
 
         return redirect('type');
     }
+
+    public function importdata(){
+        return view('typeproduct.import');
+    }
+
+    public function importing(Request $request){
+        if($request->file('type') != NULL) {
+            Excel::import(new TypeImport, request()->file('type'));
+        }else {
+            toast('File kosong','error');
+            return redirect('/type');
+        }
+
+        toast('Berhasil Menambah Warna','success');
+        return redirect('/type');
+    }
+
 }

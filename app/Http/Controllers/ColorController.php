@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Database\QueryException as QE;
 use RealRashid\SweetAlert\Facades\Alert;
+use App\Imports\ColorImport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ColorController extends Controller
 {
@@ -79,4 +81,21 @@ class ColorController extends Controller
 
         return redirect('color');
     }
+
+    public function importdata(){
+        return view('color.import');
+    }
+
+    public function importing(Request $request){
+        if($request->file('color') != NULL) {
+            Excel::import(new ColorImport, request()->file('color'));
+        }else {
+            toast('File kosong','error');
+            return redirect('/color');
+        }
+
+        toast('Berhasil Menambah Warna','success');
+        return redirect('/color');
+    }
+
 }

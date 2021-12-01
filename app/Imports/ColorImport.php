@@ -13,22 +13,21 @@ use App\Models\BarcodeDB;
 use Carbon\Carbon;  
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
-class SizeImport implements ToCollection, WithHeadingRow
+
+class ColorImport implements ToCollection, WithHeadingRow
 {
     /**
     * @param Collection $collection
     */
- 
     public function collection(Collection $rows)
     {
         foreach ($rows as $row) {
             if ($row->filter()->isNotEmpty()) {    
-                    $insert = new Size(); 
+                    $insert = new Color(); 
                     $insert->insertOrIgnore([
-                        'size_id' => $row['size_id'],
-                        'size_nama' => $row['size_nama'],
-                        'size_code' => $row['size_code'],
-                        'size_category' => $row['size_category'], 
+                        'color_id' => $row['color_id'],
+                        'color_nama' => $row['color_nama'],
+                        'color_code' => $row['color_code'], 
                     ]); 
                  } 
         }

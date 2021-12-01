@@ -38,6 +38,8 @@ Route::group(['prefix' => 'vendors'], function() {
     Route::get('/edit/{id}',[App\Http\Controllers\VendorController::class, 'edit'])->middleware('auth');
     Route::post('/update',[App\Http\Controllers\VendorController::class, 'update'])->middleware('auth');
     Route::get('/delete/{id}',[App\Http\Controllers\VendorController::class, 'delete'])->middleware('auth');
+    Route::get('/import',[App\Http\Controllers\VendorController::class, 'importdata'])->middleware('auth');
+    Route::post('/importing',[App\Http\Controllers\VendorController::class, 'importing'])->middleware('auth');
 
    });
 
@@ -58,6 +60,8 @@ Route::group(['prefix' => 'size'], function() {
     Route::get('/edit/{id}',[App\Http\Controllers\TypeProductController::class, 'edit'])->middleware('auth');
     Route::post('/update',[App\Http\Controllers\TypeProductController::class, 'update'])->middleware('auth');
     Route::get('/delete/{id}',[App\Http\Controllers\TypeProductController::class, 'delete'])->middleware('auth');
+    Route::get('/import',[App\Http\Controllers\TypeProductController::class, 'importdata'])->middleware('auth');
+    Route::post('/importing',[App\Http\Controllers\TypeProductController::class, 'importing'])->middleware('auth');
    });
 
    Route::group(['prefix' => 'color'], function() {
@@ -67,6 +71,8 @@ Route::group(['prefix' => 'size'], function() {
     Route::get('/edit/{id}',[App\Http\Controllers\ColorController::class, 'edit'])->middleware('auth');
     Route::post('/update',[App\Http\Controllers\ColorController::class, 'update'])->middleware('auth');
     Route::get('/delete/{id}',[App\Http\Controllers\ColorController::class, 'delete'])->middleware('auth');
+    Route::get('/import',[App\Http\Controllers\ColorController::class, 'importdata'])->middleware('auth');
+    Route::post('/importing',[App\Http\Controllers\ColorController::class, 'importing'])->middleware('auth');
    });
 
    Route::group(['prefix' => 'band'], function() {
@@ -76,6 +82,8 @@ Route::group(['prefix' => 'size'], function() {
     Route::get('/edit/{id}',[App\Http\Controllers\BandController::class, 'edit'])->middleware('auth');
     Route::post('/update',[App\Http\Controllers\BandController::class, 'update'])->middleware('auth');
     Route::get('/delete/{id}',[App\Http\Controllers\BandController::class, 'delete'])->middleware('auth');
+    Route::get('/import',[App\Http\Controllers\BandController::class, 'importdata'])->middleware('auth');
+    Route::post('/importing',[App\Http\Controllers\BandController::class, 'importing'])->middleware('auth');
 
    });
 
@@ -161,6 +169,8 @@ Route::group(['prefix' => 'size'], function() {
     Route::get('/edit/{id}',[App\Http\Controllers\BarcodeDBController::class, 'edit'])->middleware('auth');
     Route::post('/update',[App\Http\Controllers\BarcodeDBController::class, 'update'])->middleware('auth');
     Route::get('/delete/{id}',[App\Http\Controllers\BarcodeDBController::class, 'delete'])->middleware('auth');
+    Route::get('/import',[App\Http\Controllers\BarcodeDBController::class, 'importdata'])->middleware('auth');
+    Route::post('/importing',[App\Http\Controllers\BarcodeDBController::class, 'importing'])->middleware('auth');
    });
 
 

@@ -11,6 +11,9 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Database\QueryException as QE;
 use RealRashid\SweetAlert\Facades\Alert;
 
+use App\Imports\VendorImport;
+use Maatwebsite\Excel\Facades\Excel;
+
 class VendorController extends Controller
 {
     public function index()
@@ -78,5 +81,21 @@ class VendorController extends Controller
         notify()->success('Vendor telah sukses dihapus !');
 
         return redirect('vendors');
+    }
+
+    public function importdata(){
+        return view('vendors.import');
+    }
+
+    public function importing(Request $request){
+        if($request->file('vendors') != NULL) {
+            Excel::import(new VendorImport, request()->file('vendors'));
+        }else {
+            toast('File kosong','error');
+            return redirect('/vendors');
+        }
+
+        toast('Berhasil Menambah Warna','success');
+        return redirect('/vendors');
     }
 }

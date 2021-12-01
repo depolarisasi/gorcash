@@ -21,6 +21,7 @@
 <span class="card-label font-weight-bolder text-dark">Daftar Type Produk</span>
 </h3>
 <div class="card-toolbar">
+<a href="{{url('type/import')}}" class="btn btn-primary btn-md font-size-sm mr-2"><i class="fas fa-plus"></i> Import </a>
 <a href="{{url('type/new')}}" class="btn btn-primary btn-md font-size-sm"><i class="fas fa-plus"></i> Buat </a>
 </div>
 </div>
