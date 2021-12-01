@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title','Notes '.$show->note_judul.'- ')
+@section('title','Notes '.$show->informasi_judul.'- ')
 @section('content')
 	<!--begin::Content-->
     <div class="content  d-flex flex-column flex-column-fluid" id="kt_content">
@@ -18,17 +18,17 @@
 <!--begin::Header-->
 <div class="card-header border-0 py-5">
 <h3 class="card-title align-items-start flex-column">
-<span class="card-label font-weight-bolder text-dark">{{$show->note_judul}}</span>
+<span class="card-label font-weight-bolder text-dark">{{$show->informasi_judul}}</span>
 </h3>
 <div class="card-toolbar">
-<a href="{{url('note/')}}" class="btn btn-primary btn-md font-size-sm"><i class="fas fa-arrow-left"></i> Kembali</a>
+<a href="{{url('informasi/')}}" class="btn btn-primary btn-md font-size-sm"><i class="fas fa-arrow-left"></i> Kembali</a>
 </div>
 </div>
 <!--end::Header-->
 
 <!--begin::Body-->
 <div class="card-body pt-0 pb-3">
-{!! $show->note_isi !!}
+{!! $show->informasi_isi !!}
 </div>
 <!--end::Body-->
 </div>

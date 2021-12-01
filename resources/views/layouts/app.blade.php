@@ -39,11 +39,11 @@
             .menu-arrow{
                 color : white !important    ;
             }
-             
-.header-mobile .burger-icon span { 
+
+.header-mobile .burger-icon span {
 background-color: #fff !important;
 }
-.header-mobile .burger-icon span::before, .header-mobile .burger-icon span::after { 
+.header-mobile .burger-icon span::before, .header-mobile .burger-icon span::after {
 background-color: #fff !important;
 }
             </style>
@@ -337,7 +337,7 @@ background-color: #fff !important;
                         </svg><!--end::Svg Icon--></span><span class="menu-text">Note</span></a>
                 </li>
                 <li class="menu-item menu-item">
-                    <a href="{{url('workflow')}}" class="menu-link ">
+                    <a href="{{url('informasi')}}" class="menu-link ">
                         <span class="svg-icon svg-icon-white menu-icon"><!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo5/dist/../src/media/svg/icons/Communication/Clipboard-check.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                             <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                 <rect x="0" y="0" width="24" height="24"/>
@@ -345,7 +345,7 @@ background-color: #fff !important;
                                 <path d="M10.875,15.75 C10.6354167,15.75 10.3958333,15.6541667 10.2041667,15.4625 L8.2875,13.5458333 C7.90416667,13.1625 7.90416667,12.5875 8.2875,12.2041667 C8.67083333,11.8208333 9.29375,11.8208333 9.62916667,12.2041667 L10.875,13.45 L14.0375,10.2875 C14.4208333,9.90416667 14.9958333,9.90416667 15.3791667,10.2875 C15.7625,10.6708333 15.7625,11.2458333 15.3791667,11.6291667 L11.5458333,15.4625 C11.3541667,15.6541667 11.1145833,15.75 10.875,15.75 Z" fill="#000000"/>
                                 <path d="M11,2 C11,1.44771525 11.4477153,1 12,1 C12.5522847,1 13,1.44771525 13,2 L14.5,2 C14.7761424,2 15,2.22385763 15,2.5 L15,3.5 C15,3.77614237 14.7761424,4 14.5,4 L9.5,4 C9.22385763,4 9,3.77614237 9,3.5 L9,2.5 C9,2.22385763 9.22385763,2 9.5,2 L11,2 Z" fill="#000000"/>
                             </g>
-                        </svg><!--end::Svg Icon--></span><span class="menu-text">Workflow</span></a>
+                        </svg><!--end::Svg Icon--></span><span class="menu-text">Informasi</span></a>
                 </li>
                 <li class="menu-item menu-item">
                     <a href="{{url('turunbarang')}}" class="menu-link ">

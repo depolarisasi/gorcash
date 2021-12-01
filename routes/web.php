@@ -203,6 +203,17 @@ Route::group(['prefix' => 'size'], function() {
 
    });
 
+   Route::group(['prefix' => 'informasi'], function() {
+    Route::get('/',[App\Http\Controllers\InformasiController::class, 'index'])->middleware('auth');
+    Route::get('/new',[App\Http\Controllers\InformasiController::class, 'create'])->middleware('auth');
+    Route::post('/store',[App\Http\Controllers\InformasiController::class, 'store'])->middleware('auth');
+    Route::get('/detail/{id}',[App\Http\Controllers\InformasiController::class, 'show'])->middleware('auth');
+    Route::get('/edit/{id}',[App\Http\Controllers\InformasiController::class, 'edit'])->middleware('auth');
+    Route::post('/update',[App\Http\Controllers\InformasiController::class, 'update'])->middleware('auth');
+    Route::get('/delete/{id}',[App\Http\Controllers\InformasiController::class, 'delete'])->middleware('auth');
+
+   });
+
    Route::group(['prefix' => 'workflow'], function() {
     Route::get('/',[App\Http\Controllers\BandController::class, 'index'])->middleware('auth');
     Route::get('/new',[App\Http\Controllers\BandController::class, 'create'])->middleware('auth');

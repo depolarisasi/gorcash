@@ -38,7 +38,7 @@
             <label class="col-md-2">Nama Informasi</label>
             <div class="col-md-6">
             <input type="hidden" name="informasi_date" value="{{\Carbon\Carbon::now()->format('Y-m-d')}}">
-            <input type="text" class="form-control" name="note_judul" required autofocus>
+            <input type="text" class="form-control" name="informasi_judul" required autofocus>
             </div>
           </div>
           <div class="form-group row mt-4">

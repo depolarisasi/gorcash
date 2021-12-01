@@ -13,7 +13,13 @@ class Informasi extends Migration
      */
     public function up()
     {
-        //
+        Schema::create('informasi', function (Blueprint $table) {
+            $table->increments('informasi_id');
+            $table->string('informasi_judul')->nullable();
+            $table->text('informasi_isi')->nullable();
+            $table->date('informasi_date')->nullable();
+            $table->timestamps();
+        });
     }
 
     /**
@@ -23,6 +29,6 @@ class Informasi extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('informasi');
     }
 }

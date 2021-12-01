@@ -38,8 +38,8 @@
     <table id="table" class="table table-striped table-bordered mt-5" style="width:100%">
 <thead>
 <tr class="text-left">
-<th style="min-width: 50px"><span class="text-dark-75">Nama Note</span></th>
-<th style="min-width: 50px"><span class="text-dark-75">Isi Note</span></th>
+<th style="min-width: 50px"><span class="text-dark-75">Nama Informasi</span></th>
+<th style="min-width: 50px"><span class="text-dark-75">Isi Informasi</span></th>
 <th style="min-width: 50px"><span class="text-dark-75">Tanggal</span></th>
 <th style="min-width: 80px">Action</th>
 </tr>

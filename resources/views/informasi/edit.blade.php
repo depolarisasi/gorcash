@@ -23,7 +23,7 @@
 <span class="card-label font-weight-bolder text-dark">Ubah Informasi</span>
 </h3>
 <div class="card-toolbar">
-<a href="{{url('note/')}}" class="btn btn-primary btn-md font-size-sm"><i class="fas fa-arrow-left"></i> Kembali</a>
+<a href="{{url('informasi/')}}" class="btn btn-primary btn-md font-size-sm"><i class="fas fa-arrow-left"></i> Kembali</a>
 </div>
 </div>
 <!--end::Header-->
@@ -31,19 +31,19 @@
 <!--begin::Body-->
 <div class="card-body pt-0 pb-3">
 <div class="tab-content">
-    <form method="POST" action="{{url('note/update')}}">
+    <form method="POST" action="{{url('informasi/update')}}">
         @csrf
         <div class="form-group row mt-4">
             <label class="col-md-2">Nama Informasi</label>
-            <input type="hidden" name="note_id" value="{{$edit->note_id}}">
+            <input type="hidden" name="informasi_id" value="{{$edit->informasi_id}}">
             <div class="col-md-6">
-            <input type="text" class="form-control" name="note_judul" value="{{$edit->note_judul}}" required autofocus>
+            <input type="text" class="form-control" name="informasi_judul" value="{{$edit->informasi_judul}}" required autofocus>
             </div>
           </div>
           <div class="form-group row mt-4">
             <label class="col-md-2">Isi Informasi</label>
             <div class="col-md-10">
-                <textarea id="noteisi" name="note_isi">{!! $edit->note_isi !!}</textarea>
+                <textarea id="noteisi" name="informasi_isi">{!! $edit->informasi_isi !!}</textarea>
             </div>
           </div>
 
