@@ -180,6 +180,17 @@ Route::group(['prefix' => 'size'], function() {
     Route::post('/importing',[App\Http\Controllers\BarcodeDBController::class, 'importing'])->middleware('auth');
    });
 
+   Route::group(['prefix' => 'agenda'], function() {
+    Route::get('/',[App\Http\Controllers\AgendaController::class, 'index'])->middleware('auth');
+    Route::get('/new',[App\Http\Controllers\AgendaController::class, 'create'])->middleware('auth');
+    Route::post('/store',[App\Http\Controllers\AgendaController::class, 'store'])->middleware('auth');
+    Route::get('/detail/{id}',[App\Http\Controllers\AgendaController::class, 'show'])->middleware('auth');
+    Route::get('/edit/{id}',[App\Http\Controllers\AgendaController::class, 'edit'])->middleware('auth');
+    Route::post('/update',[App\Http\Controllers\AgendaController::class, 'update'])->middleware('auth');
+    Route::get('/delete/{id}',[App\Http\Controllers\AgendaController::class, 'delete'])->middleware('auth');
+
+   });
+
 
    Route::group(['prefix' => 'note'], function() {
     Route::get('/',[App\Http\Controllers\NoteController::class, 'index'])->middleware('auth');

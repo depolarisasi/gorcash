@@ -6,6 +6,7 @@ use App\Models\Product;
 use App\Models\Vendor;
 use App\Models\Band;
 use App\Models\Color;
+use App\Models\Size;
 use App\Models\TypeProduct;
 use App\Models\BarcodeDB;
 use Carbon\Carbon;
@@ -49,64 +50,73 @@ class ProductsImport implements ToCollection, WithHeadingRow
             if ($row->filter()->isNotEmpty()) {
                 $masterskus = $row['product_mastersku'];
                 if($masterskus != NULL) {
-                        $size = $row['product_idsize'];
-                        $skuvariant = $masterskus.$size;
-                        $checksku = Product::where('product_sku',$skuvariant)->first();
+                        $size = Size::where('size_id',$row['product_idsize'])->first();
+                        $generatesize = Size::where('size_category',$size->size_category)->get();
                         $masterdata = BarcodeDB::where('barcode_mastersku', $masterskus)->first();
-                        if($masterdata && $masterdata->barcode_productname == $row['product_nama']){
-                            if($checksku == null){
-                                if(strlen($row['product_vendor']) > 1){
-                                    $explodevendor = explode(',',$row['product_vendor']);
-                                    $vendor = implode(',',$explodevendor);
-                                }else {
-                                    $vendor = $row['product_vendor'];
-                                }
-                                         if($row['product_tanggalpublish'] == NULL){
-                                             $status = 0;
-                                            }else {
-                                             $status = 1;
-                                             }
-                                try {
-                                    if($row['product_stok'] >= 1){
-                                        $stoktoko = 1;
-                                        $stokgudang = (int)$row['product_stok']-1;
-                                        }elseif($row['product_stok'] <= 0){
+                        foreach($generatesize as $gs){
+                            if($masterdata){
+                        $skuvariant = $masterskus.$gs->size_id;
+                        $checksku = Product::where('product_sku',$skuvariant)->first(); 
+                                if($checksku == null){
+                                    if(strlen($row['product_vendor']) > 1){
+                                        $explodevendor = explode(',',$row['product_vendor']);
+                                        $vendor = implode(',',$explodevendor);
+                                    }else {
+                                        $vendor = $row['product_vendor'];
+                                    }
+                                    if($row['product_idsize'] == $gs->size_id){ 
+                                     $skuvariant = $masterskus.$row['product_idsize'];
+                                     $stok = $row['product_stok'];
+                                     $size = $row['product_idsize'];
+                                    }else {
+                                     $skuvariant = $masterskus.$gs->size_id;
+                                     $stok = 0;
+                                     $size = $gs->size_id;
+                                    }
+                                    try {
+                                        if($stok >= 1){
+                                            $stoktoko = 1;
+                                            $stokgudang = (int)$stok-1;
+                                        }elseif($stok <= 0){
                                             $stoktoko = 0;
                                             $stokgudang = 0;
                                         }
-
-                                    $insert = new Product();
-                                    $insert->insertOrIgnore([
-                                        'product_productlama' => $row['product_productlama'],
-                                        'product_barcodevendor' => $vendor,
-                                        'product_mastersku' => $masterskus,
-                                        'product_sku' => $skuvariant,
-                                        'product_nama' => $masterdata->barcode_productname,
-                                        'product_vendor' => $vendor,
-                                        'product_idsize' =>  $row['product_idsize'],
-                                        'product_idband'  => $masterdata->barcode_productband,
-                                        'product_typeid'  => $masterdata->barcode_producttype,
-                                        'product_color'  => $masterdata->barcode_productcolor,
-                                        'product_hargajual' => $row['product_hargajual'],
-                                        'product_hargabeli' => $row['product_hargabeli'],
-                                        'product_tag' => $row['product_tag'],
-                                        'product_material' => $row['product_material'],
-                                        'product_madein' => $row['product_condition'],
-                                        'product_foto' => $row['product_foto'],
-                                        'product_stok' => $row['product_stok'],
-                                        'product_stokakhir' => $row['product_stok'],
-                                        'product_stoktoko' => $stoktoko,
-                                        'product_stokgudang' => $stokgudang,
-                                        'product_color' => $row['product_color'],
-                                        'product_tanggalbeli' => $row['product_tanggalbeli'],
-                                        'product_status' => $status,
-                                        'product_tanggalpublish' => $row['product_tanggalpublish'],
-                                    ]);
-                                    } catch (QE $e) {
-                                        return $e;
-                                    }
+    
+                                        $insert = new Product();
+                                        $insert->insertOrIgnore([
+                                            'product_productlama' => $row['product_productlama'],
+                                            'product_barcodevendor' => $vendor,
+                                            'product_mastersku' => $masterskus,
+                                            'product_sku' => $skuvariant,
+                                            'product_nama' => $masterdata->barcode_productname,
+                                            'product_vendor' => $vendor,
+                                            'product_idsize' =>  $row['product_idsize'],
+                                            'product_idband'  => $masterdata->barcode_productband,
+                                            'product_typeid'  => $masterdata->barcode_producttype,
+                                            'product_color'  => $masterdata->barcode_productcolor,
+                                            'product_hargajual' => $row['product_hargajual'],
+                                            'product_hargabeli' => $row['product_hargabeli'],
+                                            'product_tag' => $row['product_tag'],
+                                            'product_material' => $row['product_material'],
+                                            'product_madein' => $row['product_condition'],
+                                            'product_foto' => $row['product_foto'],
+                                            'product_stok' => $row['product_stok'],
+                                            'product_stokakhir' => $row['product_stok'],
+                                            'product_stoktoko' => $stoktoko,
+                                            'product_stokgudang' => $stokgudang,
+                                            'product_color' => $row['product_color'],
+                                            'product_tanggalbeli' => $row['product_tanggalbeli'],
+                                            'product_status' => $status,
+                                            'product_tanggalpublish' => $row['product_tanggalpublish'],
+                                        ]);
+                                        } catch (QE $e) {
+                                            return $e;
+                                        }
+                                }
                             }
                         }
+                        
+                   
                 }else {
 
                     $checkbyname = BarcodeDB::where('barcode_productname','LIKE', '%'.$row['product_nama'].'%')->first();

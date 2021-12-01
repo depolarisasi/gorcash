@@ -6,13 +6,20 @@ use Illuminate\Http\Request;
 use Auth;
 use \Carbon\Carbon;
 use App\Models\Notes;
+use App\Models\Agenda;
+use App\Models\Product;
 use RealRashid\SweetAlert\Facades\Alert;
 class HomeController extends Controller
 {
     public function dashboard(){
-        $note = Notes::limit(9)->get();
-        // $today = Carbon::now()->setTimezone('Asia/Jakarta')->isoFormat('dddd');
-        $today = "Saturday";
+        $produkstokrendah = Product::join('size','size.size_id','=','product.product_idsize')
+        ->join('band','band.band_id','=','product.product_idband')
+        ->select('product.*','size.size_id','size.size_nama','band.band_id','band.band_nama')
+        ->where('product_stok','=',0)->limit(10)->get();
+        $note = Notes::where('note_judul','NOT LIKE','%Workflow%')->limit(9)->get();
+        $agenda = Agenda::limit(9)->get();
+        $today = Carbon::now()->setTimezone('Asia/Jakarta')->isoFormat('dddd');
+       // $today = "Saturday";
         if($today == "Sunday"){
          $workflow = Notes::where('note_judul','LIKE','%Workflow Minggu%')->first();
         }elseif($today == "Monday"){
@@ -28,6 +35,7 @@ class HomeController extends Controller
         }elseif($today == "Saturday"){
          $workflow = Notes::where('note_judul','LIKE','%Workflow Sabtu%')->first();
         }
-        return view('index')->with(compact('note','workflow'));
+        return view('index')->with(compact('note','workflow','agenda','produkstokrendah'));
+      //return $produkstokrendah;
     }
 }

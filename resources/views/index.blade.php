@@ -96,25 +96,6 @@ Dashboard Gorilla Coach </h5>
 <!--begin::Row-->
 <div class="row">
 <div class="col-lg-4">
-<!--begin::Mixed Widget 14-->
-<div class="card card-custom card-stretch gutter-b">
-<!--begin::Header-->
-<div class="card-header border-0 pt-5">
-<h3 class="card-title font-weight-bolder">Workflow Hari Ini</h3>
-</div>
-<!--end::Header-->
-
-<!--begin::Body-->
-<div class="card-body pt-0 mt-0">
-    <div data-scroll="true" data-height="450">
-        {!! $workflow->note_isi !!}
-    </div>
-</div>
-<!--end::Body-->
-</div>
-<!--end::Mixed Widget 14-->
-</div>
-<div class="col-lg-4">
     <!--begin::Mixed Widget 14-->
     <div class="card card-custom card-stretch gutter-b">
         <!--begin::Header-->
@@ -146,6 +127,37 @@ Dashboard Gorilla Coach </h5>
     <!--end::Mixed Widget 14-->
     </div>
 <div class="col-lg-4">
+<!--begin::Mixed Widget 14-->
+<div class="card card-custom card-stretch gutter-b">
+<!--begin::Header-->
+<div class="card-header border-0">
+<h3 class="card-title font-weight-bolder text-dark">Agenda Promo</h3>
+</div>
+<!--end::Header-->
+<!--begin::Body-->
+<div class="card-body pt-2">
+<!--begin::Item-->
+<!--begin::Item-->
+@foreach($agenda as $ag)
+<div class="d-flex align-items-center mt-3">
+<!--begin::Bullet-->
+<span class="bullet bullet-bar bg-danger align-self-stretch"></span>
+<!--end::Bullet-->
+<!--begin::Text-->
+<div class="d-flex flex-column flex-grow-1 mx-4">
+<a href="{{url('agenda/detail/'.$ag->note_id)}}" class="text-dark-75 text-hover-primary font-weight-boldest font-size-lg mb-1">{{$ag->agenda_judul}}</a>
+<span class="font-weight-boldest">{{\Carbon\Carbon::parse($ag->agenda_startdate)->format('d-m-Y')}} - {{\Carbon\Carbon::parse($ag->agenda_enddate)->format('d-m-Y')}}</span>
+</div>
+<!--end::Text-->
+</div>
+@endforeach
+
+</div>
+<!--end::Body-->
+</div>
+<!--end::Mixed Widget 14-->
+</div>
+<div class="col-lg-4">
 <!--begin::Advance Table Widget 4-->
 <div class="card card-custom card-stretch gutter-b">
 <!--begin::Header-->
@@ -164,34 +176,28 @@ Dashboard Gorilla Coach </h5>
 <table class="table table-head-custom table-head-bg table-borderless table-vertical-center">
 <thead>
 <tr class="text-left text-uppercase">
-<th style="min-width: 250px" class="pl-7"><span class="text-dark-75">Nama Produk</span></th>
-<th style="min-width: 100px">Sisa Stok</th>
+<th class="pl-7"><span class="text-dark-75">Nama Produk</span></th>
+<th><span class="text-dark-75">Sisa Stok</span></th>
 </tr>
 </thead>
 <tbody>
+@foreach($produkstokrendah as $ps)
 <tr>
 <td class="pl-0 py-8">
 <div class="d-flex align-items-center">
-<div class="symbol symbol-50 symbol-light mr-4">
-    <span class="symbol-label">
-        <img src="assets/media/svg/avatars/001-boy.svg" class="h-75 align-self-end" alt=""/>
-    </span>
-</div>
 <div>
-    <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary mb-1 font-size-lg">Brad Simmons</a>
-    <span class="text-muted font-weight-bold d-block">HTML, JS, ReactJS</span>
+    <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary mb-1 font-size-lg">{{$ps->product_nama}}</a>
+    <span class="text-muted font-weight-bold d-block">Size {{$ps->size_nama}} {{$ps->band_name}}</span>
 </div>
 </div>
 </td>
 <td>
 <span class="text-dark-75 font-weight-bolder d-block font-size-lg">
-$8,000,000
-</span>
-<span class="text-muted font-weight-bold">
-In Proccess
-</span>
+{{$ps->product_stok}}
+</span> 
 </td>
 </tr>
+@endforeach
 </tbody>
 </table>
 </div>
@@ -202,6 +208,29 @@ In Proccess
 </div>
 <!--end::Advance Table Widget 4-->
 </div>
+
+</div>
+<div class="row">
+    
+<div class="col-lg-12">
+    <!--begin::Mixed Widget 14-->
+    <div class="card card-custom card-stretch gutter-b">
+    <!--begin::Header-->
+    <div class="card-header border-0 pt-5">
+    <h3 class="card-title font-weight-bolder">Workflow Hari Ini</h3>
+    </div>
+    <!--end::Header-->
+    
+    <!--begin::Body-->
+    <div class="card-body pt-0 mt-0">
+        <div data-scroll="true" data-height="450">
+            {!! $workflow->note_isi !!}
+        </div>
+    </div>
+    <!--end::Body-->
+    </div>
+    <!--end::Mixed Widget 14-->
+    </div>
 </div>
 <!--end::Row-->
 <!--end::Dashboard-->
