@@ -30,6 +30,7 @@ Dashboard Gorilla Coach </h5>
 <div class=" container ">
 <!--begin::Dashboard-->
 <!--begin::Row-->
+@if(Auth::user()->role == 4 || Auth::user()->role == 1)
 <div class="row">
 <div class="col-lg-6 col-xxl-6">
 <!--begin::Stats Widget 11-->
@@ -49,7 +50,7 @@ Dashboard Gorilla Coach </h5>
 </span>
 <div class="d-flex flex-column text-right">
 <span class="text-dark-75 font-weight-bolder font-size-h3">750$</span>
-<span class="text-muted font-weight-bold mt-2">Weekly Income</span>
+<span class="text-muted font-weight-bold mt-2">Pendapatan Minggu Ini</span>
 </div>
 </div>
 <div id="kt_stats_widget_11_chart" class="card-rounded-bottom" data-color="success" style="height: 150px"></div>
@@ -77,7 +78,7 @@ Dashboard Gorilla Coach </h5>
 </span>
 <div class="d-flex flex-column text-right">
 <span class="text-dark-75 font-weight-bolder font-size-h3">+6,5K</span>
-<span class="text-muted font-weight-bold mt-2">New Users</span>
+<span class="text-muted font-weight-bold mt-2">Pendapatan Bulan Ini</span>
 </div>
 </div>
 <div id="kt_stats_widget_12_chart" class="card-rounded-bottom" data-color="primary" style="height: 150px"></div>
@@ -91,6 +92,7 @@ Dashboard Gorilla Coach </h5>
 
 
 </div>
+@endif
 <!--end::Row-->
 
 <!--begin::Row-->
@@ -183,18 +185,18 @@ Dashboard Gorilla Coach </h5>
 <tbody>
 @foreach($produkstokrendah as $ps)
 <tr>
-<td class="pl-0 py-8">
+<td class="pl-0 py-1">
 <div class="d-flex align-items-center">
 <div>
     <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary mb-1 font-size-lg">{{$ps->product_nama}}</a>
-    <span class="text-muted font-weight-bold d-block">Size {{$ps->size_nama}} {{$ps->band_name}}</span>
+    <span class="text-muted font-weight-bold d-block">Size {{$ps->size_nama}} - {{$ps->band_nama}}</span>
 </div>
 </div>
 </td>
 <td>
 <span class="text-dark-75 font-weight-bolder d-block font-size-lg">
 {{$ps->product_stok}}
-</span> 
+</span>
 </td>
 </tr>
 @endforeach
@@ -211,7 +213,7 @@ Dashboard Gorilla Coach </h5>
 
 </div>
 <div class="row">
-    
+
 <div class="col-lg-12">
     <!--begin::Mixed Widget 14-->
     <div class="card card-custom card-stretch gutter-b">
@@ -220,7 +222,7 @@ Dashboard Gorilla Coach </h5>
     <h3 class="card-title font-weight-bolder">Workflow Hari Ini</h3>
     </div>
     <!--end::Header-->
-    
+
     <!--begin::Body-->
     <div class="card-body pt-0 mt-0">
         <div data-scroll="true" data-height="450">

@@ -38,4 +38,8 @@ class HomeController extends Controller
         return view('index')->with(compact('note','workflow','agenda','produkstokrendah'));
       //return $produkstokrendah;
     }
+
+    public function salesreport(){
+
+    }
 }

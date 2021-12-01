@@ -13,20 +13,20 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('logout', 'Auth\LoginController@logout');
+Route::get('logout', [App\Http\Controllers\UserController::class, 'logout'])->middleware('auth');
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'dashboard'])->middleware('auth');
 
 
 
 Route::group(['prefix' => 'user'], function() {
- Route::get('/',[App\Http\Controllers\UserController::class, 'index'])->middleware('auth');
- Route::get('/detail/{id}',[App\Http\Controllers\UserController::class, 'show'])->middleware('auth');
- Route::get('/new',[App\Http\Controllers\UserController::class, 'create'])->middleware('auth');
- Route::post('/store',[App\Http\Controllers\UserController::class, 'store'])->middleware('auth');
- Route::get('/edit/{id}',[App\Http\Controllers\UserController::class, 'edit'])->middleware('auth');
- Route::post('/update',[App\Http\Controllers\UserController::class, 'update'])->middleware('auth');
- Route::get('/delete/{id}',[App\Http\Controllers\UserController::class, 'delete'])->middleware('auth');
+ Route::get('/',[App\Http\Controllers\UserController::class, 'index'])->middleware('admin');
+ Route::get('/detail/{id}',[App\Http\Controllers\UserController::class, 'show'])->middleware('admin');
+ Route::get('/new',[App\Http\Controllers\UserController::class, 'create'])->middleware('admin');
+ Route::post('/store',[App\Http\Controllers\UserController::class, 'store'])->middleware('admin');
+ Route::get('/edit/{id}',[App\Http\Controllers\UserController::class, 'edit'])->middleware('admin');
+ Route::post('/update',[App\Http\Controllers\UserController::class, 'update'])->middleware('admin');
+ Route::get('/delete/{id}',[App\Http\Controllers\UserController::class, 'delete'])->middleware('admin');
 
 });
 
@@ -127,8 +127,8 @@ Route::group(['prefix' => 'size'], function() {
    });
 
    Route::group(['prefix' => 'kasir'], function() {
-    Route::get('/',[App\Http\Controllers\PenjualanController::class, 'kasir'])->middleware('auth');
-    Route::post('/store',[App\Http\Controllers\PenjualanController::class, 'addpenjualan'])->middleware('auth');
+    Route::get('/',[App\Http\Controllers\PenjualanController::class, 'kasir'])->middleware('sales');
+    Route::post('/store',[App\Http\Controllers\PenjualanController::class, 'addpenjualan'])->middleware('sales');
    });
 
    Route::group(['prefix' => 'productapi'], function() {
@@ -141,43 +141,43 @@ Route::group(['prefix' => 'size'], function() {
 
 
    Route::group(['prefix' => 'penjualan'], function() {
-    Route::get('/',[App\Http\Controllers\PenjualanController::class, 'index'])->middleware('auth');
-    Route::get('/detail/{id}',[App\Http\Controllers\PenjualanController::class, 'show'])->middleware('auth');
-    Route::get('/new',[App\Http\Controllers\PenjualanController::class, 'create'])->middleware('auth');
-    Route::post('/store',[App\Http\Controllers\PenjualanController::class, 'store'])->middleware('auth');
-    Route::get('/edit/{id}',[App\Http\Controllers\PenjualanController::class, 'edit'])->middleware('auth');
-    Route::post('/update',[App\Http\Controllers\PenjualanController::class, 'update'])->middleware('auth');
-    Route::get('/delete/{id}',[App\Http\Controllers\PenjualanController::class, 'delete'])->middleware('auth');
-    Route::get('/struk/{id?}',[App\Http\Controllers\PenjualanController::class, 'receipt'])->middleware('auth');
+    Route::get('/',[App\Http\Controllers\PenjualanController::class, 'index'])->middleware('sales');
+    Route::get('/detail/{id}',[App\Http\Controllers\PenjualanController::class, 'show'])->middleware('sales');
+    Route::get('/new',[App\Http\Controllers\PenjualanController::class, 'create'])->middleware('sales');
+    Route::post('/store',[App\Http\Controllers\PenjualanController::class, 'store'])->middleware('sales');
+    Route::get('/edit/{id}',[App\Http\Controllers\PenjualanController::class, 'edit'])->middleware('sales');
+    Route::post('/update',[App\Http\Controllers\PenjualanController::class, 'update'])->middleware('sales');
+    Route::get('/delete/{id}',[App\Http\Controllers\PenjualanController::class, 'delete'])->middleware('sales');
+    Route::get('/struk/{id?}',[App\Http\Controllers\PenjualanController::class, 'receipt'])->middleware('sales');
 
    });
 
     Route::group(['prefix' => 'stokopname'], function() {
-    Route::get('/',[App\Http\Controllers\StokOpnameController::class, 'pilihso'])->middleware('auth');
-    Route::get('/mingguan',[App\Http\Controllers\StokOpnameController::class, 'indexmingguan'])->middleware('auth');
-    Route::get('/mingguan/{pubid}',[App\Http\Controllers\StokOpnameController::class, 'somingguan'])->middleware('auth');
-    Route::get('/mingguan/edit/{pubid}',[App\Http\Controllers\StokOpnameController::class, 'resumesomingguan'])->middleware('auth');
-    Route::post('/mingguan/store',[App\Http\Controllers\StokOpnameController::class, 'storesomingguan'])->middleware('auth');
-    Route::post('/mingguan/update',[App\Http\Controllers\StokOpnameController::class, 'updatesomingguan'])->middleware('auth');
-    Route::get('/bulanan',[App\Http\Controllers\StokOpnameController::class, 'indexbulanan'])->middleware('auth');
-    Route::get('/bulanan/{pubid}',[App\Http\Controllers\StokOpnameController::class, 'sobulanan'])->middleware('auth');
-    Route::get('/bulanan/edit/{pubid}',[App\Http\Controllers\StokOpnameController::class, 'resumesobulanan'])->middleware('auth');
-    Route::post('/bulanan/store',[App\Http\Controllers\StokOpnameController::class, 'storesobulanan'])->middleware('auth');
-    Route::post('/bulanan/update',[App\Http\Controllers\StokOpnameController::class, 'updatesobulanan'])->middleware('auth');
-    Route::get('/laporan/{pubid}',[App\Http\Controllers\StokOpnameController::class, 'laporan'])->middleware('auth');
-    Route::get('/laporan/download/{pubid}',[App\Http\Controllers\StokOpnameController::class, 'laporanpdf'])->middleware('auth');
+    Route::get('/',[App\Http\Controllers\StokOpnameController::class, 'pilihso'])->middleware('warehouse');
+    Route::get('/mingguan',[App\Http\Controllers\StokOpnameController::class, 'indexmingguan'])->middleware('warehouse');
+    Route::get('/mingguan/{pubid}',[App\Http\Controllers\StokOpnameController::class, 'somingguan'])->middleware('warehouse');
+    Route::get('/mingguan/edit/{pubid}',[App\Http\Controllers\StokOpnameController::class, 'resumesomingguan'])->middleware('warehouse');
+    Route::post('/mingguan/store',[App\Http\Controllers\StokOpnameController::class, 'storesomingguan'])->middleware('warehouse');
+    Route::post('/mingguan/update',[App\Http\Controllers\StokOpnameController::class, 'updatesomingguan'])->middleware('warehouse');
+    Route::get('/bulanan',[App\Http\Controllers\StokOpnameController::class, 'indexbulanan'])->middleware('warehouse');
+    Route::get('/bulanan/{pubid}',[App\Http\Controllers\StokOpnameController::class, 'sobulanan'])->middleware('warehouse');
+    Route::get('/bulanan/edit/{pubid}',[App\Http\Controllers\StokOpnameController::class, 'resumesobulanan'])->middleware('warehouse');
+    Route::post('/bulanan/store',[App\Http\Controllers\StokOpnameController::class, 'storesobulanan'])->middleware('warehouse');
+    Route::post('/bulanan/update',[App\Http\Controllers\StokOpnameController::class, 'updatesobulanan'])->middleware('warehouse');
+    Route::get('/laporan/{pubid}',[App\Http\Controllers\StokOpnameController::class, 'laporan'])->middleware('warehouse');
+    Route::get('/laporan/download/{pubid}',[App\Http\Controllers\StokOpnameController::class, 'laporanpdf'])->middleware('warehouse');
 
    });
 
    Route::group(['prefix' => 'barcode'], function() {
-    Route::get('/',[App\Http\Controllers\BarcodeDBController::class, 'index'])->middleware('auth');
-    Route::get('/new',[App\Http\Controllers\BarcodeDBController::class, 'create'])->middleware('auth');
-    Route::post('/store',[App\Http\Controllers\BarcodeDBController::class, 'store'])->middleware('auth');
-    Route::get('/edit/{id}',[App\Http\Controllers\BarcodeDBController::class, 'edit'])->middleware('auth');
-    Route::post('/update',[App\Http\Controllers\BarcodeDBController::class, 'update'])->middleware('auth');
-    Route::get('/delete/{id}',[App\Http\Controllers\BarcodeDBController::class, 'delete'])->middleware('auth');
-    Route::get('/import',[App\Http\Controllers\BarcodeDBController::class, 'importdata'])->middleware('auth');
-    Route::post('/importing',[App\Http\Controllers\BarcodeDBController::class, 'importing'])->middleware('auth');
+    Route::get('/',[App\Http\Controllers\BarcodeDBController::class, 'index'])->middleware('warehouse');
+    Route::get('/new',[App\Http\Controllers\BarcodeDBController::class, 'create'])->middleware('warehouse');
+    Route::post('/store',[App\Http\Controllers\BarcodeDBController::class, 'store'])->middleware('warehouse');
+    Route::get('/edit/{id}',[App\Http\Controllers\BarcodeDBController::class, 'edit'])->middleware('warehouse');
+    Route::post('/update',[App\Http\Controllers\BarcodeDBController::class, 'update'])->middleware('warehouse');
+    Route::get('/delete/{id}',[App\Http\Controllers\BarcodeDBController::class, 'delete'])->middleware('warehouse');
+    Route::get('/import',[App\Http\Controllers\BarcodeDBController::class, 'importdata'])->middleware('warehouse');
+    Route::post('/importing',[App\Http\Controllers\BarcodeDBController::class, 'importing'])->middleware('warehouse');
    });
 
    Route::group(['prefix' => 'agenda'], function() {
@@ -204,13 +204,13 @@ Route::group(['prefix' => 'size'], function() {
    });
 
    Route::group(['prefix' => 'informasi'], function() {
-    Route::get('/',[App\Http\Controllers\InformasiController::class, 'index'])->middleware('auth');
-    Route::get('/new',[App\Http\Controllers\InformasiController::class, 'create'])->middleware('auth');
-    Route::post('/store',[App\Http\Controllers\InformasiController::class, 'store'])->middleware('auth');
-    Route::get('/detail/{id}',[App\Http\Controllers\InformasiController::class, 'show'])->middleware('auth');
-    Route::get('/edit/{id}',[App\Http\Controllers\InformasiController::class, 'edit'])->middleware('auth');
-    Route::post('/update',[App\Http\Controllers\InformasiController::class, 'update'])->middleware('auth');
-    Route::get('/delete/{id}',[App\Http\Controllers\InformasiController::class, 'delete'])->middleware('auth');
+    Route::get('/',[App\Http\Controllers\InformasiController::class, 'index'])->middleware('accountant');
+    Route::get('/new',[App\Http\Controllers\InformasiController::class, 'create'])->middleware('accountant');
+    Route::post('/store',[App\Http\Controllers\InformasiController::class, 'store'])->middleware('accountant');
+    Route::get('/detail/{id}',[App\Http\Controllers\InformasiController::class, 'show'])->middleware('accountant');
+    Route::get('/edit/{id}',[App\Http\Controllers\InformasiController::class, 'edit'])->middleware('accountant');
+    Route::post('/update',[App\Http\Controllers\InformasiController::class, 'update'])->middleware('accountant');
+    Route::get('/delete/{id}',[App\Http\Controllers\InformasiController::class, 'delete'])->middleware('accountant');
 
    });
 

@@ -49,7 +49,7 @@
                 <option value="1" @if($edit->role == 1) selected @endif>Super Admin</option>
                 <option value="2" @if($edit->role == 2) selected @endif>Store Officer</option>
                 <option value="3" @if($edit->role == 3) selected @endif>Warehouse Officer</option>
-                <option value="4" @if($edit->role == 4) selected @endif>Store Manager</option>
+                <option value="4" @if($edit->role == 4) selected @endif>Accountant</option>
               </select>
             </div>
           </div>

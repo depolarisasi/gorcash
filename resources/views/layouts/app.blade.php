@@ -137,6 +137,7 @@ background-color: #fff !important;
                         <span class="menu-text">Dashboard</span></a>
                 </li>
 
+                @if(Auth::user()->role == 1 || Auth::user()->role == 2 || Auth::user()->role == 4)
                 <li class="menu-item menu-item">
                     <a href="{{url('kasir')}}" class="menu-link ">
                         <span class="svg-icon svg-icon-white menu-icon"><!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo5/dist/../src/media/svg/icons/Shopping/Dollar.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -149,7 +150,8 @@ background-color: #fff !important;
                         </svg><!--end::Svg Icon--></span>
                         <span class="menu-text">Kasir</span></a>
                 </li>
-
+                @endif
+                @if(Auth::user()->role == 1 || Auth::user()->role == 2 || Auth::user()->role == 4)
                 <li class="menu-item menu-item">
                     <a href="{{url('penjualan')}}" class="menu-link ">
                         <span class="svg-icon svg-icon-white menu-icon"><!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo5/dist/../src/media/svg/icons/Shopping/Chart-bar2.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -163,6 +165,7 @@ background-color: #fff !important;
                         </svg><!--end::Svg Icon--></span>
                         <span class="menu-text">Penjualan</span></a>
                 </li>
+                @endif
 
 
 
@@ -240,7 +243,7 @@ background-color: #fff !important;
                         </ul>
                     </div>
                 </li>
-
+                @if(Auth::user()->role == 1)
                 <li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
                     <a href="javascript:;" class="menu-link menu-toggle">
                         <span class="svg-icon svg-icon-white menu-icon"><!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo5/dist/../src/media/svg/icons/Tools/Tools.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -262,6 +265,7 @@ background-color: #fff !important;
                                 </span>
                             </li>
 
+
                 <li class="menu-item menu-item">
                     <a href="{{url('user')}}" class="menu-link ">
                         <span class="svg-icon svg-icon-white menu-icon"><!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo5/dist/../src/media/svg/icons/Communication/Group.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -277,7 +281,8 @@ background-color: #fff !important;
                         </ul>
                     </div>
                 </li>
-
+                @endif
+                @if(Auth::user()->role == 1 || Auth::user()->role == 2 || Auth::user()->role == 3)
                 <li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
                     <a href="javascript:;" class="menu-link menu-toggle">
                         <span class="svg-icon svg-icon-white menu-icon"><!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo5/dist/../src/media/svg/icons/Files/Selected-file.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -314,6 +319,7 @@ background-color: #fff !important;
                         </ul>
                     </div>
                 </li>
+                @endif
                 <li class="menu-item menu-item">
                     <a href="{{url('agenda')}}" class="menu-link ">
                         <span class="svg-icon svg-icon-white menu-icon"><!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo5/dist/../src/media/svg/icons/Shopping/Sale2.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -336,6 +342,7 @@ background-color: #fff !important;
                             </g>
                         </svg><!--end::Svg Icon--></span><span class="menu-text">Note</span></a>
                 </li>
+                @if(Auth::user()->role == 1 || Auth::user()->role == 3)
                 <li class="menu-item menu-item">
                     <a href="{{url('informasi')}}" class="menu-link ">
                         <span class="svg-icon svg-icon-white menu-icon"><!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo5/dist/../src/media/svg/icons/Communication/Clipboard-check.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -347,6 +354,7 @@ background-color: #fff !important;
                             </g>
                         </svg><!--end::Svg Icon--></span><span class="menu-text">Informasi</span></a>
                 </li>
+                @endif
                 <li class="menu-item menu-item">
                     <a href="{{url('turunbarang')}}" class="menu-link ">
                         <span class="svg-icon svg-icon-white menu-icon"><!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo5/dist/../src/media/svg/icons/Communication/Flag.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">

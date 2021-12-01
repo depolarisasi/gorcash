@@ -50,7 +50,7 @@
                 <option value="1">Super Admin</option>
                 <option value="2">Store Officer</option>
                 <option value="3">Warehouse Officer</option>
-                <option value="4">Store Manager</option>
+                <option value="4">Accountant</option>
               </select>
             </div>
           </div>

@@ -34,8 +34,7 @@ class UserController extends Controller
         if ($validator->fails()) {
             // Redirect or return json to frontend with a helpful message to inform the user
             // that the provided file was not an adequate type
-
-           alert()->warning('Terdapat kesalahan input, silahkan periksa ulang data yang anda masukan');
+            toast('Terdapat kesalahan input, silahkan periksa ulang data yang anda masukan','error');
 
             return redirect()->back();
         } else {
@@ -46,7 +45,8 @@ class UserController extends Controller
                 'role'     => $request->role,
             ]);
         }
-       alert()->success('Akun berhasil dibuat');
+        toast('Akun Berhasil Dibuat','success');
+
 
         return redirect('user');
     }
@@ -95,16 +95,18 @@ class UserController extends Controller
                     try {
                         $user->update($update->all());
                     } catch (QE $e) {
-                       alert()->warning('Database Error');
+
+                toast('Database Error','error');
 
                         return redirect()->back();
                     }
 
-                   alert()->success('Akun berhasil diubah');
+                    toast('Akun Berhasil Diubah','success');
 
                     return redirect('user');
                 } else {
-                   alert()->warning('Password konfirmasi tidak cocok');
+                    toast('Konfirmasi Password Tidak Cocok','error');
+
 
                     return redirect()->back();
                 }
@@ -114,12 +116,13 @@ class UserController extends Controller
                 $update->put('password', $user->password);
                 $user->update($update->all());
             } catch (QE $e) {
-               alert()->warning('Database Error');
+
+                toast('Database Error','error');
 
                 return redirect()->back();
             }
+            toast('Akun Berhasil Diubah','success');
 
-           alert()->success('Akun berhasil diubah');
 
             return redirect('user');
         }
@@ -135,7 +138,8 @@ class UserController extends Controller
             return $e;
         } //show db error message
 
-       alert()->success('Akun telah sukses dihapus !');
+        toast('Akun Berhasil Dihapus','success');
+
 
         return redirect('user');
     }
@@ -159,23 +163,28 @@ class UserController extends Controller
                 try {
                     $user->update();
                 } catch (QE $e) {
-                   alert()->warning('Oh No! Perubahan gagal disimpan, coba lagi', 'alert');
+                    toast('Perubahan Gagal Disimpan, Coba Lagi','error');
 
                     return redirect()->back();
                 }
             } else {
-               alert()->warning('Oh No! Perubahan gagal disimpan, password baru tidak cocok', 'alert');
+                toast('Password Baru Tidak Cocok','error');
 
                 return redirect()->back();
             }
         } else {
-           alert()->warning('Oh No! Perubahan gagal disimpan, password lama tidak cocok', 'alert');
+            toast('Password Lama Tidak Cocok','error');
 
             return redirect()->back();
         }
 
-       alert()->success('Berhasil! Perubahan berhasil disimpan', 'alert');
+        toast('Perubahan User Berhasil Disimpan!','error');
 
         return redirect('user');
+    }
+
+    public function logout(){
+        Auth::logout();
+        return redirect('/');
     }
 }

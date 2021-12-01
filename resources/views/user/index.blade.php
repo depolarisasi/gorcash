@@ -61,7 +61,7 @@
 @elseif($u->role == 3)
 <span class="label label-lg label-rounded label-info label-jabatan">Warehouse Officer</span>
 @elseif($u->role == 4)
-<span class="label label-lg label-rounded label-success label-jabatan">Store Manager</span>
+<span class="label label-lg label-rounded label-success label-jabatan">Accountant</span>
 @endif
 </td>
 <td>
