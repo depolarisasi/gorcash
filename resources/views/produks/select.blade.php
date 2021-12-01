@@ -72,23 +72,7 @@
 					<td>{{$p->product_mastersku}}</td>
                     <td>{{$p->product_sku}}</td>
 					<td>{{$p->product_nama}}</td>
-					<td>
-                        @if($p->product_idsize == 1)
-                        S
-                        @elseif($p->product_idsize == 2)
-                        M
-                        @elseif($p->product_idsize == 3)
-                        L
-                        @elseif($p->product_idsize == 4)
-                        XL
-                        @elseif($p->product_idsize == 5)
-                        XXL
-                        @elseif($p->product_idsize == 6)
-                        XXXL
-                        @elseif($p->product_idsize == 7)
-                        ALL SIZE
-                        @endif
-                       </td>
+					<td>{{$p->size_nama}}</td>
 
 					<td>{{$p->product_vendor}}</td>
                     <td>{{$p->band_nama}}</td>

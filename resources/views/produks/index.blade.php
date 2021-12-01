@@ -5,6 +5,14 @@
 <link href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css">
 <link href="https://cdn.datatables.net/buttons/2.0.1/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css">
 <link href="https://cdn.datatables.net/select/1.3.3/css/select.dataTables.min.css" rel="stylesheet" type="text/css">
+<style>
+.fsm {
+    font-size: 12px !important;
+}
+.psm {
+    padding : 0.7rem !important;
+}
+</style>
 @endsection
 @section('content')
 	<!--begin::Content-->
@@ -13,7 +21,7 @@
 <!--begin::Entry-->
 <div class="d-flex flex-column-fluid">
 <!--begin::Container-->
-<div class="container">
+<div class="container-fluid">
 <!--begin::Dashboard-->
 
 <!--begin::Row-->
@@ -110,18 +118,20 @@
 			<tbody>
 
                 @foreach($produk as $p)
-				<tr @if($p->product_stok < 1 || $p->product_status == 1) class="ignore" @endif>
+				<tr @if($p->product_stok < 1 || $p->product_status == 1) class="ignore fsm psm" @else class="fsm psm" @endif>
                     <td></td>
-                    <td><img src="{{asset($p->product_foto?$p->product_foto:"/assets/nopicture.png")}}" class="img-fluid" style="width: 50px !important; height: 50px !important;"></td>
+                    <td class="text-center">
+                        <a href="{{asset($p->product_foto?$p->product_foto:"/assets/nopicture.png")}}" data-fslightbox="galleryproduk">
+                            <img src="{{asset($p->product_foto?$p->product_foto:"/assets/nopicture.png")}}" class="img-fluid" style="width: 50px !important; height: 50px !important;"></a>
+                     </td>
 					<td>{{$p->product_mastersku}}</td>
-					<td> @if($p->product_status == 1)
-                        <span class="label label-success label-md label-inline mr-2">Publish</span>
-                    @endif
-                    {{$p->product_nama}}</td>
+					<td>{{$p->product_nama}} @if($p->product_status == 1)
+                        <span class="label label-success label-sm label-inline mr-2"><i class="fas fa-check text-white p-0" style="font-size: 0.8em"></i></span>
+                    @endif</td>
 					<td>{{$p->product_idsize}}</td>
 					<td>{{$p->product_vendor}}</td>
                     <td>{{$p->band_nama}}</td>
-                    <td><p><span class="label label-danger label-md label-inline mr-2">Rp{{$p->product_hargabeli}}</span> </p>
+                    <td class="text-center"><p><span class="label label-danger label-md label-inline mr-2">Rp{{$p->product_hargabeli}}</span> </p>
                         <p><span class="label label-primary label-md label-inline mr-2">Rp{{$p->product_hargajual}}</span> </p>
                         <p><span class="label label-success label-md label-inline mr-2">Rp{{$p->product_hargajual - $p->product_hargabeli}}</span> </p></td>
 					<td>{{$p->product_stok}}</td>
@@ -160,7 +170,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.0.1/js/buttons.html5.min.js"></script>
 <script src="https://cdn.datatables.net/select/1.3.3/js/dataTables.select.min.js"></script>
-
+<script src="{{asset('js/fslightbox.js')}}"></script>
 
 <script>
  tabel = $('#product').DataTable({

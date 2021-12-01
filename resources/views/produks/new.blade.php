@@ -32,6 +32,8 @@
     <form method="POST" action="{{url('produk/store')}}" enctype="multipart/form-data">
         @csrf
         <input type="hidden" name="ajaxurl" id="ajax" value="{{url('api/getproductmastersku')}}">
+        <div id="wrapperinput">
+        </div>
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group row mt-4">
@@ -79,7 +81,6 @@
                         @foreach($type as $type)
                         <option value="{{$type->type_id}}" data-category="{{$type->type_category}}">({{$type->type_category}}) {{$type->type_name}}</option>
                         @endforeach
-
                       </select>
                     </div>
                   </div>
@@ -194,9 +195,9 @@
                     <tr>
                         <input type="hidden" name="sized_id[]" value="{{$sd->size_id}}">
                         <td>{{$sd->size_nama}}</td>
-                        <td><input type="text" value="0" class="form-control" name="hargabelid[]"></td>
-                        <td><input type="text" value="0" class="form-control" name="hargajuald[]"></td>
-                        <td><input type="text" value="0" class="form-control" name="stokawald[]"></td>
+                        <td><input type="text" value="" class="form-control" name="hargabelid[]"></td>
+                        <td><input type="text" value="" class="form-control" name="hargajuald[]"></td>
+                        <td><input type="text" value="" class="form-control" name="stokawald[]"></td>
                         </td>
                     </tr>
                     @endforeach
@@ -222,9 +223,9 @@
                     <tr>
                         <input type="hidden" name="sizea_id[]" value="{{$sa->size_id}}">
                         <td>{{$sa->size_nama}}</td>
-                        <td><input type="text" value="0" class="form-control" name="hargabelia[]"></td>
-                        <td><input type="text" value="0" class="form-control" name="hargajuala[]"></td>
-                        <td><input type="text" value="0" class="form-control" name="stokawala[]"></td>
+                        <td><input type="text" value="" class="form-control" name="hargabelia[]"></td>
+                        <td><input type="text" value="" class="form-control" name="hargajuala[]"></td>
+                        <td><input type="text" value="" class="form-control" name="stokawala[]"></td>
                         </td>
                     </tr>
                     @endforeach
@@ -251,9 +252,9 @@
                     <tr>
                         <input type="hidden" name="sizeb_id[]" value="{{$sb->size_id}}">
                         <td>{{$sb->size_nama}}</td>
-                        <td><input type="text" value="0" class="form-control" name="hargabelib[]"></td>
-                        <td><input type="text" value="0" class="form-control" name="hargajualb[]"></td>
-                        <td><input type="text" value="0" class="form-control" name="stokawalb[]"></td>
+                        <td><input type="text" value="" class="form-control" name="hargabelib[]"></td>
+                        <td><input type="text" value="" class="form-control" name="hargajualb[]"></td>
+                        <td><input type="text" value="" class="form-control" name="stokawalb[]"></td>
                         </td>
                     </tr>
                     @endforeach
@@ -315,11 +316,11 @@ $( document ).ready(function() {
                     $('#selecttype').prop("disabled", false);
                     $('#selectband').prop("disabled", false);
                     $('#selectcolor').prop("disabled", false);
-                    $('#productname').prop("disabled", false);
+                    $('#productname').prop("readonly", false);
                 }
                 else {
                 $.ajax({
-                url: $('#ajax').val(),
+                url: "{{url('api/getproductmastersku')}}",
                 type: 'GET',
                 data: {'mastersku' : selected},
                 success: function (data) {
@@ -327,11 +328,14 @@ $( document ).ready(function() {
                         $('#selecttype option:contains(' + data['product_type'] + ')').prop({selected: true});
                         $('#selectband option:contains(' + data['product_band'] + ')').prop({selected: true});
                         $('#selectcolor option:contains(' + data['product_color'] + ')').prop({selected: true});
-                        $('#product_name').val( data['product_nama']);
+                        $('#wrapperinput').append(`<input type="hidden" name="product_typeid" value="${data['product_type']}">`);
+                        $('#wrapperinput').append(`<input type="hidden" name="product_idband" value="${data['product_band']}">`);
+                        $('#wrapperinput').append(`<input type="hidden" name="product_color" value="${data['product_color']}">`);
+                        $('#product_name').val(data['product_nama']);
                         $('#selecttype').prop("disabled", true);
                     $('#selectband').prop("disabled", true);
                     $('#selectcolor').prop("disabled", true);
-                    $('#product_name').prop("disabled", true);
+                    $('#product_name').prop("readonly", true);
                     } else if (data['status'] == "Failed") {
                       console.log("No Product Selected");
                     } else {
@@ -387,11 +391,14 @@ $("#selecttype").change(function() {
                         $('#selecttype option:contains(' + data['product_type'] + ')').prop({selected: true});
                         $('#selectband option:contains(' + data['product_band'] + ')').prop({selected: true});
                         $('#selectcolor option:contains(' + data['product_color'] + ')').prop({selected: true});
+                        $('#wrapperinput').append(`<input type="hidden" name="product_typeid" value="${data['product_type']}">`);
+                        $('#wrapperinput').append(`<input type="hidden" name="product_idband" value="${data['product_band']}">`);
+                        $('#wrapperinput').append(`<input type="hidden" name="product_color" value="${data['product_color']}">`);
                         $('#product_name').val( data['product_nama']);
                         $('#selecttype').prop("disabled", true);
                     $('#selectband').prop("disabled", true);
                     $('#selectcolor').prop("disabled", true);
-                    $('#product_name').prop("disabled", true);
+                    $('#product_name').prop("readonly", true);
                     } else if (data['status'] == "Failed") {
                       console.log("No Product Selected");
                     } else {
@@ -413,7 +420,7 @@ $("#selectsku").change(function() {
                     $('#selecttype').prop("disabled", false);
                     $('#selectband').prop("disabled", false);
                     $('#selectcolor').prop("disabled", false);
-                    $('#productname').prop("disabled", false);
+                    $('#productname').prop("readonlu", false);
                 }
                 else {
                 $.ajax({
@@ -425,11 +432,14 @@ $("#selectsku").change(function() {
                         $('#selecttype option:contains(' + data['product_type'] + ')').prop({selected: true});
                         $('#selectband option:contains(' + data['product_band'] + ')').prop({selected: true});
                         $('#selectcolor option:contains(' + data['product_color'] + ')').prop({selected: true});
+                        $('#wrapperinput').append(`<input type="hidden" name="product_typeid" value="${data['product_type']}">`);
+                        $('#wrapperinput').append(`<input type="hidden" name="product_idband" value="${data['product_band']}">`);
+                        $('#wrapperinput').append(`<input type="hidden" name="product_color" value="${data['product_color']}">`);
                         $('#product_name').val( data['product_nama']);
                         $('#selecttype').prop("disabled", true);
                     $('#selectband').prop("disabled", true);
                     $('#selectcolor').prop("disabled", true);
-                    $('#product_name').prop("disabled", true);
+                    $('#product_name').prop("readonly", true);
                     } else if (data['status'] == "Failed") {
                       console.log("No Product Selected");
                     } else {
