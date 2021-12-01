@@ -98,4 +98,12 @@ class ColorController extends Controller
         return redirect('/color');
     }
 
+    public function apimassdelete(Request $request){
+
+        $ids = $request->ids;
+        Color::whereIn('color_code',$ids)->delete();
+        return response()->json(['success'=>"colors Deleted successfully."]);
+
+}
+
 }

@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Database\QueryException as QE;
 use RealRashid\SweetAlert\Facades\Alert;
 
+use App\Imports\SizeImport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class SizeController extends Controller
 {
@@ -79,4 +81,29 @@ class SizeController extends Controller
 
         return redirect('size');
     }
+
+    public function importdata(){
+        return view('size.import');
+    }
+
+    public function importing(Request $request){
+        if($request->file('size') != NULL) {
+            Excel::import(new SizeImport, request()->file('size'));
+        }else {
+            toast('File kosong','error');
+            return redirect('/size');
+        }
+
+        toast('Berhasil Menambah Warna','success');
+        return redirect('/size');
+    }
+
+    public function apimassdelete(Request $request){
+
+        $ids = $request->ids;
+        Size::whereIn('size_code',$ids)->delete();
+        return response()->json(['success'=>"Size Deleted successfully."]);
+
+}
+
 }

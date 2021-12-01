@@ -212,9 +212,7 @@ class ProductController extends Controller
                         toast('Nama Desain di Database Barcode berbeda dengan Nama Produk, Produk Berbeda?','error');
                         return redirect()->back();
                     }
-                }
-
-
+                } 
         }else {
             $masterdata = new BarcodeDB;
             $masterdata->barcode_productband = $request->product_idband;

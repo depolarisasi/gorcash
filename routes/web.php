@@ -40,6 +40,7 @@ Route::group(['prefix' => 'vendors'], function() {
     Route::get('/delete/{id}',[App\Http\Controllers\VendorController::class, 'delete'])->middleware('auth');
     Route::get('/import',[App\Http\Controllers\VendorController::class, 'importdata'])->middleware('auth');
     Route::post('/importing',[App\Http\Controllers\VendorController::class, 'importing'])->middleware('auth');
+    Route::post('/massdelete',[App\Http\Controllers\VendorController::class, 'apimassdelete'])->middleware('auth');
 
    });
 
@@ -51,6 +52,9 @@ Route::group(['prefix' => 'size'], function() {
     Route::get('/edit/{id}',[App\Http\Controllers\SizeController::class, 'edit'])->middleware('auth');
     Route::post('/update',[App\Http\Controllers\SizeController::class, 'update'])->middleware('auth');
     Route::get('/delete/{id}',[App\Http\Controllers\SizeController::class, 'delete'])->middleware('auth');
+    Route::get('/import',[App\Http\Controllers\SizeController::class, 'importdata'])->middleware('auth');
+    Route::post('/importing',[App\Http\Controllers\SizeController::class, 'importing'])->middleware('auth');
+    Route::post('/massdelete',[App\Http\Controllers\SizeController::class, 'apimassdelete'])->middleware('auth');
    });
 
    Route::group(['prefix' => 'type'], function() {
@@ -62,6 +66,7 @@ Route::group(['prefix' => 'size'], function() {
     Route::get('/delete/{id}',[App\Http\Controllers\TypeProductController::class, 'delete'])->middleware('auth');
     Route::get('/import',[App\Http\Controllers\TypeProductController::class, 'importdata'])->middleware('auth');
     Route::post('/importing',[App\Http\Controllers\TypeProductController::class, 'importing'])->middleware('auth');
+    Route::post('/massdelete',[App\Http\Controllers\TypeProductController::class, 'apimassdelete'])->middleware('auth');
    });
 
    Route::group(['prefix' => 'color'], function() {
@@ -73,6 +78,7 @@ Route::group(['prefix' => 'size'], function() {
     Route::get('/delete/{id}',[App\Http\Controllers\ColorController::class, 'delete'])->middleware('auth');
     Route::get('/import',[App\Http\Controllers\ColorController::class, 'importdata'])->middleware('auth');
     Route::post('/importing',[App\Http\Controllers\ColorController::class, 'importing'])->middleware('auth');
+    Route::post('/massdelete',[App\Http\Controllers\ColorController::class, 'apimassdelete'])->middleware('auth');
    });
 
    Route::group(['prefix' => 'band'], function() {
@@ -84,6 +90,7 @@ Route::group(['prefix' => 'size'], function() {
     Route::get('/delete/{id}',[App\Http\Controllers\BandController::class, 'delete'])->middleware('auth');
     Route::get('/import',[App\Http\Controllers\BandController::class, 'importdata'])->middleware('auth');
     Route::post('/importing',[App\Http\Controllers\BandController::class, 'importing'])->middleware('auth');
+    Route::post('/massdelete',[App\Http\Controllers\BandController::class, 'apimassdelete'])->middleware('auth');
 
    });
 

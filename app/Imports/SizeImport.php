@@ -10,6 +10,7 @@ use App\Models\Band;
 use App\Models\Color;
 use App\Models\TypeProduct;
 use App\Models\BarcodeDB;
+use App\Models\Size;
 use Carbon\Carbon;  
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 

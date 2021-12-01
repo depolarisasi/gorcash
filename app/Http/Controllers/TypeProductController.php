@@ -95,5 +95,12 @@ class TypeProductController extends Controller
         toast('Berhasil Menambah Warna','success');
         return redirect('/type');
     }
+    public function apimassdelete(Request $request){
+
+        $ids = $request->ids;
+        TypeProduct::whereIn('type_code',$ids)->delete();
+        return response()->json(['success'=>"Type Deleted successfully."]);
+
+}
 
 }

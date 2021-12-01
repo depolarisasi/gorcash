@@ -118,7 +118,7 @@
 			<tbody>
 
                 @foreach($produk as $p)
-				<tr @if($p->product_stok < 1 || $p->product_status == 1) class="ignore fsm psm" @else class="fsm psm" @endif>
+				<tr data-row-id="{{$p->product_mastersku}}" @if($p->product_stok < 1 || $p->product_status == 1) class="ignore fsm psm" @else class="fsm psm" @endif>
                     <td></td>
                     <td class="text-center">
                         <a href="{{asset($p->product_foto?$p->product_foto:"/assets/nopicture.png")}}" data-fslightbox="galleryproduk">
@@ -174,7 +174,7 @@
 
 <script>
  tabel = $('#product').DataTable({
-    dom: 'Bfrtip',
+    dom: 'Blfrtip',
         buttons: [
             'copyHtml5',
             'excelHtml5',
@@ -291,6 +291,7 @@
         },
         order: [[ 1, 'asc' ]],
         "ordering": true,
+        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]]
     } );
 
 

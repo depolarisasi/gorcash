@@ -1,5 +1,11 @@
 @extends('layouts.app')
 @section('title','Warna - ')
+@section('css')
+<link href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css">
+<link href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css">
+<link href="https://cdn.datatables.net/buttons/2.0.1/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css">
+<link href="https://cdn.datatables.net/select/1.3.3/css/select.dataTables.min.css" rel="stylesheet" type="text/css">
+@endsection
 @section('content')
 	<!--begin::Content-->
     <div class="content  d-flex flex-column flex-column-fluid" id="kt_content">
@@ -32,26 +38,25 @@
 <div class="tab-content">
 <!--begin::Table-->
 <div class="table-responsive">
-    <table id="basic-datatable" class="table dt-responsive table-bordered nowrap" style="width:100%">
+<table id="table" class="table dt-responsive table-bordered nowrap" style="width:100%">
 <thead>
 <tr class="text-left">
+<th style="width: 10%"><span class="text-dark-75">Select</span></th>
 <th style="min-width: 50px"><span class="text-dark-75">Nama Vendor</span></th>
 <th style="min-width: 100px">Code</th>
 <th style="min-width: 80px">Action</th>
 </tr>
 </thead>
 <tbody>
-    @foreach($color as $color)
-<tr>
+    @foreach($color as $color) 
+<tr data-row-id="{{$color->color_code}}">
+<td></td>
 <td class="pl-3 py-3">
 <div class="d-flex align-items-center">
     <a href="#" class="text-dark-75 mb-1">{{$color->color_nama}}</a>
 </div>
 </td>
-<td class="pl-3 py-3">
-    <div class="d-flex align-items-center">
-        <a href="#" class="text-dark-75 mb-1">{{$color->color_code}}</a>
-    </div>
+<td class="pl-3 py-3"> {{$color->color_code}}  
     </td>
 <td>
     <a href="{{url('/color/edit/'.$color->color_id)}}" class="btn btn-xs btn-icon btn-warning"><i class="fas fa-edit nopadding"></i></a>
@@ -79,16 +84,16 @@
 </div>
 <!--end::Content-->
 @section('js')
-<script src="{{asset('assets/libs/datatables/jquery.dataTables.min.js')}}"></script>
-<script src="{{asset('assets/libs/datatables/dataTables.bootstrap4.min.js')}}"></script>
-<script src="{{asset('assets/libs/datatables/dataTables.responsive.min.js')}}"></script>
-<script src="{{asset('assets/libs/datatables/responsive.bootstrap4.min.js')}}"></script>>
-<script src="{{asset('assets/libs/datatables/dataTables.buttons.min.js')}}"></script>
-<script src="{{asset('assets/libs/datatables/buttons.bootstrap4.min.js')}}"></script>
+<script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap4.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.0.1/js/dataTables.buttons.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.0.1/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/select/1.3.3/js/dataTables.select.min.js"></script>
 <script>
-    $(document).ready(function(){
-
-
+    $(document).ready(function(){ 
         $(document).on('click', '.deletebtn', function(e) {
            var href = $(this).attr('href');
            Swal.fire({
@@ -117,15 +122,79 @@
           });
             });
 
-           var table = $("#basic-datatable").DataTable({
+            var table = $("#table").DataTable({
+                dom: 'Blfrtip',
+        buttons: [
+           { 
+                text: 'Delete',
+                action: function () {
 
-                 language: { paginate: {
-                    previous: "<i class='uil uil-angle-left'>",
-                    next: "<i class='uil uil-angle-right'>" } },
-            drawCallback: function () {
-                $(".dataTables_paginate > .pagination").addClass("pagination-rounded");
+                    var ids = $.map(table.rows('.selected').data(), function (item) {
+       				 return item[2]
+    					});
+                    if(ids.length <=0)
+    {
+        Swal.fire(
+       'Error',
+       'Silahkan Pilih Data Yang Ingin Dihapus',
+       'error'
+     )
+    }  else {
+        var check = confirm("Are you sure you want to delete selected data?");
+        if(check == true){
+            var join_selected_values = ids;
+            $.ajax({
+                url: '/color/massdelete',
+                type: 'POST',
+                data: {
+                    _token : "{{csrf_token()}}",
+                    'ids' : join_selected_values},
+                success: function (data) {
+                    if (data['success']) {
+                        $(".selected:checked").each(function() {
+                            $(this).parents("tr").remove();
+                        });
+                        alert(data['success']);
+                    } else if (data['error']) {
+                        alert(data['error']);
+                    } else {
+                        alert('Whoops Something went wrong!!');
+                    }
+                },
+                error: function (data) {
+                    alert(data.responseText);
                 }
-                            });
+            });
+          $.each(ids, function( index, value ) {
+              $('table tr').filter("[data-row-id='" + value + "']").remove(); 
+          });
+
+        }
+
+    }
+
+                }
+            },
+
+        ],
+        search: {
+				input: $('#kt_datatable_search_query'),
+				key: 'generalSearch'
+			},
+        "paging":   true,
+        columnDefs: [ {
+            orderable: false,
+            className: 'select-checkbox',
+            targets:   0
+        } ],
+        select: {
+            style:    'multi',
+            selector: 'td:first-child'
+        },
+        order: [[ 1, 'asc' ]],
+        "ordering": true,
+        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]]
+           });
 
                             </script>
 @endsection

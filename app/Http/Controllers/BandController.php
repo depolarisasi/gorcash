@@ -82,6 +82,14 @@ class BandController extends Controller
         return redirect('band');
     }
 
+    public function apimassdelete(Request $request){
+
+        $ids = $request->ids;
+        Band::whereIn('band_code',$ids)->delete();
+        return response()->json(['success'=>"Bands Deleted successfully."]);
+
+}
+
     public function importdata(){
         return view('band.import');
     }

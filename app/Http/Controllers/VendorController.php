@@ -98,4 +98,13 @@ class VendorController extends Controller
         toast('Berhasil Menambah Warna','success');
         return redirect('/vendors');
     }
+
+    
+    public function apimassdelete(Request $request){
+
+        $ids = $request->ids;
+        Vendor::whereIn('vendor_nama',$ids)->delete();
+        return response()->json(['success'=>"Vendor Deleted successfully."]);
+
+}
 }

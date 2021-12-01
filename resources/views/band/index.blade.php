@@ -49,17 +49,15 @@
 </thead>
 <tbody>
     @foreach($band as $b)
-<tr>
+<tr data-row-id="{{$b->band_code}}">
     <td></td>
 <td class="pl-3 py-3">
 <div class="d-flex align-items-center">
     {{$b->band_nama}}
 </div>
 </td>
-<td class="pl-3 py-3">
-    <div class="d-flex align-items-center">
-        {{$b->band_code}}
-    </div>
+<td class="pl-3 py-3"> 
+        {{$b->band_code}} 
     </td>
 <td>
     <a href="{{url('/band/edit/'.$b->band_id)}}" class="btn btn-xs btn-icon btn-warning"><i class="fas fa-edit nopadding"></i></a>
@@ -134,7 +132,7 @@
                 text: 'Delete',
                 action: function () {
 
-                    var ids = $.map(tabel.rows('.selected').data(), function (item) {
+                    var ids = $.map(table.rows('.selected').data(), function (item) {
        				 return item[2]
     					});
                     if(ids.length <=0)
@@ -149,7 +147,7 @@
         if(check == true){
             var join_selected_values = ids;
             $.ajax({
-                url: 'api/massdelete/',
+                url: '/band/massdelete',
                 type: 'POST',
                 data: {
                     _token : "{{csrf_token()}}",
@@ -171,8 +169,7 @@
                 }
             });
           $.each(ids, function( index, value ) {
-              $('table tr').filter("[data-row-id='" + value + "']").remove();
-
+              $('table tr').filter("[data-row-id='" + value + "']").remove(); 
           });
 
         }
