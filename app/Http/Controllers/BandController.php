@@ -102,7 +102,7 @@ class BandController extends Controller
             return redirect('/band');
         }
 
-        toast('Berhasil Menambah Warna','success');
+        toast('Berhasil Menambah Band','success');
         return redirect('/band');
     }
 }

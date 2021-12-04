@@ -18,6 +18,8 @@ use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Facades\File;
 use Intervention\Image\ImageManagerStatic as Image;
 use Carbon\Carbon;
+use App\Imports\BarcodeImport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class BarcodeDBController extends Controller
 {
@@ -68,6 +70,7 @@ class BarcodeDBController extends Controller
         $mastersku = $databand->band_code.$datatype->type_code.$serivarian.$datacolor->color_code;
         $store = collect($request->all());
         $store->put('barcode_mastersku', $mastersku);
+        $store->put('barcode_productseri', $serivarian);
 
         try {
             BarcodeDB::create($store->all());
@@ -77,7 +80,7 @@ class BarcodeDBController extends Controller
             }
         }
 
-        toast('Master SKU sudah ditambahkan!','error');
+        toast('Master SKU sudah ditambahkan!','success');
         return redirect('barcode');
     }
 
@@ -153,6 +156,10 @@ class BarcodeDBController extends Controller
     public function delete($id)
     {
         $barcode = BarcodeDB::where('barcode_id', $id)->first();
+        $product = Product::where('product_mastersku',$barcode->mastersku)->get();
+        foreach($product as $p){
+            $p->delete();
+        }
 
         try {
             $barcode->delete();
@@ -160,7 +167,7 @@ class BarcodeDBController extends Controller
             return $e;
         } //show db error message
 
-        toast('Master SKU sudah dihapus!','success');
+        toast('Master SKU dan Produknya sudah dihapus!','success');
         return redirect('barcode');
     }
 
@@ -172,11 +179,36 @@ class BarcodeDBController extends Controller
                 'status'=>"Success",
                 'product_nama'=> $selectedsku->barcode_productname,
                 'product_type'=> $selectedsku->barcode_producttype,
-                'product_color'=> $selectedsku->barcode_productband,
-                'product_band'=>$selectedsku->barcode_productcolor,]);
+                'product_color'=> $selectedsku->barcode_productcolor,
+                'product_band'=>$selectedsku->barcode_productband,]);
         }else {
             return response()->json(['status' => "Failed"]);
         }
 
     }
+
+    public function apimassdelete(Request $request){
+
+        $ids = $request->ids;
+        Band::whereIn('barcode_mastersku',$ids)->delete();
+        return response()->json(['success'=>"Barcode Deleted successfully."]);
+
+}
+
+    public function importdata(){
+        return view('barcode.import');
+    }
+
+    public function importing(Request $request){
+        if($request->file('barcode') != NULL) {
+            Excel::import(new BarcodeImport, request()->file('barcode'));
+        }else {
+            toast('File kosong','error');
+            return redirect('/barcode');
+        }
+
+        toast('Berhasil Menambah Barcode','success');
+        return redirect('/barcode');
+    }
+
 }

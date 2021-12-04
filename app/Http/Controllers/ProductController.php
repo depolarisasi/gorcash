@@ -18,6 +18,7 @@ use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Facades\File;
 use Intervention\Image\ImageManagerStatic as Image;
 use Carbon\Carbon;
+use Illuminate\Support\Collection;
 
 use App\Imports\ProductsImport;
 use Maatwebsite\Excel\Facades\Excel;
@@ -30,7 +31,7 @@ class ProductController extends Controller
         $firstbandletter =  substr($databand->band_nama, 0, 1);
         $datatype = TypeProduct::where('type_id',$type)->first();
         $datacolor = Color::where('color_id',$color)->first();
-        $sericode = BarcodeDB::where('barcode_productband',$band)->count();
+        $sericode = BarcodeDB::where('barcode_productband',$band)->where('barcode_producttype',$type)->count();
         if($sericode < 10){
             if($sericode != 0) {
                 $countseri = $sericode+1;
@@ -160,59 +161,105 @@ class ProductController extends Controller
                     $hargajual = $request->hargajualb;
                     $stok = $request->stokawalb;
                 }
-
+                $arr = array();
                 foreach($size as $key => $s){
-                    $sizeselected = $s;
-                    $skuvariant = $masterskus.$sizeselected;
-                    $checksku = Product::where('product_sku',$skuvariant)->first();
-                    $masterdata = BarcodeDB::where('barcode_mastersku', $masterskus)->first();
-                    if($masterdata && $masterdata->barcode_productname != $request->product_nama){
-                        if($checksku == null){
-                                $store = collect($request->all());
-                                $store->put('product_mastersku', $masterskus);
-                                $store->put('product_idsize', $sizeselected);
-                                $store->put('product_idband', $masterdata->barcode_productband);
-                                $store->put('product_typeid', $masterdata->barcode_producttype);
-                                $store->put('product_color', $masterdata->barcode_productcolor);
-                                $store->put('product_sku', $skuvariant);
-                                $store->put('product_hargajual', $hargajual[$key]);
-                                $store->put('product_hargabeli', $hargabeli[$key]);
-                                $store->put('product_stok', $stok[$key]);
-                                $store->put('product_stokakhir', $stok[$key]);
-                                if($stok[$key] >= 1){
-                                $store->put('product_stoktoko', 1);
-                                $store->put('product_stokgudang', (int)$stok[$key]-1);
-                                }elseif($stok[$key] <= 0){
-                                    $store->put('product_stoktoko', 0);
-                                    $store->put('product_stokgudang', 0);
-                                }
-                                $store->put('product_foto', $this->uploadImage($request->file('product_foto')));
-                                $vendor = implode(',',$request->product_vendor);
-                                $store->put('product_vendor', $vendor);
-                                $store->put('product_productlama', $request->product_productlama);
-                            if($request->product_tanggalpublish == NULL){
-                                $status = 0;
-                            }else {
-                                $status = 1;
-                            }
-                            $store->put('product_status', $status);
+                    if(($stok[$key] != 0 || $stok[$key] != "0") || is_null($stok[$key])){
+                                $sizeselected = $s;
+                                $skuvariant = $masterskus.$sizeselected;
+                                $checksku = Product::where('product_sku',$skuvariant)->first();
+                                $masterdata = BarcodeDB::where('barcode_mastersku', $masterskus)->first();
+                                if($masterdata && $masterdata->barcode_productname == $request->product_nama){
+                                    if(!$checksku){
+                                            $store = collect($request->all());
+                                            $store->put('product_mastersku', $masterskus);
+                                            $store->put('product_idsize', $sizeselected);
+                                            $store->put('product_idband', $masterdata->barcode_productband);
+                                            $store->put('product_typeid', $masterdata->barcode_producttype);
+                                            $store->put('product_color', $masterdata->barcode_productcolor);
+                                            $store->put('product_sku', $skuvariant);
+                                            $store->put('product_hargajual', $hargajual[$key]);
+                                            $store->put('product_hargabeli', $hargabeli[$key]);
+                                            $store->put('product_stok', $stok[$key]);
+                                            $store->put('product_stokakhir', $stok[$key]);
+                                            if($stok[$key] >= 1){
+                                            $store->put('product_stoktoko', 1);
+                                            $store->put('product_stokgudang', (int)$stok[$key]-1);
+                                            }elseif($stok[$key] <= 0){
+                                                $store->put('product_stoktoko', 0);
+                                                $store->put('product_stokgudang', 0);
+                                            }
+                                            $store->put('product_foto', $this->uploadImage($request->file('product_foto')));
+                                            if(is_array($request->product_vendor)){
+                                                $vendor = implode(',',$request->product_vendor);
+                                            }else {
+                                                $vendorinput = explode('',$request->product_vendor);
+                                                $vendor = implode(',',$vendorinput);
+                                            }
+                                            $store->put('product_vendor', $vendor);
+                                            $store->put('product_productlama', $request->product_productlama);
+                                        if($request->product_tanggalpublish == NULL){
+                                            $status = 0;
+                                        }else {
+                                            $status = 1;
+                                        }
+                                        $store->put('product_status', $status);
 
-                            try {
-                                Product::create($store->all());
-                                } catch (QE $e) {
+                                        try {
+                                            Product::create($store->all());
+                                            } catch (QE $e) {
 
-                        toast('Database error','error');
+                                    toast('Database error','error');
+                                                return redirect()->back();
+                                            }
+                                    }else {
+
+                                            $checksku->product_idsize = $sizeselected;
+                                            $checksku->product_idband = $masterdata->barcode_productband;
+                                            $checksku->product_typeid = $masterdata->barcode_producttype;
+                                            $checksku->product_color = $masterdata->barcode_productcolor;
+                                            $checksku->product_sku = $skuvariant;
+                                            $checksku->product_hargajual = $hargajual[$key];
+                                            $checksku->product_hargabeli = $hargabeli[$key];
+                                            $checksku->product_stok = (int)$checksku->product_stok + $stok[$key];
+                                            $checksku->product_stokakhir = (int)$checksku->product_stokakhir + $stok[$key];
+                                            if($stok[$key] >= 1){
+                                            $checksku->product_stoktoko = (int)$checksku->product_stoktoko+1;
+                                            $checksku->product_stokgudang = (int)$checksku->product_stokgudang+(int)$stok[$key]-1;
+                                            }elseif($stok[$key] <= 0){
+                                                $checksku->product_stoktoko = 0;
+                                                $checksku->product_stokgudang = 0;
+                                            }
+                                            $checksku->product_foto = $this->uploadImage($request->file('product_foto'));
+                                            if(is_array($request->product_vendor)){
+                                                $vendor = implode(',',$request->product_vendor);
+                                            }else {
+                                                $vendorinput = explode(' ',$request->product_vendor);
+                                                $vendor = implode(',',$vendorinput);
+                                            }
+                                            $checksku->product_vendor = $vendor;
+                                            $checksku->product_productlama = $request->product_productlama;
+                                        if($request->product_tanggalpublish == NULL){
+                                            $status = 0;
+                                        }else {
+                                            $status = 1;
+                                        }
+                                        $checksku->product_status = $status;
+
+                                        try {
+                                            $checksku->update();
+                                            } catch (QE $e) {
+
+                                    toast('Database error','error');
+                                                return redirect()->back();
+                                            }
+                                    }
+                                }else {
+                                    toast('Nama Desain di Database Barcode berbeda dengan Nama Produk, Produk Berbeda?','error');
                                     return redirect()->back();
                                 }
-                        }else {
-                            toast('Produk Sudah Ada!','error');
-                            return redirect()->back();
-                        }
-                    }else {
-                        toast('Nama Desain di Database Barcode berbeda dengan Nama Produk, Produk Berbeda?','error');
-                        return redirect()->back();
+
                     }
-                } 
+                    }
         }else {
             $masterdata = new BarcodeDB;
             $masterdata->barcode_productband = $request->product_idband;
@@ -246,44 +293,53 @@ class ProductController extends Controller
             }
 
             foreach($size as $key => $s){
-            $sizeselected = $s;
-            $skuvariant = $newbarcode["sku"].$s;
-            $store = collect($request->all());
-            $store->put('product_mastersku', $newbarcode["sku"]);
-            $store->put('product_sku', $skuvariant);
-            $store->put('product_idsize', $sizeselected);
-            $store->put('product_idband', $masterdata->barcode_productband);
-            $store->put('product_typeid', $masterdata->barcode_producttype);
-            $store->put('product_color', $masterdata->barcode_productcolor);
-            $store->put('product_hargajual', $hargajual[$key]);
-            $store->put('product_hargabeli', $hargabeli[$key]);
-            $store->put('product_stok', $stok[$key]);
-            $store->put('product_stokakhir', $stok[$key]);
-            if($stok[$key] >= 1){
-                $store->put('product_stoktoko', 1);
-                $store->put('product_stokgudang', (int)$stok[$key]-1);
-                }elseif($stok[$key] <= 0){
-                    $store->put('product_stoktoko', 0);
-                    $store->put('product_stokgudang', 0);
+                if(($stok[$key] != 0 || $stok[$key] != "0") || is_null($stok[$key])){
+                            $sizeselected = $s;
+                            $skuvariant = $newbarcode["sku"].$s;
+                            $store = collect($request->all());
+                            $store->put('product_mastersku', $newbarcode["sku"]);
+                            $store->put('product_sku', $skuvariant);
+                            $store->put('product_idsize', $sizeselected);
+                            $store->put('product_idband', $masterdata->barcode_productband);
+                            $store->put('product_typeid', $masterdata->barcode_producttype);
+                            $store->put('product_color', $masterdata->barcode_productcolor);
+                            $store->put('product_hargajual', $hargajual[$key]);
+                            $store->put('product_hargabeli', $hargabeli[$key]);
+                            $store->put('product_stok', $stok[$key]);
+                            $store->put('product_stokakhir', $stok[$key]);
+                            if($stok[$key] >= 1){
+                                $store->put('product_stoktoko', 1);
+                                $store->put('product_stokgudang', (int)$stok[$key]-1);
+                                }elseif($stok[$key] <= 0){
+                                    $store->put('product_stoktoko', 0);
+                                    $store->put('product_stokgudang', 0);
+                                }
+                            $store->put('product_foto', $this->uploadImage($request->file('product_foto')));
+                            if(is_array($request->product_vendor)){
+                                $vendor = implode(',',$request->product_vendor);
+                            }else {
+                                $vendorinput = explode('',$request->product_vendor);
+                                $vendor = implode(',',$vendorinput);
+                            }
+                            $store->put('product_vendor', $vendor);
+                            $store->put('product_productlama', $request->product_productlama);
+                            if($request->product_tanggalpublish == NULL){
+                                $status = 0;
+                            }else {
+                                $status = 1;
+                            }
+                            $store->put('product_status', $status);
+
+                            try {
+                                Product::create($store->all());
+                                } catch (QE $e) {
+
+                        toast('Database error','error');
+                        return redirect()->back();
+                        }
+
                 }
-            $store->put('product_foto', $this->uploadImage($request->file('product_foto')));
-            $vendor = implode(',',$request->product_vendor);
-            $store->put('product_vendor', $vendor);
-            $store->put('product_productlama', $request->product_productlama);
-            if($request->product_tanggalpublish == NULL){
-                $status = 0;
-            }else {
-                $status = 1;
-            }
-            $store->put('product_status', $status);
 
-            try {
-                Product::create($store->all());
-                } catch (QE $e) {
-
-        toast('Database error','error');
-        return redirect()->back();
-        }
             }
 
 

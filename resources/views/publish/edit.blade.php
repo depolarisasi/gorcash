@@ -41,9 +41,10 @@
 			<thead>
 				<tr>
 					<th width="10%">SKU</th>
+					<th width="20%">Nama Band</th>
 					<th width="20%">Nama Produk</th>
-					<th width="8%">Stok Awal</th>
-					<th width="8%">Stok Akhir</th>
+					<th width="5%">Stok Awal</th>
+					<th width="5%">Stok Akhir</th>
 					<th width="10%">Tag</th>
 					<th width="10%">Material</th>
 					<th width="10%">Made In</th>
@@ -57,7 +58,10 @@
                     <input type="hidden" name="publish_id[]" value="{{$p->publish_id}}">
                     <input type="hidden" name="tanggalpublish" value="{{$p->publish_tanggalpublish}}">
                     <input type="hidden" name="product_id[]" value="{{$p->product_id}}">
+                    <td><a href="{{asset($p->product_foto?$p->product_foto:"/assets/nopicture.png")}}" data-fslightbox="galleryproduk">
+                        <img src="{{asset($p->product_foto?$p->product_foto:"/assets/nopicture.png")}}" class="img-fluid" style="width: 50px !important; height: 50px !important;"></a></td>
 					<td>{{$p->product_sku}}</td>
+					<td>{{$p->band_nama}}</td>
 					<td>{{$p->product_nama}} ({{$p->size_nama}})</td>
                     <td><input type="number" class="form-control" name="product_stok[]" value="{{$p->product_stok}}"></td>
                     <td><input type="number" class="form-control" name="product_stokakhir[]" value="{{$p->product_stokakhir}}"></td>
@@ -102,6 +106,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.0.1/js/buttons.html5.min.js"></script>
+<script src="{{asset('js/fslightbox.js')}}"></script>
 
 
 <script>

@@ -27,7 +27,7 @@ class ProductsImport implements ToCollection, WithHeadingRow
         $firstbandletter =  substr($databand->band_nama, 0, 1);
         $datatype = TypeProduct::where('type_id',$type)->first();
         $datacolor = Color::where('color_id',$color)->first();
-        $sericode = BarcodeDB::where('barcode_productband',$band)->count();
+        $sericode = BarcodeDB::where('barcode_productband',$band)->where('barcode_producttype',$type)->count();
         if($sericode < 10){
             if($sericode != 0) {
                 $countseri = $sericode+1;
@@ -56,7 +56,7 @@ class ProductsImport implements ToCollection, WithHeadingRow
                         foreach($generatesize as $gs){
                             if($masterdata){
                         $skuvariant = $masterskus.$gs->size_id;
-                        $checksku = Product::where('product_sku',$skuvariant)->first(); 
+                        $checksku = Product::where('product_sku',$skuvariant)->first();
                                 if($checksku == null){
                                     if(strlen($row['product_vendor']) > 1){
                                         $explodevendor = explode(',',$row['product_vendor']);
@@ -64,7 +64,7 @@ class ProductsImport implements ToCollection, WithHeadingRow
                                     }else {
                                         $vendor = $row['product_vendor'];
                                     }
-                                    if($row['product_idsize'] == $gs->size_id){ 
+                                    if($row['product_idsize'] == $gs->size_id){
                                      $skuvariant = $masterskus.$row['product_idsize'];
                                      $stok = $row['product_stok'];
                                      $size = $row['product_idsize'];
@@ -81,7 +81,7 @@ class ProductsImport implements ToCollection, WithHeadingRow
                                             $stoktoko = 0;
                                             $stokgudang = 0;
                                         }
-    
+
                                         $insert = new Product();
                                         $insert->insertOrIgnore([
                                             'product_productlama' => $row['product_productlama'],
@@ -115,11 +115,11 @@ class ProductsImport implements ToCollection, WithHeadingRow
                                 }
                             }
                         }
-                        
-                   
-                }else {
 
-                    $checkbyname = BarcodeDB::where('barcode_productname','LIKE', '%'.$row['product_nama'].'%')->first();
+
+                }else {
+                    $checkbyname = BarcodeDB::where('barcode_productname','LIKE', '%'.$row['product_nama'].'%')
+                    ->where('barcode_productband',$row['product_idband'])->first();
                     if($checkbyname){
                         $masterskus =  $checkbyname->barcode_mastersku;
                         $size = $row['product_idsize'];
@@ -177,6 +177,39 @@ class ProductsImport implements ToCollection, WithHeadingRow
                                     } catch (QE $e) {
                                         return $e;
                                     }
+                            }else {
+                                $checksku->product_idsize = $row['product_idsize'];;
+                                $checksku->product_idband = $masterdata->barcode_productband;
+                                $checksku->product_typeid = $masterdata->barcode_producttype;
+                                $checksku->product_color = $masterdata->barcode_productcolor;
+                                $checksku->product_sku = $skuvariant;
+                                $checksku->product_hargajual = $row['product_hargajual'];
+                                $checksku->product_hargabeli = $row['product_hargabeli'];
+                                $checksku->product_stok = (int)$checksku->product_stok + $row['product_stok'];
+                                $checksku->product_stokakhir = (int)$checksku->product_stokakhir + $row['product_stok'];
+                                if($row['product_stok'] >= 1){
+                                $checksku->product_stoktoko = (int)$checksku->product_stoktoko+1;
+                                $checksku->product_stokgudang = (int)$checksku->product_stokgudang+(int)$row['product_stok']-1;
+                                }elseif($row['product_stok'] <= 0){
+                                    $checksku->product_stoktoko = 0;
+                                    $checksku->product_stokgudang = 0;
+                                }
+                                $checksku->product_foto = $row['product_foto'];;
+                                if(is_array($row['product_vendor'])){
+                                    $vendor = implode(',',$row['product_vendor']);
+                                }else {
+                                    $vendorinput = explode(' ',(string)$row['product_vendor']);
+                                    $vendor = implode(',',$vendorinput);
+                                }
+                                $checksku->product_vendor = $vendor;
+                                $checksku->product_productlama = $row['product_productlama'];
+                            if($row['product_tanggalpublish'] == NULL){
+                                $status = 0;
+                            }else {
+                                $status = 1;
+                            }
+                            $checksku->product_status = $status;
+                            $checksku->update();
                             }
                         }
 

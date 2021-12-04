@@ -176,8 +176,9 @@ Route::group(['prefix' => 'size'], function() {
     Route::get('/edit/{id}',[App\Http\Controllers\BarcodeDBController::class, 'edit'])->middleware('warehouse');
     Route::post('/update',[App\Http\Controllers\BarcodeDBController::class, 'update'])->middleware('warehouse');
     Route::get('/delete/{id}',[App\Http\Controllers\BarcodeDBController::class, 'delete'])->middleware('warehouse');
-    Route::get('/import',[App\Http\Controllers\BarcodeDBController::class, 'importdata'])->middleware('warehouse');
-    Route::post('/importing',[App\Http\Controllers\BarcodeDBController::class, 'importing'])->middleware('warehouse');
+    Route::get('/import',[App\Http\Controllers\BarcodeDBController::class, 'importdata'])->middleware('auth');
+    Route::post('/importing',[App\Http\Controllers\BarcodeDBController::class, 'importing'])->middleware('auth');
+    Route::post('/massdelete',[App\Http\Controllers\BarcodeDBController::class, 'apimassdelete'])->middleware('auth');
    });
 
    Route::group(['prefix' => 'agenda'], function() {

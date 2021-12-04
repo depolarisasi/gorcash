@@ -195,9 +195,9 @@
                     <tr>
                         <input type="hidden" name="sized_id[]" value="{{$sd->size_id}}">
                         <td>{{$sd->size_nama}}</td>
-                        <td><input type="text" value="" class="form-control" name="hargabelid[]"></td>
-                        <td><input type="text" value="" class="form-control" name="hargajuald[]"></td>
-                        <td><input type="text" value="" class="form-control" name="stokawald[]"></td>
+                        <td><input type="number" value="0" class="form-control" name="hargabelid[]"></td>
+                        <td><input type="number" value="0" class="form-control" name="hargajuald[]"></td>
+                        <td><input type="number" value="0" class="form-control" name="stokawald[]"></td>
                         </td>
                     </tr>
                     @endforeach
@@ -223,9 +223,9 @@
                     <tr>
                         <input type="hidden" name="sizea_id[]" value="{{$sa->size_id}}">
                         <td>{{$sa->size_nama}}</td>
-                        <td><input type="text" value="" class="form-control" name="hargabelia[]"></td>
-                        <td><input type="text" value="" class="form-control" name="hargajuala[]"></td>
-                        <td><input type="text" value="" class="form-control" name="stokawala[]"></td>
+                        <td><input type="number" value="0" class="form-control" name="hargabelia[]"></td>
+                        <td><input type="number" value="0" class="form-control" name="hargajuala[]"></td>
+                        <td><input type="number" value="0" class="form-control" name="stokawala[]"></td>
                         </td>
                     </tr>
                     @endforeach
@@ -252,9 +252,9 @@
                     <tr>
                         <input type="hidden" name="sizeb_id[]" value="{{$sb->size_id}}">
                         <td>{{$sb->size_nama}}</td>
-                        <td><input type="text" value="" class="form-control" name="hargabelib[]"></td>
-                        <td><input type="text" value="" class="form-control" name="hargajualb[]"></td>
-                        <td><input type="text" value="" class="form-control" name="stokawalb[]"></td>
+                        <td><input type="number" value="0" class="form-control" name="hargabelib[]"></td>
+                        <td><input type="number" value="0" class="form-control" name="hargajualb[]"></td>
+                        <td><input type="number" value="0" class="form-control" name="stokawalb[]"></td>
                         </td>
                     </tr>
                     @endforeach
