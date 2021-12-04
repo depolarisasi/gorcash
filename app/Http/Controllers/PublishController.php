@@ -93,7 +93,7 @@ class PublishController extends Controller
         $publish = BarangPublish::join('product','product.product_id','publish.publish_productid')
         ->join('band','band.band_id','product.product_idband')
         ->join('size','size.size_id','product.product_idsize')
-        ->select('publish.*','product.product_id','band.band_nama','product.product_nama','size.size_nama','product.product_mastersku','product.product_sku'
+        ->select('publish.*','product.product_id','product.product_foto','band.band_nama','product.product_nama','size.size_nama','product.product_mastersku','product.product_sku'
         ,'product.product_material'
         ,'product.product_tag'
         ,'product.product_madein'
@@ -111,7 +111,7 @@ class PublishController extends Controller
         $publish = BarangPublish::join('product','product.product_id','publish.publish_productid')
         ->join('size','size.size_id','product.product_idsize')
         ->join('band','band.band_id','product.product_idband')
-        ->select('publish.*','product.product_id','band.band_nama','product.product_nama','size.size_nama','product.product_mastersku','product.product_sku'
+        ->select('publish.*','product.product_id','product.product_foto','band.band_nama','product.product_nama','size.size_nama','product.product_mastersku','product.product_sku'
         ,'product.product_material'
         ,'product.product_tag'
         ,'product.product_madein'
