@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title','Transaksi - ')
+@section('title','Barang Terjual - ')
 @section('css')
 <link href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css">
 <link href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css">
@@ -24,7 +24,7 @@
 <!--begin::Header-->
 <div class="card-header border-0 py-5">
 <h3 class="card-title align-items-start flex-column">
-<span class="card-label font-weight-bolder text-dark">Daftar Transaksi</span>
+<span class="card-label font-weight-bolder text-dark">Daftar Barang Terjual</span>
 </h3>
 <div class="card-toolbar">
 </div>
@@ -73,43 +73,24 @@
                 <thead>
                     <tr>
                         <th>Tanggal</th>
+                        <th>Nama Barang</th>
                         <th>Channel</th>
-                        <th>Barang Terjual</th>
-                        <th>Potongan</th>
                         <th>Total Penjualan</th>
-                        <th>Diskon</th>
-                        <th>Total Pembayaran</th>
-                        <th>Tipe Pembayaran</th>
-                        <th>Action</th>
+                        <th>Total Diskon</th>
+                        <th>Total Pendapatan</th>
                     </tr>
                 </thead>
                 <tbody>
 
-                    @foreach($penjualan as $key => $p)
+                    @foreach($barangterjual as $key => $b)
                     <tr>
-                        <td>{{$p->penjualan_tanggalpenjualan}}</td>
-                        <td>{{$p->penjualan_channel}}</td>
-                        <td>@foreach($barang[$key] as $brg)
-                        <p>{{$brg}}</p>&nbsp;
-                            @endforeach
-                        </td>
-                        <td>@foreach($potongan[$key] as $po)
-                            {{$po}}
-                                @endforeach
-                                @foreach($pot[$key] as $nampot)
-                            (@money($nampot))
-                                @endforeach
-                                <p>@money($p->penjualan_totalpotongan?$p->penjualan_totalpotongan:0)</p>
-                            </td>
-                        <td>@money($p->penjualan_totalpenjualan?$p->penjualan_totalpenjualan:0)</td>
-                        <td>@money($p->penjualan_diskon)</td>
-                        <td>@money($p->penjualan_paymenttotal)</td>
-                        <td>{{$p->penjualan_paymentype}}</td>
-                        <td>
-                            <a href="{{url('/penjualan/detail/'.$p->penjualan_id)}}" class="btn btn-icon btn-xs btn-primary"><i class="fas fa-info-circle nopadding"></i></a>
-                            @if($p->penjualan_receipt != NULL)<a href="{{url('/penjualan/struk/'.$p->penjualan_id)}}" class="btn btn-icon btn-xs btn-info"><i class="fas fa-print nopadding"></i></a>@endif
-                            <button type="button" href="{{url('/penjualan/delete/'.$p->penjualan_id)}}" class="deletebtn btn btn-icon btn-xs btn-danger"><i class="fas fa-trash nopadding"></i></button>
-                        </td>
+                        <td>{{$b->barangterjual_tanggalbarangterjual}}</td>
+                        <td>{{$b->product_sku}} - {{$b->product_nama}}</td>
+                        <td>{{$b->penjualan_channel}}</td>
+                        <td>@money($b->barangterjual_totalbarangterjual)</td>
+                        <td>@money($b->barangterjual_diskon)</td>
+                        <td>@money($b->barangterjual_totalpendapatan)</td>
+
                     </tr>
                     @endforeach
 

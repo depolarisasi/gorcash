@@ -40,10 +40,10 @@
 				<tr>
                     <th width="5%">Foto</th>
 					<th width="5%">SKU</th>
-					<th width="20%">Nama Band</th>
+					<th width="10%">Nama Band</th>
 					<th width="20%">Nama Produk</th>
-					<th width="5%">Stok Awal</th>
-					<th width="5%">Stok Akhir</th>
+					<th width="10%">Stok Awal</th>
+					<th width="10%">Stok Akhir</th>
 					<th width="10%">Tag</th>
 					<th width="10%">Material</th>
 					<th width="10%">Made In</th>

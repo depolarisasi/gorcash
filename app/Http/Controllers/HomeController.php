@@ -4,10 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Auth;
-use \Carbon\Carbon;
+use Carbon\Carbon;
+use Carbon\CarbonPeriod;
 use App\Models\Notes;
+use App\Models\Penjualan;
 use App\Models\Agenda;
 use App\Models\Product;
+use App\Models\BarangTerjual;
 use RealRashid\SweetAlert\Facades\Alert;
 class HomeController extends Controller
 {
@@ -41,5 +44,57 @@ class HomeController extends Controller
 
     public function salesreport(){
 
+        $periodweek = CarbonPeriod::create(Carbon::now()->startOfWeek()->format('Y-m-d'), Carbon::now()->format('Y-m-d'));
+        $periodmonth = CarbonPeriod::create(Carbon::now()->startOfMonth()->format('Y-m-d'), Carbon::now()->format('Y-m-d'));
+        $weeklydates = [];
+        $monthlydates = [];
+        $dateweek = [];
+        $datemonth = [];
+        foreach($periodweek as $p){
+            array_push($weeklydates, $p->format('d M Y'));
+            array_push($dateweek, $p->format('Y-m-d'));
+        }
+        foreach($periodmonth as $pm){
+
+            array_push($monthlydates, $pm->format('d M Y'));
+            array_push($datemonth, $pm->format('Y-m-d'));
+        }
+
+        $weeklydate = json_encode($weeklydates);
+        $monthlydate = json_encode($monthlydates);
+
+        $weeklysales = [];
+        $monthlysales = [];
+        $weeklyproductsales = BarangTerjual::whereIn('barangterjual_tanggalbarangterjual',$dateweek)->count('barangterjual_qty');
+        $weeklyproduct = [];
+        $totalweekly = 0;
+        $totalmonthly = 0;
+        foreach($dateweek as $dw){
+            $sales = Penjualan::where('penjualan_tanggalpenjualan',$dw)->first();
+            $products = BarangTerjual::where('barangterjual_tanggalbarangterjual',$dw)->count('barangterjual_qty');
+            array_push($weeklysales, $sales?$sales->penjualan_totalpendapatan:0);
+            $totalweekly = $totalweekly + ($sales?$sales->penjualan_totalpendapatan:0);
+            array_push($weeklyproduct, $products?$products:0);
+        }
+        foreach($datemonth as $dm){
+            $sales = Penjualan::where('penjualan_tanggalpenjualan',$dm)->first();
+            array_push($monthlysales, $sales?$sales->penjualan_totalpendapatan:0);
+            $totalmonthly = $totalmonthly + ($sales?$sales->penjualan_totalpendapatan:0);
+        }
+        $salesweekly = json_encode($weeklysales);
+        $productweekly = json_encode($weeklyproduct);
+        $salesmonthly= json_encode($monthlysales);
+
+        $recentsales = BarangTerjual::join('product','product.product_id','=','barangterjual.barangterjual_idproduk')
+        ->join('band','band.band_id','=','product.product_idband')
+        ->select('product.product_nama','product.product_foto','product.product_hargajual','barangterjual.*','band.band_nama')
+        ->orderBy('barangterjual.barangterjual_tanggalbarangterjual','DESC')->limit(10)->get();
+        $pendapatanthismonth = Penjualan::whereMonth('penjualan_tanggalpenjualan',Carbon::now()->format('m'))->sum('penjualan_totalpendapatan');
+        $diskonthismonth = Penjualan::whereMonth('penjualan_tanggalpenjualan',Carbon::now()->format('m'))->sum('penjualan_diskon');
+        $potonganthismonth = Penjualan::whereMonth('penjualan_tanggalpenjualan',Carbon::now()->format('m'))->sum('penjualan_totalpotongan');
+        $dataproporsi = json_encode([$pendapatanthismonth, $diskonthismonth, $potonganthismonth]);
+
+        return view('laporan')->with(compact('dataproporsi','weeklydate','salesweekly','totalweekly','monthlydate','salesmonthly','totalmonthly','recentsales','productweekly','weeklyproductsales','recentsales'));
+        // return $salesweekly;
     }
 }

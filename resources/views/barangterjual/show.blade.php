@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title','Detail Transaksi - ')
+@section('title','Detail Penjualan - ')
 @section('content')
 	<!--begin::Content-->
     <div class="content  d-flex flex-column flex-column-fluid" id="kt_content">
@@ -19,7 +19,7 @@
             <div class="row justify-content-center py-8 px-8 py-md-10 px-md-0">
                 <div class="col-md-10">
                     <div class="d-flex justify-content-between pb-5 pb-md-10 flex-column flex-md-row">
-                        <h1 class="display-4 font-weight-boldest">Detail Transaksi</h1>
+                        <h1 class="display-4 font-weight-boldest">Detail Penjualan</h1>
                         <div class="card-toolbar">
                             <a href="{{url('penjualan/')}}" class="btn btn-primary btn-md font-size-sm"><i class="fas fa-arrow-left"></i> Kembali</a>
                             </div>
@@ -115,7 +115,7 @@
                                 </tr>
                                 @endforeach
                                 <tr class="font-weight-bolder">
-                                    <td colspan="2" class="text-primary font-size-h3 font-weight-boldest text-right">@money($penjualan->penjualan_totalpotongan?$penjualan->penjualan_totalpotongan:0)</td>
+                                    <td colspan="2" class="text-primary font-size-h3 font-weight-boldest text-right">@money($penjualan->penjualan_totalpotongan)</td>
                                 </tr>
                             </tbody>
                         </table>

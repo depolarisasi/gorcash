@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('logout', [App\Http\Controllers\UserController::class, 'logout'])->middleware('auth');
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'dashboard'])->middleware('auth');
+Route::get('/laporan',[App\Http\Controllers\HomeController::class, 'salesreport'])->middleware('accountant');
 
 
 
@@ -150,6 +151,17 @@ Route::group(['prefix' => 'size'], function() {
     Route::get('/delete/{id}',[App\Http\Controllers\PenjualanController::class, 'delete'])->middleware('sales');
     Route::get('/struk/{id?}',[App\Http\Controllers\PenjualanController::class, 'receipt'])->middleware('sales');
 
+   });
+
+   Route::group(['prefix' => 'barangterjual'], function() {
+    Route::get('/',[App\Http\Controllers\BarangTerjualController::class, 'index'])->middleware('sales');
+    Route::get('/detail/{id}',[App\Http\Controllers\BarangTerjualController::class, 'show'])->middleware('sales');
+    Route::get('/new',[App\Http\Controllers\BarangTerjualController::class, 'create'])->middleware('sales');
+    Route::post('/store',[App\Http\Controllers\BarangTerjualController::class, 'store'])->middleware('sales');
+    Route::get('/edit/{id}',[App\Http\Controllers\BarangTerjualController::class, 'edit'])->middleware('sales');
+    Route::post('/update',[App\Http\Controllers\BarangTerjualController::class, 'update'])->middleware('sales');
+    Route::get('/delete/{id}',[App\Http\Controllers\BarangTerjualController::class, 'delete'])->middleware('sales');
+    Route::get('/struk/{id?}',[App\Http\Controllers\BarangTerjualController::class, 'receipt'])->middleware('sales');
    });
 
     Route::group(['prefix' => 'stokopname'], function() {

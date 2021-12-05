@@ -221,11 +221,10 @@ class PenjualanController extends Controller
             $produkkeluar = BarangTerjual::where('barangterjual_idproduk',$val)->where('barangterjual_idpenjualan',null)->first();
             $produkkeluar->barangterjual_idpenjualan = $addpenjualan->penjualan_id;
             $produkkeluar->barangterjual_qty = $request->qtyorders[$key];
-
             if (str_contains($request->diskonproduct[$key], '%')) {
                 $disk =  trim(str_replace('%','',$request->diskonproduct[$key]));
-                $potonganharga = ($diskon*$produk->product_hargajual)/100;
-                }elseif($request->diskonproduct[$key] == ''){
+                $potonganharga = ($disk*$produk->product_hargajual)/100;
+                }elseif($request->diskonproduct[$key] == 0 || is_null($request->diskonproduct[$key])){
                 $potonganharga = 0;
                 }else{
                 $potonganharga = $request->diskonproduct[$key];
@@ -272,6 +271,7 @@ class PenjualanController extends Controller
         }else {
             $updatepenjualan->penjualan_totalpendapatan = $totalpenjualan-$diskon;
         }
+        $updatepenjualan->penjualan_diskon = $diskon;
         $barangterjual = BarangTerjual::join('product','barangterjual.barangterjual_idproduk','=','product.product_id')
         ->join('size','product.product_idsize','=','size.size_nama')
         ->select('product.product_sku','product.product_mastersku','size.size_nama','product.product_nama','product.product_hargajual','product.product_hargabeli','product.product_foto','barangterjual.*')
