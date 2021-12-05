@@ -1,5 +1,11 @@
 @extends('layouts.app')
 @section('title','Detail Produk - ')
+@section('css')
+<link href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css">
+<link href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css">
+<link href="https://cdn.datatables.net/buttons/2.0.1/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css">
+<link href="https://cdn.datatables.net/datetime/1.1.1/css/dataTables.dateTime.min.css" rel="stylesheet" type="text/css">
+@endsection
 @section('content')
 	<!--begin::Content-->
     <div class="content  d-flex flex-column flex-column-fluid" id="kt_content">
@@ -93,55 +99,34 @@
 
 <!--begin::Body-->
 <div class="card-body pt-0 pb-3">
-    <table class="datatable datatable-bordered datatable-head-custom" id="kt_datatable">
-        <thead>
-            <tr>
-                <th>Foto</th>
-                <th>SKU</th>
-                <th>Nama Produk</th>
-                <th>Size</th>
-                <th>Vendor</th>
-                <th>Band</th>
-                <th>Harga</th>
-                <th>Stok</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td><img src="#" class="img-fluid w-50 h-100"></td>
-                <td>{{$show->product_sku}}</td>
-                <td>{{$show->product_nama}}</td>
-                <td>
-                    @if($show->product_idsize == 1)
-                    S
-                    @elseif($show->product_idsize == 2)
-                    M
-                    @elseif($show->product_idsize == 3)
-                    L
-                    @elseif($show->product_idsize == 4)
-                    XL
-                    @elseif($show->product_idsize == 5)
-                    XXL
-                    @elseif($show->product_idsize == 6)
-                    XXXL
-                    @elseif($show->product_idsize == 7)
-                    ALL SIZE
-                    @endif
-                   </td>
-                <td>{{$show->vendor_nama}}</td>
-                <td>{{$show->band_nama}}</td>
-                <td>{{$show->product_hargajual}}</td>
-                <td>{{$show->product_stok}}</td>
-                <td>
-                    <a href="{{url('/produk/detail/'.$show->product_id)}}" class="btn btn-sm btn-primary"><i class="fas fa-info-circle nopadding"></i></a>
-                    <a href="{{url('/produk/edit/'.$show->product_id)}}" class="btn btn-sm btn-warning"><i class="fas fa-edit nopadding"></i></a>
-                    <button type="button" href="{{url('/produk/delete/'.$show->product_id)}}" class="deletebtn btn btn-sm btn-danger"><i class="fas fa-trash nopadding"></i></button>
-                </td>
-            </tr>
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered" id="product">
+                <thead>
+                    <tr>
+                        <th>Tanggal</th>
+                        <th>Nama Barang</th>
+                        <th>Channel</th>
+                        <th>Total Penjualan</th>
+                        <th>Total Diskon</th>
+                        <th>Total Pendapatan</th>
+                    </tr>
+                </thead>
+                <tbody>
 
-        </tbody>
-    </table>
+                    @foreach($barangterjual as $b)
+                    <tr>
+                        <td>{{$b->barangterjual_tanggalbarangterjual}}</td>
+                        <td>{{$b->product_sku}} - {{$b->product_nama}}</td>
+                        <td>{{$b->penjualan_channel}}</td>
+                        <td>@money($b->barangterjual_totalbarangterjual)</td>
+                        <td>@money($b->barangterjual_diskon)</td>
+                        <td>@money($b->barangterjual_totalpendapatan)</td>
+                    </tr>
+                    @endforeach
+
+                </tbody>
+            </table>
+        </div>
 
 </div>
 <!--end::Body-->
@@ -158,34 +143,23 @@
 </div>
 <!--end::Content-->
 @section('js')
+<script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap4.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.0.1/js/dataTables.buttons.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.0.1/js/buttons.html5.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+<script src="https://cdn.datatables.net/datetime/1.1.1/js/dataTables.dateTime.min.js"></script>
+
+
 <script>
-    "use strict";
-// Class definition
-
-var KTDatatableHtmlTableDemo = function() {
-    // Private functions
-
-    // demo initializer
-    var demo = function() {
-
-		var datatable = $('#kt_datatable').KTDatatable({});
+ tabel = $('#product').DataTable({
+        "paging":   true,
+    } );
 
 
-
-    };
-
-    return {
-        // Public functions
-        init: function() {
-            // init dmeo
-            demo();
-        },
-    };
-}();
-
-jQuery(document).ready(function() {
-	KTDatatableHtmlTableDemo.init();
-});
 
 </script>
 @endsection

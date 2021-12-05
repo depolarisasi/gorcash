@@ -11,6 +11,7 @@ use App\Models\Product;
 use App\Models\Color;
 use App\Models\TypeProduct;
 use App\Models\BarcodeDB;
+use App\Models\BarangTerjual;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Database\QueryException as QE;
@@ -355,7 +356,11 @@ class ProductController extends Controller
         ->join('band','band.band_id','=','product.product_idband')
         ->select('product.*','size.size_id','size.size_nama','band.band_id','band.band_nama')
         ->where('product.product_id', $id)->first();
-
+        $barangterjual = BarangTerjual::join('penjualan','penjualan.penjualan_id','=','barangterjual.barangterjual_idpenjualan')
+        ->join('product','product.product_id','=','barangterjual.barangterjual_idproduk')
+        ->select('product.*','penjualan.*','barangterjual.*')
+        ->where('barangterjual.barangterjual_idproduk',$id)
+        ->get();
         $vendorid = explode(',',$show->product_vendor);
         $arr = array();
         foreach($vendorid as $v){
@@ -366,7 +371,7 @@ class ProductController extends Controller
         $show['product_vendor'] =  $vendorname;
 
 
-        return view('produks.show')->with(compact('show'));
+        return view('produks.show')->with(compact('show','barangterjual'));
     }
 
 

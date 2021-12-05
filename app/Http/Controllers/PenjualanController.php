@@ -235,9 +235,11 @@ class PenjualanController extends Controller
             $produkkeluar->barangterjual_tanggalbarangterjual = $request->penjualan_tanggalpenjualan;
             $produkkeluar->barangterjual_userid = Auth::user()->id;
             $produk->product_stokakhir = $produk->product_stokakhir-$request->qtyorders[$key];
-            $publish = BarangPublish::where('publish_productid',$val)->first();
-            $publish->publish_stokakhir = $publish->publish_stokakhir-$request->qtyorders[$key];
-            $publish->update();
+            if($produk->status == 1){
+                $publish = BarangPublish::where('publish_productid',$val)->first();
+                $publish->publish_stokakhir = $publish->publish_stokakhir-$request->qtyorders[$key];
+                $publish->update();
+            }
             $produk->update();
             $produkkeluar->update();
             array_push($barangterjual,$produkkeluar->barangterjual_id);

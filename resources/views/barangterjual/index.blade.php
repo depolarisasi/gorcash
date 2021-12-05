@@ -90,7 +90,6 @@
                         <td>@money($b->barangterjual_totalbarangterjual)</td>
                         <td>@money($b->barangterjual_diskon)</td>
                         <td>@money($b->barangterjual_totalpendapatan)</td>
-
                     </tr>
                     @endforeach
 
