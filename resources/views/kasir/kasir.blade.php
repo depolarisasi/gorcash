@@ -54,7 +54,7 @@
                     <div class="col-md-8">
                         <select class="form-control select2" id="productlist" name="param">
                             @foreach($product as $p)
-                            <option value="{{$p->product_id}}">{{$p->product_sku}} - {{$p->product_nama}} ({{$p->size_nama}})</option>
+                            <option value="{{$p->product_id}}">@if($p->product_productlama == 1) {{$p->product_barcodelama}} @endif{{$p->product_sku}} - {{$p->product_nama}} ({{$p->size_nama}})</option>
                             @endforeach
                            </select>
                     </div>

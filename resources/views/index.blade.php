@@ -33,38 +33,7 @@ Dashboard Gorilla Coach </h5>
 
 <!--begin::Row-->
 <div class="row">
-<div class="col-lg-4">
-    <!--begin::Mixed Widget 14-->
-    <div class="card card-custom card-stretch gutter-b">
-        <!--begin::Header-->
-        <div class="card-header border-0">
-            <h3 class="card-title font-weight-bolder text-dark">Catatan Toko</h3>
-        </div>
-        <!--end::Header-->
-        <!--begin::Body-->
-        <div class="card-body pt-2">
-            <!--begin::Item-->
-            <!--begin::Item-->
-            @foreach($note as $n)
-            <div class="d-flex align-items-center mt-3">
-                <!--begin::Bullet-->
-                <span class="bullet bullet-bar bg-danger align-self-stretch"></span>
-                <!--end::Bullet-->
-                <!--begin::Text-->
-                <div class="d-flex flex-column flex-grow-1 mx-4">
-                    <a href="{{url('note/detail/'.$n->note_id)}}" class="text-dark-75 text-hover-primary font-weight-bold font-size-lg mb-1">{{$n->note_judul}}</a>
-                    <span class="text-muted font-weight-bold">{{\Carbon\Carbon::parse($n->note_date)->format('d-m-Y')}}</span>
-                </div>
-                <!--end::Text-->
-            </div>
-            @endforeach
-
-        </div>
-        <!--end::Body-->
-    </div>
-    <!--end::Mixed Widget 14-->
-    </div>
-<div class="col-lg-4">
+<div class="col-lg-6">
 <!--begin::Mixed Widget 14-->
 <div class="card card-custom card-stretch gutter-b">
 <!--begin::Header-->
@@ -95,13 +64,13 @@ Dashboard Gorilla Coach </h5>
 </div>
 <!--end::Mixed Widget 14-->
 </div>
-<div class="col-lg-4">
+<div class="col-lg-6">
 <!--begin::Advance Table Widget 4-->
 <div class="card card-custom card-stretch gutter-b">
 <!--begin::Header-->
 <div class="card-header border-0 py-5">
 <h3 class="card-title align-items-start flex-column">
-<span class="card-label font-weight-bolder text-dark">Produk Dengan Stok Rendah</span>
+<span class="card-label font-weight-bolder text-dark">Produk Habis</span>
 </h3>
 </div>
 <!--end::Header-->

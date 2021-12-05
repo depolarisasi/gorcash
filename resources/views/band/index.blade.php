@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('title','Band - ')
-@section('css') 
+@section('css')
 <link href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css">
 <link href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css">
 <link href="https://cdn.datatables.net/buttons/2.0.1/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css">
@@ -56,8 +56,8 @@
     {{$b->band_nama}}
 </div>
 </td>
-<td class="pl-3 py-3"> 
-        {{$b->band_code}} 
+<td class="pl-3 py-3">
+        {{$b->band_code}}
     </td>
 <td>
     <a href="{{url('/band/edit/'.$b->band_id)}}" class="btn btn-xs btn-icon btn-warning"><i class="fas fa-edit nopadding"></i></a>
@@ -128,7 +128,9 @@
             var table = $("#table").DataTable({
                 dom: 'Blfrtip',
         buttons: [
-           { 
+        'selectAll',
+        'selectNone',
+           {
                 text: 'Delete',
                 action: function () {
 
@@ -169,7 +171,7 @@
                 }
             });
           $.each(ids, function( index, value ) {
-              $('table tr').filter("[data-row-id='" + value + "']").remove(); 
+              $('table tr').filter("[data-row-id='" + value + "']").remove();
           });
 
         }
@@ -188,7 +190,7 @@
         columnDefs: [ {
             orderable: false,
             className: 'select-checkbox',
-            targets:   0
+            targets:   0,
         } ],
         select: {
             style:    'multi',

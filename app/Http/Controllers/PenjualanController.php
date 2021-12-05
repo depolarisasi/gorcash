@@ -159,7 +159,6 @@ class PenjualanController extends Controller
         ->join('band','band.band_id','=','product.product_idband')
         ->select('product.*','size.size_id','size.size_nama','band.band_id','band.band_nama')
         ->where('product.product_stokakhir','>',0)
-        ->where('product.product_status','=',1)
         ->get();
         $invoice = "#".Carbon::now()->format('dmy').mt_rand(1,99).$this->generateRandomString(5);
 
