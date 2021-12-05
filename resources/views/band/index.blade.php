@@ -128,7 +128,14 @@
             var table = $("#table").DataTable({
                 dom: 'Blfrtip',
         buttons: [
-        'selectAll',
+            {
+      text: 'Select All On Page',
+      action: function() {
+        table.rows({
+          page: 'current'
+        }).select();
+      }
+    },
         'selectNone',
            {
                 text: 'Delete',

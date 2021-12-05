@@ -141,6 +141,15 @@
 
             table = $('#barcode').DataTable({   dom: 'Blfrtip',
         buttons: [
+            {
+      text: 'Select All On Page',
+      action: function() {
+        table.rows({
+          page: 'current'
+        }).select();
+      }
+    },
+        'selectNone',
            {
                 text: 'Delete',
                 action: function () {

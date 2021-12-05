@@ -179,6 +179,15 @@
             'copyHtml5',
             'excelHtml5',
             'csvHtml5',
+            {
+      text: 'Select All On Page',
+      action: function() {
+        tabel.rows({
+          page: 'current'
+        }).select();
+      }
+    },
+        'selectNone',
              {
                 text: 'Publish',
                 action: function () {
