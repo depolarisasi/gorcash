@@ -26,7 +26,6 @@ class BarcodeImport implements ToCollection, WithHeadingRow
             if(is_null($checkbarcode)){
                     $insert = new BarcodeDB();
                     $insert->insertOrIgnore([
-                        'barcode_id' => $row['barcode_id'],
                         'barcode_mastersku' => $row['barcode_mastersku'],
                         'barcode_productname' => $row['barcode_productname'],
                         'barcode_producttype' => $row['barcode_producttype'],
