@@ -113,22 +113,25 @@ class BarcodeDBController extends Controller
     public function update(Request $request)
     {
         $barcode = BarcodeDB::where('barcode_id', $request->barcode_id)->first();
-
-        $databand = Band::where('band_id',$request->barcode_productband)->first();
-        $firstbandletter =  substr($databand->band_nama, 0, 1);
-        $datatype = TypeProduct::where('type_id',$request->barcode_producttype)->first();
-        $datacolor = Color::where('color_id',$request->barcode_productcolor)->first();
-        $sericode = BarcodeDB::where('barcode_productband',$request->barcode_productband)->count();
-        if($sericode < 10){
-            if($sericode != 0) {
-                $countseri = $sericode+1;
+        if($barcode->barcode_productband != $request->barcode_productband || $barcode->barcode_producttype != $request->barcode_producttype || $barcode->barcode_roductcolor != $request->barcode_productcolor){
+            $databand = Band::where('band_id',$request->barcode_productband)->first();
+            $firstbandletter =  substr($databand->band_nama, 0, 1);
+            $datatype = TypeProduct::where('type_id',$request->barcode_producttype)->first();
+            $datacolor = Color::where('color_id',$request->barcode_productcolor)->first();
+            $sericode = BarcodeDB::where('barcode_productband',$request->barcode_productband)->count();
+            if($sericode < 10){
+                if($sericode != 0) {
+                    $countseri = $sericode+1;
+                    $serivarian = "0".$countseri.$firstbandletter;
+                }else {
+                $countseri = 1;
                 $serivarian = "0".$countseri.$firstbandletter;
-            }else {
-            $countseri = 1;
-            $serivarian = "0".$countseri.$firstbandletter;
+                }
             }
+            $mastersku = $databand->band_code.$datatype->type_code.$serivarian.$datacolor->color_code;
+
         }
-        $mastersku = $databand->band_code.$datatype->type_code.$serivarian.$datacolor->color_code;
+
         $store = collect($request->all());
         $store->put('barcode_mastersku', $mastersku);
 
