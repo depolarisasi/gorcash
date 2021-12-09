@@ -45,6 +45,7 @@
 <th style="min-width: 50px"><span class="text-dark-75">Nama Vendor</span></th>
 <th style="min-width: 100px">Asal</th>
 <th style="min-width: 100px">Website</th>
+<th style="min-width: 50px"><span class="text-dark-75">Code Angka</span></th>
 <th style="min-width: 80px">Action</th>
 </tr>
 </thead>
@@ -65,11 +66,8 @@
     @endif
 </span>
 </td>
-<td>
-<span class="text-dark-75 d-block">
-    {{$vendor->vendor_web}}
-    </span>
-</td>
+<td>{{$vendor->vendor_web}}</td>
+<td>{{$vendor->vendor_id}}</td>
 <td>
     <a href="{{url('/vendors/detail/'.$vendor->vendor_id)}}" class="btn btn-xs btn-icon btn-primary"><i class="fas fa-info-circle nopadding"></i></a>
     <a href="{{url('/vendors/edit/'.$vendor->vendor_id)}}" class="btn btn-xs btn-icon btn-warning"><i class="fas fa-edit nopadding"></i></a>
@@ -140,7 +138,7 @@
             var table = $("#table").DataTable({
                 dom: 'Blfrtip',
         buttons: [
-           { 
+           {
                 text: 'Delete',
                 action: function () {
 
@@ -181,7 +179,7 @@
                 }
             });
           $.each(ids, function( index, value ) {
-              $('table tr').filter("[data-row-id='" + value + "']").remove(); 
+              $('table tr').filter("[data-row-id='" + value + "']").remove();
           });
 
         }
