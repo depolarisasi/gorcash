@@ -143,7 +143,8 @@ Penjualan </h5>
                         <td class="align-middle w-50px pl-0 pr-2 pb-6">
                             <!--begin::Symbol-->
                             <div class="symbol symbol-50 symbol-light-success">
-                                <div class="symbol-label" style="background-image: url('{{$rs->product_foto}}')"></div>
+                                <a href="{{asset($rs->product_foto?$rs->product_foto:"/assets/nopicture.png")}}" data-type="image" data-fslightbox="galleryproduk">
+                                    <img src="{{asset($rs->product_foto?$rs->product_foto:"/assets/nopicture.png")}}" data-type="image" class="img-fluid" style="width: 50px !important; height: 50px !important;"></a>
                             </div>
                             <!--end::Symbol-->
                         </td>

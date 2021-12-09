@@ -119,6 +119,12 @@
                         <input type="number" min="0" class="form-control" name="product_stok" value="{{$edit->product_stok}}" required>
                         </div>
                       </div>
+                      <div class="form-group row mt-4">
+                        <label class="col-md-2">Stock Akhir <span class="text-danger">*</span></label>
+                        <div class="col-md-10">
+                        <input type="number" min="0" class="form-control" name="product_stok" value="{{$edit->product_stokakhir}}" required>
+                        </div>
+                      </div>
 
 
             </div>
