@@ -481,7 +481,7 @@ class ProductController extends Controller
 
     public function delete($id)
     {
-        $produk = Product::where('product_mastersku', $id)->get();
+        $produk = Product::where('product_sku', $id)->get();
 
         try {
             foreach($produk as $p){
