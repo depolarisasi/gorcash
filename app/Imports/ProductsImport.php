@@ -85,7 +85,7 @@ class ProductsImport implements ToCollection, WithHeadingRow
                                         $insert = new Product();
                                         $insert->insertOrIgnore([
                                             'product_productlama' => $row['product_productlama'],
-                                            'product_barcodevendor' => $vendor,
+                                            'product_barcodevendor' => $row['product_barcodevendor'],
                                             'product_mastersku' => $masterskus,
                                             'product_sku' => $skuvariant,
                                             'product_nama' => $masterdata->barcode_productname,
@@ -107,7 +107,6 @@ class ProductsImport implements ToCollection, WithHeadingRow
                                             'product_stokgudang' => $stokgudang,
                                             'product_color' => $row['product_color'],
                                             'product_tanggalbeli' => $row['product_tanggalbeli'],
-                                            'product_status' => $status,
                                             'product_tanggalpublish' => $row['product_tanggalpublish'],
                                         ]);
                                         } catch (QE $e) {
@@ -135,11 +134,6 @@ class ProductsImport implements ToCollection, WithHeadingRow
                                 }else {
                                     $vendor = $row['product_vendor'];
                                 }
-                                         if($row['product_tanggalpublish'] == NULL){
-                                             $status = 0;
-                                            }else {
-                                             $status = 1;
-                                             }
                                 try {
                                     $insert = new Product();
                                     if($row['product_stok'] >= 1){
@@ -151,7 +145,7 @@ class ProductsImport implements ToCollection, WithHeadingRow
                                         }
                                     $insert->insertOrIgnore([
                                         'product_productlama' => $row['product_productlama'],
-                                        'product_barcodevendor' => $vendor,
+                                        'product_barcodevendor' => $row['product_barcodevendor'],
                                         'product_mastersku' => $masterskus,
                                         'product_sku' => $skuvariant,
                                         'product_nama' => $masterdata->barcode_productname,
@@ -173,7 +167,6 @@ class ProductsImport implements ToCollection, WithHeadingRow
                                         'product_stokgudang' => $stokgudang,
                                         'product_color' => $row['product_color'],
                                         'product_tanggalbeli' => $row['product_tanggalbeli'],
-                                        'product_status' => $status,
                                         'product_tanggalpublish' => $row['product_tanggalpublish'],
                                     ]);
                                     } catch (QE $e) {
@@ -205,12 +198,6 @@ class ProductsImport implements ToCollection, WithHeadingRow
                                 }
                                 $checksku->product_vendor = $vendor;
                                 $checksku->product_productlama = $row['product_productlama'];
-                            if($row['product_tanggalpublish'] == NULL){
-                                $status = 0;
-                            }else {
-                                $status = 1;
-                            }
-                            $checksku->product_status = $status;
                             $checksku->update();
                             }
                         }
@@ -232,12 +219,6 @@ class ProductsImport implements ToCollection, WithHeadingRow
                         }else {
                             $vendor = $row['product_vendor'];
                         }
-                        if($row['product_tanggalpublish'] == NULL){
-                            $status = 0;
-                        }else {
-                            $status = 1;
-                        }
-
                         try {
                             $insert = new Product();
                             if($row['product_stok'] >= 1){
@@ -249,7 +230,7 @@ class ProductsImport implements ToCollection, WithHeadingRow
                                 }
                             $insert->insertOrIgnore([
                                 'product_productlama' => $row['product_productlama'],
-                                'product_barcodevendor' => $vendor,
+                                'product_barcodevendor' => $row['product_barcodevendor'],
                                 'product_mastersku' => $newbarcode["sku"],
                                 'product_sku' => $skuvariant,
                                 'product_nama' => $masterdata->barcode_productname,
@@ -271,7 +252,6 @@ class ProductsImport implements ToCollection, WithHeadingRow
                                 'product_stokgudang' => $stokgudang,
                                 'product_color' => $row['product_color'],
                                 'product_tanggalbeli' => $row['product_tanggalbeli'],
-                                'product_status' => $status,
                                 'product_tanggalpublish' => $row['product_tanggalpublish'],
                             ]);
                             } catch (QE $e) {

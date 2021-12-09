@@ -26,7 +26,7 @@
 <h3 class="card-title align-items-start flex-column">
 <span class="card-label font-weight-bolder text-dark">Daftar Agenda Promo</span>
 </h3>
-<div class="card-toolbar"> 
+<div class="card-toolbar">
 <a href="{{url('agenda/new')}}" class="btn btn-primary btn-md font-size-sm"><i class="fas fa-plus"></i> Buat </a>
 </div>
 </div>
@@ -39,7 +39,7 @@
 <div class="table-responsive">
     <table id="table" class="table table-striped table-bordered mt-5" style="width:100%">
 <thead>
-<tr class="text-left"> 
+<tr class="text-left">
 <th style="min-width: 50px"><span class="text-dark-75">Judul</span></th>
 <th style="min-width: 50px"><span class="text-dark-75">Isi</span></th>
 <th style="min-width: 50px"><span class="text-dark-75">Tanggal Mulai</span></th>
@@ -50,8 +50,8 @@
 <tbody>
     @foreach($agenda as $agenda)
 
-<tr> 
-<td class="pl-3 py-3"> {{$agenda->agenda_judul}}</td>
+<tr>
+<td class="pl-3 py-3"><a href="{{url('agenda/detail/'.$agenda->agenda_id)}}">{{$agenda->agenda_judul}}</a></td>
 <td class="pl-3 py-3">
     <div class="d-flex align-items-center">
         {!! substr(strip_tags($agenda->agenda_isi),0,200) !!}
@@ -61,7 +61,7 @@
     <div class="d-flex align-items-center">
         <a href="#" class="text-dark-75 mb-1">{{$agenda->agenda_startdate}}</a>
     </div>
-    </td> 
+    </td>
     <td class="pl-3 py-3">
     <div class="d-flex align-items-center">
         <a href="#" class="text-dark-75 mb-1">{{$agenda->agenda_enddate}}</a>
@@ -133,8 +133,8 @@
           });
             });
 
-            var table = $("#table").DataTable({ 
-        "paging":   true, 
+            var table = $("#table").DataTable({
+        "paging":   true,
         order: [[ 1, 'asc' ]],
         "ordering": true,
         "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]]

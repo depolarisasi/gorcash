@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('logout', [App\Http\Controllers\UserController::class, 'logout'])->middleware('auth');
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'dashboard'])->middleware('auth');
-Route::get('/laporan',[App\Http\Controllers\HomeController::class, 'salesreport'])->middleware('accountant');
+Route::get('/laporan',[App\Http\Controllers\HomeController::class, 'salesreport'])->middleware('admin');
 
 
 
@@ -128,8 +128,8 @@ Route::group(['prefix' => 'size'], function() {
    });
 
    Route::group(['prefix' => 'kasir'], function() {
-    Route::get('/',[App\Http\Controllers\PenjualanController::class, 'kasir'])->middleware('sales');
-    Route::post('/store',[App\Http\Controllers\PenjualanController::class, 'addpenjualan'])->middleware('sales');
+    Route::get('/',[App\Http\Controllers\PenjualanController::class, 'kasir'])->middleware('storeofficer');
+    Route::post('/store',[App\Http\Controllers\PenjualanController::class, 'addpenjualan'])->middleware('storeofficer');
    });
 
    Route::group(['prefix' => 'productapi'], function() {
@@ -142,26 +142,26 @@ Route::group(['prefix' => 'size'], function() {
 
 
    Route::group(['prefix' => 'penjualan'], function() {
-    Route::get('/',[App\Http\Controllers\PenjualanController::class, 'index'])->middleware('sales');
-    Route::get('/detail/{id}',[App\Http\Controllers\PenjualanController::class, 'show'])->middleware('sales');
-    Route::get('/new',[App\Http\Controllers\PenjualanController::class, 'create'])->middleware('sales');
-    Route::post('/store',[App\Http\Controllers\PenjualanController::class, 'store'])->middleware('sales');
-    Route::get('/edit/{id}',[App\Http\Controllers\PenjualanController::class, 'edit'])->middleware('sales');
-    Route::post('/update',[App\Http\Controllers\PenjualanController::class, 'update'])->middleware('sales');
-    Route::get('/delete/{id}',[App\Http\Controllers\PenjualanController::class, 'delete'])->middleware('sales');
-    Route::get('/struk/{id?}',[App\Http\Controllers\PenjualanController::class, 'receipt'])->middleware('sales');
+    Route::get('/',[App\Http\Controllers\PenjualanController::class, 'index'])->middleware('storeofficer');
+    Route::get('/detail/{id}',[App\Http\Controllers\PenjualanController::class, 'show'])->middleware('storeofficer');
+    Route::get('/new',[App\Http\Controllers\PenjualanController::class, 'create'])->middleware('storeofficer');
+    Route::post('/store',[App\Http\Controllers\PenjualanController::class, 'store'])->middleware('storeofficer');
+    Route::get('/edit/{id}',[App\Http\Controllers\PenjualanController::class, 'edit'])->middleware('storeofficer');
+    Route::post('/update',[App\Http\Controllers\PenjualanController::class, 'update'])->middleware('storeofficer');
+    Route::get('/delete/{id}',[App\Http\Controllers\PenjualanController::class, 'delete'])->middleware('storeofficer');
+    Route::get('/struk/{id?}',[App\Http\Controllers\PenjualanController::class, 'receipt'])->middleware('storeofficer');
 
    });
 
    Route::group(['prefix' => 'barangterjual'], function() {
-    Route::get('/',[App\Http\Controllers\BarangTerjualController::class, 'index'])->middleware('sales');
-    Route::get('/detail/{id}',[App\Http\Controllers\BarangTerjualController::class, 'show'])->middleware('sales');
-    Route::get('/new',[App\Http\Controllers\BarangTerjualController::class, 'create'])->middleware('sales');
-    Route::post('/store',[App\Http\Controllers\BarangTerjualController::class, 'store'])->middleware('sales');
-    Route::get('/edit/{id}',[App\Http\Controllers\BarangTerjualController::class, 'edit'])->middleware('sales');
-    Route::post('/update',[App\Http\Controllers\BarangTerjualController::class, 'update'])->middleware('sales');
-    Route::get('/delete/{id}',[App\Http\Controllers\BarangTerjualController::class, 'delete'])->middleware('sales');
-    Route::get('/struk/{id?}',[App\Http\Controllers\BarangTerjualController::class, 'receipt'])->middleware('sales');
+    Route::get('/',[App\Http\Controllers\BarangTerjualController::class, 'index'])->middleware('storeofficer');
+    Route::get('/detail/{id}',[App\Http\Controllers\BarangTerjualController::class, 'show'])->middleware('storeofficer');
+    Route::get('/new',[App\Http\Controllers\BarangTerjualController::class, 'create'])->middleware('storeofficer');
+    Route::post('/store',[App\Http\Controllers\BarangTerjualController::class, 'store'])->middleware('storeofficer');
+    Route::get('/edit/{id}',[App\Http\Controllers\BarangTerjualController::class, 'edit'])->middleware('storeofficer');
+    Route::post('/update',[App\Http\Controllers\BarangTerjualController::class, 'update'])->middleware('storeofficer');
+    Route::get('/delete/{id}',[App\Http\Controllers\BarangTerjualController::class, 'delete'])->middleware('storeofficer');
+    Route::get('/struk/{id?}',[App\Http\Controllers\BarangTerjualController::class, 'receipt'])->middleware('storeofficer');
    });
 
     Route::group(['prefix' => 'stokopname'], function() {
@@ -217,13 +217,13 @@ Route::group(['prefix' => 'size'], function() {
    });
 
    Route::group(['prefix' => 'informasi'], function() {
-    Route::get('/',[App\Http\Controllers\InformasiController::class, 'index'])->middleware('accountant');
-    Route::get('/new',[App\Http\Controllers\InformasiController::class, 'create'])->middleware('accountant');
-    Route::post('/store',[App\Http\Controllers\InformasiController::class, 'store'])->middleware('accountant');
-    Route::get('/detail/{id}',[App\Http\Controllers\InformasiController::class, 'show'])->middleware('accountant');
-    Route::get('/edit/{id}',[App\Http\Controllers\InformasiController::class, 'edit'])->middleware('accountant');
-    Route::post('/update',[App\Http\Controllers\InformasiController::class, 'update'])->middleware('accountant');
-    Route::get('/delete/{id}',[App\Http\Controllers\InformasiController::class, 'delete'])->middleware('accountant');
+    Route::get('/',[App\Http\Controllers\InformasiController::class, 'index'])->middleware('admin');
+    Route::get('/new',[App\Http\Controllers\InformasiController::class, 'create'])->middleware('admin');
+    Route::post('/store',[App\Http\Controllers\InformasiController::class, 'store'])->middleware('admin');
+    Route::get('/detail/{id}',[App\Http\Controllers\InformasiController::class, 'show'])->middleware('admin');
+    Route::get('/edit/{id}',[App\Http\Controllers\InformasiController::class, 'edit'])->middleware('admin');
+    Route::post('/update',[App\Http\Controllers\InformasiController::class, 'update'])->middleware('admin');
+    Route::get('/delete/{id}',[App\Http\Controllers\InformasiController::class, 'delete'])->middleware('admin');
 
    });
 

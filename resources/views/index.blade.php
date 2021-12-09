@@ -52,7 +52,7 @@ Dashboard Gorilla Coach </h5>
 <!--end::Bullet-->
 <!--begin::Text-->
 <div class="d-flex flex-column flex-grow-1 mx-4">
-<a href="{{url('agenda/detail/'.$ag->note_id)}}" class="text-dark-75 text-hover-primary font-weight-boldest font-size-lg mb-1">{{$ag->agenda_judul}}</a>
+<a href="{{url('agenda/detail/'.$ag->agenda_id)}}" class="text-dark-75 text-hover-primary font-weight-boldest font-size-lg mb-1">{{$ag->agenda_judul}}</a>
 <span class="font-weight-boldest">{{\Carbon\Carbon::parse($ag->agenda_startdate)->format('d-m-Y')}} - {{\Carbon\Carbon::parse($ag->agenda_enddate)->format('d-m-Y')}}</span>
 </div>
 <!--end::Text-->

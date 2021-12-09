@@ -47,10 +47,8 @@
             <label class="col-md-2">Jabatan / Peran</label>
             <div class="col-md-3">
                 <select class="multisteps-form__input form-control" name="role">
-                <option value="1">Super Admin</option>
-                <option value="2">Store Officer</option>
-                <option value="3">Warehouse Officer</option>
-                <option value="4">Accountant</option>
+                <option value="1">Admin Owner</option>
+                <option value="2">Toko</option>
               </select>
             </div>
           </div>
