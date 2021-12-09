@@ -59,7 +59,6 @@ class PublishController extends Controller
                 $product->update();
             }
 
-
             $pubcount = PublishCounter::where('publishcount_pubtanggal',$dateinput)->first();
             if($pubcount){
                 $pubcount->publishcount_count = $pubcount->publishcount_count+1;

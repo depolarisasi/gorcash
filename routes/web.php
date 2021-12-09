@@ -104,6 +104,7 @@ Route::group(['prefix' => 'size'], function() {
     Route::get('/edit/{id}',[App\Http\Controllers\ProductController::class, 'edit'])->middleware('auth');
     Route::post('/update',[App\Http\Controllers\ProductController::class, 'update'])->middleware('auth');
     Route::get('/delete/{id}',[App\Http\Controllers\ProductController::class, 'delete'])->middleware('auth');
+    Route::get('/deletemaster/{id}',[App\Http\Controllers\ProductController::class, 'deletemaster'])->middleware('auth');
     Route::get('/import',[App\Http\Controllers\ProductController::class, 'importdata'])->middleware('auth');
     Route::post('/importing',[App\Http\Controllers\ProductController::class, 'importing'])->middleware('auth');
 

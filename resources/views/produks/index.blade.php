@@ -139,7 +139,7 @@
 					<td>
                         <a href="{{url('/produk/select/'.$p->product_mastersku)}}" class="btn btn-icon btn-xs btn-primary"><i class="fas fa-info-circle nopadding"></i></a>
                         <a href="{{url('/produk/select/'.$p->product_mastersku)}}" class="btn btn-icon btn-xs btn-warning"><i class="fas fa-edit nopadding"></i></a>
-                        <button type="button" href="{{url('/produk/delete/'.$p->product_mastersku)}}" class="deletebtn btn btn-icon btn-xs btn-danger"><i class="fas fa-trash nopadding"></i></button>
+                        <button type="button" href="{{url('/produk/deletemaster/'.$p->product_mastersku)}}" class="deletebtn btn btn-icon btn-xs btn-danger"><i class="fas fa-trash nopadding"></i></button>
                     </td>
 				</tr>
                 @endforeach
@@ -425,8 +425,8 @@ $('.publish_all').on('click', function(e) {
         $(document).on('click', '.deletebtn', function(e) {
            var href = $(this).attr('href');
            Swal.fire({
-       title: 'Yakin untuk menghapus vendor ini ? ',
-       text: 'SEMUA DATA mengenai vendor ini akan dihapus dan tidak dapat dikembalikan!',
+       title: 'Yakin untuk menghapus Produk ini ? ',
+       text: 'SEMUA DATA mengenai Produk ini akan dihapus dan tidak dapat dikembalikan!',
        icon: 'warning',
        showCancelButton: true,
        confirmButtonColor: '#95000c',

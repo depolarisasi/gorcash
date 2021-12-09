@@ -519,6 +519,24 @@ class ProductController extends Controller
         return redirect('produk');
     }
 
+    public function deletemaster($id)
+    {
+        $produk = Product::where('product_mastersku', $id)->get();
+
+        try {
+            foreach($produk as $p){
+                $p->delete();
+            }
+        } catch (QE $e) {
+        toast('Database error','error');
+        return redirect('produk');
+        } //show db error message
+
+        toast('Berhasil Menghapus Produk','success');
+
+        return redirect('produk');
+    }
+
     public function getproduct(Request $request){
         $produk = Product::join('size','size.size_id','=','product.product_idsize')
         ->join('band','band.band_id','=','product.product_idband')

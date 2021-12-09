@@ -55,7 +55,7 @@ class BandController extends Controller
 
     public function update(Request $request)
     {
-        $band = Band::where('band_id', $request->v)->first();
+        $band = Band::where('band_id', $request->band_id)->first();
         $update = collect($request->all());
         try {
         $band->update($update->all());
