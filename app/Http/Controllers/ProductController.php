@@ -94,9 +94,9 @@ class ProductController extends Controller
             $variant = Product::join('size','size.size_id','=','product.product_idsize')
             ->select('product.*','size.size_id','size.size_nama')
             ->where('product.product_mastersku',$p->product_mastersku)->get();
-            if(is_null($produk->product_foto) || $produk->product_foto == ''){
-                $checkfoto = Product::where('product_mastersku', $produk->product_mastersku)->whereNotNull('product_foto')->first();
-                $produk->put('product_foto', $checkfoto->product_foto);
+            if(is_null($p->product_foto) || $p->product_foto == ''){
+                $checkfoto = Product::where('product_mastersku', $p->product_mastersku)->whereNotNull('product_foto')->first();
+                $p->put('product_foto', $checkfoto->product_foto);
             }
             $vendorid = explode(',',$p->product_vendor);
             $arr = array();
