@@ -106,12 +106,11 @@
 <script>
  tabel = $('#product').DataTable({
     dom: 'Bfrtip',
-    buttons: [{
-      extend: 'pdfHtml5',
-      customize: function(doc) {
-        doc.styles.tableHeader.fontSize = 9;
-      }
-    }],
+    buttons: [
+            'copyHtml5',
+            'excelHtml5',
+            'csvHtml5',
+        ],
         search: {
 				input: $('#kt_datatable_search_query'),
 				key: 'generalSearch'
