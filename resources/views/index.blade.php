@@ -93,7 +93,7 @@ Dashboard Gorilla Coach </h5>
 <td class="pl-0 py-1">
 <div class="d-flex align-items-center">
 <div>
-    <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary mb-1 font-size-lg">{{$ps->product_nama}}</a>
+    <a href="{{url('produk/detail/'.$ps->product_id)}}" class="text-dark-75 font-weight-bolder text-hover-primary mb-1 font-size-lg">{{$ps->product_nama}}</a>
     <span class="text-muted font-weight-bold d-block">Size {{$ps->size_nama}} - {{$ps->band_nama}}</span>
 </div>
 </div>
