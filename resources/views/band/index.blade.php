@@ -44,21 +44,17 @@
 <th style="width: 10%"><span class="text-dark-75">Select</span></th>
 <th style="min-width: 50px"><span class="text-dark-75">Nama Band</span></th>
 <th style="min-width: 50px"><span class="text-dark-75">Code Band</span></th>
+<th style="min-width: 50px"><span class="text-dark-75">Code Angka</span></th>
 <th style="min-width: 80px">Action</th>
 </tr>
 </thead>
 <tbody>
     @foreach($band as $b)
 <tr data-row-id="{{$b->band_code}}">
-    <td></td>
-<td class="pl-3 py-3">
-<div class="d-flex align-items-center">
-    {{$b->band_nama}}
-</div>
-</td>
-<td class="pl-3 py-3">
-        {{$b->band_code}}
-    </td>
+<td></td>
+<td class="pl-3 py-3">{{$b->band_nama}}</td>
+<td class="pl-3 py-3">{{$b->band_code}}</td>
+<td class="pl-3 py-3">{{$b->band_id}}</td>
 <td>
     <a href="{{url('/band/edit/'.$b->band_id)}}" class="btn btn-xs btn-icon btn-warning"><i class="fas fa-edit nopadding"></i></a>
     <button type="button" href="{{url('/band/delete/'.$b->band_id)}}" class="deletebtn btn btn-xs btn-icon btn-danger"><i class="fas fa-trash nopadding"></i></button></td>

@@ -44,6 +44,7 @@
 <th style="width: 10%"><span class="text-dark-75">Select</span></th>
 <th style="min-width: 50px"><span class="text-dark-75">Nama Size</span></th>
 <th style="min-width: 50px"><span class="text-dark-75">Code Size</span></th>
+<th style="min-width: 50px"><span class="text-dark-75">Code Angka</span></th>
 <th style="min-width: 50px"><span class="text-dark-75">Kategori</span></th>
 <th style="min-width: 80px">Action</th>
 </tr>
@@ -53,13 +54,9 @@
 
 <tr data-row-id="{{$size->size_nama}}">
     <td></td>
-<td class="pl-3 py-3"> {{$size->size_nama}} 
-</td>
-<td class="pl-3 py-3">
-    <div class="d-flex align-items-center">
-        <a href="#" class="text-dark-75 mb-1">{{$size->size_code}}</a>
-    </div>
-    </td>
+<td class="pl-3 py-3">{{$size->size_nama}}</td>
+<td class="pl-3 py-3">{{$size->size_code}}</td>
+<td class="pl-3 py-3">{{$size->size_id}}</td>
 <td class="pl-3 py-3">
     <div class="d-flex align-items-center">
         <a href="#" class="text-dark-75 mb-1">{{$size->size_category}}</a>
@@ -134,7 +131,7 @@
             var table = $("#table").DataTable({
                 dom: 'Blfrtip',
         buttons: [
-           { 
+           {
                 text: 'Delete',
                 action: function () {
 
@@ -175,7 +172,7 @@
                 }
             });
           $.each(ids, function( index, value ) {
-              $('table tr').filter("[data-row-id='" + value + "']").remove(); 
+              $('table tr').filter("[data-row-id='" + value + "']").remove();
           });
 
         }

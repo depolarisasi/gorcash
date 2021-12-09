@@ -44,6 +44,7 @@
 <th style="width: 10%"><span class="text-dark-75">Select</span></th>
 <th style="min-width: 50px"><span class="text-dark-75">Nama Type Produk</span></th>
 <th style="min-width: 50px"><span class="text-dark-75">Code Type Produk</span></th>
+<th style="min-width: 50px"><span class="text-dark-75">Code Angka </span></th>
 <th style="min-width: 50px"><span class="text-dark-75">Category Type Produk</span></th>
 <th style="min-width: 80px">Action</th>
 </tr>
@@ -52,17 +53,10 @@
     @foreach($type as $type)
 <tr data-row-id="{{$type->type_code}}">
     <td></td>
-<td class="pl-3 py-3">
-<div class="d-flex align-items-center">
-    <a href="#" class="text-dark-75 mb-1">{{$type->type_name}}</a>
-</div>
-</td>
+<td class="pl-3 py-3">{{$type->type_name}}</td>
 <td class="pl-3 py-3">{{$type->type_code}}</td>
-    <td class="pl-3 py-3">
-    <div class="d-flex align-items-center">
-        <a href="#" class="text-dark-75 mb-1">{{$type->type_category}}</a>
-    </div>
-    </td>
+<td class="pl-3 py-3">{{$type->type_id}}</td>
+<td class="pl-3 py-3">{{$type->type_category}}</td>
 <td>
     <a href="{{url('/type/edit/'.$type->type_id)}}" class="btn btn-xs btn-icon btn-warning"><i class="fas fa-edit nopadding"></i></a>
     <button type="button" href="{{url('/type/delete/'.$type->type_id)}}" class="deletebtn btn btn-xs btn-icon btn-danger"><i class="fas fa-trash nopadding"></i></button></td>
@@ -88,7 +82,7 @@
 <!--end::Entry-->
 </div>
 <!--end::Content-->
-@section('js') 
+@section('js')
 <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap4.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.0.1/js/dataTables.buttons.min.js"></script>
@@ -131,7 +125,7 @@
             var table = $("#table").DataTable({
                 dom: 'Blfrtip',
         buttons: [
-           { 
+           {
                 text: 'Delete',
                 action: function () {
 
@@ -172,7 +166,7 @@
                 }
             });
           $.each(ids, function( index, value ) {
-              $('table tr').filter("[data-row-id='" + value + "']").remove(); 
+              $('table tr').filter("[data-row-id='" + value + "']").remove();
           });
 
         }

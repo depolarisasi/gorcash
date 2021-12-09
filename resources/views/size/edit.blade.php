@@ -43,6 +43,7 @@
             <input id="name" type="text" class="form-control" name="size_code" value="{{$edit->size_code}}" required autofocus>
             </div>
           </div>
+
           <div class="form-group row mt-4">
             <label class="col-md-2">Size</label>
             <div class="col-md-3">

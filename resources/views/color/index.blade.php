@@ -42,22 +42,19 @@
 <thead>
 <tr class="text-left">
 <th style="width: 10%"><span class="text-dark-75">Select</span></th>
-<th style="min-width: 50px"><span class="text-dark-75">Nama Vendor</span></th>
-<th style="min-width: 100px">Code</th>
+<th style="min-width: 50px"><span class="text-dark-75">Nama Warna</span></th>
+<th style="min-width: 100px">Code Warna</th>
+<th style="min-width: 100px">Code Angka</th>
 <th style="min-width: 80px">Action</th>
 </tr>
 </thead>
 <tbody>
-    @foreach($color as $color) 
+    @foreach($color as $color)
 <tr data-row-id="{{$color->color_code}}">
 <td></td>
-<td class="pl-3 py-3">
-<div class="d-flex align-items-center">
-    <a href="#" class="text-dark-75 mb-1">{{$color->color_nama}}</a>
-</div>
-</td>
-<td class="pl-3 py-3"> {{$color->color_code}}  
-    </td>
+<td class="pl-3 py-3">{{$color->color_nama}}</td>
+<td class="pl-3 py-3">{{$color->color_code}}</td>
+<td class="pl-3 py-3">{{$color->color_id}}</td>
 <td>
     <a href="{{url('/color/edit/'.$color->color_id)}}" class="btn btn-xs btn-icon btn-warning"><i class="fas fa-edit nopadding"></i></a>
     <button type="button" href="{{url('/color/delete/'.$color->color_id)}}" class="deletebtn btn btn-xs btn-icon btn-danger"><i class="fas fa-trash nopadding"></i></button></td>
@@ -93,7 +90,7 @@
 <script src="https://cdn.datatables.net/buttons/2.0.1/js/buttons.html5.min.js"></script>
 <script src="https://cdn.datatables.net/select/1.3.3/js/dataTables.select.min.js"></script>
 <script>
-    $(document).ready(function(){ 
+    $(document).ready(function(){
         $(document).on('click', '.deletebtn', function(e) {
            var href = $(this).attr('href');
            Swal.fire({
@@ -125,7 +122,7 @@
             var table = $("#table").DataTable({
                 dom: 'Blfrtip',
         buttons: [
-           { 
+           {
                 text: 'Delete',
                 action: function () {
 
@@ -166,7 +163,7 @@
                 }
             });
           $.each(ids, function( index, value ) {
-              $('table tr').filter("[data-row-id='" + value + "']").remove(); 
+              $('table tr').filter("[data-row-id='" + value + "']").remove();
           });
 
         }
