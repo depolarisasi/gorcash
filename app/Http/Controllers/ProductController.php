@@ -129,7 +129,7 @@ class ProductController extends Controller
         $vendor = Vendor::get();
         $size = Size::get();
         $band = Band::get();
-        return view('produks.index')->with(compact('produk','vendor','size','band','color'));
+        return view('produks.index')->with(compact('produk','vendor','size','band'));
     }
 
     public function create()
@@ -421,7 +421,7 @@ class ProductController extends Controller
         $vendor = Vendor::get();
         $size = Size::get();
         $band = Band::get();
-        return view('produks.select')->with(compact('produk','vendor','size','band','color'));
+        return view('produks.select')->with(compact('produk','vendor','size','band'));
     }
 
 
