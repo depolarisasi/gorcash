@@ -165,29 +165,29 @@ Route::group(['prefix' => 'size'], function() {
    });
 
     Route::group(['prefix' => 'stokopname'], function() {
-    Route::get('/',[App\Http\Controllers\StokOpnameController::class, 'pilihso'])->middleware('warehouse');
-    Route::get('/mingguan',[App\Http\Controllers\StokOpnameController::class, 'indexmingguan'])->middleware('warehouse');
-    Route::get('/mingguan/{pubid}',[App\Http\Controllers\StokOpnameController::class, 'somingguan'])->middleware('warehouse');
-    Route::get('/mingguan/edit/{pubid}',[App\Http\Controllers\StokOpnameController::class, 'resumesomingguan'])->middleware('warehouse');
-    Route::post('/mingguan/store',[App\Http\Controllers\StokOpnameController::class, 'storesomingguan'])->middleware('warehouse');
-    Route::post('/mingguan/update',[App\Http\Controllers\StokOpnameController::class, 'updatesomingguan'])->middleware('warehouse');
-    Route::get('/bulanan',[App\Http\Controllers\StokOpnameController::class, 'indexbulanan'])->middleware('warehouse');
-    Route::get('/bulanan/{pubid}',[App\Http\Controllers\StokOpnameController::class, 'sobulanan'])->middleware('warehouse');
-    Route::get('/bulanan/edit/{pubid}',[App\Http\Controllers\StokOpnameController::class, 'resumesobulanan'])->middleware('warehouse');
-    Route::post('/bulanan/store',[App\Http\Controllers\StokOpnameController::class, 'storesobulanan'])->middleware('warehouse');
-    Route::post('/bulanan/update',[App\Http\Controllers\StokOpnameController::class, 'updatesobulanan'])->middleware('warehouse');
-    Route::get('/laporan/{pubid}',[App\Http\Controllers\StokOpnameController::class, 'laporan'])->middleware('warehouse');
-    Route::get('/laporan/download/{pubid}',[App\Http\Controllers\StokOpnameController::class, 'laporanpdf'])->middleware('warehouse');
+    Route::get('/',[App\Http\Controllers\StokOpnameController::class, 'pilihso'])->middleware('storeofficer');
+    Route::get('/mingguan',[App\Http\Controllers\StokOpnameController::class, 'indexmingguan'])->middleware('storeofficer');
+    Route::get('/mingguan/{pubid}',[App\Http\Controllers\StokOpnameController::class, 'somingguan'])->middleware('storeofficer');
+    Route::get('/mingguan/edit/{pubid}',[App\Http\Controllers\StokOpnameController::class, 'resumesomingguan'])->middleware('storeofficer');
+    Route::post('/mingguan/store',[App\Http\Controllers\StokOpnameController::class, 'storesomingguan'])->middleware('storeofficer');
+    Route::post('/mingguan/update',[App\Http\Controllers\StokOpnameController::class, 'updatesomingguan'])->middleware('storeofficer');
+    Route::get('/bulanan',[App\Http\Controllers\StokOpnameController::class, 'indexbulanan'])->middleware('storeofficer');
+    Route::get('/bulanan/{pubid}',[App\Http\Controllers\StokOpnameController::class, 'sobulanan'])->middleware('storeofficer');
+    Route::get('/bulanan/edit/{pubid}',[App\Http\Controllers\StokOpnameController::class, 'resumesobulanan'])->middleware('storeofficer');
+    Route::post('/bulanan/store',[App\Http\Controllers\StokOpnameController::class, 'storesobulanan'])->middleware('storeofficer');
+    Route::post('/bulanan/update',[App\Http\Controllers\StokOpnameController::class, 'updatesobulanan'])->middleware('storeofficer');
+    Route::get('/laporan/{pubid}',[App\Http\Controllers\StokOpnameController::class, 'laporan'])->middleware('storeofficer');
+    Route::get('/laporan/download/{pubid}',[App\Http\Controllers\StokOpnameController::class, 'laporanpdf'])->middleware('storeofficer');
 
    });
 
    Route::group(['prefix' => 'barcode'], function() {
-    Route::get('/',[App\Http\Controllers\BarcodeDBController::class, 'index'])->middleware('warehouse');
-    Route::get('/new',[App\Http\Controllers\BarcodeDBController::class, 'create'])->middleware('warehouse');
-    Route::post('/store',[App\Http\Controllers\BarcodeDBController::class, 'store'])->middleware('warehouse');
-    Route::get('/edit/{id}',[App\Http\Controllers\BarcodeDBController::class, 'edit'])->middleware('warehouse');
-    Route::post('/update',[App\Http\Controllers\BarcodeDBController::class, 'update'])->middleware('warehouse');
-    Route::get('/delete/{id}',[App\Http\Controllers\BarcodeDBController::class, 'delete'])->middleware('warehouse');
+    Route::get('/',[App\Http\Controllers\BarcodeDBController::class, 'index'])->middleware('storeofficer');
+    Route::get('/new',[App\Http\Controllers\BarcodeDBController::class, 'create'])->middleware('storeofficer');
+    Route::post('/store',[App\Http\Controllers\BarcodeDBController::class, 'store'])->middleware('storeofficer');
+    Route::get('/edit/{id}',[App\Http\Controllers\BarcodeDBController::class, 'edit'])->middleware('storeofficer');
+    Route::post('/update',[App\Http\Controllers\BarcodeDBController::class, 'update'])->middleware('storeofficer');
+    Route::get('/delete/{id}',[App\Http\Controllers\BarcodeDBController::class, 'delete'])->middleware('storeofficer');
     Route::get('/import',[App\Http\Controllers\BarcodeDBController::class, 'importdata'])->middleware('auth');
     Route::post('/importing',[App\Http\Controllers\BarcodeDBController::class, 'importing'])->middleware('auth');
     Route::post('/massdelete',[App\Http\Controllers\BarcodeDBController::class, 'apimassdelete'])->middleware('auth');

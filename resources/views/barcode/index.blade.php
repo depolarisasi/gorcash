@@ -54,7 +54,7 @@
 <tbody>
     @foreach($barcode as $barcode)
 <tr data-row-id="{{$barcode->barcode_mastersku}}">
-    <td></td>
+<td></td>
 <td class="pl-3 py-3">{{$barcode->barcode_mastersku}}</td>
 <td class="pl-3 py-3">
 <div class="d-flex align-items-center">{{$barcode->barcode_productname}}</div>
@@ -169,7 +169,7 @@
         if(check == true){
             var join_selected_values = ids;
             $.ajax({
-                url: '/band/massdelete',
+                url: '/barcode/massdelete',
                 type: 'POST',
                 data: {
                     _token : "{{csrf_token()}}",

@@ -190,7 +190,7 @@ class BarcodeDBController extends Controller
     public function apimassdelete(Request $request){
 
         $ids = $request->ids;
-        Band::whereIn('barcode_mastersku',$ids)->delete();
+        BarcodeDB::whereIn('barcode_mastersku',$ids)->delete();
         return response()->json(['success'=>"Barcode Deleted successfully."]);
 
 }
