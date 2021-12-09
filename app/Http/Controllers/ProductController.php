@@ -96,7 +96,7 @@ class ProductController extends Controller
             ->where('product.product_mastersku',$p->product_mastersku)->get();
             if(is_null($p->product_foto) || $p->product_foto == ''){
                 $checkfoto = Product::where('product_mastersku', $p->product_mastersku)->whereNotNull('product_foto')->first();
-                $p->put('product_foto', $checkfoto->product_foto);
+                $produk[$key]['product_foto'] = $checkfoto->product_foto;
             }
             $vendorid = explode(',',$p->product_vendor);
             $arr = array();
