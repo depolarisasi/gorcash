@@ -207,6 +207,7 @@ Penjualan </h5>
 @section('js')
 <script src="{{asset('assets/js/pages/widgets.js')}}"></script>
 <script src="{{asset('assets/js/pages/features/charts/apexcharts.js')}}"></script>
+<script src="{{asset('js/fslightbox.js')}}"></script>
 <script>
         var element = document.getElementById("weekchart");
 
