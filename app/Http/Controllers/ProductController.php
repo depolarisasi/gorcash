@@ -128,7 +128,6 @@ class ProductController extends Controller
 
         $vendor = Vendor::get();
         $size = Size::get();
-        $color = Color::get();
         $band = Band::get();
         return view('produks.index')->with(compact('produk','vendor','size','band','color'));
     }
@@ -366,7 +365,11 @@ class ProductController extends Controller
         ->where('product.product_id', $id)->first();
         if(is_null($show->product_foto) || $show->product_foto == ''){
             $checkfoto = Product::where('product_mastersku', $show->product_mastersku)->whereNotNull('product_foto')->first();
-            $show->put('product_foto', $checkfoto->product_foto);
+            if($checkfoto){
+                $produk[$key]['product_foto'] = $checkfoto->product_foto;
+            }else {
+                $produk[$key]['product_foto'] = "/assets/nopicture.png";
+            }
         }
         $barangterjual = BarangTerjual::join('penjualan','penjualan.penjualan_id','=','barangterjual.barangterjual_idpenjualan')
         ->join('product','product.product_id','=','barangterjual.barangterjual_idproduk')
@@ -397,6 +400,14 @@ class ProductController extends Controller
         ->get();
 
         foreach($produk as $key => $p){
+            if(is_null($p->product_foto) || $p->product_foto == ''){
+                $checkfoto = Product::where('product_mastersku', $p->product_mastersku)->whereNotNull('product_foto')->first();
+                if($checkfoto){
+                    $produk[$key]['product_foto'] = $checkfoto->product_foto;
+                }else {
+                    $produk[$key]['product_foto'] = "/assets/nopicture.png";
+                }
+            }
             $vendorid = explode(',',$p->product_vendor);
             $arr = array();
             foreach($vendorid as $p){
@@ -409,7 +420,6 @@ class ProductController extends Controller
 
         $vendor = Vendor::get();
         $size = Size::get();
-        $color = Color::get();
         $band = Band::get();
         return view('produks.select')->with(compact('produk','vendor','size','band','color'));
     }
