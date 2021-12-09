@@ -96,7 +96,7 @@ class ProductController extends Controller
             ->where('product.product_mastersku',$p->product_mastersku)->get();
             if(is_null($p->product_foto) || $p->product_foto == ''){
                 $checkfoto = Product::where('product_mastersku', $p->product_mastersku)->whereNotNull('product_foto')->first();
-                if($checkfoto->product_foto){
+                if($checkfoto){
                     $produk[$key]['product_foto'] = $checkfoto->product_foto;
                 }else {
                     $produk[$key]['product_foto'] = "/assets/nopicture.png";
