@@ -117,7 +117,7 @@ class ProductsImport implements ToCollection, WithHeadingRow
                         }
 
                 }else {
-                    $checkbyname = BarcodeDB::where('barcode_productname','LIKE', '%'.$row['product_nama'].'%')
+                    $checkbyname = BarcodeDB::where('barcode_productname', $row['product_nama'])
                     ->where('barcode_productband',$row['product_idband'])->first();
                     if($checkbyname){
                         $masterskus =  $checkbyname->barcode_mastersku;

@@ -35,14 +35,7 @@
         <input type="hidden" name="ajaxurl" id="ajax" value="{{url('api/getproductmastersku')}}">
         <div class="row">
             <div class="col-md-6">
-                  <div class="form-group row mt-4">
-                    <div class="col-md-2">
-                    <label>Barcode Produk Lama</label>
-                   </div>
-                    <div class="col-md-10">
-                        <input type="checkbox" class="produklama" id="isProdukLama" name="isProdukLama" @if($edit->product_productlama == 1) checked @endif> <small>Barcode akan diperbarui dengan barcode baru apabila merupakan barcode lama</small>
-                    </div>
-                  </div>
+
                   <div id="skulama" class="form-group row mt-4 collapse">
                     <label class="col-md-2">SKU Lama</label>
                     <div class="col-md-10">

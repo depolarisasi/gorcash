@@ -32,7 +32,7 @@
 
                         <div class="d-flex flex-column flex-root">
                             <span class="font-weight-bolder mb-2">Informasi Penjualan.</span>
-                            <span>Invoice No : {{$penjualan->penjualan_invoice}}</span>
+                            <span>Invoice No : @if($penjualan->penjualan_channel == "Toko Offline") {{$penjualan->penjualan_invoicegorilla}} @else {{$penjualan->penjualan_invoice}} @endif</span>
                             <span>Channel : {{$penjualan->penjualan_channel}}</span>
                                 <span>Nama Customer : {{$penjualan->penjualan_customername}}</span>
                                 <span>Kasir : {{$penjualan->name}}</span>
@@ -76,17 +76,8 @@
                                     @endif</td>
                                 </tr>
                                 @endforeach
-                                <tr class="font-weight-boldest">
-                                    <td  colspan="3"class="text-right pt-7 align-middle">@money($penjualan->penjualan_totalpenjualan)</td>
-                                    <td class="text-right pt-7 align-middle">@money($penjualan->penjualan_diskon)</td>
-                                    <td class="text-primary pr-0 pt-7 text-right align-middle">
-                                        @if((int)$penjualan->penjualan_diskon == 0 || is_null($penjualan->penjualan_diskon))
-                                        @money($b->barangterjual_totalbarangterjual)
-                                        @else
-                                         @money((int)$penjualan->penjualan_totalpenjualan-(int)$penjualan->penjualan_diskon)
-                                    @endif</td>
 
-                                </tr>
+
                                 <tr class="font-weight-boldest">
                                     <td colspan="5" class="text-primary font-size-h3 font-weight-boldest text-right">
                                         @money((int)$penjualan->penjualan_totalpenjualan - (int)$penjualan->penjualan_diskon)</td>

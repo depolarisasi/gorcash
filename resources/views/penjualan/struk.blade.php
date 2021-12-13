@@ -88,7 +88,7 @@ img {
         <br>
             <p>
                 Tanggal : {{$penjualan->penjualan_tanggalpenjualan}} </br>
-                Invoice   :  {{$penjualan->penjualan_invoice}}</br>
+                Invoice   :  @if($penjualan->penjualan_channel == "Toko Offline") {{$penjualan->penjualan_invoicegorilla}} @else {{$penjualan->penjualan_invoice}} @endif </br>
                 Channel   : {{$penjualan->penjualan_channel}}</br>
                 Customer   : {{$penjualan->penjualan_customername}} </br>
                 Payment Type   :  {{$penjualan->penjualan_paymentype}}</br>

@@ -139,8 +139,15 @@
           });
             });
 
-            table = $('#barcode').DataTable({   dom: 'Blfrtip',
+            table = $('#barcode').DataTable({
+        dom: 'Blfrtip',
         buttons: [
+            {
+                extend: 'excelHtml5',
+                exportOptions: {
+                    columns: [ 1, 2, 3, 4, 5, 6 ]
+                }
+            },
             {
       text: 'Select All On Page',
       action: function() {

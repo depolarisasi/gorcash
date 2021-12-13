@@ -127,6 +127,9 @@ class BarcodeDBController extends Controller
                 $countseri = 1;
                 $serivarian = "0".$countseri.$firstbandletter;
                 }
+            }else {
+                $countseri = $sericode+1;
+                $serivarian = $countseri.$firstbandletter;
             }
             $mastersku = $databand->band_code.$datatype->type_code.$serivarian.$datacolor->color_code;
 

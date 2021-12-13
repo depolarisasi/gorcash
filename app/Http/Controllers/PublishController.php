@@ -41,7 +41,6 @@ class PublishController extends Controller
         $todaydate = Carbon::now()->format('M Y');
         $dateinput = Carbon::now()->format('Y-m-d');
         foreach($ids as $id){
-
             $product = Product::where('product_mastersku', $id)->where('product_stok','>', 0)
             ->where('product_status', 0)->get();
             foreach($product as $p){
@@ -57,7 +56,6 @@ class PublishController extends Controller
                 $product->product_status = 1;
                 $product->product_tanggalpublish = $dateinput;
                 $product->update();
-            }
 
             $pubcount = PublishCounter::where('publishcount_pubtanggal',$dateinput)->first();
             if($pubcount){
@@ -76,6 +74,8 @@ class PublishController extends Controller
             $editpublish->publish_name = "Minggu ".$weekofmonth.' '.$todaydate;
             $editpublish->update();
             }
+        }
+
         }
 
 

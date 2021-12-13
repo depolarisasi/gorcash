@@ -21,6 +21,8 @@ use Illuminate\Support\Facades\File;
 use Intervention\Image\ImageManagerStatic as Image;
 use Carbon\Carbon;
 use PDF;
+use Illuminate\Support\Str;
+
 
 
 class PenjualanController extends Controller
@@ -170,7 +172,6 @@ class PenjualanController extends Controller
 
     public function apiaddbarang(Request $request){
         try {
-
             $produk = Product::where('product_id',$request->productid)->first();
             $produkkeluar = new BarangTerjual;
             $produkkeluar->barangterjual_idproduk = $request->productid;
@@ -187,6 +188,23 @@ class PenjualanController extends Controller
          ->select('product.*','size.size_id','size.size_nama','band.band_id','band.band_nama')
          ->where('product.product_id',$request->productid)
          ->first();
+         $arr = array();
+         if(Str::contains($produk->product_vendor, ',')){
+             $vendorid = explode(',',$produk->product_vendor);
+             foreach($vendorid as $v){
+                 $name = Vendor::where('vendor_id', $v)->first();
+                 array_push($arr, $name->vendor_nama);
+             }
+         }else {
+             $name = Vendor::where('vendor_id',$produk->product_vendor)->first();
+             $vendors = $name?$name->vendor_nama:"";
+         }
+         if(Str::contains($produk->product_vendor, ',')){
+             $vendorname = implode(', ', $arr);
+         }else {
+             $vendorname = $vendors;
+         }
+         $produk['product_vendor'] = $vendorname;
          return $produk->toArray();
     }
 

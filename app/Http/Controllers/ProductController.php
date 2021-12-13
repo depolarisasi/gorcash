@@ -23,6 +23,7 @@ use Illuminate\Support\Collection;
 
 use App\Imports\ProductsImport;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
@@ -87,6 +88,7 @@ class ProductController extends Controller
         $produk = Product::join('size','size.size_id','=','product.product_idsize')
         ->join('band','band.band_id','=','product.product_idband')
         ->select('product.*','size.size_id','size.size_nama','band.band_id','band.band_nama')
+        ->orderByRaw('-product.product_foto DESC')
         ->groupBy('product.product_mastersku')
         ->get();
 
@@ -94,21 +96,29 @@ class ProductController extends Controller
             $variant = Product::join('size','size.size_id','=','product.product_idsize')
             ->select('product.*','size.size_id','size.size_nama')
             ->where('product.product_mastersku',$p->product_mastersku)->get();
-            // if(is_null($p->product_foto) || $p->product_foto == ''){
-            //     $checkfoto = Product::where('product_mastersku', $p->product_mastersku)->whereNotNull('product_foto')->first();
-            //     if($checkfoto){
-            //         $produk[$key]['product_foto'] = $checkfoto->product_foto;
-            //     }else {
-            //         $produk[$key]['product_foto'] = "/assets/nopicture.png";
-            //     }
-            // }
-            $vendorid = explode(',',$p->product_vendor);
-            $arr = array();
-            $arr2 = array();
-            foreach($vendorid as $p){
-                $name = Vendor::where('vendor_id',$p)->first();
-                array_push($arr, $name->vendor_nama);
+
+            if(is_null($p->product_foto) || $p->product_foto == ''){
+                $checkfoto = Product::where('product_mastersku', $p->product_mastersku)->whereNotNull('product_foto')->first();
+                if($checkfoto){
+                    $produk[$key]['product_foto'] = $checkfoto->product_foto;
+                }else {
+                    $produk[$key]['product_foto'] = "/assets/nopicture.png";
+                }
             }
+
+            $arr = array();
+            if(Str::contains($p->product_vendor, ',')){
+                $vendorid = explode(',',$p->product_vendor);
+                foreach($vendorid as $v){
+                    $name = Vendor::where('vendor_id', $v)->first();
+                    array_push($arr, $name->vendor_nama);
+                }
+            }else {
+                $name = Vendor::where('vendor_id',$p->product_vendor)->first();
+                $vendors = $name?$name->vendor_nama:"";
+            }
+
+            $arr2 = array();
             $stokcount = 0;
             $stokakhir = [];
             foreach($variant as $v){
@@ -118,7 +128,12 @@ class ProductController extends Controller
                 array_push($arr2, $size);
                 array_push($stokakhir, $stoka);
             }
-            $vendorname = implode(', ', $arr);
+
+            if(Str::contains($p->product_vendor, ',')){
+                $vendorname = implode(', ', $arr);
+            }else {
+                $vendorname = $vendors;
+            }
             $variantavailable = implode(', ', $arr2);
             $produk[$key]['product_vendor'] =  $vendorname;
             $produk[$key]['product_idsize'] =   $variantavailable;
@@ -127,9 +142,9 @@ class ProductController extends Controller
         }
 
         $vendor = Vendor::get();
-        $size = Size::get();
         $band = Band::get();
-        return view('produks.index')->with(compact('produk','vendor','size','band'));
+        $size = Size::get();
+        return view('produks.index')->with(compact('produk','vendor','band','size'));
     }
 
     public function create()
@@ -366,9 +381,9 @@ class ProductController extends Controller
         if(is_null($show->product_foto) || $show->product_foto == ''){
             $checkfoto = Product::where('product_mastersku', $show->product_mastersku)->whereNotNull('product_foto')->first();
             if($checkfoto){
-                $produk[$key]['product_foto'] = $checkfoto->product_foto;
+                $show['product_foto'] = $checkfoto->product_foto;
             }else {
-                $produk[$key]['product_foto'] = "/assets/nopicture.png";
+                $show['product_foto'] = "/assets/nopicture.png";
             }
         }
         $barangterjual = BarangTerjual::join('penjualan','penjualan.penjualan_id','=','barangterjual.barangterjual_idpenjualan')
@@ -408,13 +423,24 @@ class ProductController extends Controller
                     $produk[$key]['product_foto'] = "/assets/nopicture.png";
                 }
             }
-            $vendorid = explode(',',$p->product_vendor);
             $arr = array();
-            foreach($vendorid as $p){
-                $name = Vendor::where('vendor_id',$p)->first();
-                array_push($arr, $name->vendor_nama);
+            if(Str::contains($p->product_vendor, ',')){
+                $vendorid = explode(',',$p->product_vendor);
+                foreach($vendorid as $v){
+                    $name = Vendor::where('vendor_id', $v)->first();
+                    array_push($arr, $name->vendor_nama);
+                }
+            }else {
+                $name = Vendor::where('vendor_id',$p->product_vendor)->first();
+                $vendors = $name?$name->vendor_nama:"";
             }
-            $vendorname = implode(', ', $arr);
+
+
+            if(Str::contains($p->product_vendor, ',')){
+                $vendorname = implode(', ', $arr);
+            }else {
+                $vendorname = $vendors;
+            }
             $produk[$key]['product_vendor'] =  $vendorname;
         }
 
@@ -458,21 +484,7 @@ class ProductController extends Controller
         if ($request->file('product_foto') == '') {
             $fileurl = $produk->product_foto;
     } else {
-        $file = $request->file('product_foto');
-        $fileArray = ['files' => $file];
-        $rules = ['files' => 'mimes:jpeg,jpg,png,gif|required|max:100000'];
-        $validator = Validator::make($fileArray, $rules);
-        if ($validator->fails()) {
-            // Redirect or return json to frontend with a helpful message to inform the user
-            // that the provided file was not an adequate type
-                   toast('File bukan gambar','error');
-            return redirect()->back();
-        } else {
-            $img_id = mt_rand(1, 10000);
-            $fileName = $img_id.time().'.'.$file->getClientOriginalName();
-            Image::make($file)->encode('jpg', 90)->save('product/'.$fileName);
-            $fileurl = 'product/'.$fileName;
-        }
+            $fileurl =  $this->uploadImage($request->file('product_foto'));
     }
 
     $update->put('product_foto', $fileurl);
@@ -491,6 +503,11 @@ class ProductController extends Controller
 
         try {
         $produk->update($update->all());
+        $productwithsamesku = Product::where('product_mastersku', $produk->product_mastersku)->get();
+        foreach($productwithsamesku as $ps){
+            $ps->product_foto = $fileurl;
+            $ps->update();
+        }
         } catch (QE $e) {
 
         toast('Database error','error');

@@ -46,13 +46,9 @@
 
 <div class="mb-7">
 	<div class="row align-items-center">
-		<div class="col-lg-10 col-xl-10">
+		<div class="col-lg-8 col-xl-8">
 			<div class="row align-items-center">
-				<div class="col-md-3 my-2 my-md-0">
-
-				</div>
-
-                				<div class="col-md-3 my-2 my-md-0">
+                <div class="col-md-4 my-2 my-md-0">
 					<div class="d-flex align-items-center">
 						<label class="mr-3 mb-0 d-none d-md-block">Size:</label>
 						<select class="form-control" id="kt_datatable_search_size">
@@ -60,10 +56,11 @@
                             @foreach($size as $s)
                             <option value="{{$s->size_nama}}">{{$s->size_nama}}</option>
                             @endforeach
+
 						</select>
 					</div>
 				</div>
-                <div class="col-md-3 my-2 my-md-0">
+                <div class="col-md-4 my-2 my-md-0">
 					<div class="d-flex align-items-center">
 						<label class="mr-3 mb-0 d-none d-md-block">Band:</label>
 						<select class="form-control" id="kt_datatable_search_band">
@@ -75,7 +72,7 @@
 						</select>
 					</div>
 				</div>
-				<div class="col-md-3 my-2 my-md-0">
+				<div class="col-md-4 my-2 my-md-0">
 					<div class="d-flex align-items-center">
 						<label class="mr-3 mb-0 d-none d-md-block">Vendor:</label>
 						<select class="form-control" id="kt_datatable_search_vendor">
@@ -88,7 +85,7 @@
 				</div>
                 			</div>
 		</div>
-		<div class="col-lg-2 col-xl-2 mt-5 mt-lg-0">
+		<div class="col-lg-4 col-xl-4 mt-5 mt-lg-0">
 			<a href="#" class="btn btn-light-primary px-6 font-weight-bold">
 				Search
 			</a>
@@ -99,6 +96,7 @@
 		<!--end: Search Form-->
 
 		<!--begin: Datatable-->
+        <div class="table-responsive">
 		<table class="table table-bordered mt-5" id="product">
 			<thead>
 				<tr>
@@ -109,9 +107,11 @@
 					<th>Size</th>
 					<th>Vendor</th>
 					<th>Band</th>
-					<th>Harga</th>
-					<th>Stok Awal</th>
-					<th>Stok Akhir</th>
+					@if(Auth::user()->role == 1)<th>Harga Beli</th>@endif
+					<th>Harga Jual</th>
+                    @if(Auth::user()->role == 1)<th>Keuntungan</th>@endif
+					<th width="5%">Stok Awal</th>
+					<th width="5%">Stok Akhir</th>
 					<th>Action</th>
 				</tr>
 			</thead>
@@ -130,10 +130,10 @@
                     @endif</td>
 					<td>{{$p->product_idsize}}</td>
 					<td>{{$p->product_vendor}}</td>
-                    <td>{{$p->band_nama}}</td>
-                    <td class="text-center">@if(Auth::user()->role == 1) <p><span class="label label-danger label-md label-inline mr-2">Rp{{$p->product_hargabeli}}</span> </p> @endif
-                        <p><span class="label label-primary label-md label-inline mr-2">Rp{{$p->product_hargajual}}</span> </p>
-                        @if(Auth::user()->role == 1) <p><span class="label label-success label-md label-inline mr-2">Rp{{$p->product_hargajual - $p->product_hargabeli}}</span> </p> @endif</td>
+					<td>{{$p->band_nama}}</td>
+                    @if(Auth::user()->role == 1) <td>@money($p->product_hargabeli)</td>@endif
+                    <td>@money($p->product_hargajual)</td>
+                    @if(Auth::user()->role == 1) <td>@money($p->product_hargajual - $p->product_hargabeli)</td>@endif
 					<td>{{$p->product_stok}}</td>
                     <td>{{$p->product_stokakhir}}</td>
 					<td>
@@ -146,6 +146,7 @@
 
 			</tbody>
 		</table>
+    </div>
 		<!--end: Datatable-->
 </div>
 <!--end::Body-->
@@ -176,9 +177,16 @@
  tabel = $('#product').DataTable({
     dom: 'Blfrtip',
         buttons: [
-            'copyHtml5',
-            'excelHtml5',
-            'csvHtml5',
+            {
+                extend: 'excelHtml5',
+                exportOptions: {
+                    @if(Auth::user()->role == 1)
+                    columns: [ 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+                    @else
+                    columns: [ 2, 3, 4, 5, 6, 7, 8, 9 ]
+                    @endif
+                }
+            },
             {
       text: 'Select All On Page',
       action: function() {
@@ -300,23 +308,23 @@
         },
         order: [[ 3, 'asc' ]],
         "ordering": true,
-        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]]
+        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+
     } );
 
-
-        $('#kt_datatable_search_size').on('change', function() {
-            tabel.search($(this).val().toLowerCase());
+    $('#kt_datatable_search_size').on('change', function() {
+            tabel.columns(4).search($(this).val().toLowerCase()).draw();
         });
 
         $('#kt_datatable_search_band').on('change', function() {
-            tabel.search($(this).val().toLowerCase());
+            tabel.columns(6).search($(this).val().toLowerCase()).draw();
         });
 
         $('#kt_datatable_search_vendor').on('change', function() {
-            tabel.search($(this).val().toLowerCase());
+            tabel.columns(5).search($(this).val().toLowerCase()).draw();
         });
 
-        $('#kt_datatable_search_size, #kt_datatable_search_band,#kt_datatable_search_vendor').selectpicker();
+        $('#kt_datatable_search_size,#kt_datatable_search_band,#kt_datatable_search_vendor').selectpicker();
 
 </script>
 <script>

@@ -34,7 +34,7 @@
                     <label class="col-md-4">Invoice Gorilla No</label>
                     <div class="col-md-8">
                         <p>{{$invoice}}</p>
-                    <input id="name" type="hidden" name="penjualan_invoice" value="{{$invoice}}" >
+                    <input id="name" type="hidden" name="penjualan_invoicegorilla" value="{{$invoice}}" >
                     </div>
                   </div>
                   <div class="form-group row mt-4">
@@ -46,7 +46,7 @@
                   <div class="form-group row mt-4">
                     <label class="col-md-4">Nama Customer</label>
                     <div class="col-md-8">
-                    <input id="name" type="text" class="form-control" name="penjualan_customername" required>
+                    <input id="name" type="text" class="form-control" name="penjualan_customername">
                     </div>
                   </div>
                   <div class="form-group row mt-4">
@@ -422,8 +422,9 @@ if(x <= max_fields){ //max input box allowed
                     success: function(data){
                     x++;
                     wrapper.append(`<tr id="R${data["product_id"]}">
-                    <td class="d-flex align-items-center font-weight-bolder">
-                    <a href="#" class="text-dark text-hover-primary">${data["product_sku"]} - ${data["product_nama"]} ${data["size_nama"]}</a>
+                    <td class="font-weight-bolder">
+                    <p><a href="#" class="text-dark text-hover-primary">${data["product_sku"]} - ${data["product_nama"]} (${data["size_nama"]})</a></p></br>
+                    <p>${data["band_nama"]} - ${data["product_vendor"]}</p>
                     </td>
                     <td class="text-center align-middle">
                     <button class="btn btn-xs btn-light-success btn-icon kurangqty" data-idproduct="${data["product_id"]}">

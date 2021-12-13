@@ -25,6 +25,7 @@ class Penjualan extends Model
      * @var array
      */
     protected $fillable = ['penjualan_invoice',
+    'penjualan_invoicegorilla',
     'penjualan_customername',
     'penjualan_channel',
     'penjualan_barangterjual',
