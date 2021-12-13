@@ -94,14 +94,14 @@ class ProductController extends Controller
             $variant = Product::join('size','size.size_id','=','product.product_idsize')
             ->select('product.*','size.size_id','size.size_nama')
             ->where('product.product_mastersku',$p->product_mastersku)->get();
-            if(is_null($p->product_foto) || $p->product_foto == ''){
-                $checkfoto = Product::where('product_mastersku', $p->product_mastersku)->whereNotNull('product_foto')->first();
-                if($checkfoto){
-                    $produk[$key]['product_foto'] = $checkfoto->product_foto;
-                }else {
-                    $produk[$key]['product_foto'] = "/assets/nopicture.png";
-                }
-            }
+            // if(is_null($p->product_foto) || $p->product_foto == ''){
+            //     $checkfoto = Product::where('product_mastersku', $p->product_mastersku)->whereNotNull('product_foto')->first();
+            //     if($checkfoto){
+            //         $produk[$key]['product_foto'] = $checkfoto->product_foto;
+            //     }else {
+            //         $produk[$key]['product_foto'] = "/assets/nopicture.png";
+            //     }
+            // }
             $vendorid = explode(',',$p->product_vendor);
             $arr = array();
             $arr2 = array();
@@ -204,7 +204,7 @@ class ProductController extends Controller
                                                 $vendor = implode(',',$vendorinput);
                                             }
                                             $store->put('product_vendor', $vendor);
-                                            $store->put('product_productlama', $request->product_productlama);
+                                            // $store->put('product_productlama', $request->product_productlama);
                                         if($request->product_tanggalpublish == NULL){
                                             $status = 0;
                                         }else {
@@ -245,7 +245,7 @@ class ProductController extends Controller
                                                 $vendor = implode(',',$vendorinput);
                                             }
                                             $checksku->product_vendor = $vendor;
-                                            $checksku->product_productlama = $request->product_productlama;
+                                            // $checksku->product_productlama = $request->product_productlama;
                                         if($request->product_tanggalpublish == NULL){
                                             $status = 0;
                                         }else {
@@ -330,7 +330,7 @@ class ProductController extends Controller
                                 $vendor = implode(',',$vendorinput);
                             }
                             $store->put('product_vendor', $vendor);
-                            $store->put('product_productlama', $request->product_productlama);
+                            // $store->put('product_productlama', $request->product_productlama);
                             if($request->product_tanggalpublish == NULL){
                                 $status = 0;
                             }else {
