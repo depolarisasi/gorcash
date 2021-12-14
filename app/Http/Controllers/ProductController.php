@@ -92,54 +92,54 @@ class ProductController extends Controller
         ->groupBy('product.product_mastersku')
         ->get();
 
-        foreach($produk as $key => $p){
-            $variant = Product::join('size','size.size_id','=','product.product_idsize')
-            ->select('product.*','size.size_id','size.size_nama')
-            ->where('product.product_mastersku',$p->product_mastersku)->get();
+        // foreach($produk as $key => $p){
+        //     $variant = Product::join('size','size.size_id','=','product.product_idsize')
+        //     ->select('product.*','size.size_id','size.size_nama')
+        //     ->where('product.product_mastersku',$p->product_mastersku)->get();
 
-            // if(is_null($p->product_foto) || $p->product_foto == ''){
-            //     $checkfoto = Product::where('product_mastersku', $p->product_mastersku)->whereNotNull('product_foto')->first();
-            //     if($checkfoto){
-            //         $produk[$key]['product_foto'] = $checkfoto->product_foto;
-            //     }else {
-            //         $produk[$key]['product_foto'] = "/assets/nopicture.png";
-            //     }
-            // }
+        //     // if(is_null($p->product_foto) || $p->product_foto == ''){
+        //     //     $checkfoto = Product::where('product_mastersku', $p->product_mastersku)->whereNotNull('product_foto')->first();
+        //     //     if($checkfoto){
+        //     //         $produk[$key]['product_foto'] = $checkfoto->product_foto;
+        //     //     }else {
+        //     //         $produk[$key]['product_foto'] = "/assets/nopicture.png";
+        //     //     }
+        //     // }
 
-            $arr = array();
-            if(Str::contains($p->product_vendor, ',')){
-                $vendorid = explode(',',$p->product_vendor);
-                foreach($vendorid as $v){
-                    $name = Vendor::where('vendor_id', $v)->first();
-                    array_push($arr, $name->vendor_nama);
-                }
-            }else {
-                $name = Vendor::where('vendor_id',$p->product_vendor)->first();
-                $vendors = $name?$name->vendor_nama:"";
-            }
+        //     $arr = array();
+        //     if(Str::contains($p->product_vendor, ',')){
+        //         $vendorid = explode(',',$p->product_vendor);
+        //         foreach($vendorid as $v){
+        //             $name = Vendor::where('vendor_id', $v)->first();
+        //             array_push($arr, $name->vendor_nama);
+        //         }
+        //     }else {
+        //         $name = Vendor::where('vendor_id',$p->product_vendor)->first();
+        //         $vendors = $name?$name->vendor_nama:"";
+        //     }
 
-            $arr2 = array();
-            $stokcount = 0;
-            $stokakhir = [];
-            foreach($variant as $v){
-                $size = $v->size_nama;
-                $stokcount = $stokcount+(int)$v->product_stok;
-                $stoka = $v->product_stokakhir;
-                array_push($arr2, $size);
-                array_push($stokakhir, $stoka);
-            }
+        //     $arr2 = array();
+        //     $stokcount = 0;
+        //     $stokakhir = [];
+        //     foreach($variant as $v){
+        //         $size = $v->size_nama;
+        //         $stokcount = $stokcount+(int)$v->product_stok;
+        //         $stoka = $v->product_stokakhir;
+        //         array_push($arr2, $size);
+        //         array_push($stokakhir, $stoka);
+        //     }
 
-            if(Str::contains($p->product_vendor, ',')){
-                $vendorname = implode(', ', $arr);
-            }else {
-                $vendorname = $vendors;
-            }
-            $variantavailable = implode(', ', $arr2);
-            $produk[$key]['product_vendor'] =  $vendorname;
-            $produk[$key]['product_idsize'] =   $variantavailable;
-            $produk[$key]['product_stok'] =   $stokcount;
-            $produk[$key]['product_stokakhir'] =   implode(', ', $stokakhir);
-        }
+        //     if(Str::contains($p->product_vendor, ',')){
+        //         $vendorname = implode(', ', $arr);
+        //     }else {
+        //         $vendorname = $vendors;
+        //     }
+        //     $variantavailable = implode(', ', $arr2);
+        //     $produk[$key]['product_vendor'] =  $vendorname;
+        //     $produk[$key]['product_idsize'] =   $variantavailable;
+        //     $produk[$key]['product_stok'] =   $stokcount;
+        //     $produk[$key]['product_stokakhir'] =   implode(', ', $stokakhir);
+        // }
 
         $vendor = Vendor::get();
         $band = Band::get();
