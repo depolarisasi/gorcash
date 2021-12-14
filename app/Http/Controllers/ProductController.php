@@ -88,7 +88,7 @@ class ProductController extends Controller
         $produk = Product::join('size','size.size_id','=','product.product_idsize')
         ->join('band','band.band_id','=','product.product_idband')
         ->select('product.*','size.size_id','size.size_nama','band.band_id','band.band_nama')
-        ->orderByRaw('-product.product_foto DESC')
+        // ->orderByRaw('-product.product_foto DESC')
         ->groupBy('product.product_mastersku')
         ->get();
 
@@ -97,14 +97,14 @@ class ProductController extends Controller
             ->select('product.*','size.size_id','size.size_nama')
             ->where('product.product_mastersku',$p->product_mastersku)->get();
 
-            if(is_null($p->product_foto) || $p->product_foto == ''){
-                $checkfoto = Product::where('product_mastersku', $p->product_mastersku)->whereNotNull('product_foto')->first();
-                if($checkfoto){
-                    $produk[$key]['product_foto'] = $checkfoto->product_foto;
-                }else {
-                    $produk[$key]['product_foto'] = "/assets/nopicture.png";
-                }
-            }
+            // if(is_null($p->product_foto) || $p->product_foto == ''){
+            //     $checkfoto = Product::where('product_mastersku', $p->product_mastersku)->whereNotNull('product_foto')->first();
+            //     if($checkfoto){
+            //         $produk[$key]['product_foto'] = $checkfoto->product_foto;
+            //     }else {
+            //         $produk[$key]['product_foto'] = "/assets/nopicture.png";
+            //     }
+            // }
 
             $arr = array();
             if(Str::contains($p->product_vendor, ',')){
