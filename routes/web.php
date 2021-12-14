@@ -112,8 +112,10 @@ Route::group(['prefix' => 'size'], function() {
 
    Route::group(['prefix' => 'api'], function() {
     Route::post('/massdelete',[App\Http\Controllers\ProductController::class, 'apimassdelete'])->middleware('auth');
+    Route::post('/exportmassdelete',[App\Http\Controllers\ExportSKUController::class, 'apimassdelete'])->middleware('auth');
     Route::post('/deletesku',[App\Http\Controllers\ProductController::class, 'apideletesku'])->middleware('auth');
     Route::post('/publish',[App\Http\Controllers\PublishController::class, 'apimasspublish'])->middleware('auth');
+    Route::post('/exportsku',[App\Http\Controllers\ExportSKUController::class, 'exportskuapi'])->middleware('auth');
     Route::get('/getproductmastersku',[App\Http\Controllers\BarcodeDBController::class, 'getproductmastersku'])->middleware('auth');
     Route::post('/getso',[App\Http\Controllers\StokOpnameController::class, 'getso'])->middleware('auth');
     Route::post('/simpanso',[App\Http\Controllers\StokOpnameController::class, 'pausesomingguan'])->middleware('auth');
@@ -126,6 +128,14 @@ Route::group(['prefix' => 'size'], function() {
     Route::post('/update',[App\Http\Controllers\PublishController::class, 'update'])->middleware('auth');
     Route::get('/detail/{groupname}',[App\Http\Controllers\PublishController::class, 'show'])->middleware('auth');
     Route::get('/delete/{groupname}',[App\Http\Controllers\PublishController::class, 'delete'])->middleware('auth');
+   });
+   Route::group(['prefix' => 'export-barcode'], function() {
+    Route::get('/',[App\Http\Controllers\ExportSKUController::class, 'index'])->middleware('auth');
+    Route::get('/edit/{id}',[App\Http\Controllers\ExportSKUController::class, 'edit'])->middleware('auth');
+    Route::post('/update',[App\Http\Controllers\ExportSKUController::class, 'update'])->middleware('auth');
+    Route::get('/detail/{id}',[App\Http\Controllers\ExportSKUController::class, 'show'])->middleware('auth');
+    Route::get('/delete/',[App\Http\Controllers\ExportSKUController::class, 'deleteproduct'])->middleware('auth');
+    Route::get('/delete-export/{id}',[App\Http\Controllers\ExportSKUController::class, 'delete'])->middleware('auth');
    });
 
    Route::group(['prefix' => 'kasir'], function() {
@@ -140,7 +150,6 @@ Route::group(['prefix' => 'size'], function() {
     Route::post('/apikurangqtykasir',[App\Http\Controllers\PenjualanController::class, 'apiminqtybarang']);
     Route::post('/apideletebarangkasir',[App\Http\Controllers\PenjualanController::class, 'apidelbarang']);
    });
-
 
    Route::group(['prefix' => 'penjualan'], function() {
     Route::get('/',[App\Http\Controllers\PenjualanController::class, 'index'])->middleware('storeofficer');

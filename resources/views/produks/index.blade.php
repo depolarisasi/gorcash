@@ -211,7 +211,6 @@
      )
     }else {
 
-        $("#kt_datatable_publish_all_2").addClass("spinner spinner-right spinner-white pr-15");
             $.ajax({
                 url: 'api/publish/',
                 type: 'POST',
@@ -221,7 +220,6 @@
                 success: function (data) {
                     if (data['success']) {
                         window.location = "/publish/"+data['groupname'];
-                        $("#kt_datatable_publish_all_2").removeClass("spinner spinner-right spinner-white pr-15")
                         alert(data['success']);
                     } else if (data['error']) {
                         alert(data['error']);
@@ -287,6 +285,46 @@
         }
 
     }
+
+                }
+            }, {
+                text: 'Export SKU',
+                action: function () {
+                   var join_selected_values = $.map(tabel.rows('.selected').data(), function (item) {
+       				 return item[2]
+    					});
+                        if(join_selected_values.length <=0)
+    {
+        Swal.fire(
+       'Error',
+       'Silahkan Pilih Data Yang Ingin Diexport',
+       'error'
+     )
+    }else {
+
+            $.ajax({
+                url: 'api/exportsku/',
+                type: 'POST',
+                data: {
+                    _token : "{{csrf_token()}}",
+                    'ids' : join_selected_values},
+                success: function (data) {
+                    if (data['success']) {
+                        window.location = "/export-barcode/edit/"+data['groupname'];
+                        alert(data['success']);
+                    } else if (data['error']) {
+                        alert(data['error']);
+                    } else {
+                      console.log(data);
+                    }
+                },
+                error: function (data) {
+                    console.log(data.responseText);
+                }
+            });
+
+    }
+
 
                 }
             },
@@ -408,7 +446,6 @@ $('.publish_all').on('click', function(e) {
                 success: function (data) {
                     if (data['success']) {
                         window.location = "/publish/"+data['groupname'];
-                        $("#kt_datatable_publish_all_2").removeClass("spinner spinner-right spinner-white pr-15")
                         alert(data['success']);
                     } else if (data['error']) {
                         alert(data['error']);
