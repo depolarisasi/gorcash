@@ -29,6 +29,7 @@ class BarcodeDBController extends Controller
         ->join('type','type.type_id','=','barcode.barcode_producttype')
         ->join('color','color.color_id','=','barcode.barcode_productcolor')
         ->select('barcode.*','type.type_id','color.color_id','band.band_id','band.band_nama','type.type_name','color.color_nama')
+        ->orderBy('barcode.barcode_productname', 'ASC')
         ->get();
 
 
@@ -113,7 +114,7 @@ class BarcodeDBController extends Controller
     public function update(Request $request)
     {
         $barcode = BarcodeDB::where('barcode_id', $request->barcode_id)->first();
-        if($barcode->barcode_productband != $request->barcode_productband || $barcode->barcode_producttype != $request->barcode_producttype || $barcode->barcode_roductcolor != $request->barcode_productcolor){
+        if($barcode->barcode_productband != $request->barcode_productband || $barcode->barcode_producttype != $request->barcode_producttype){
             $databand = Band::where('band_id',$request->barcode_productband)->first();
             $firstbandletter =  substr($databand->band_nama, 0, 1);
             $datatype = TypeProduct::where('type_id',$request->barcode_producttype)->first();
@@ -133,6 +134,14 @@ class BarcodeDBController extends Controller
             }
             $mastersku = $databand->band_code.$datatype->type_code.$serivarian.$datacolor->color_code;
 
+        }else {
+            $databand = Band::where('band_id',$request->barcode_productband)->first();
+            $firstbandletter =  substr($databand->band_nama, 0, 1);
+            $datatype = TypeProduct::where('type_id',$request->barcode_producttype)->first();
+            $datacolor = Color::where('color_id',$request->barcode_productcolor)->first();
+            $sericode = $barcode->barcode_productseri;
+
+            $mastersku = $databand->band_code.$datatype->type_code.$sericode.$datacolor->color_code;
         }
 
         $store = collect($request->all());

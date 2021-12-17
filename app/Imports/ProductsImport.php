@@ -50,12 +50,10 @@ class ProductsImport implements ToCollection, WithHeadingRow
             if ($row->filter()->isNotEmpty()) {
                 $masterskus = $row['product_mastersku'];
                 if($masterskus != NULL) {
-                        $size = Size::where('size_id',$row['product_idsize'])->first();
-                        $generatesize = Size::where('size_category',$size->size_category)->get();
+                        $size = $row['product_idsize'];
                         $masterdata = BarcodeDB::where('barcode_mastersku', $masterskus)->first();
-                        foreach($generatesize as $gs){
                             if($masterdata){
-                        $skuvariant = $masterskus.$gs->size_id;
+                        $skuvariant = $masterskus.$size;
                         $checksku = Product::where('product_sku',$skuvariant)->first();
                                 if($checksku == null){
                                     if(strlen($row['product_vendor']) > 1){
@@ -64,15 +62,9 @@ class ProductsImport implements ToCollection, WithHeadingRow
                                     }else {
                                         $vendor = $row['product_vendor'];
                                     }
-                                    if($row['product_idsize'] == $gs->size_id){
                                      $skuvariant = $masterskus.$row['product_idsize'];
                                      $stok = $row['product_stok'];
                                      $size = $row['product_idsize'];
-                                    }else {
-                                     $skuvariant = $masterskus.$gs->size_id;
-                                     $stok = 0;
-                                     $size = $gs->size_id;
-                                    }
                                     try {
                                         if($stok >= 1){
                                             $stoktoko = 1;
@@ -114,7 +106,6 @@ class ProductsImport implements ToCollection, WithHeadingRow
                                         }
                                 }
                             }
-                        }
 
                 }else {
                     $checkbyname = BarcodeDB::where('barcode_productname', $row['product_nama'])

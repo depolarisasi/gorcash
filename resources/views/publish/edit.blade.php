@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title','Publikasi Produk - ')
+@section('title','Publish Produk - ')
 @section('css')
 <link href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css">
 <link href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css">
@@ -33,10 +33,21 @@
 
 <!--begin::Body-->
 <div class="card-body pt-0 pb-3">
+    <form method="POST" action="{{url('publish/update')}}" >
+        @csrf
+    <div class="row mb-3">
+        <div class="col-md-4">
+            <div class="row">
+            <label class="col-md-4">Nama Publish</label>
+            <input id="name" type="text" class="form-control col-md-8" name="publish_name" value="{{$infopub->publish_name}}">
+            <input type="hidden" name="publish_groupid" value="{{$infopub->publish_groupid}}">
+            </div>
+        </div>
+    </div>
+
 		<!--begin: Datatable-->
         <div class="table-responsive">
-            <form method="POST" action="{{url('publish/update')}}" >
-            @csrf
+
 		<table class="table table-bordered mt-5" id="product">
 			<thead>
 				<tr>
@@ -64,8 +75,8 @@
 					<td>{{$p->product_sku}}</td>
 					<td>{{$p->band_nama}}</td>
 					<td>{{$p->product_nama}} ({{$p->size_nama}})</td>
-                    <td><input type="number" class="form-control" name="product_stok[]" value="{{$p->product_stok}}"></td>
-                    <td><input type="number" class="form-control" name="product_stokakhir[]" value="{{$p->product_stokakhir}}"></td>
+                    <td><input type="number" class="form-control" name="product_stok[]" value="{{$p->publish_stok}}"></td>
+                    <td><input type="number" class="form-control" name="product_stokakhir[]" value="{{$p->publish_stokakhir}}"></td>
 					<td><input type="text" class="form-control" name="product_tag[]" value="{{$p->product_tag}}"></td>
 					<td><input type="text" class="form-control" name="product_material[]" value="{{$p->product_material}}"></td>
 					<td><input type="text" class="form-control" name="product_madein[]" value="{{$p->product_madein}}"></td>

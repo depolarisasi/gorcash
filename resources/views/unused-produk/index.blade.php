@@ -21,7 +21,7 @@
 <span class="card-label font-weight-bolder text-dark">Daftar Produk</span>
 </h3>
 <div class="card-toolbar">
-<a href="{{url('produk/new')}}" class="btn btn-primary btn-md font-size-sm"><i class="fas fa-plus"></i> Buat</a>
+<a href="{{url('produk/new')}}" class="btn btn-primary btn-md font-size-sm"><i class="fas fa-plus"></i> Tambah</a>
 <a href="{{url('produk/import')}}" class="btn btn-primary btn-md font-size-sm ml-2"><i class="fas fa-plus"></i> Import</a>
 <a href="{{url('produk/export')}}" class="btn btn-primary btn-md font-size-sm ml-2"><i class="fas fa-plus"></i> Export</a>
 </div>

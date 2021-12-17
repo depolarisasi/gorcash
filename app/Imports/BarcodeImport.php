@@ -23,7 +23,7 @@ class BarcodeImport implements ToCollection, WithHeadingRow
         foreach ($rows as $row) {
         if ($row->filter()->isNotEmpty()) {
             $checkbarcode = BarcodeDB::where('barcode_mastersku',$row['barcode_mastersku'])->first();
-            if(is_null($checkbarcode)){
+            if(!$checkbarcode){
                     $insert = new BarcodeDB();
                     $insert->insertOrIgnore([
                         'barcode_mastersku' => $row['barcode_mastersku'],

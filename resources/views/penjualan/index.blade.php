@@ -5,6 +5,11 @@
 <link href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css">
 <link href="https://cdn.datatables.net/buttons/2.0.1/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css">
 <link href="https://cdn.datatables.net/datetime/1.1.1/css/dataTables.dateTime.min.css" rel="stylesheet" type="text/css">
+<style>
+.styled {
+    list-style-type: number;
+  }
+    </style>
 @endsection
 @section('content')
 	<!--begin::Content-->
@@ -24,7 +29,7 @@
 <!--begin::Header-->
 <div class="card-header border-0 py-5">
 <h3 class="card-title align-items-start flex-column">
-<span class="card-label font-weight-bolder text-dark">Daftar Transaksi</span>
+<span class="card-label font-weight-bolder text-dark">Transaksi</span>
 </h3>
 <div class="card-toolbar">
 </div>
@@ -36,7 +41,7 @@
 
 <div class="mb-1">
 	<div class="row align-items-center">
-                <div class="col-md-6">
+                <div class="col-md-3">
 					<div class="d-flex align-items-center">
 						<label class="mr-3 mb-0">Channel</label>
 						<select class="form-control" id="kt_datatable_search_channel">
@@ -89,9 +94,15 @@
                     <tr>
                         <td>{{$p->penjualan_tanggalpenjualan}}</td>
                         <td>{{$p->penjualan_channel}}</td>
-                        <td>@foreach($barang[$key] as $brg)
-                        <p>{{$brg}}</p>&nbsp;
+                        <td><ol class="styled">
+                            @php $counter = count($barang[$key]); @endphp
+                            @foreach($barang[$key] as $brg)
+                        <li>{{$brg}}</li>
+                        @if($counter > 1)
+                        </br>
+                        @endif
                             @endforeach
+                            </ol>
                         </td>
                         <td>@foreach($potongan[$key] as $po)
                             {{$po}}
@@ -149,10 +160,7 @@
  tabel = $('#product').DataTable({
     dom: 'Bfrtip',
         buttons: [
-            'copyHtml5',
             'excelHtml5',
-            'csvHtml5',
-            'pdfHtml5',
         ],
         search: {
 				input: $('#kt_datatable_search_query'),

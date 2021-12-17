@@ -107,9 +107,20 @@
  tabel = $('#product').DataTable({
     dom: 'Bfrtip',
     buttons: [
-            'copyHtml5',
-            'excelHtml5',
-            'csvHtml5',
+        {
+            extend: 'excelHtml5',
+            exportOptions: {
+            columns: [ 1,2,3,4,5,6,7,8,9 ]
+            }
+            },
+            {
+            extend: 'pdfHtml5',
+            orientation: 'landscape',
+            pageSize: 'A4',
+            exportOptions: {
+            columns: [ 1,2,3,4,5,6,7,8,9 ]
+            }
+            },
         ],
         search: {
 				input: $('#kt_datatable_search_query'),

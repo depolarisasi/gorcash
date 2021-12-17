@@ -12,6 +12,7 @@ use App\Models\Color;
 use App\Models\TypeProduct;
 use App\Models\BarcodeDB;
 use App\Models\BarangTerjual;
+use App\Models\BarangPublish;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Database\QueryException as QE;
@@ -85,10 +86,11 @@ class ProductController extends Controller
 
     public function index()
     {
-        $produk = Product::join('size','size.size_id','=','product.product_idsize')
-        ->join('band','band.band_id','=','product.product_idband')
-        ->select('product.*','size.size_id','size.size_nama','band.band_id','band.band_nama')
-        // ->orderByRaw('-product.product_foto DESC')
+        $produk = Product::join('band','band.band_id','=','product.product_idband')
+        ->join('vendor','vendor.vendor_id','=','product.product_vendor')
+        ->join('size','size.size_id','=','product.product_idsize')
+        ->selectRaw("SUM(product_stok) AS product_stokawal, product.*, band.band_id,band.band_nama,group_concat(DISTINCT size.size_nama ORDER BY size.size_id ASC SEPARATOR ', ') as product_idsize, group_concat(DISTINCT vendor.vendor_nama SEPARATOR ', ') as product_vendor, group_concat(product.product_stokakhir ORDER BY product.product_id ASC SEPARATOR', ') as product_stokakhir")
+        ->orderBy('product.product_id', 'DESC')
         ->groupBy('product.product_mastersku')
         ->get();
 
@@ -97,54 +99,22 @@ class ProductController extends Controller
         //     ->select('product.*','size.size_id','size.size_nama')
         //     ->where('product.product_mastersku',$p->product_mastersku)->get();
 
-        //     // if(is_null($p->product_foto) || $p->product_foto == ''){
-        //     //     $checkfoto = Product::where('product_mastersku', $p->product_mastersku)->whereNotNull('product_foto')->first();
-        //     //     if($checkfoto){
-        //     //         $produk[$key]['product_foto'] = $checkfoto->product_foto;
-        //     //     }else {
-        //     //         $produk[$key]['product_foto'] = "/assets/nopicture.png";
-        //     //     }
-        //     // }
-
-        //     $arr = array();
-        //     if(Str::contains($p->product_vendor, ',')){
-        //         $vendorid = explode(',',$p->product_vendor);
-        //         foreach($vendorid as $v){
-        //             $name = Vendor::where('vendor_id', $v)->first();
-        //             array_push($arr, $name->vendor_nama);
+        //     if(is_null($p->product_foto) || $p->product_foto == ''){
+        //         $checkfoto = Product::where('product_mastersku', $p->product_mastersku)->whereNotNull('product_foto')->first();
+        //         if($checkfoto){
+        //             $produk[$key]['product_foto'] = $checkfoto->product_foto;
+        //         }else {
+        //             $produk[$key]['product_foto'] = "/assets/nopicture.png";
         //         }
-        //     }else {
-        //         $name = Vendor::where('vendor_id',$p->product_vendor)->first();
-        //         $vendors = $name?$name->vendor_nama:"";
         //     }
 
-        //     $arr2 = array();
-        //     $stokcount = 0;
-        //     $stokakhir = [];
-        //     foreach($variant as $v){
-        //         $size = $v->size_nama;
-        //         $stokcount = $stokcount+(int)$v->product_stok;
-        //         $stoka = $v->product_stokakhir;
-        //         array_push($arr2, $size);
-        //         array_push($stokakhir, $stoka);
-        //     }
-
-        //     if(Str::contains($p->product_vendor, ',')){
-        //         $vendorname = implode(', ', $arr);
-        //     }else {
-        //         $vendorname = $vendors;
-        //     }
-        //     $variantavailable = implode(', ', $arr2);
-        //     $produk[$key]['product_vendor'] =  $vendorname;
-        //     $produk[$key]['product_idsize'] =   $variantavailable;
-        //     $produk[$key]['product_stok'] =   $stokcount;
-        //     $produk[$key]['product_stokakhir'] =   implode(', ', $stokakhir);
         // }
 
         $vendor = Vendor::get();
         $band = Band::get();
         $size = Size::get();
         return view('produks.index')->with(compact('produk','vendor','band','size'));
+        // return $produk;
     }
 
     public function create()
@@ -499,6 +469,13 @@ class ProductController extends Controller
         $status = 1;
     }
     $update->put('product_status', $status);
+
+    if($status == 1){
+        $pub = BarangPublish::where('publish_productid',$produk->product_id)->orderBy('publish_tanggal','DESC')->first();
+        $pub->publish_stok = $request->product_stok;
+        $pub->publish_stokakhir = $request->product_stokakhir;
+        $pub->update();
+    }
 
 
         try {

@@ -28,7 +28,7 @@
 </h3>
 <div class="card-toolbar">
 <a href="{{url('vendors/import')}}" class="btn btn-primary btn-md font-size-sm mr-2"><i class="fas fa-plus"></i> Import</a>
-<a href="{{url('vendors/new')}}" class="btn btn-primary btn-md font-size-sm"><i class="fas fa-plus"></i> Buat</a>
+<a href="{{url('vendors/new')}}" class="btn btn-primary btn-md font-size-sm"><i class="fas fa-plus"></i> Tambah</a>
 </div>
 </div>
 <!--end::Header-->

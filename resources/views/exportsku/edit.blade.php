@@ -44,11 +44,7 @@
             <input id="name" type="text" class="form-control col-md-8" name="exportsku_name" value="{{$detail->exportsku_name}}">
             </div>
         </div>
-        <div class="col-md-2">
-            <button class="btn btn-md btn-primary" type="submit">Edit Export</button>
-        </div>
-
-    </div></form>
+    </div>
 		<!--begin: Datatable-->
         <div class="table-responsive">
             <table class="table table-bordered mt-5" id="product">
@@ -81,6 +77,11 @@
 
                 </tbody>
             </table>
+            <div class="row mt-5 mb-5">
+                <div class="col-md-4">
+                    <button class="btn btn-md btn-primary" type="submit">Edit Export</button>
+                </div>
+            </div> </form>
     </div>
 		<!--end: Datatable-->
 </div>

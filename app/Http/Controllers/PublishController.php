@@ -42,48 +42,54 @@ class PublishController extends Controller
         $dateinput = Carbon::now()->format('Y-m-d');
         foreach($ids as $id){
             $product = Product::where('product_mastersku', $id)->where('product_stok','>', 0)
-            ->where('product_status', 0)->get();
+            ->where(function($q) {
+                $q->where('product_status', 0)
+                  ->orWhere('product_status', NULL);
+            })->get();
             foreach($product as $p){
-                $publish = new BarangPublish;
-                $publish->publish_productid = $p->product_id;
-                $publish->publish_tanggal = $dateinput;
-                $publish->publish_groupid = $rand;
-                $publish->publish_stok = $p->product_stok;
-                $publish->publish_stokakhir = $p->product_stokakhir;
-                $publish->save();
+                try {
+                    $publish = new BarangPublish;
+                    $publish->publish_productid = $p->product_id;
+                    $publish->publish_tanggal = $dateinput;
+                    $publish->publish_groupid = $rand;
+                    $publish->publish_stok = $p->product_stok;
+                    $publish->publish_stokakhir = $p->product_stokakhir;
+                    $publish->save();
 
-                $product = Product::where('product_id',$p->product_id)->first();
-                $product->product_status = 1;
-                $product->product_tanggalpublish = $dateinput;
-                $product->update();
+                    $product = Product::where('product_id',$p->product_id)->first();
+                    $product->product_status = 1;
+                    $product->product_tanggalpublish = $dateinput;
+                    $product->update();
+                    } catch (QE $e) {
+                        return $e;
+                    } //show db error message
 
-            $pubcount = PublishCounter::where('publishcount_pubtanggal',$dateinput)->first();
-            if($pubcount){
-                $pubcount->publishcount_count = $pubcount->publishcount_count+1;
-                $pubcount->update();
-                $editpublish = BarangPublish::where('publish_id',$publish->publish_id)->first();
-                $editpublish->publish_name = "Minggu ".$weekofmonth.' '.$todaydate;
-                $editpublish->update();
-            }else {
-            $count = new PublishCounter;
-            $count->publishcount_pubtanggal = $dateinput;
-            $count->publishcount_pubid = $request->publish_groupid;
-            $count->publishcount_count = 1;
-            $count->save();
-            $editpublish = BarangPublish::where('publish_id',$publish->publish_id)->first();
-            $editpublish->publish_name = "Minggu ".$weekofmonth.' '.$todaydate;
-            $editpublish->update();
             }
-        }
 
         }
-
-
 
         return response()->json([
         'success'=>"Successfully Published.",
         'groupname' => $rand
     ]);
+
+}
+
+public function apimassunpublish(Request $request){
+
+    $ids = $request->ids;
+    $unpub = Product::whereIn('product_mastersku',$ids)->where('product_status', 1)->get();
+    foreach($unpub as $u){
+        $u->product_status = NULL;
+        $u->product_tanggalpublish = NULL;
+        try {
+            $u->update();
+             } catch (QE $e) {
+           toast('Database error','error');
+           return redirect()->back();
+            }
+    }
+    return response()->json(['success'=>"Semua produk yang terpublish sudah di unpublish."]);
 
 }
 
@@ -99,7 +105,8 @@ class PublishController extends Controller
         ,'product.product_condition'
         ,'product.product_stok'
         ,'product.product_stokakhir')
-        ->where('publish.publish_groupid',$id)->get();
+        ->where('publish.publish_groupid',$id)
+        ->orderBy('product.product_nama','ASC')->get();
         $infopub = BarangPublish::where('publish_groupid',$id)->first();
 
         return view('publish.detail')->with(compact('publish','infopub'));
@@ -117,9 +124,13 @@ class PublishController extends Controller
         ,'product.product_condition'
         ,'product.product_stok'
         ,'product.product_stokakhir')
-        ->where('publish.publish_groupid',$id)->get();
+        ->where('publish.publish_groupid',$id)
+        ->orderBy('product.product_nama','ASC')
+        ->get();
 
-        return view('publish.edit')->with(compact('publish'));
+        $infopub = BarangPublish::where('publish_groupid',$id)->first();
+
+        return view('publish.edit')->with(compact('publish','infopub'));
     }
 
     public function update(Request $request)
@@ -129,24 +140,6 @@ class PublishController extends Controller
         $dateinput = Carbon::now()->format('Y-m-d');
         $weekofmonth = Carbon::now()->weekOfMonth;
         $todaydate = Carbon::now()->format('M Y');
-        $pubcount = PublishCounter::where('publishcount_pubtanggal',$request->tanggalpublish)
-        ->where('publishcount_pubid',$request->publish_groupid)->first();
-            if($pubcount){
-                $pubcount->publishcount_count = $pubcount->publishcount_count+1;
-                $pubcount->update();
-                $editpublish = BarangPublish::where('publish_id',$request->publish_id)->first();
-                $editpublish->publish_name = "Minggu ".$weekofmonth.' '.$todaydate;
-                $editpublish->update();
-            }else {
-            $count = new PublishCounter;
-            $count->publishcount_pubid = $request->publish_groupid;
-            $count->publishcount_pubtanggal = $request->tanggalpublish;
-            $count->publishcount_count = 1;
-            $count->save();
-            $editpublish = BarangPublish::where('publish_id',$request->publish_id)->first();
-            $editpublish->publish_name = "Minggu ".$weekofmonth.' '.$todaydate;
-            $editpublish->update();
-            }
 
         foreach($request->product_id as $key => $pid){
             $product = Product::where('product_id',$pid)->first();
@@ -154,13 +147,17 @@ class PublishController extends Controller
             $product->product_material = $request->product_material[$key];
             $product->product_madein = $request->product_madein[$key];
             $product->product_condition = $request->product_condition[$key];
-            $product->product_stok = $request->product_stok[$key];
-            $product->product_stokakhir = $request->product_stokakhir[$key];
-            $publish = BarangPublish::where('publish_id',$request->publish_id)->first();
+            if($product->product_status == 1){
+                $product->product_stok = $request->product_stok[$key];
+                $product->product_stokakhir = $request->product_stokakhir[$key];
+            }
+            $editpublish = BarangPublish::where('publish_groupid',$request->publish_groupid)
+            ->where('publish_productid',$pid)->first();
             $editpublish->publish_stok = $request->product_stok[$key];
             $editpublish->publish_stokakhir = $request->product_stokakhir[$key];
+            $editpublish->publish_name = $request->publish_name;
             try {
-
+            $editpublish->update();
             $product->update();
                 } catch (QE $e) {
                     toast('Database error','error');
@@ -169,6 +166,7 @@ class PublishController extends Controller
         }
          toast('Ubah Publish Berhasil','success');
         return redirect('publish');
+        // return $request->all();
     }
 
     public function delete($groupid)

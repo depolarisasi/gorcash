@@ -23,7 +23,7 @@
 <!--begin::Header-->
 <div class="card-header border-0 py-5">
 <h3 class="card-title align-items-start flex-column">
-<span class="card-label font-weight-bolder text-dark">Laporan Stok Opname {{$info->so_pubgroupname}}</span>
+<span class="card-label font-weight-bolder text-dark">Laporan Stok Opname @if($info->so_type == 1) Mingguan @elseif($info->so_type == 2) Bulanan @endif {{$info->so_pubgroupname}}</span>
 </h3>
 <div class="card-toolbar">
     @php
@@ -45,12 +45,10 @@
 	<div class="row ">
         <div class="col-md-4">
 			<div class="h2 mb-1">Laporan Stock Opname @if($info->so_type == 1) Mingguan @elseif($info->so_type == 2) Bulanan @endif</div>
-            <p>Pemeriksa : <b>{{$info->name}}</b></p>
+            <p>Pemeriksa : <b>{{$info->so_userid}}</b></p>
             <p>Tanggal Periksa : {{\Carbon\Carbon::parse($info->so_date)->format('d M Y')}}</p>
 		</div>
-        <div class="offset-md-4 col-md-4">
-			 <a href="{{url('stokopname/laporan/download/'.$info->so_pubgroupname)}}" class="btn btn-md btn-primary" style="float-right">Print PDF</a>
-		</div>
+
 	</div>
 </div>
 
@@ -60,7 +58,8 @@
 			<thead>
 				<tr>
 					<th width="10%">SKU</th>
-					<th width="25%">Nama Produk</th>
+					<th width="10%">Band</th>
+					<th width="15%">Nama Produk</th>
 					<th width="5%">Size</th>
 					<th width="5%">Stok Awal</th>
 					<th width="5%">Sudah Terjual</th>
@@ -75,6 +74,7 @@
                 @foreach($product as $p)
 				<tr>
 					<td>{{$p->product_sku}}</td>
+					<td>{{$p->band_nama}}</td>
 					<td>{{$p->product_nama}}</td>
 					<td>{{$p->size_nama}}</td>
 					<td>{{$p->so_stok}} </td>
@@ -161,6 +161,23 @@
 });
 
  tabel = $('#product').DataTable({
+    dom: 'Bfrtip',
+    buttons: [
+        {
+            extend: 'excelHtml5',
+            exportOptions: {
+            columns: [ 0,1,2,3,4,5,6,7,8,9]
+            }
+            },
+            {
+            extend: 'pdfHtml5',
+            orientation: 'landscape',
+            pageSize: 'A4',
+            exportOptions: {
+            columns: [ 0,1,2,3,4,5,6,7,8,9 ]
+            }
+            },
+        ],
         search: {
 				input: $('#kt_datatable_search_query'),
 				key: 'generalSearch'

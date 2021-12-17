@@ -115,6 +115,7 @@ Route::group(['prefix' => 'size'], function() {
     Route::post('/exportmassdelete',[App\Http\Controllers\ExportSKUController::class, 'apimassdelete'])->middleware('auth');
     Route::post('/deletesku',[App\Http\Controllers\ProductController::class, 'apideletesku'])->middleware('auth');
     Route::post('/publish',[App\Http\Controllers\PublishController::class, 'apimasspublish'])->middleware('auth');
+    Route::post('/unpublish',[App\Http\Controllers\PublishController::class, 'apimassunpublish'])->middleware('auth');
     Route::post('/exportsku',[App\Http\Controllers\ExportSKUController::class, 'exportskuapi'])->middleware('auth');
     Route::get('/getproductmastersku',[App\Http\Controllers\BarcodeDBController::class, 'getproductmastersku'])->middleware('auth');
     Route::post('/getso',[App\Http\Controllers\StokOpnameController::class, 'getso'])->middleware('auth');
@@ -135,7 +136,7 @@ Route::group(['prefix' => 'size'], function() {
     Route::post('/update',[App\Http\Controllers\ExportSKUController::class, 'update'])->middleware('auth');
     Route::get('/detail/{id}',[App\Http\Controllers\ExportSKUController::class, 'show'])->middleware('auth');
     Route::get('/delete/',[App\Http\Controllers\ExportSKUController::class, 'deleteproduct'])->middleware('auth');
-    Route::get('/delete-export/{id}',[App\Http\Controllers\ExportSKUController::class, 'delete'])->middleware('auth');
+    Route::get('/delete-export/{id}',[App\Http\Controllers\ExportSKUController::class, 'deleteexport'])->middleware('auth');
    });
 
    Route::group(['prefix' => 'kasir'], function() {
@@ -161,6 +162,17 @@ Route::group(['prefix' => 'size'], function() {
     Route::get('/delete/{id}',[App\Http\Controllers\PenjualanController::class, 'delete'])->middleware('storeofficer');
     Route::get('/struk/{id?}',[App\Http\Controllers\PenjualanController::class, 'receipt'])->middleware('storeofficer');
 
+   });
+
+   Route::group(['prefix' => 'laporan-penjualan'], function() {
+    Route::get('/',[App\Http\Controllers\BarangTerjualController::class, 'index'])->middleware('storeofficer');
+    Route::get('/detail/{id}',[App\Http\Controllers\BarangTerjualController::class, 'show'])->middleware('storeofficer');
+    Route::get('/new',[App\Http\Controllers\BarangTerjualController::class, 'create'])->middleware('storeofficer');
+    Route::post('/store',[App\Http\Controllers\BarangTerjualController::class, 'store'])->middleware('storeofficer');
+    Route::get('/edit/{id}',[App\Http\Controllers\BarangTerjualController::class, 'edit'])->middleware('storeofficer');
+    Route::post('/update',[App\Http\Controllers\BarangTerjualController::class, 'update'])->middleware('storeofficer');
+    Route::get('/delete/{id}',[App\Http\Controllers\BarangTerjualController::class, 'delete'])->middleware('storeofficer');
+    Route::get('/struk/{id?}',[App\Http\Controllers\BarangTerjualController::class, 'receipt'])->middleware('storeofficer');
    });
 
    Route::group(['prefix' => 'barangterjual'], function() {

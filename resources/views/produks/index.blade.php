@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title','Produk - ')
+@section('title','Database Product - ')
 @section('css')
 <link href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css">
 <link href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css">
@@ -32,10 +32,10 @@
 <!--begin::Header-->
 <div class="card-header border-0 py-5">
 <h3 class="card-title align-items-start flex-column">
-<span class="card-label font-weight-bolder text-dark">Daftar Produk</span>
+<span class="card-label font-weight-bolder text-dark">Database Product</span>
 </h3>
 <div class="card-toolbar">
-<a href="{{url('produk/new')}}" class="btn btn-primary btn-md font-size-sm"><i class="fas fa-plus"></i> Buat</a>
+<a href="{{url('produk/new')}}" class="btn btn-primary btn-md font-size-sm"><i class="fas fa-plus"></i> Tambah</a>
 <a href="{{url('produk/import')}}" class="btn btn-primary btn-md font-size-sm ml-2"><i class="fas fa-plus"></i> Import</a>
 </div>
 </div>
@@ -134,7 +134,7 @@
                     @if(Auth::user()->role == 1) <td>@money($p->product_hargabeli)</td>@endif
                     <td>@money($p->product_hargajual)</td>
                     @if(Auth::user()->role == 1) <td>@money($p->product_hargajual - $p->product_hargabeli)</td>@endif
-					<td>{{$p->product_stok}}</td>
+					<td>{{$p->product_stokawal}}</td>
                     <td>{{$p->product_stokakhir}}</td>
 					<td>
                         <a href="{{url('/produk/select/'.$p->product_mastersku)}}" class="btn btn-icon btn-xs btn-primary"><i class="fas fa-info-circle nopadding"></i></a>
@@ -212,7 +212,7 @@
     }else {
 
             $.ajax({
-                url: 'api/publish/',
+                url: '/api/publish/',
                 type: 'POST',
                 data: {
                     _token : "{{csrf_token()}}",
@@ -256,7 +256,7 @@
         if(check == true){
             var join_selected_values = ids;
             $.ajax({
-                url: 'api/massdelete/',
+                url: '/api/massdelete/',
                 type: 'POST',
                 data: {
                     _token : "{{csrf_token()}}",
@@ -303,7 +303,7 @@
     }else {
 
             $.ajax({
-                url: 'api/exportsku/',
+                url: '/api/exportsku/',
                 type: 'POST',
                 data: {
                     _token : "{{csrf_token()}}",
@@ -311,6 +311,46 @@
                 success: function (data) {
                     if (data['success']) {
                         window.location = "/export-barcode/edit/"+data['groupname'];
+                        alert(data['success']);
+                    } else if (data['error']) {
+                        alert(data['error']);
+                    } else {
+                      console.log(data);
+                    }
+                },
+                error: function (data) {
+                    console.log(data.responseText);
+                }
+            });
+
+    }
+
+
+                }
+            }, {
+                text: 'Unpublish',
+                action: function () {
+                   var join_selected_values = $.map(tabel.rows('.selected').data(), function (item) {
+       				 return item[2]
+    					});
+                        if(join_selected_values.length <=0)
+    {
+        Swal.fire(
+       'Error',
+       'Silahkan Pilih Data Yang Ingin Dipublish',
+       'error'
+     )
+    }else {
+
+            $.ajax({
+                url: '/api/unpublish/',
+                type: 'POST',
+                data: {
+                    _token : "{{csrf_token()}}",
+                    'ids' : join_selected_values},
+                success: function (data) {
+                    if (data['success']) {
+                        window.location = "/produk/";
                         alert(data['success']);
                     } else if (data['error']) {
                         alert(data['error']);
@@ -344,7 +384,6 @@
             style:    'multi',
             selector: 'td:first-child'
         },
-        order: [[ 3, 'asc' ]],
         "ordering": true,
         "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
 

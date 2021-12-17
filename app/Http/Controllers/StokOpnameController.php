@@ -87,10 +87,16 @@ class StokOpnameController extends Controller
     public function somingguan($pubgroup){
         $pubdata = BarangPublish::join('product','product.product_id','publish.publish_productid')
         ->join('size','size.size_id','product.product_idsize')
-        ->select('publish.*','product.product_id','product.product_nama','product.product_stoktoko','product.product_stok','product.product_stokakhir','size.size_nama','product.product_mastersku','product.product_sku')
-        ->where('publish_groupid',$pubgroup)->get();
+        ->join('band','band.band_id','product.product_idband')
+        ->select('publish.*','product.product_id','product.product_nama','band.band_id','band.band_nama','product.product_stoktoko','product.product_stok','product.product_stokakhir','size.size_id','size.size_nama','product.product_mastersku','product.product_sku')
+        ->where('publish_groupid',$pubgroup)
+        ->orderBy('product.product_nama','ASC')
+        ->orderBy('size.size_id','ASC')->get();
         foreach($pubdata as $key => $p){
-            $penjualan = BarangTerjual::where('barangterjual_idproduk',$p->product_id)->get();
+            $from = Carbon::parse($p->publish_tanggal)->format('Y-m-d');
+            $to = Carbon::parse($p->publish_tanggal)->addDays(7)->format('Y-m-d');
+            $penjualan = BarangTerjual::where('barangterjual_idproduk',$p->product_id)
+            ->whereBetween('barangterjual_tanggalbarangterjual', [$from, $to])->get();
 
             $count = 0;
             foreach($penjualan as $pp){
@@ -106,10 +112,17 @@ class StokOpnameController extends Controller
      public function resumesomingguan($pubgroup){
         $pubdata = StokOpname::join('product','product.product_sku','stokopname.so_sku')
         ->join('size','size.size_id','product.product_idsize')
-        ->select('stokopname.*','product.product_id','product.product_nama','product.product_stok','product.product_stokakhir','size.size_nama','product.product_mastersku','product.product_sku')
-        ->where('stokopname.so_pubgroupname',$pubgroup)->get();
+        ->join('band','band.band_id','product.product_idband')
+        ->select('stokopname.*','product.product_id','product.product_nama','product.product_stok','product.product_stokakhir','size.size_id','size.size_nama','product.product_mastersku','product.product_sku','band.band_id','band.band_nama')
+        ->where('stokopname.so_pubgroupname',$pubgroup)
+        ->orderBy('product.product_nama','ASC')
+        ->orderBy('size.size_id','ASC')->get();
         foreach($pubdata as $key => $p){
-            $penjualan = BarangTerjual::where('barangterjual_idproduk',$p->product_productid)->get();
+            $from = Carbon::parse($p->publish_tanggal)->format('Y-m-d');
+            $to = Carbon::parse($p->publish_tanggal)->addDays(7)->format('Y-m-d');
+            $penjualan = BarangTerjual::where('barangterjual_idproduk',$p->product_id)
+            ->whereBetween('barangterjual_tanggalbarangterjual', [$from, $to])->get();
+
             $count = 0;
             foreach($penjualan as $pp){
                 $count = $count + (int) $pp->barangterjual_qty;
@@ -173,25 +186,29 @@ class StokOpnameController extends Controller
     {
         foreach($request->product_skus as $key => $p){
             $so = new StokOpname;
-            $date = Carbon::now()->format('Y-m-d');
-            $so->so_date = $date;
+            $date = Carbon::parse($request->so_date)->format('Y-m-d');
+            $so->so_date = $request->so_date;
             $so->so_pubgroupname = $request->publishgroup;
             $product = Product::where('product_sku', $p)->first();
+            $publish = BarangPublish::where('publish_productid', $product->product_id)->where('publish_groupid', $request->publishgroup)->first();
             $so->so_mastersku = $product->product_mastersku;
             $so->so_sku = $p;
-            $so->so_stok = $product->product_stok;
-            $so->so_stokakhir = $product->product_stokakhir;
+            $so->so_stok = $publish->publish_stok;
+            $so->so_stokakhir = $publish->publish_stokakhir;
             $so->so_stokterjual = $request->stokterjual[$key];
             $so->so_selisih = $request->selisih[$key];
             $so->so_stokakhirreal = $request->stokril[$key];
             $so->so_type = 1;
-            $so->so_userid = Auth::user()->id;
+            $so->so_userid = $request->so_userid;
             $so->so_status = 1;
-            if($request->stokril[$key] == $request->stoksisa[$key]){
+            if($request->stokril[$key] == $request->stokakhir[$key]){
                 $so->so_keterangan = "Ada";
 
-            }elseif($request->stokril[$key] < $request->stoksisa[$key]){
-                $checkpenjualan = BarangTerjual::where('barangterjual_idproduk',$product->product_id)->get();
+            }elseif($request->stokril[$key] < $request->stokakhir[$key]){
+                $from = Carbon::parse($publish->publish_tanggal)->format('Y-m-d');
+                $to = Carbon::parse($publish->publish_tanggal)->addDays(7)->format('Y-m-d');
+                $checkpenjualan = BarangTerjual::where('barangterjual_idproduk',$product->product_id)
+                ->whereBetween('barangterjual_tanggalbarangterjual', [$from, $to])->get();
                 if(count($checkpenjualan) > 0){
                     $qtyterjual = 0;
                     $channelterjual = array();
@@ -204,7 +221,7 @@ class StokOpnameController extends Controller
                     }
                         $so->so_keterangan = "Terjual ".$qtyterjual." di ".implode(',',$channelterjual);
                 }else {
-                    $so->so_keterangan = "Product Missing";
+                    $so->so_keterangan = "Missing";
                 }
             }
             $so->save();
@@ -253,7 +270,7 @@ class StokOpnameController extends Controller
                         }
                             $so->so_keterangan = "Terjual ".$qtyterjual." di ".implode(',',$channelterjual);
                     }else {
-                        $so->so_keterangan = "Product Missing";
+                        $so->so_keterangan = "Missing";
                     }
                 }
                 $so->save();
@@ -282,7 +299,7 @@ class StokOpnameController extends Controller
                         }
                             $so->so_keterangan = "Terjual ".$qtyterjual." di ".implode(',',$channelterjual);
                     }else {
-                        $so->so_keterangan = "Product Missing";
+                        $so->so_keterangan = "Missing";
                     }
                 }
             $so->update();
@@ -333,7 +350,7 @@ class StokOpnameController extends Controller
                         }
                             $so->so_keterangan = "Terjual ".$qtyterjual." di ".implode(',',$channelterjual);
                     }else {
-                        $so->so_keterangan = "Product Missing";
+                        $so->so_keterangan = "Missing";
                     }
                 }
                 $so->save();
@@ -361,7 +378,7 @@ class StokOpnameController extends Controller
                         }
                             $so->so_keterangan = "Terjual ".$qtyterjual." di ".implode(',',$channelterjual);
                     }else {
-                        $so->so_keterangan = "Product Missing";
+                        $so->so_keterangan = "Missing";
                     }
                 }
             $so->update();
@@ -400,7 +417,7 @@ class StokOpnameController extends Controller
                         }
                             $updateso->so_keterangan = "Terjual ".$qtyterjual." di ".implode(',',$channelterjual);
                     }else {
-                        $updateso->so_keterangan = "Product Missing";
+                        $updateso->so_keterangan = "Missing";
                     }
                 }
             $updateso->update();
@@ -438,7 +455,7 @@ class StokOpnameController extends Controller
                         }
                            $updateso->so_keterangan = "Terjual ".$qtyterjual." di ".implode(',',$channelterjual);
                     }else {
-                       $updateso->so_keterangan = "Product Missing";
+                       $updateso->so_keterangan = "Missing";
                     }
                 }
             $updateso->update();
@@ -477,7 +494,7 @@ class StokOpnameController extends Controller
                             }
                                 $so->so_keterangan = "Terjual ".$qtyterjual." di ".implode(',',$channelterjual);
                         }else {
-                            $so->so_keterangan = "Product Missing";
+                            $so->so_keterangan = "Missing";
                         }
                     }
                 $so->save();
@@ -514,7 +531,7 @@ class StokOpnameController extends Controller
                         }
                         $product->so_keterangan = "Terjual ".$qtyterjual." di ".implode(',',$channelterjual);
                     }else {
-                        $product->so_keterangan = "Product Missing";
+                        $product->so_keterangan = "Missing";
                     }
                 }
             $product->update();
@@ -551,7 +568,7 @@ class StokOpnameController extends Controller
                         }
                             $so->so_keterangan = "Terjual ".$qtyterjual." di ".implode(',',$channelterjual);
                     }else {
-                        $so->so_keterangan = "Product Missing";
+                        $so->so_keterangan = "Missing";
                     }
                 }
             $so->save();
@@ -562,13 +579,15 @@ class StokOpnameController extends Controller
     }
     public function laporan($pubgroup)
     {
-        $info = StokOpname::join('users','users.id','=','stokopname.so_userid')
-        ->select('stokopname.*','users.name')
+        $info = StokOpname::select('stokopname.*')
         ->where('stokopname.so_pubgroupname', $pubgroup)->first();
         $product = StokOpname::join('product','product.product_sku','stokopname.so_sku')
         ->join('size','size.size_id','product.product_idsize')
-        ->select('stokopname.*','product.product_id','product.product_nama','product.product_stok','product.product_stokakhir','size.size_nama','product.product_mastersku','product.product_sku')
+        ->join('band','band.band_id','product.product_idband')
+        ->select('stokopname.*','band.band_id','band.band_nama','product.product_id','product.product_nama','product.product_stok','product.product_stokakhir','size.size_id','size.size_nama','product.product_mastersku','product.product_sku')
         ->where('stokopname.so_pubgroupname',$pubgroup)
+        ->orderBy('product.product_nama','ASC')
+        ->orderBy('size.size_id','ASC')
         ->where('so_status',1)->get();
 
        // return $product;

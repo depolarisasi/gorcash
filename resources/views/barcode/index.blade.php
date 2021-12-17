@@ -28,7 +28,7 @@
 </h3>
 <div class="card-toolbar">
     <a href="{{url('barcode/import')}}" class="btn btn-primary btn-md font-size-sm mr-2"><i class="fas fa-plus"></i> Import</a>
-<a href="{{url('barcode/new')}}" class="btn btn-primary btn-md font-size-sm"><i class="fas fa-plus"></i> Buat</a>
+<a href="{{url('barcode/new')}}" class="btn btn-primary btn-md font-size-sm"><i class="fas fa-plus"></i> Tambah</a>
 </div>
 </div>
 <!--end::Header-->
@@ -223,7 +223,6 @@
             style:    'multi',
             selector: 'td:first-child'
         },
-        order: [[ 1, 'asc' ]],
         "ordering": true,
         "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]]
            });

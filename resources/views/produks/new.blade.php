@@ -95,6 +95,7 @@
                             <option value="{{$s->color_id}}">{{$s->color_nama}} ({{$s->color_code}})</option>
                             @endforeach
                           </select>
+
                         </div>
                       </div>
 
@@ -117,6 +118,7 @@
                             @endforeach
 
                           </select>
+
                         </div>
                       </div>
 
@@ -309,6 +311,9 @@ $( document ).ready(function() {
                     $('#selectband').prop("disabled", false);
                     $('#selectcolor').prop("disabled", false);
                     $('#productname').prop("readonly", false);
+                    $('#hiddencolor').remove();
+                    $('#hiddentype').remove();
+                    $('#hiddenband').remove();
                 }
                 else {
                 $.ajax({
@@ -317,13 +322,16 @@ $( document ).ready(function() {
                 data: {'mastersku' : selected},
                 success: function (data) {
                     if (data['status'] == "Success") {
-                        $('#selecttype option:contains(' + data['product_type'] + ')').prop({selected: true});
-                        $('#selectband option:contains(' + data['product_band'] + ')').prop({selected: true});
-                        $('#selectcolor option:contains(' + data['product_color'] + ')').prop({selected: true});
-                        $('#wrapperinput').append(`<input type="hidden" name="product_typeid" value="${data['product_type']}">`);
-                        $('#wrapperinput').append(`<input type="hidden" name="product_idband" value="${data['product_band']}">`);
-                        $('#wrapperinput').append(`<input type="hidden" name="product_color" value="${data['product_color']}">`);
+                        $('#selecttype').val(data['product_type']).trigger('change');
+                        $('#selectcolor').val(data['product_color']).trigger('change');
+                        $('#selectband').val(data['product_band']).trigger('change');
                         $('#product_name').val(data['product_nama']);
+                        $('#hiddencolor').remove();
+                    $('#hiddentype').remove();
+                    $('#hiddenband').remove();
+                        $('#wrapperinput').append(`<input type="hidden" name="product_color" id="hiddencolor" value="${data['product_color']}">`);
+                        $('#wrapperinput').append(`<input type="hidden" name="product_typeid" id="hiddentype" value="${data['product_type']}">`);
+                        $('#wrapperinput').append(`<input type="hidden" name="product_idband" id="hiddenband" value="${data['product_band']}">`);
                         $('#selecttype').prop("disabled", true);
                     $('#selectband').prop("disabled", true);
                     $('#selectcolor').prop("disabled", true);
@@ -373,36 +381,7 @@ $("#selecttype").change(function() {
                     $('#sizebarang').collapse('show');
                     console.log(kategori);
                 }
-                else {
-                $.ajax({
-                url: $('#ajax').val(),
-                type: 'GET',
-                data: {'mastersku' : selected},
-                success: function (data) {
-                    if (data['status'] == "Success") {
-                        $('#selecttype option:contains(' + data['product_type'] + ')').prop({selected: true});
-                        $('#selectband option:contains(' + data['product_band'] + ')').prop({selected: true});
-                        $('#selectcolor option:contains(' + data['product_color'] + ')').prop({selected: true});
-                        $('#wrapperinput').append(`<input type="hidden" name="product_typeid" value="${data['product_type']}">`);
-                        $('#wrapperinput').append(`<input type="hidden" name="product_idband" value="${data['product_band']}">`);
-                        $('#wrapperinput').append(`<input type="hidden" name="product_color" value="${data['product_color']}">`);
-                        $('#product_name').val( data['product_nama']);
-                        $('#selecttype').prop("disabled", true);
-                    $('#selectband').prop("disabled", true);
-                    $('#selectcolor').prop("disabled", true);
-                    $('#product_name').prop("readonly", true);
-                    } else if (data['status'] == "Failed") {
-                      console.log("No Product Selected");
-                    } else {
-                      console.log(data);
-                    }
-                },
-                error: function (data) {
-                    console.log(data.responseText);
-                }
-            });
 
-                }
 });
 
 $("#selectsku").change(function() {
@@ -413,6 +392,9 @@ $("#selectsku").change(function() {
                     $('#selectband').prop("disabled", false);
                     $('#selectcolor').prop("disabled", false);
                     $('#productname').prop("readonly", false);
+                    $('#hiddencolor').remove();
+                    $('#hiddentype').remove();
+                    $('#hiddenband').remove();
                 }
                 else {
                 $.ajax({
@@ -421,13 +403,16 @@ $("#selectsku").change(function() {
                 data: {'mastersku' : selected},
                 success: function (data) {
                     if (data['status'] == "Success") {
-                        $('#selecttype option:contains(' + data['product_type'] + ')').prop({selected: true});
-                        $('#selectband option:contains(' + data['product_band'] + ')').prop({selected: true});
-                        $('#selectcolor option:contains(' + data['product_color'] + ')').prop({selected: true});
-                        $('#wrapperinput').append(`<input type="hidden" name="product_typeid" value="${data['product_type']}">`);
-                        $('#wrapperinput').append(`<input type="hidden" name="product_idband" value="${data['product_band']}">`);
-                        $('#wrapperinput').append(`<input type="hidden" name="product_color" value="${data['product_color']}">`);
-                        $('#product_name').val( data['product_nama']);
+                        $('#selecttype').val(data['product_type']).trigger('change');
+                        $('#selectcolor').val(data['product_color']).trigger('change');
+                        $('#selectband').val(data['product_band']).trigger('change');
+                        $('#product_name').val(data['product_nama']);
+                        $('#hiddencolor').remove();
+                    $('#hiddentype').remove();
+                    $('#hiddenband').remove();
+                        $('#wrapperinput').append(`<input type="hidden" name="product_color" id="hiddencolor" value="${data['product_color']}">`);
+                        $('#wrapperinput').append(`<input type="hidden" name="product_typeid" id="hiddentype" value="${data['product_type']}">`);
+                        $('#wrapperinput').append(`<input type="hidden" name="product_idband" id="hiddenband" value="${data['product_band']}">`);
                         $('#selecttype').prop("disabled", true);
                     $('#selectband').prop("disabled", true);
                     $('#selectcolor').prop("disabled", true);

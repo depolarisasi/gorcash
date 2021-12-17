@@ -36,7 +36,7 @@
 
 <div class="mb-1">
 	<div class="row align-items-center">
-                <div class="col-md-6">
+                <div class="col-md-3">
 					<div class="d-flex align-items-center">
 						<label class="mr-3 mb-0">Channel</label>
 						<select class="form-control" id="kt_datatable_search_channel">
@@ -73,11 +73,15 @@
                 <thead>
                     <tr>
                         <th>Tanggal</th>
-                        <th>Nama Barang</th>
                         <th>Channel</th>
-                        <th>Total Penjualan</th>
-                        <th>Total Diskon</th>
-                        <th>Total Pendapatan</th>
+                        <th>Nama Barang</th>
+                        <th>Qty</th>
+                        <th>Price</th>
+                        <th>Amount</th>
+                        <th>Discount</th>
+                        <th>Total</th>
+                        <th>Nett Buy</th>
+                        <th>Gross Profit</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -85,11 +89,15 @@
                     @foreach($barangterjual as $key => $b)
                     <tr>
                         <td>{{$b->barangterjual_tanggalbarangterjual}}</td>
-                        <td>{{$b->product_sku}} - {{$b->product_nama}}</td>
                         <td>{{$b->penjualan_channel}}</td>
+                        <td>{{$b->product_sku}} | {{$b->band_nama}} - {{$b->product_nama}} ({{$b->size_nama}}) </td>
+                        <td>{{$b->barangterjual_qty}}</td>
+                        <td>@money($b->product_hargajual)</td>
                         <td>@money($b->barangterjual_totalbarangterjual)</td>
                         <td>@money($b->barangterjual_diskon)</td>
                         <td>@money($b->barangterjual_totalpendapatan)</td>
+                        <td>@money((int)$b->product_hargabeli*(int)$b->barangterjual_qty)</td>
+                        <td>@money((int)$b->barangterjual_totalpendapatan - (int)$b->product_hargabeli*(int)$b->barangterjual_qty)</td>
                     </tr>
                     @endforeach
 
@@ -128,10 +136,7 @@
  tabel = $('#product').DataTable({
     dom: 'Bfrtip',
         buttons: [
-            'copyHtml5',
             'excelHtml5',
-            'csvHtml5',
-            'pdfHtml5',
         ],
         search: {
 				input: $('#kt_datatable_search_query'),

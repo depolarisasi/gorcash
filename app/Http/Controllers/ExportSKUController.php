@@ -122,7 +122,7 @@ class ExportSKUController extends Controller
     }
 
     public function deleteexport($id){
-        $export = ExportSKU::where('exportsku_id', $id)->get();
+        $export = ExportSKU::where('exportsku_groupid', $id)->get();
 
         try {
             foreach($export as $ex){

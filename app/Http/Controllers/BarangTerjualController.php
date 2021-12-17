@@ -26,7 +26,9 @@ class BarangTerjualController extends Controller
     public function index(){
         $barangterjual = BarangTerjual::join('penjualan','penjualan.penjualan_id','=','barangterjual.barangterjual_idpenjualan')
         ->join('product','product.product_id','=','barangterjual.barangterjual_idproduk')
-        ->select('product.*','penjualan.*','barangterjual.*')
+        ->join('size','size.size_id','=','product.product_idsize')
+        ->join('band','band.band_id','=','product.product_idband')
+        ->select('product.*','penjualan.*','barangterjual.*','size.size_nama','band.band_nama')
         ->get();
 
         return view('barangterjual.index')->with(compact('barangterjual'));
