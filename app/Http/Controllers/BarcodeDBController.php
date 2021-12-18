@@ -153,6 +153,7 @@ class BarcodeDBController extends Controller
              foreach($product as $p){
                  $p->product_mastersku = $mastersku;
                  $p->product_color = $request->barcode_productcolor;
+                 $p->product_nama = $request->barcode_productname;
                  $p->product_typeid = $request->barcode_producttype;
                  $p->product_idband = $request->barcode_productband;
                  $p->product_sku = $mastersku.$p->product_idsize;
