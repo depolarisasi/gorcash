@@ -71,6 +71,7 @@
                         <option value="Tokopedia">Tokopedia</option>
                         <option value="Blibli">Blibli</option>
                         <option value="BukaLapak">BukaLapak</option>
+                        <option value="WhatsApp">WhatsApp</option>
                       </select>
                     </div>
                   </div>

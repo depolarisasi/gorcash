@@ -23,7 +23,7 @@
 <!--begin::Header-->
 <div class="card-header border-0 py-5">
 <h3 class="card-title align-items-start flex-column">
-<span class="card-label font-weight-bolder text-dark">Stok Opname</span>
+<span class="card-label font-weight-bolder text-dark">Stok Opname Mingguan</span>
 </h3>
 <div class="card-toolbar">
 <a href="{{url('stokopname/mingguan')}}" class="btn btn-primary btn-md font-size-sm"><i class="fas fa-arrow-left"></i> Kembali</a>
@@ -34,44 +34,52 @@
 <!--begin::Body-->
 <div class="card-body pt-0 pb-3">
 
-<div class="mb-7">
-	<div class="row ">
-        <div class="col-md-4">
-			<div class="h2 mb-1">Stock Opname Mingguan</div>
-            <p>Pemeriksa : <b>{{Auth::user()->name}}</b></p>
-            <p>Tanggal Periksa : {{\Carbon\Carbon::now()->format('d M Y')}}</p>
-		</div>
+    <form method="POST" action="{{url('stokopname/mingguan/update')}}" >
+        @csrf
+    <div class="mb-7">
+        <div class="row ">
+            <div class="col-md-4">
+                <div class="row mb-3">
 
-        <div class="col-md-2">
-            <p>Scan Barcode pada kotak disamping</p>
-		</div>
-        <div class="col-md-4">
-            <select class="form-control select2" id="productlist" name="param">
-                <option value="X">Masukan SKU Disini</option>
-                @foreach($pubdata as $p)
-                <option value="{{$p->product_sku}}">{{$p->product_sku}} - {{$p->product_nama}} ({{$p->size_nama}})</option>
-                @endforeach
-               </select>
+                        <label class="col-md-4">Nama Pemeriksa</label>
+                        <input id="namapemeriksa" type="text" class="form-control col-md-8" name="so_userid" value="{{$soinfo->so_userid}}" required>
+                </div>
+                <div class="row mb-3">
+                    <label class="col-md-4">Tanggal Periksa</label>
+                    <input id="datepicker" type="text" class="form-control col-md-8" name="so_date" value="{{$soinfo->so_date}}" required>
+            </div>
+            </div>
+
+            <div class="col-md-2">
+                <p>Scan Barcode pada kotak disamping</p>
+            </div>
+            <div class="col-md-4">
+                <select class="form-control select2" id="productlist" name="param">
+                    <option value="X">Masukan SKU Disini</option>
+                    @foreach($pubdata as $p)
+                    <option value="{{$p->product_sku}}">{{$p->product_sku}} - {{$p->product_nama}} ({{$p->size_nama}})</option>
+                    @endforeach
+                   </select>
+            </div>
+
         </div>
-
-	</div>
-</div>
+    </div>
 
 		<!--begin: Datatable-->
         <div class="table-responsive">
-            <form method="POST" action="{{url('stokopname/mingguan/update')}}" >
-            @csrf
 		<table class="table table-bordered mt-5" id="product">
 			<thead>
 				<tr>
 					<th width="10%">SKU</th>
-					<th width="25%">Nama Produk</th>
+					<th width="10%">Band</th>
+					<th width="10%">Nama Produk</th>
 					<th width="5%">Size</th>
 					<th width="5%">Stok Awal</th>
 					<th width="5%">Sudah Terjual</th>
 					<th width="5%">Sisa Stok Tersedia</th>
 					<th width="5%">Stok Real</th>
 					<th width="5%">Selisih</th>
+					<th width="5%">Keterangan</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -81,24 +89,26 @@
                     <input type="hidden" id="product_skus" name="product_skus[]" value="{{$p->product_sku}}">
                     <input type="hidden" id="publishgroup" name="publishgroup" value="{{$pub}}">
 					<td>{{$p->product_sku}}</td>
+					<td>{{$p->band_nama}}</td>
 					<td>{{$p->product_nama}} ({{$p->size_nama}})</td>
 					<td>{{$p->size_nama}}</td>
 
 
-					<td id="stok{{$p->product_sku}}">{{$p->product_stok}}
-                        <input type="hidden" id="stokakhir" name="stokakhir[]" value="{{$p->product_stokakhir}}">
-                        <input type="hidden"  id="stok" name="stok[]" value="{{$p->product_stok}}"></td>
+					<td id="stok{{$p->product_sku}}">{{$p->so_stok}}
+                        <input type="hidden" id="stokakhir" name="stokakhir[]" value="{{$p->so_stokakhir}}">
+                        <input type="hidden"  id="stok" name="stok[]" value="{{$p->so_stok}}"></td>
                         <td>{{$p->stokterjual}}
                             <input id="stokterjual" type="hidden" name="stokterjual[]" value="{{$p->stokterjual}}">
                         </td>
 
-                        <td id="sisatersedia{{$p->product_sku}}">{{(int)$p->product_stok - (int)$p->stokterjual}}
-                        <input id="sisainput" type="hidden" name="stoksisa[]" value="{{(int)$p->product_stok - (int)$p->stokterjual}}"></td>
+                        <td id="sisatersedia{{$p->product_sku}}">{{(int)$p->so_stok - (int)$p->stokterjual}}
+                        <input id="sisainput" type="hidden" name="stoksisa[]" value="{{(int)$p->so_stok - (int)$p->stokterjual}}"></td>
 
-					<td><span id="stokril{{$p->product_sku}}">{{$p->so_stokakhirreal}}</span>
-                    <input id="stokrilinput{{$p->product_sku}}" class="inputx" value="{{$p->so_stokakhirreal}}" type="hidden" name="stokril[]"></td>
+					<td><input id="stokrilinput{{$p->product_sku}}" class="form-control stokrilinputs inputx" data-sku="{{$p->product_sku}}" value="{{$p->so_stokakhirreal}}" type="text" name="stokril[]"></td>
 					<td><span id="selisih{{$p->product_sku}}">{{$p->so_selisih}}</span>
                     <input id="selisihinput{{$p->product_sku}}" class="inputx" value="{{$p->so_selisih}}" type="hidden" name="selisih[]"></td>
+
+					<td>{{$p->so_keterangan}}</td>
 				</tr>
                 @endforeach
 
@@ -138,10 +148,11 @@
 
 
 <script>
-    $('#productlist').val("");
+    $("#productlist").val(null).trigger('change');
     $('#productlist').select2({
         placeholder: "Scan SKU disini",
-        allowClear: true
+        allowClear: true,
+        closeOnSelect: false
     });
   $('#productlist').on('select2:select', function (e) {
     e.preventDefault();
@@ -156,10 +167,14 @@
                 },
                 success: function (data) {
                     if (data['success']) {
-                        $("#stokril"+select_val).text(parseInt($("#stokril"+select_val).text())+1);
-                        $("#selisih"+select_val).text(parseInt($("#sisatersedia"+select_val).text())-parseInt($("#stokril"+select_val).text()));
-                        $("#stokrilinput"+select_val).val(parseInt($("#stokril"+select_val).text()));
+                        $("#stokrilinput"+select_val).val(parseInt($("#stokrilinput"+select_val).val())+1);
+                        $("#selisih"+select_val).text(parseInt($("#sisatersedia"+select_val).text())-parseInt($("#stokrilinput"+select_val).val()));
                         $("#selisihinput"+select_val).val(parseInt($("#selisih"+select_val).text()));
+                        console.log(select_val);
+                        console.log($("#stokrilinput"+select_val).val());
+                        console.log($("#selisihinput"+select_val).val());
+                        $("#productlist").val(null).trigger('change');
+                        $('.select2-search__field').val(null).trigger('change');
                     } else if (data['error']) {
                          Swal.fire(
                          'Error',
@@ -175,6 +190,13 @@
                 }
             });
 });
+$('.stokrilinputs').on('change', function (e) {
+    select_val = $(this).attr('data-sku');
+    $("#stokrilinput"+select_val).val(parseInt($(this).val()));
+    $("#selisih"+select_val).text(parseInt($("#sisatersedia"+select_val).text())-parseInt($("#stokrilinput"+select_val).val()));
+    $("#selisihinput"+select_val).val(parseInt($("#selisih"+select_val).text()));
+});
+
 
 $('#simpan').on('click', function (e) {
     e.preventDefault();
@@ -183,6 +205,8 @@ $('#simpan').on('click', function (e) {
                 type: 'POST',
                 data: {
                     _token : "{{csrf_token()}}",
+                    'so_userid' :   $('input[name="so_userid"]').val(),
+                    'so_date' :   $('input[name="so_date"]').val(),
                     'product_skus[]' :   $('input[name="product_skus[]"]').map(function(){  return this.value; }).get(),
                     'publishgroup' :   $('input[name="publishgroup"]').val(),
                     'stok[]' :   $('input[name="stok[]"]').map(function(){  return this.value; }).get(),
@@ -225,6 +249,13 @@ $('#simpan').on('click', function (e) {
         "paging":   false,
         "ordering": false,
     } );
+
+
+    $('#datepicker').datepicker({
+   todayHighlight: true,
+   orientation: "bottom left",
+   format: "yyyy-mm-dd"
+  });
 </script>
 @endsection
 @endsection

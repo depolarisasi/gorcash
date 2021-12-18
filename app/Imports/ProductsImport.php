@@ -28,7 +28,7 @@ class ProductsImport implements ToCollection, WithHeadingRow
         $datatype = TypeProduct::where('type_id',$type)->first();
         $datacolor = Color::where('color_id',$color)->first();
         $sericode = BarcodeDB::where('barcode_productband',$band)->where('barcode_producttype',$type)->count();
-        if($sericode < 10){
+        if($sericode < 9){
             if($sericode != 0) {
                 $countseri = $sericode+1;
                 $serivarian = "0".$countseri.$firstbandletter;

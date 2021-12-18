@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title','Barang Terjual - ')
+@section('title','Laporan Penjualan - ')
 @section('css')
 <link href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css">
 <link href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css">
@@ -24,7 +24,7 @@
 <!--begin::Header-->
 <div class="card-header border-0 py-5">
 <h3 class="card-title align-items-start flex-column">
-<span class="card-label font-weight-bolder text-dark">Daftar Barang Terjual</span>
+<span class="card-label font-weight-bolder text-dark">Daftar Laporan Penjualan</span>
 </h3>
 <div class="card-toolbar">
 </div>
@@ -47,6 +47,7 @@
                             <option value="Tokopedia">Tokopedia</option>
                             <option value="Blibli">Blibli</option>
                             <option value="BukaLapak">BukaLapak</option>
+                            <option value="WhatsApp">WhatsApp</option>
 						</select>
 					</div>
 				</div>

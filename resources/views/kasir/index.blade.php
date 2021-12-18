@@ -64,6 +64,7 @@
                         <option value="Tokopedia">Tokopedia</option>
                         <option value="Blibli">Blibli</option>
                         <option value="BukaLapak">BukaLapak</option>
+                        <option value="WhatsApp">WhatsApp</option>
                       </select>
                     </div>
                   </div>
@@ -85,7 +86,7 @@
                                 <option value="Transfer Bank BNI">Transfer Bank BNI</option>
                                 <option value="Transfer Bank Mandiri">Transfer Bank Mandiri</option>
                                 <option value="Debit/Kartu Kredit">Debit/Kartu Kredit</option>
-                                <option value="Marketplace">Marketplace</option> 
+                                <option value="Marketplace">Marketplace</option>
                               </select>
                         </div>
                       </div>
@@ -95,17 +96,17 @@
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
                                   <span class="input-group-text" id="paymenttotal">Rp</span>
-                                </div> 
+                                </div>
                                 <input class="form-control" type="text" name="penjualan_paymenttotal" aria-label="Payment" aria-describedby="paymenttotal" required/>
                               </div>
-                             
+
                         </div>
                       </div>
 
             </div>
         </div>
 
-     
+
 <!--begin::Shopping Cart-->
 <div class="table-responsive">
 <table class="table">

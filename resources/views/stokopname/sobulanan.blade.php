@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title','Stok Opname Produk - ')
+@section('title','Stok Opname Bulanan - ')
 @section('css')
 <link href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css">
 <link href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css">
@@ -23,7 +23,7 @@
 <!--begin::Header-->
 <div class="card-header border-0 py-5">
 <h3 class="card-title align-items-start flex-column">
-<span class="card-label font-weight-bolder text-dark">Stok Opname</span>
+<span class="card-label font-weight-bolder text-dark">Stok Opname Bulanan</span>
 </h3>
 <div class="card-toolbar">
 <a href="{{url('stokopname/mingguan')}}" class="btn btn-primary btn-md font-size-sm"><i class="fas fa-arrow-left"></i> Kembali</a>
@@ -33,40 +33,45 @@
 
 <!--begin::Body-->
 <div class="card-body pt-0 pb-3">
+    <form method="POST" action="{{url('stokopname/bulanan/store')}}" >
+        @csrf
+        <div class="mb-7">
+            <div class="row ">
+                <div class="col-md-4">
+                    <div class="row mb-3">
+                            <label class="col-md-4">Nama Pemeriksa</label>
+                            <input id="namapemeriksa" type="text" class="form-control col-md-8" name="so_userid" required>
+                    </div>
+                    <div class="row mb-3">
+                        <label class="col-md-4">Tanggal Periksa</label>
+                        <input id="datepicker" type="text" class="form-control col-md-8" name="so_date" required>
+                </div>
+                </div>
 
-<div class="mb-7">
-	<div class="row ">
-        <div class="col-md-4">
-			<div class="h2 mb-1">Stock Opname Mingguan</div>
-            <p>Pemeriksa : <b>{{Auth::user()->name}}</b></p>
-            <p>Tanggal Periksa : {{\Carbon\Carbon::now()->format('d M Y')}}</p>
-		</div>
+                <div class="col-md-2">
+                    <p>Scan Barcode pada kotak disamping</p>
+                </div>
+                <div class="col-md-4">
+                    <select class="form-control select2" id="productlist" name="param">
+                        <option value="X">Masukan SKU Disini</option>
+                        @foreach($product as $p)
+                        <option value="{{$p->product_sku}}">{{$p->product_sku}} - {{$p->product_nama}} ({{$p->size_nama}})</option>
+                        @endforeach
+                       </select>
+                </div>
 
-        <div class="col-md-2">
-            <p>Scan Barcode pada kotak disamping</p>
-		</div>
-        <div class="col-md-4">
-            <select class="form-control select2" id="productlist" name="param">
-                <option value="X">Masukan SKU Disini</option>
-                @foreach($product as $p)
-                <option value="{{$p->product_sku}}">{{$p->product_sku}} - {{$p->product_nama}} ({{$p->size_nama}})</option>
-                @endforeach
-               </select>
+            </div>
         </div>
-
-	</div>
-</div>
 
 		<!--begin: Datatable-->
         <div class="table-responsive">
-            <form method="POST" action="{{url('stokopname/bulanan/store')}}" >
-            @csrf
             <input type="hidden" name="so_date" value="{{\Carbon\Carbon::now()->format('Y-m-d')}}">
 		<table class="table table-bordered mt-5" id="product">
 			<thead>
 				<tr>
 					<th width="10%">SKU</th>
-					<th width="25%">Nama Produk</th>
+					<th width="10%">Band</th>
+					<th width="15%">Nama Produk</th>
 					<th width="5%">Size</th>
 					<th width="5%">Stok Awal</th>
 					<th width="5%">Sudah Terjual</th>
@@ -81,6 +86,7 @@
 				<tr>
                     <input type="hidden" id="product_skus" name="product_skus[]" value="{{$p->product_sku}}">
 					<td>{{$p->product_sku}}</td>
+					<td>{{$p->band_nama}}</td>
 					<td>{{$p->product_nama}} ({{$p->size_nama}})</td>
 					<td>{{$p->size_nama}}</td>
 
@@ -95,8 +101,7 @@
                         <td id="sisatersedia{{$p->product_sku}}">{{(int)$p->product_stok - (int)$p->stokterjual}}
                         <input id="sisainput" type="hidden" name="stoksisa[]" value="{{(int)$p->product_stok - (int)$p->stokterjual}}"></td>
 
-					<td><span id="stokril{{$p->product_sku}}">0</span>
-                    <input id="stokrilinput{{$p->product_sku}}" class="inputx" value="0" type="hidden" name="stokril[]"></td>
+					<td><input id="stokrilinput{{$p->product_sku}}" class="form-control stokrilinputs inputx" data-sku="{{$p->product_sku}}" value="0" type="text" name="stokril[]"></td>
 					<td><span id="selisih{{$p->product_sku}}">0</span>
                     <input id="selisihinput{{$p->product_sku}}" class="inputx" value="0" type="hidden" name="selisih[]"></td>
 				</tr>
@@ -156,14 +161,14 @@
                 },
                 success: function (data) {
                     if (data['success']) {
-                        $("#stokril"+select_val).text(parseInt($("#stokril"+select_val).text())+1);
-                        $("#selisih"+select_val).text(parseInt($("#sisatersedia"+select_val).text())-parseInt($("#stokril"+select_val).text()));
-
-                        $("#stokrilinput"+select_val).val(parseInt($("#stokril"+select_val).text()));
+                        $("#stokrilinput"+select_val).val(parseInt($("#stokrilinput"+select_val).val())+1);
+                        $("#selisih"+select_val).text(parseInt($("#sisatersedia"+select_val).text())-parseInt($("#stokrilinput"+select_val).val()));
                         $("#selisihinput"+select_val).val(parseInt($("#selisih"+select_val).text()));
                         console.log(select_val);
                         console.log($("#stokrilinput"+select_val).val());
                         console.log($("#selisihinput"+select_val).val());
+                        $("#productlist").val(null).trigger('change');
+                        $('.select2-search__field').val(null).trigger('change');
 
                     } else if (data['error']) {
                          Swal.fire(
@@ -180,45 +185,15 @@
                 }
             });
 });
-setInterval(function(){
-    $.ajax({
-                url: '/api/simpansobulanan',
-                type: 'POST',
-                data: {
-                    _token : "{{csrf_token()}}",
-                    'product_skus[]' :   $('input[name="product_skus[]"]').map(function(){  return this.value; }).get(),
-                    'stok[]' :   $('input[name="stok[]"]').map(function(){  return this.value; }).get(),
-                    'stokakhir[]' :   $('input[name="stokakhir[]"]').map(function(){  return this.value; }).get(),
-                    'stokterjual[]' :   $('input[name="stokterjual[]"]').map(function(){  return this.value; }).get(),
-                    'stoksisa[]' :   $('input[name="stoksisa[]"]').map(function(){  return this.value; }).get(),
-                    'stokril[]' :   $('input[name="stokril[]"]').map(function(){  return this.value; }).get(),
-                    'selisih[]' :   $('input[name="selisih[]"]').map(function(){  return this.value; }).get(),
-                    'so_date' :   "{{\Carbon\Carbon::now()->format('Y-m-d')}}",
-                },
-                success: function (data) {
-                    if (data['success']) {
-                        Swal.fire(
-                         'Success',
-                         'Laporan SO Otomatis Disimpan',
-                         'success'
-                         );
 
-                    } else if (data['error']) {
-                         Swal.fire(
-                         'Error',
-                         'SKU tersebut tidak ada dalam daftar publish ini',
-                         'error'
-                         )
-                    } else {
-                        console.log(data);
-                    }
-                },
-                error: function (data) {
-                    alert(data.responseText);
-                }
-            });
 
- }, 300000);
+$('.stokrilinputs').on('change', function (e) {
+    select_val = $(this).attr('data-sku');
+    $("#stokrilinput"+select_val).val(parseInt($(this).val()));
+    $("#selisih"+select_val).text(parseInt($("#sisatersedia"+select_val).text())-parseInt($("#stokrilinput"+select_val).val()));
+    $("#selisihinput"+select_val).val(parseInt($("#selisih"+select_val).text()));
+});
+
 $('#simpan').on('click', function (e) {
     e.preventDefault();
     $.ajax({
@@ -234,7 +209,8 @@ $('#simpan').on('click', function (e) {
                     'stoksisa[]' :   $('input[name="stoksisa[]"]').map(function(){  return this.value; }).get(),
                     'stokril[]' :   $('input[name="stokril[]"]').map(function(){  return this.value; }).get(),
                     'selisih[]' :   $('input[name="selisih[]"]').map(function(){  return this.value; }).get(),
-                    'so_date' :   "{{\Carbon\Carbon::now()->format('Y-m-d')}}",
+                    'so_date' :    $('input[name="so_date"]').val(),
+                    'so_userid' :    $('input[name="so_userid"]').val(),
                 },
                 success: function (data) {
                     if (data['success']) {
@@ -269,6 +245,13 @@ $('#simpan').on('click', function (e) {
         "paging":   false,
         "ordering": false,
     } );
+
+
+    $('#datepicker').datepicker({
+   todayHighlight: true,
+   orientation: "bottom left",
+   format: "yyyy-mm-dd"
+  });
 </script>
 @endsection
 @endsection

@@ -56,7 +56,7 @@ class BarcodeDBController extends Controller
         $datatype = TypeProduct::where('type_id',$request->barcode_producttype)->first();
         $datacolor = Color::where('color_id',$request->barcode_productcolor)->first();
         $sericode = BarcodeDB::where('barcode_productband',$request->barcode_productband)->count();
-        if($sericode < 10){
+        if($sericode < 9){
             if($sericode != 0) {
                 $countseri = $sericode+1;
                 $serivarian = "0".$countseri.$firstbandletter;
@@ -120,7 +120,7 @@ class BarcodeDBController extends Controller
             $datatype = TypeProduct::where('type_id',$request->barcode_producttype)->first();
             $datacolor = Color::where('color_id',$request->barcode_productcolor)->first();
             $sericode = BarcodeDB::where('barcode_productband',$request->barcode_productband)->count();
-            if($sericode < 10){
+            if($sericode < 9){
                 if($sericode != 0) {
                     $countseri = $sericode+1;
                     $serivarian = "0".$countseri.$firstbandletter;

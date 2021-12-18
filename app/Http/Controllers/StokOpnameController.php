@@ -60,7 +60,8 @@ class StokOpnameController extends Controller
 
     public function sobulanan(){
         $product = Product::join('size','size.size_id','product.product_idsize')
-        ->select('product.*','size.size_nama')
+        ->join('band','band.band_id','product.product_idband')
+        ->select('product.*','size.size_nama','band.band_id','band.band_nama')
         ->get();
         foreach($product as $key => $p){
             $penjualan = BarangTerjual::where('barangterjual_idproduk',$p->product_id)->get();
@@ -129,15 +130,16 @@ class StokOpnameController extends Controller
             }
             $pubdata[$key]["stokterjual"] = $count;
         }
-
+        $soinfo = StokOpname::where('stokopname.so_pubgroupname',$pubgroup)->first();
         $pub = $pubgroup;
-        return view('stokopname.resumemingguan')->with(compact('pubdata','pub'));
+        return view('stokopname.resumemingguan')->with(compact('pubdata','pub','soinfo'));
      }
 
      public function resumesobulanan($pubgroup){
         $pubdata = StokOpname::join('product','product.product_sku','stokopname.so_sku')
         ->join('size','size.size_id','product.product_idsize')
-        ->select('stokopname.*','product.product_id','product.product_nama','product.product_stok','product.product_stokakhir','size.size_nama','product.product_mastersku','product.product_sku')
+        ->join('band','band.band_id','product.product_idband')
+        ->select('stokopname.*','product.product_id','product.product_nama','product.product_stok','product.product_stokakhir','size.size_nama','product.product_mastersku','product.product_sku','band.band_id','band.band_nama')
         ->where('stokopname.so_pubgroupname',$pubgroup)->get();
         foreach($pubdata as $key => $p){
             $penjualan = BarangTerjual::where('barangterjual_idproduk',$p->product_productid)->get();
@@ -163,9 +165,7 @@ class StokOpnameController extends Controller
     }
 
     public function laporanpdf($pubgroup){
-        $info = StokOpname::join('users','users.id','=','stokopname.so_userid')
-        ->select('stokopname.*','users.name')
-        ->where('stokopname.so_pubgroupname', $pubgroup)->first();
+        $info = StokOpname::where('stokopname.so_pubgroupname', $pubgroup)->first();
         $product = StokOpname::join('product','product.product_sku','stokopname.so_sku')
         ->join('size','size.size_id','product.product_idsize')
         ->select('stokopname.*','product.product_id','product.product_nama','product.product_stok','product.product_stokakhir','size.size_nama','product.product_mastersku','product.product_sku')
@@ -177,7 +177,7 @@ class StokOpnameController extends Controller
         array_push($data, $product->toArray());
 
         // return $data;
-        $pdf = PDF::loadView('stokopname.laporanpdf', compact('data'));
+        $pdf = PDF::loadView('stokopname.laporanpdf', compact('data','info'));
         return $pdf->download('laporan-so-'.$pubgroup.'-'.$info->so_date.$info->so_type.'.pdf');
 
         // return view('stokopname.laporanpdf')->with(compact('product','info'));
@@ -187,7 +187,7 @@ class StokOpnameController extends Controller
         foreach($request->product_skus as $key => $p){
             $so = new StokOpname;
             $date = Carbon::parse($request->so_date)->format('Y-m-d');
-            $so->so_date = $request->so_date;
+            $so->so_date = $date;
             $so->so_pubgroupname = $request->publishgroup;
             $product = Product::where('product_sku', $p)->first();
             $publish = BarangPublish::where('publish_productid', $product->product_id)->where('publish_groupid', $request->publishgroup)->first();
@@ -251,7 +251,7 @@ class StokOpnameController extends Controller
                 $so->so_selisih = $request->selisih[$key];
                 $so->so_stokakhirreal = $request->stokril[$key];
                 $so->so_type = 2;
-                $so->so_userid = Auth::user()->id;
+                $so->so_userid = $request->so_userid;
                 $so->so_status = 1;
                 if($request->stokril[$key] == $request->stoksisa[$key]){
                     $so->so_keterangan = "Ada";
@@ -400,6 +400,9 @@ class StokOpnameController extends Controller
                 $updateso->so_stokterjual = $request->stokterjual[$key];
                 $updateso->so_stokakhirreal = $request->stokril[$key];
                 $updateso->so_status = 1;
+                $date = Carbon::parse($request->so_date)->format('Y-m-d');
+                $updateso->so_date = $date;
+                $updateso->so_userid = $request->so_userid;
                 if($request->stokril[$key] == $request->stoksisa[$key]){
                     $updateso->so_keterangan = "Ada";
 
@@ -437,7 +440,14 @@ class StokOpnameController extends Controller
                 $updateso->so_selisih = $request->selisih[$key];
                 $updateso->so_stokterjual = $request->stokterjual[$key];
                 $updateso->so_stokakhirreal = $request->stokril[$key];
-                $updateso->so_status = 2;
+                if($updateso->so_status == 1){
+                $updateso->so_status = 1;
+                }else {
+                    $updateso->so_status = 2;
+                }
+                $date = Carbon::parse($request->so_date)->format('Y-m-d');
+                $updateso->so_date = $date;
+                $updateso->so_userid = $request->so_userid;
                 if($request->stokril[$key] == $request->stoksisa[$key]){
                     $updateso->so_keterangan = "Ada";
 
@@ -463,7 +473,7 @@ class StokOpnameController extends Controller
             }else {
                 foreach($request->product_skus as $key => $p){
                     $so = new StokOpname;
-                    $date = Carbon::now()->format('Y-m-d');
+                    $date = Carbon::parse($request->so_date)->format('Y-m-d');
                     $so->so_date = $date;
                     $so->so_pubgroupname = $request->publishgroup;
                     $product = Product::where('product_sku', $p)->first();
@@ -475,7 +485,7 @@ class StokOpnameController extends Controller
                     $so->so_selisih = $request->selisih[$key];
                     $so->so_stokakhirreal = $request->stokril[$key];
                     $so->so_type = 1;
-                    $so->so_userid = Auth::user()->id;
+                    $so->so_userid = $request->so_userid;
                     $so->so_status = 2;
                     if($request->stokril[$key] == $request->stoksisa[$key]){
                         $so->so_keterangan = "Ada";

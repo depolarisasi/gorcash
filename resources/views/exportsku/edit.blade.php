@@ -173,7 +173,7 @@
    }
    }
            ],
-           "paging":   true,
+        "paging":   false,
         columnDefs: [ {
             orderable: false,
             className: 'select-checkbox',
@@ -183,7 +183,6 @@
             style:    'multi',
             selector: 'td:first-child'
         },
-        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
        } );
 
    </script>

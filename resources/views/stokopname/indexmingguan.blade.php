@@ -58,6 +58,7 @@
 <a href="{{url('/stokopname/mingguan/edit/'.$p->publish_groupid)}}" class="btn btn-xs btn-warning"><i class="fas fa-info-circle nopadding"></i> Lanjutkan Stok Opname</a>
 @else
 <a href="{{url('/stokopname/laporan/'.$p->publish_groupid)}}" class="btn btn-xs btn-success"><i class="fas fa-info-circle nopadding"></i> Laporan Stok Opname</a>
+<a href="{{url('/stokopname/mingguan/edit/'.$p->publish_groupid)}}" class="btn btn-xs btn-warning"><i class="fas fa-info-circle nopadding"></i> Ubah Stok Opname</a>
 @endif
 
                     </td>

@@ -34,6 +34,8 @@
 <!--begin::Body-->
 <div class="card-body pt-0 pb-3">
 
+    <form method="POST" action="{{url('stokopname/mingguan/store')}}" >
+        @csrf
 <div class="mb-7">
 	<div class="row ">
         <div class="col-md-4">
@@ -64,8 +66,6 @@
 
 		<!--begin: Datatable-->
         <div class="table-responsive">
-            <form method="POST" action="{{url('stokopname/mingguan/store')}}" >
-            @csrf
 		<table class="table table-bordered mt-5" id="product">
 			<thead>
 				<tr>
@@ -102,7 +102,7 @@
                         <td id="sisatersedia{{$p->product_sku}}">{{(int)$p->publish_stok - (int)$p->stokterjual}}
                         <input id="sisainput" type="hidden" name="stoksisa[]" value="{{(int)$p->publish_stok - (int)$p->stokterjual}}"></td>
 
-					<td><span id="stokril{{$p->product_sku}}"><input id="stokrilinput{{$p->product_sku}}" class="form-control stokrilinputs inputx" data-sku="{{$p->product_sku}}" value="0" type="text" name="stokril[]"></td>
+					<td><input id="stokrilinput{{$p->product_sku}}" class="form-control stokrilinputs inputx" data-sku="{{$p->product_sku}}" value="0" type="text" name="stokril[]"></td>
 					<td><span id="selisih{{$p->product_sku}}">0</span>
                     <input id="selisihinput{{$p->product_sku}}" class="inputx" value="0" type="hidden" name="selisih[]"></td>
 				</tr>
@@ -214,6 +214,8 @@ $('#simpan').on('click', function (e) {
                     'stoksisa[]' :   $('input[name="stoksisa[]"]').map(function(){  return this.value; }).get(),
                     'stokril[]' :   $('input[name="stokril[]"]').map(function(){  return this.value; }).get(),
                     'selisih[]' :   $('input[name="selisih[]"]').map(function(){  return this.value; }).get(),
+                    'so_date' :    $('input[name="so_date"]').val(),
+                    'so_userid' :    $('input[name="so_userid"]').val(),
                 },
                 success: function (data) {
                     if (data['success']) {
@@ -253,6 +255,7 @@ $('#simpan').on('click', function (e) {
     $('#datepicker').datepicker({
    todayHighlight: true,
    orientation: "bottom left",
+   format: "yyyy-mm-dd"
   });
 </script>
 @endsection
