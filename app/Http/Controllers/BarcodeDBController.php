@@ -151,12 +151,12 @@ class BarcodeDBController extends Controller
             $barcode->update($store->all());
             $product = Product::where('product_mastersku', $mastersku)->get();
              foreach($product as $p){
-                 $product->product_mastersku = $mastersku;
-                 $product->product_color = $request->barcode_productcolor;
-                 $product->product_typeid = $request->barcode_producttype;
-                 $product->product_idband = $request->barcode_productband;
-                 $product->product_sku = $mastersku.$p->product_idsize;
-                 $product->update();
+                 $p->product_mastersku = $mastersku;
+                 $p->product_color = $request->barcode_productcolor;
+                 $p->product_typeid = $request->barcode_producttype;
+                 $p->product_idband = $request->barcode_productband;
+                 $p->product_sku = $mastersku.$p->product_idsize;
+                 $p->update();
 
              }
             } catch (QE $e) {
