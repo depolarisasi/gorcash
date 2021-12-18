@@ -155,7 +155,7 @@ class BarcodeDBController extends Controller
                  $product->product_color = $request->barcode_productcolor;
                  $product->product_typeid = $request->barcode_producttype;
                  $product->product_idband = $request->barcode_productband;
-                 $product->product_sku = $mastersku.$product->product_idsize;
+                 $product->product_sku = $mastersku.$p->product_idsize;
                  $product->update();
 
              }
