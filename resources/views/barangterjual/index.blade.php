@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title','Laporan Penjualan - ')
+@section('title','History Transaction - ')
 @section('css')
 <link href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css">
 <link href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css">
@@ -24,7 +24,7 @@
 <!--begin::Header-->
 <div class="card-header border-0 py-5">
 <h3 class="card-title align-items-start flex-column">
-<span class="card-label font-weight-bolder text-dark">Daftar Laporan Penjualan</span>
+<span class="card-label font-weight-bolder text-dark">Daftar History Transaction</span>
 </h3>
 <div class="card-toolbar">
 </div>
@@ -41,7 +41,7 @@
 						<label class="mr-3 mb-0">Channel</label>
 						<select class="form-control" id="kt_datatable_search_channel">
 							<option value="">All</option>
-                            <option value="Toko Offline">Toko Offline</option>
+                            <option value="Toko">Toko</option>
                             <option value="Website">Website</option>
                             <option value="Shopee">Shopee</option>
                             <option value="Tokopedia">Tokopedia</option>
@@ -75,6 +75,7 @@
                     <tr>
                         <th>Tanggal</th>
                         <th>Channel</th>
+                        <th>SKU</th>
                         <th>Nama Barang</th>
                         <th>Qty</th>
                         <th>Price</th>
@@ -91,7 +92,8 @@
                     <tr>
                         <td>{{$b->barangterjual_tanggalbarangterjual}}</td>
                         <td>{{$b->penjualan_channel}}</td>
-                        <td>{{$b->product_sku}} | {{$b->band_nama}} - {{$b->product_nama}} ({{$b->size_nama}}) </td>
+                        <td>{{$b->product_sku}}</td>
+                        <td>{{$b->band_nama}} - {{$b->product_nama}} ({{$b->size_nama}}) </td>
                         <td>{{$b->barangterjual_qty}}</td>
                         <td>@money($b->product_hargajual)</td>
                         <td>@money($b->barangterjual_totalbarangterjual)</td>

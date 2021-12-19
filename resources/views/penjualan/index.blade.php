@@ -46,7 +46,7 @@
 						<label class="mr-3 mb-0">Channel</label>
 						<select class="form-control" id="kt_datatable_search_channel">
 							<option value="">All</option>
-                            <option value="Toko Offline">Toko Offline</option>
+                            <option value="Toko">Toko</option>
                             <option value="Website">Website</option>
                             <option value="Shopee">Shopee</option>
                             <option value="Tokopedia">Tokopedia</option>

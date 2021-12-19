@@ -88,7 +88,7 @@ img {
         <br>
             <p>
                 Tanggal : {{$penjualan->penjualan_tanggalpenjualan}} </br>
-                Invoice   :  @if($penjualan->penjualan_channel == "Toko Offline") {{$penjualan->penjualan_invoicegorilla}} @else {{$penjualan->penjualan_invoice}} @endif </br>
+                Invoice   :  @if($penjualan->penjualan_channel == "Toko") {{$penjualan->penjualan_invoicegorilla}} @else {{$penjualan->penjualan_invoice}} @endif </br>
                 Channel   : {{$penjualan->penjualan_channel}}</br>
                 Customer   : {{$penjualan->penjualan_customername}} </br>
                 Payment Type   :  {{$penjualan->penjualan_paymentype}}</br>
@@ -111,14 +111,19 @@ img {
                     <td width="10%">{{$b['barangterjual_qty']}}</td>
                     <td width="30%">{{$b['product_sku']}} - {{$b['product_nama']}} ({{$b['size_nama']}})</td>
                     <td width="30%">@money($b['product_hargajual'])</td>
-                    <td width="30%">
-                        @if((int)$b['barangterjual_diskon'] == 0 || is_null($b['barangterjual_diskon']))
-                            @money($b['barangterjual_totalbarangterjual'])
-                        @else
-                       <s> @money((int)$b['barangterjual_totalbarangterjual'])</s> @money((int)$b['barangterjual_totalbarangterjual']-(int)$b['barangterjual_diskon'])
-                        @endif
-                    </td>
+                    <td width="30%">@money($b['barangterjual_totalbarangterjual'])</td>
                 </tr>
+                @if((int)$b['barangterjual_diskon'] == 0 || is_null($b['barangterjual_diskon']))
+                @else
+                <tr>
+                    <td colspan="2">DISKON</td>
+                    @php
+                        $diskonpersen = ($b['barangterjual_diskon']/$b['barangterjual_totalbarangterjual'])*100;
+                    @endphp
+                    <td>{{$diskonpersen}}%</td>
+                    <td>@money($b['barangterjual_diskon'])</td>
+                </tr>
+                 @endif
                 @endforeach
 
             </tbody>

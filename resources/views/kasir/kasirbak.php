@@ -65,7 +65,7 @@
                     <label class="col-md-4">Channel</label>
                     <div class="col-md-8">
                       <select class="multisteps-form__input form-control" name="penjualan_channel" required>
-                        <option value="Toko Offline">Toko Offline</option>
+                        <option value="Toko">Toko</option>
                         <option value="Website">Website</option>
                         <option value="Shopee">Shopee</option>
                         <option value="Tokopedia">Tokopedia</option>

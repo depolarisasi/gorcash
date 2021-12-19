@@ -68,7 +68,10 @@
                 @foreach($produk as $p)
 				<tr>
                     <td><input type="checkbox" class="selectproduct" name="selected_product" data-id="{{$p->product_sku}}" value="{{$p->product_sku}}" ></td>
-                    <td><img src="{{asset($p->product_foto)}}" class="img-fluid" style="width: 50px !important; height: 50px !important;"></td>
+                    <td class="text-center">
+                        <a href="{{asset($p->product_foto?$p->product_foto:"/assets/nopicture.png")}}" data-type="image" data-fslightbox="galleryproduk">
+                            <img src="{{asset($p->product_foto?$p->product_foto:"/assets/nopicture.png")}}" data-type="image" class="img-fluid" style="width: 50px !important; height: 50px !important;"></a>
+                     </td>
 					<td>{{$p->product_mastersku}}</td>
                     <td>{{$p->product_sku}}</td>
 					<td>{{$p->product_nama}}</td>
@@ -109,7 +112,7 @@
 @section('js')
 <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap4.min.js"></script>
-
+<script src="{{asset('js/fslightbox.js')}}"></script>
 <script>
  $('#product').DataTable({
         select: {

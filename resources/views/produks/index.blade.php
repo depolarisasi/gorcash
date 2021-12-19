@@ -101,7 +101,6 @@
 			<thead>
 				<tr>
 					<th width="5%">Select</th>
-					<th>Foto</th>
 					<th>Master SKU</th>
 					<th>Nama Produk</th>
 					<th>Size</th>
@@ -120,10 +119,6 @@
                 @foreach($produk as $p)
 				<tr data-row-id="{{$p->product_mastersku}}" @if($p->product_stok < 1 || $p->product_status == 1) class="ignore fsm psm" @else class="fsm psm" @endif>
                     <td></td>
-                    <td class="text-center">
-                        <a href="{{asset($p->product_foto?$p->product_foto:"/assets/nopicture.png")}}" data-type="image" data-fslightbox="galleryproduk">
-                            <img src="{{asset($p->product_foto?$p->product_foto:"/assets/nopicture.png")}}" data-type="image" class="img-fluid" style="width: 50px !important; height: 50px !important;"></a>
-                     </td>
 					<td>{{$p->product_mastersku}}</td>
 					<td>{{$p->product_nama}} @if($p->product_status == 1)
                         <span class="label label-success label-sm label-inline mr-2"><i class="fas fa-check text-white p-0" style="font-size: 0.8em"></i></span>
