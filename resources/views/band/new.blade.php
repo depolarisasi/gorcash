@@ -38,7 +38,7 @@
             </div>
           </div>
           <div class="form-group row mt-4">
-            <label class="col-md-2">Nama Band</label>
+            <label class="col-md-2">Code Band</label>
             <div class="col-md-3">
             <input id="name" type="text" class="form-control" name="band_code"  required autofocus>
             </div>

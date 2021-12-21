@@ -129,8 +129,10 @@
 
 
         $('#kt_datatable_search_tanggal').on('change', function() {
-            tabel.search($(this).val().toLowerCase());
+            tabel.columns(0).search($(this).val().toLowerCase()).draw();
         });
+
+
         $('#kt_datatable_search_tanggal').selectpicker();
 
 </script>

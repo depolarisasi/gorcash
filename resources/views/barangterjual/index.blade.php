@@ -76,6 +76,7 @@
                         <th>Tanggal</th>
                         <th>Channel</th>
                         <th>SKU</th>
+                        <th>Band</th>
                         <th>Nama Barang</th>
                         <th>Qty</th>
                         <th>Price</th>
@@ -93,7 +94,8 @@
                         <td>{{$b->barangterjual_tanggalbarangterjual}}</td>
                         <td>{{$b->penjualan_channel}}</td>
                         <td>{{$b->product_sku}}</td>
-                        <td>{{$b->band_nama}} - {{$b->product_nama}} ({{$b->size_nama}}) </td>
+                        <td>{{$b->band_nama}}</td>
+                        <td>{{$b->product_nama}} ({{$b->size_nama}}) </td>
                         <td>{{$b->barangterjual_qty}}</td>
                         <td>@money($b->product_hargajual)</td>
                         <td>@money($b->barangterjual_totalbarangterjual)</td>
@@ -150,7 +152,7 @@
 
 
         $('#kt_datatable_search_channel').on('change', function() {
-            tabel.search($(this).val());
+            tabel.column(1).search($(this).val());
             tabel.draw();
         });
 

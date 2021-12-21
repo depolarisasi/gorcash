@@ -39,7 +39,7 @@
         <div class="col-md-4">
             <div class="row">
             <label class="col-md-4">Nama Publish</label>
-            <input id="name" type="text" class="form-control col-md-8" name="publish_name" value="{{$infopub->publish_name}}">
+            <input id="name" type="text" class="form-control col-md-8" name="publish_name" value="{{$infopub->publish_name?$infopub->publish_name:null}}">
             <input type="hidden" name="publish_groupid" value="{{$infopub->publish_groupid}}">
             </div>
         </div>
@@ -131,20 +131,6 @@
         "ordering": false,
     } );
 
-
-        $('#kt_datatable_search_size').on('change', function() {
-            tabel.search($(this).val().toLowerCase());
-        });
-
-        $('#kt_datatable_search_band').on('change', function() {
-            tabel.search($(this).val().toLowerCase());
-        });
-
-        $('#kt_datatable_search_vendor').on('change', function() {
-            tabel.search($(this).val().toLowerCase());
-        });
-
-        $('#kt_datatable_search_size, #kt_datatable_search_band,#kt_datatable_search_vendor').selectpicker();
 
 </script>
 <script>

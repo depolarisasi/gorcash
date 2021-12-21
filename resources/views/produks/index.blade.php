@@ -195,7 +195,7 @@
                 text: 'Publish',
                 action: function () {
                    var join_selected_values = $.map(tabel.rows('.selected').data(), function (item) {
-       				 return item[2]
+       				 return item[1]
     					});
                         if(join_selected_values.length <=0)
     {
@@ -237,7 +237,7 @@
                 action: function () {
 
                     var ids = $.map(tabel.rows('.selected').data(), function (item) {
-       				 return item[2]
+       				 return item[1]
     					});
                     if(ids.length <=0)
     {
@@ -286,7 +286,7 @@
                 text: 'Export SKU',
                 action: function () {
                    var join_selected_values = $.map(tabel.rows('.selected').data(), function (item) {
-       				 return item[2]
+       				 return item[1]
     					});
                         if(join_selected_values.length <=0)
     {
@@ -326,7 +326,7 @@
                 text: 'Unpublish',
                 action: function () {
                    var join_selected_values = $.map(tabel.rows('.selected').data(), function (item) {
-       				 return item[2]
+       				 return item[1]
     					});
                         if(join_selected_values.length <=0)
     {
@@ -385,15 +385,15 @@
     } );
 
     $('#kt_datatable_search_size').on('change', function() {
-            tabel.columns(4).search($(this).val().toLowerCase()).draw();
+            tabel.columns(3).search($(this).val().toLowerCase()).draw();
         });
 
         $('#kt_datatable_search_band').on('change', function() {
-            tabel.columns(6).search($(this).val().toLowerCase()).draw();
+            tabel.columns(5).search($(this).val().toLowerCase()).draw();
         });
 
         $('#kt_datatable_search_vendor').on('change', function() {
-            tabel.columns(5).search($(this).val().toLowerCase()).draw();
+            tabel.columns(4).search($(this).val().toLowerCase()).draw();
         });
 
         $('#kt_datatable_search_size,#kt_datatable_search_band,#kt_datatable_search_vendor').selectpicker();

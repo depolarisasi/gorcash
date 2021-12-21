@@ -241,7 +241,8 @@
                     <option value="Transfer Bank BCA">Transfer Bank BCA</option>
                     <option value="Transfer Bank BNI">Transfer Bank BNI</option>
                     <option value="Transfer Bank Mandiri">Transfer Bank Mandiri</option>
-                    <option value="Debit/Kartu Kredit">Debit/Kartu Kredit</option>
+                    <option value="Debit">Debit</option>
+                    <option value="Kartu Kredit">Kartu Kredit</option>
                     <option value="Marketplace">Marketplace</option>
                   </select>
           </div>

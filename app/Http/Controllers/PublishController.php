@@ -49,6 +49,7 @@ class PublishController extends Controller
             foreach($product as $p){
                 try {
                     $publish = new BarangPublish;
+                    $publish->publish_name = " ";
                     $publish->publish_productid = $p->product_id;
                     $publish->publish_tanggal = $dateinput;
                     $publish->publish_groupid = $rand;
