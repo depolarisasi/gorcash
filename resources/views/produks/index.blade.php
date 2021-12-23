@@ -176,9 +176,9 @@
                 extend: 'excelHtml5',
                 exportOptions: {
                     @if(Auth::user()->role == 1)
-                    columns: [ 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+                    columns: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
                     @else
-                    columns: [ 2, 3, 4, 5, 6, 7, 8, 9 ]
+                    columns: [ 1, 2, 3, 4, 5, 7, 9, 10 ]
                     @endif
                 }
             },
