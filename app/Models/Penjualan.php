@@ -38,6 +38,9 @@ class Penjualan extends Model
     'penjualan_receipt',
     'penjualan_paymentype',
     'penjualan_paymenttotal',
+    'penjualan_ongkoskirim',
+    'penjualan_kurir',
+    'penjualan_resi',
     'penjualan_userid',
         'created_at',
         'updated_at', ];

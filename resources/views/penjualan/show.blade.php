@@ -36,6 +36,9 @@
                             <span>Channel : {{$penjualan->penjualan_channel}}</span>
                                 <span>Nama Customer : {{$penjualan->penjualan_customername}}</span>
                                 <span>Kasir : {{$penjualan->name}}</span>
+                                @if($penjualan->penjualan_kurir != "None")
+                                <span>Ongkos Kirim : @money($penjualan->penjualan_ongkoskirim)</span>
+                                @endif
                         </div>
                     </div>
                 </div>
@@ -115,6 +118,33 @@
             </div>
             @endif
 
+            @if($penjualan->penjualan_kurir != "None")
+            <div class="row justify-content-center bg-gray-50 py-8 px-8 py-md-10 px-md-0 mx-0">
+                <div class="col-md-10">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th class="font-weight-bold text-muted text-uppercase">PENGIRIMAN</th>
+                                    <th class="font-weight-bold text-muted text-uppercase text-right">TOTAL ONGKOS KIRIM</th>
+                                </tr>
+                            </thead>
+                            <tb
+                                <tr class="font-weight-bolder">
+                                    <td>{{$penjualan->penjualan_kurir}}
+                                    <br>  Resi :  {{$penjualan->penjualan_resi}}</td>
+                                    <td class="text-primary pr-0 pt-7 text-right align-middle">@money($penjualan->penjualan_ongkoskirim)</td>
+                                </tr>
+                                <tr class="font-weight-bolder">
+                                    <td colspan="2" class="text-primary font-size-h3 font-weight-boldest text-right">@money($penjualan->penjualan_ongkoskirim)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            @endif
+
             <div class="row justify-content-center py-8 px-8 py-md-10 px-md-0 mx-0">
                 <div class="col-md-10">
                     <div class="table-responsive">
@@ -122,7 +152,10 @@
                             <tbody>
                                 <tr class="font-weight-bolder">
                                     <td>Total Pendapatan</td>
-                                    <td class="text-primary font-size-h3 font-weight-boldest text-right">@money((int)$penjualan->penjualan_totalpenjualan - (int) $penjualan->penjualan_totalpotongan - (int) $penjualan->penjualan_diskon)</td>
+                                    @php
+                                        $total = ((int)$penjualan->penjualan_totalpenjualan - (int) $penjualan->penjualan_totalpotongan - (int) $penjualan->penjualan_diskon) + (int) $penjualan->penjualan_ongkoskirim;
+                                    @endphp
+                                    <td class="text-primary font-size-h3 font-weight-boldest text-right">@money($total)</td>
                                 </tr>
                             </tbody>
                         </table>

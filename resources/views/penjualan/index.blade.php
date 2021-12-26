@@ -84,6 +84,7 @@
                         <th>Potongan</th>
                         <th>Total Penjualan</th>
                         <th>Diskon</th>
+                        <th>Ongkos Kirim</th>
                         <th>Total Pembayaran</th>
                         <th>Tipe Pembayaran</th>
                         <th>Action</th>
@@ -115,6 +116,7 @@
                             </td>
                         <td>@money($p->penjualan_totalpenjualan?$p->penjualan_totalpenjualan:0)</td>
                         <td>@money($p->penjualan_diskon)</td>
+                        <td>{{$p->penjualan_kurir?$p->penjualan_kurir:"none"}} - @money($p->penjualan_ongkoskirim?$p->penjualan_ongkoskirim:0)</td>
                         <td>@money($p->penjualan_paymenttotal)</td>
                         <td>{{$p->penjualan_paymentype}}</td>
                         <td>

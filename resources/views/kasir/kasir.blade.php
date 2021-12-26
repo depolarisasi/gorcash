@@ -81,6 +81,42 @@
                             <input class="form-control" id="tanggalpenjualan" type="date" name="penjualan_tanggalpenjualan" value="{{\Carbon\Carbon::now()->format('Y-m-d')}}" required/>
                         </div>
                       </div>
+                      <div class="form-group row mt-4">
+                        <label class="col-md-4">Kurir Pengiriman</label>
+                        <div class="col-md-8">
+                            <select class="multisteps-form__input form-control" id="kurir" name="penjualan_kurir" required>
+                                <option value="-" selected>None</option>
+                                <option value="GoSend">GoSend</option>
+                                <option value="GrabExpress">GrabExpress</option>
+                                <option value="JNE">JNE</option>
+                                <option value="J&T">J&T</option>
+                                <option value="SiCepat">SiCepat</option>
+                                <option value="Anteraja">Anteraja</option>
+                                <option value="Ninja Express">Ninja Express</option>
+                                <option value="ID Express">ID Express</option>
+                                <option value="Pos Indonesia">Pos Indonesia</option>
+                              </select>
+                        </div>
+                      </div>
+                      <div class="form-group row mt-4">
+                        <label class="col-md-4">Resi Pengiriman</label>
+                        <div class="col-md-8">
+                                <input class="form-control" type="text" id="resi" name="penjualan_resi" aria-describedby="resi"/>
+
+                        </div>
+                      </div>
+                      <div class="form-group row mt-4">
+                        <label class="col-md-4">Ongkos Kirim</label>
+                        <div class="col-md-8">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                  <span class="input-group-text">Rp</span>
+                                </div>
+                                <input class="form-control" type="text" id="ongkoskirim" onchange="tambahongkir(this);" name="penjualan_ongkoskirim" aria-label="Payment" aria-describedby="ongkoskirim"/>
+                              </div>
+
+                        </div>
+                      </div>
             </div>
         </div>
 
@@ -202,7 +238,7 @@
       <p class="font-weight-bolder font-size-h4 text-right">Total</p>
     </div>
     <div class="col-md-4">
-        <span id="total" data-total="" class="font-weight-bolder font-size-h4 text-right"></span>
+        <span id="total" data-total="0" class="font-weight-bolder font-size-h4 text-right">0</span>
     </div>
 </div>
 <div class="row mt-4">
@@ -210,7 +246,16 @@
       <p class="font-weight-bolder font-size-h4 text-right">Kembalian</p>
     </div>
     <div class="col-md-4">
-        <span id="kembalian" class="font-weight-bolder font-size-h4 text-right"></span>
+        <span id="kembalian" class="font-weight-bolder font-size-h4 text-right">0</span>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-8">
+      <p class="font-weight-bolder font-size-h4 text-right">Ongkos Kirim</p>
+    </div>
+    <div class="col-md-4">
+        <span id="ongkirkurir" class="font-weight-bolder font-size-h4 text-right">0</span>
     </div>
 </div>
 <div class="row mt-4">
@@ -317,6 +362,12 @@ function sumtot(){
         result = $('#total'),
         sum = 0;
         sum2 = 0;
+        if($("#ongkoskirim").val() == '' || $("#ongkoskirim").val() == null){
+            ongkirs = 0;
+        }else {
+            ongkirs = parseInt($("#ongkoskirim").val());
+        }
+        var ongkir = ongkirs;
 
         for(var i=0;i<inputs.length;i++){
         if(parseInt(inputs[i].value))
@@ -326,8 +377,8 @@ function sumtot(){
         if(parseInt(inputs2[i].value))
             sum2 += parseInt(inputs2[i].value) || 0;
     }
-    result.html(formatter.format(sum-sum2));
-    result.attr('data-total',parseInt(sum-sum2));
+    result.html(formatter.format(sum-sum2+ongkir));
+    result.attr('data-total',parseInt(sum-sum2+ongkir));
 }
 var subtotal = 0;
 var potongan = 0;
@@ -340,9 +391,11 @@ $('#productlist').select2({
 });
 
 $('#productlist').val('');
+$('#ongkoskirim').val('0');
 
 
 var formatter = new Intl.NumberFormat('id-ID', {style: 'currency',currency: 'IDR',});
+
 
 function tambahharga(harga){
     subtotal = subtotal+(harga*1)
@@ -395,8 +448,23 @@ console.log(payment);
 console.log(hartot);
 console.log(kembalian);
 $('#kembalian').html(formatter.format(kembalian));
+sumtot();
 }
 
+
+
+function tambahongkir(ongkir){
+if(ongkir.value == null || ongkir.value == '' || ongkir.value == NaN){
+    ongkirs = 0;
+}else {
+    ongkirs = ongkir.value;
+}
+var ongkos = ongkirs;
+var hartot = $("#total").attr('data-total');
+var tambahongkir = parseInt(ongkos);
+$('#ongkirkurir').html(formatter.format(tambahongkir));
+sumtot();
+}
 
 
 

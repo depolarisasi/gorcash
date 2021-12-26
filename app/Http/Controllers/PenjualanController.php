@@ -42,7 +42,7 @@ class PenjualanController extends Controller
         foreach ($penjualan as $p) { //untuk setiap pengambilansampel, cari sampelnya, masukin ke array tersebut
             $barangarray = [];
             foreach (explode(',', $p->penjualan_barangterjual) as $b) {
-                $barangterjual = BarangTerjual::where('barangterjual_id', $b)->first();
+                $barangterjual = BarangTerjual::whereNotNull('barangterjual_id')->where('barangterjual_id', $b)->first();
                 if ($barangterjual) {
                     $produk = Product::where('product_id',$barangterjual->barangterjual_idproduk)->first();
                     $size = Size::where('size_id',$produk->product_idsize)->first();
