@@ -97,6 +97,7 @@ Route::group(['prefix' => 'size'], function() {
 
    Route::group(['prefix' => 'produk'], function() {
     Route::get('/',[App\Http\Controllers\ProductController::class, 'index'])->middleware('auth');
+    Route::get('/outofstock',[App\Http\Controllers\ProductController::class, 'outofstock'])->middleware('auth');
     Route::get('/detail/{id}',[App\Http\Controllers\ProductController::class, 'show'])->middleware('auth');
     Route::get('/new',[App\Http\Controllers\ProductController::class, 'create'])->middleware('auth');
     Route::post('/store',[App\Http\Controllers\ProductController::class, 'store'])->middleware('auth');

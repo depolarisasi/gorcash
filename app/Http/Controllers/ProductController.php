@@ -118,6 +118,39 @@ class ProductController extends Controller
         // return $produk;
     }
 
+    public function outofstock()
+    {
+        $produk = Product::join('band','band.band_id','=','product.product_idband')
+        ->join('vendor','vendor.vendor_id','=','product.product_vendor')
+        ->join('size','size.size_id','=','product.product_idsize')
+        ->selectRaw("product.*, band.band_id,band.band_nama,size.size_id,size.size_nama,vendor.vendor_id,vendor.vendor_nama")
+        ->where('product.product_stok','=',0)
+        ->orderBy('product.product_id', 'DESC')
+        ->get();
+
+        // foreach($produk as $key => $p){
+        //     $variant = Product::join('size','size.size_id','=','product.product_idsize')
+        //     ->select('product.*','size.size_id','size.size_nama')
+        //     ->where('product.product_mastersku',$p->product_mastersku)->get();
+
+        //     if(is_null($p->product_foto) || $p->product_foto == ''){
+        //         $checkfoto = Product::where('product_mastersku', $p->product_mastersku)->whereNotNull('product_foto')->first();
+        //         if($checkfoto){
+        //             $produk[$key]['product_foto'] = $checkfoto->product_foto;
+        //         }else {
+        //             $produk[$key]['product_foto'] = "/assets/nopicture.png";
+        //         }
+        //     }
+
+        // }
+
+        $vendor = Vendor::get();
+        $band = Band::get();
+        $size = Size::get();
+        return view('produks.outofstock')->with(compact('produk','vendor','band','size'));
+        // return $produk;
+    }
+
     public function create()
     {
         $vendor = Vendor::get();
