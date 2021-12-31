@@ -91,6 +91,7 @@ class ProductController extends Controller
         ->join('vendor','vendor.vendor_id','=','product.product_vendor')
         ->join('size','size.size_id','=','product.product_idsize')
         ->selectRaw("SUM(product_stok) AS product_stokawal, product.*, band.band_id,band.band_nama,group_concat(DISTINCT size.size_nama ORDER BY size.size_id ASC SEPARATOR ', ') as product_idsize, group_concat(DISTINCT vendor.vendor_nama SEPARATOR ', ') as product_vendor, group_concat(product.product_stokakhir ORDER BY product.product_id ASC SEPARATOR', ') as product_stokakhir")
+        ->where('product.product_stokakhir','>',0)
         ->orderBy('product.product_id', 'DESC')
         ->groupBy('product.product_mastersku')
         ->get();
@@ -124,7 +125,7 @@ class ProductController extends Controller
         ->join('vendor','vendor.vendor_id','=','product.product_vendor')
         ->join('size','size.size_id','=','product.product_idsize')
         ->selectRaw("product.*, band.band_id,band.band_nama,size.size_id,size.size_nama,vendor.vendor_id,vendor.vendor_nama")
-        ->where('product.product_stok','=',0)
+        ->where('product.product_stokakhir','=',0)
         ->orderBy('product.product_id', 'DESC')
         ->get();
 
