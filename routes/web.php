@@ -272,6 +272,9 @@ Route::group(['prefix' => 'size'], function() {
     Route::get('/delete/{id}',[App\Http\Controllers\TurunBarangController::class, 'delete'])->middleware('auth');
 
    });
+   Route::group(['prefix' => 'log'], function() {
+    Route::get('/',[App\Http\Controllers\LogController::class, 'index'])->middleware('auth');
 
+   });
 
 require __DIR__.'/auth.php';

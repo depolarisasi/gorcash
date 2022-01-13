@@ -114,6 +114,7 @@ class BarcodeDBController extends Controller
     public function update(Request $request)
     {
         $barcode = BarcodeDB::where('barcode_id', $request->barcode_id)->first();
+        $masterskulama = $barcode->barcode_mastersku;
         if($barcode->barcode_productband != $request->barcode_productband || $barcode->barcode_producttype != $request->barcode_producttype){
             $databand = Band::where('band_id',$request->barcode_productband)->first();
             $firstbandletter =  substr($databand->band_nama, 0, 1);
@@ -149,7 +150,7 @@ class BarcodeDBController extends Controller
 
         try {
             $barcode->update($store->all());
-            $product = Product::where('product_mastersku', $mastersku)->get();
+            $product = Product::where('product_mastersku', $masterskulama)->get();
              foreach($product as $p){
                  $p->product_mastersku = $mastersku;
                  $p->product_color = $request->barcode_productcolor;
@@ -184,6 +185,7 @@ class BarcodeDBController extends Controller
         } //show db error message
 
         toast('Master SKU dan Produknya sudah dihapus!','success');
+        Logs::create(['log_name' => 'Delete', 'log_msg' => "Barcode dihapus", 'log_userid' => Auth::user()->id, 'log_tanggal' => Carbon::now()->setTimezone('Asia/Jakarta')->format('Y-m-d H:i:s')]);
         return redirect('barcode');
     }
 
@@ -207,6 +209,7 @@ class BarcodeDBController extends Controller
 
         $ids = $request->ids;
         BarcodeDB::whereIn('barcode_mastersku',$ids)->delete();
+        Logs::create(['log_name' => 'Delete', 'log_msg' => "Barcode dihapus via Mass Delete", 'log_userid' => Auth::user()->id, 'log_tanggal' => Carbon::now()->setTimezone('Asia/Jakarta')->format('Y-m-d H:i:s')]);
         return response()->json(['success'=>"Barcode Deleted successfully."]);
 
 }
@@ -223,6 +226,7 @@ class BarcodeDBController extends Controller
             return redirect('/barcode');
         }
 
+        Logs::create(['log_name' => 'Import', 'log_msg' => "Import Berhasil", 'log_userid' => Auth::user()->id, 'log_tanggal' => Carbon::now()->setTimezone('Asia/Jakarta')->format('Y-m-d H:i:s')]);
         toast('Berhasil Menambah Barcode','success');
         return redirect('/barcode');
     }

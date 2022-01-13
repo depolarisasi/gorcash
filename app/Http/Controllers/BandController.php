@@ -6,6 +6,12 @@ use Illuminate\Http\Request;
 use Auth;
 use App\Models\User;
 use App\Models\Band;
+use App\Models\Size;
+use App\Models\Vendor;
+use App\Models\Product;
+use App\Models\Color;
+use App\Models\TypeProduct;
+use App\Models\BarcodeDB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Database\QueryException as QE;
@@ -56,9 +62,18 @@ class BandController extends Controller
     public function update(Request $request)
     {
         $band = Band::where('band_id', $request->band_id)->first();
+        $barcode = BarcodeDB::where('barcode_productband',$request->band_id)->first();
         $update = collect($request->all());
         try {
+            if(!is_null($barcode)){
+                $datatype = TypeProduct::where('type_id',$barcode->barcode_producttype)->first();
+                $datacolor = Color::where('color_id',$barcode->barcode_productcolor)->first();
+                $sericode = $barcode->barcode_productseri;
+                $masterskubaru = $request->band_code.$datatype->type_code.$sericode.$datacolor->color_code;
+                $barcode->barcode_mastersku = $masterskubaru;
+            }
         $band->update($update->all());
+        $barcode->update();
         } catch (QE $e) {
             notify()->warning('Database Error');
             return redirect()->back();

@@ -21,10 +21,11 @@ use Illuminate\Support\Facades\File;
 use Intervention\Image\ImageManagerStatic as Image;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
-
+use App\Models\Logs;
 use App\Imports\ProductsImport;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Str;
+use Auth;
 
 class ProductController extends Controller
 {
@@ -90,7 +91,12 @@ class ProductController extends Controller
         $produk = Product::join('band','band.band_id','=','product.product_idband')
         ->join('vendor','vendor.vendor_id','=','product.product_vendor')
         ->join('size','size.size_id','=','product.product_idsize')
-        ->selectRaw("SUM(product_stok) AS product_stokawal, product.*, band.band_id,band.band_nama,group_concat(DISTINCT size.size_nama ORDER BY size.size_id ASC SEPARATOR ', ') as product_idsize, group_concat(DISTINCT vendor.vendor_nama SEPARATOR ', ') as product_vendor, group_concat(product.product_stokakhir ORDER BY product.product_id ASC SEPARATOR', ') as product_stokakhir")
+        ->selectRaw("SUM(product_stok) AS product_stokawal, product.*,
+        band.band_id,
+        band.band_nama,
+        group_concat(DISTINCT size.size_nama ORDER BY size.size_id ASC SEPARATOR ', ') as product_idsize,
+        group_concat(DISTINCT vendor.vendor_nama SEPARATOR ', ') as product_vendor,
+         group_concat(product.product_stokakhir ORDER BY size.size_id ASC SEPARATOR', ') as product_stokakhir")
         ->where('product.product_stokakhir','>',0)
         ->orderBy('product.product_id', 'DESC')
         ->groupBy('product.product_mastersku')
@@ -534,6 +540,7 @@ class ProductController extends Controller
     public function delete($id)
     {
         $produk = Product::where('product_sku', $id)->get();
+        $productnama = Product::where('product_sku', $id)->first();
 
         try {
             foreach($produk as $p){
@@ -543,6 +550,8 @@ class ProductController extends Controller
         toast('Database error','error');
         return redirect('produk');
         } //show db error message
+
+        Logs::create(['log_name' => 'Delete', 'log_msg' => "Produk ".$productnama->product_nama." di hapus via Satuan", 'log_userid' => Auth::user()->id, 'log_tanggal' => Carbon::now()->setTimezone('Asia/Jakarta')->format('Y-m-d H:i:s')]);
 
         toast('Berhasil Menghapus Produk','success');
 
@@ -552,6 +561,8 @@ class ProductController extends Controller
     public function deletemaster($id)
     {
         $produk = Product::where('product_mastersku', $id)->get();
+        $productnama = Product::where('product_mastersku', $id)->first();
+        $nama = $productnama->product_nama;
 
         try {
             foreach($produk as $p){
@@ -563,6 +574,7 @@ class ProductController extends Controller
         } //show db error message
 
         toast('Berhasil Menghapus Produk','success');
+        Logs::create(['log_name' => 'Delete', 'log_msg' => "Produk ".$nama." di hapus via Master Product", 'log_userid' => Auth::user()->id, 'log_tanggal' => Carbon::now()->setTimezone('Asia/Jakarta')->format('Y-m-d H:i:s')]);
 
         return redirect('produk');
     }
@@ -580,7 +592,11 @@ class ProductController extends Controller
 
             $ids = $request->ids;
             Product::whereIn('product_mastersku',$ids)->delete();
+            $productname =   Product::whereIn('product_mastersku',explode(",",$ids))->first();
+            $nama = $productname->product_nama;
             return response()->json(['success'=>"Products Deleted successfully."]);
+            Logs::create(['log_name' => 'Delete', 'log_msg' => "Produk ".$ama."  di hapus via Mass Delete", 'log_userid' => Auth::user()->id, 'log_tanggal' => Carbon::now()->setTimezone('Asia/Jakarta')->format('Y-m-d H:i:s')]);
+
 
     }
 
@@ -588,7 +604,10 @@ class ProductController extends Controller
 
         $ids = $request->ids;
         Product::whereIn('product_sku',explode(",",$ids))->delete();
+        $productname =   Product::whereIn('product_mastersku',explode(",",$ids))->first();
+        $nama = $productname->product_nama;
         return response()->json(['success'=>"Products Deleted successfully."]);
+        Logs::create(['log_name' => 'Delete', 'log_msg' => "Produk ".$nama." di hapus via API", 'log_userid' => Auth::user()->id, 'log_tanggal' => Carbon::now()->setTimezone('Asia/Jakarta')->format('Y-m-d H:i:s')]);
 
 }
 
@@ -604,7 +623,8 @@ class ProductController extends Controller
             return redirect('/produk');
         }
 
-        toast('Berhasil Menambah Produk','success');
+        Logs::create(['log_name' => 'Import', 'log_msg' => "Import Product Berhasil", 'log_userid' => Auth::user()->id, 'log_tanggal' => Carbon::now()->setTimezone('Asia/Jakarta')->format('Y-m-d H:i:s')]);
+
         return redirect('/produk');
     }
 }
