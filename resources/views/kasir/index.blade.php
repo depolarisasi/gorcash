@@ -82,6 +82,7 @@
                                 <option value="GoPay">GoPay</option>
                                 <option value="ShopeePay">ShopeePay</option>
                                 <option value="OVO">OVO</option>
+                                <option value="QRIS">QRIS</option>
                                 <option value="Transfer Bank BCA">Transfer Bank BCA</option>
                                 <option value="Transfer Bank BNI">Transfer Bank BNI</option>
                                 <option value="Transfer Bank Mandiri">Transfer Bank Mandiri</option>
