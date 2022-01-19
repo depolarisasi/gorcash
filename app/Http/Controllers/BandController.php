@@ -23,7 +23,7 @@ class BandController extends Controller
 {
     public function index()
     {
-        $band = Band::get();
+        $band = Band::orderBy('band_nama','ASC')->get();
         return view('band.index')->with(compact('band'));
     }
 

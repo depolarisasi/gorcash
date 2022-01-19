@@ -37,11 +37,15 @@
         @csrf
     <div class="row mb-3">
         <div class="col-md-4">
-            <div class="row">
+            <div class="form-group row">
             <label class="col-md-4">Nama Publish</label>
             <input id="name" type="text" class="form-control col-md-8" name="publish_name" value="{{$infopub->publish_name?$infopub->publish_name:null}}">
             <input type="hidden" name="publish_groupid" value="{{$infopub->publish_groupid}}">
             </div>
+            <div class="form-group row">
+                <label class="col-md-4">Tanggal Publish</label>
+                <input id="tanggal" type="date" class="form-control col-md-8" name="publish_tanggal" value="{{$infopub->publish_tanggal?$infopub->publish_tanggal:null}}">
+                </div>
         </div>
     </div>
 

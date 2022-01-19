@@ -119,7 +119,7 @@ class ProductController extends Controller
         // }
 
         $vendor = Vendor::get();
-        $band = Band::get();
+        $band = Band::orderBy('band_nama','ASC')->get();
         $size = Size::get();
         return view('produks.index')->with(compact('produk','vendor','band','size'));
         // return $produk;
@@ -152,7 +152,7 @@ class ProductController extends Controller
         // }
 
         $vendor = Vendor::get();
-        $band = Band::get();
+        $band = Band::orderBy('band_nama','ASC')->get();
         $size = Size::get();
         return view('produks.outofstock')->with(compact('produk','vendor','band','size'));
         // return $produk;
@@ -165,7 +165,7 @@ class ProductController extends Controller
         $sizeanak = Size::where('size_category','Anak Anak')->get();
         $sizedewasa = Size::where('size_category','Dewasa')->get();
         $sizebarang = Size::where('size_category','Barang')->get();
-        $band = Band::get();
+        $band = Band::orderBy('band_nama','ASC')->get();
         $color = Color::get();
         $type = TypeProduct::get();
         $barcode = BarcodeDB::get();
@@ -458,7 +458,7 @@ class ProductController extends Controller
 
         $vendor = Vendor::get();
         $size = Size::get();
-        $band = Band::get();
+        $band = Band::orderBy('band_nama','ASC')->get();
         return view('produks.select')->with(compact('produk','vendor','size','band'));
     }
 
@@ -482,7 +482,7 @@ class ProductController extends Controller
 
         $vendor = Vendor::get();
         $size = Size::get();
-        $band = Band::get();
+        $band = Band::orderBy('band_nama','ASC')->get();
         $color = Color::get();
         return view('produks.edit')->with(compact('edit','vendor','size','band','color'));
     }

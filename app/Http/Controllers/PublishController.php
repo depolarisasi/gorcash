@@ -148,6 +148,7 @@ public function apimassunpublish(Request $request){
             $product->product_material = $request->product_material[$key];
             $product->product_madein = $request->product_madein[$key];
             $product->product_condition = $request->product_condition[$key];
+            $product->product_tanggalpublish = $request->publish_tanggal;
             if($product->product_status == 1){
                 $product->product_stok = $request->product_stok[$key];
                 $product->product_stokakhir = $request->product_stokakhir[$key];
@@ -157,6 +158,7 @@ public function apimassunpublish(Request $request){
             $editpublish->publish_stok = $request->product_stok[$key];
             $editpublish->publish_stokakhir = $request->product_stokakhir[$key];
             $editpublish->publish_name = $request->publish_name;
+            $editpublish->publish_tanggal = $request->publish_tanggal;
             try {
             $editpublish->update();
             $product->update();

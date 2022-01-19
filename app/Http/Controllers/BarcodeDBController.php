@@ -165,6 +165,7 @@ class BarcodeDBController extends Controller
                 toast('Database Error!','error');
                 return redirect()->back();
             }
+Logs::create(['log_name' => 'Edit', 'log_msg' => "Edit Barcode ". $masterskulama." Menjadi ".$mastersku."Berhasil", 'log_userid' => Auth::user()->id, 'log_tanggal' => Carbon::now()->setTimezone('Asia/Jakarta')->format('Y-m-d H:i:s')]);
 
         toast('Master SKU sudah diubah!','success');
         return redirect('barcode');
