@@ -68,7 +68,7 @@ class HomeController extends Controller
         $weeklyproductsales = BarangTerjual::whereIn('barangterjual_tanggalbarangterjual',$dateweek)->count('barangterjual_qty');
         $weeklyproduct = [];
         $totalweekly = 0;
-        $totalmonthly = 0;
+        $totalmonthly = Penjualan::whereBetween('penjualan_tanggalpenjualan',[Carbon::now()->startOfMonth()->format('Y-m-d'),Carbon::now()->format('Y-m-d')])->sum('penjualan_totalpendapatan');
         foreach($dateweek as $dw){
             $sales = Penjualan::where('penjualan_tanggalpenjualan',$dw)->first();
             $products = BarangTerjual::where('barangterjual_tanggalbarangterjual',$dw)->count('barangterjual_qty');
@@ -76,11 +76,7 @@ class HomeController extends Controller
             $totalweekly = $totalweekly + ($sales?$sales->penjualan_totalpendapatan:0);
             array_push($weeklyproduct, $products?$products:0);
         }
-        foreach($datemonth as $dm){
-            $sales = Penjualan::where('penjualan_tanggalpenjualan',$dm)->first();
-            array_push($monthlysales, $sales?$sales->penjualan_totalpendapatan:0);
-            $totalmonthly = $totalmonthly + ($sales?$sales->penjualan_totalpendapatan:0);
-        }
+
         $salesweekly = json_encode($weeklysales);
         $productweekly = json_encode($weeklyproduct);
         $salesmonthly= json_encode($monthlysales);
