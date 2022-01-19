@@ -11,6 +11,7 @@ use App\Models\Product;
 use App\Models\Color;
 use App\Models\TypeProduct;
 use App\Models\BarcodeDB;
+use Auth;
 use App\Models\Logs;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -164,9 +165,9 @@ class BarcodeDBController extends Controller
              }
             } catch (QE $e) {
                 toast('Database Error!','error');
-                return redirect()->back();
+                return $e;
             }
-Logs::create(['log_name' => 'Edit', 'log_msg' => "Edit Barcode ". $masterskulama." Menjadi ".$mastersku."Berhasil", 'log_userid' => Auth::user()->id, 'log_tanggal' => Carbon::now()->setTimezone('Asia/Jakarta')->format('Y-m-d H:i:s')]);
+        Logs::create(['log_name' => 'Edit', 'log_msg' => "Edit Barcode ". $masterskulama." Menjadi ".$mastersku."Berhasil", 'log_userid' => Auth::user()->id, 'log_tanggal' => Carbon::now()->setTimezone('Asia/Jakarta')->format('Y-m-d H:i:s')]);
 
         toast('Master SKU sudah diubah!','success');
         return redirect('barcode');
