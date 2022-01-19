@@ -11,6 +11,7 @@ use App\Models\Product;
 use App\Models\Color;
 use App\Models\TypeProduct;
 use App\Models\BarcodeDB;
+use App\Models\Logs;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Database\QueryException as QE;

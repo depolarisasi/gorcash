@@ -11,6 +11,7 @@ use App\Models\Vendor;
 use App\Models\Product;
 use App\Models\Color;
 use App\Models\TypeProduct;
+use App\Models\Logs;
 use App\Models\BarcodeDB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
