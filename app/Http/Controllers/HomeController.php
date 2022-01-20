@@ -18,7 +18,7 @@ class HomeController extends Controller
         $produkstokrendah = Product::join('size','size.size_id','=','product.product_idsize')
         ->join('band','band.band_id','=','product.product_idband')
         ->select('product.*','size.size_id','size.size_nama','band.band_id','band.band_nama')
-        ->where('product_stok','=',0)->limit(10)->get();
+        ->where('product_stok','=',0)->sortBy('updated_at','DESC')->limit(10)->get();
         $note = Notes::where('note_judul','NOT LIKE','%Workflow%')->limit(9)->get();
         $agenda = Agenda::limit(9)->get();
         $today = Carbon::now()->setTimezone('Asia/Jakarta')->isoFormat('dddd');
