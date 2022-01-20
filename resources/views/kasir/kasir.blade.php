@@ -95,6 +95,7 @@
                                 <option value="Ninja Express">Ninja Express</option>
                                 <option value="ID Express">ID Express</option>
                                 <option value="Pos Indonesia">Pos Indonesia</option>
+                                <option value="Shopee Express">Shopee Express</option>
                               </select>
                         </div>
                       </div>
