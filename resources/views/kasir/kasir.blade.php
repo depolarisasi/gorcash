@@ -327,7 +327,7 @@
 <!--end::Content-->
 @section('js')
 <script>
-var max_fields = 10; //maximum input boxes allowed
+var max_fields = 50; //maximum input boxes allowed
 var wrapper = $('#tbody'); //Fields wrapper
 var wrapperpotongan = $('#wrapperpotongan'); //Fields wrapper
 var x = 0; //initlal text box count
