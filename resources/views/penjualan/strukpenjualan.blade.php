@@ -87,7 +87,7 @@ img {
 
         <br>
             <p>
-                Tanggal : {{$data[0]['penjualan_tanggalpenjualan']}} </br>
+                Tanggal : {{$data[0]['penjualan_tanggalwaktupenjualan']}} </br>
                 Invoice   :  {{$data[0]['penjualan_invoice']}}</br>
                 Channel   : {{$data[0]['penjualan_channel']}}</br>
                 Customer   : {{$data[0]['penjualan_customername']}} </br>

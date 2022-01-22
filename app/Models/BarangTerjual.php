@@ -31,6 +31,7 @@ class BarangTerjual extends Model
     'barangterjual_totalpendapatan',
     'barangterjual_tanggalbarangterjual',
     'barangterjual_userid',
+    'barangterjual_tanggalwaktubarangterjual',
         'created_at',
         'updated_at', ];
 }

@@ -94,7 +94,7 @@
 
                     @foreach($penjualan as $key => $p)
                     <tr>
-                        <td>{{$p->penjualan_tanggalpenjualan}}</td>
+                        <td>{{$p->penjualan_tanggalwaktupenjualan}}</td>
                         <td>{{$p->penjualan_channel}}</td>
                         <td><ol class="styled">
                             @php $counter = count($barang[$key]); @endphp

@@ -97,7 +97,7 @@ class StokOpnameController extends Controller
             $from = Carbon::parse($p->publish_tanggal)->format('Y-m-d');
             $to = Carbon::parse($p->publish_tanggal)->addDays(7)->format('Y-m-d');
             $penjualan = BarangTerjual::where('barangterjual_idproduk',$p->product_id)
-            ->whereBetween('barangterjual_tanggalbarangterjual', [$from, $to])->get();
+            ->whereBetween('barangterjual_tanggalwaktubarangterjual', [$from, $to])->get();
 
             $count = 0;
             foreach($penjualan as $pp){
@@ -122,7 +122,7 @@ class StokOpnameController extends Controller
             $from = Carbon::parse($p->publish_tanggal)->format('Y-m-d');
             $to = Carbon::parse($p->publish_tanggal)->addDays(7)->format('Y-m-d');
             $penjualan = BarangTerjual::where('barangterjual_idproduk',$p->product_id)
-            ->whereBetween('barangterjual_tanggalbarangterjual', [$from, $to])->get();
+            ->whereBetween('barangterjual_tanggalwaktubarangterjual', [$from, $to])->get();
 
             $count = 0;
             foreach($penjualan as $pp){
@@ -208,7 +208,7 @@ class StokOpnameController extends Controller
                 $from = Carbon::parse($publish->publish_tanggal)->format('Y-m-d');
                 $to = Carbon::parse($publish->publish_tanggal)->addDays(7)->format('Y-m-d');
                 $checkpenjualan = BarangTerjual::where('barangterjual_idproduk',$product->product_id)
-                ->whereBetween('barangterjual_tanggalbarangterjual', [$from, $to])->get();
+                ->whereBetween('barangterjual_tanggalwaktubarangterjual', [$from, $to])->get();
                 if(count($checkpenjualan) > 0){
                     $qtyterjual = 0;
                     $channelterjual = array();

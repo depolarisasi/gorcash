@@ -118,7 +118,7 @@ class PenjualanController extends Controller
         // $pdf = PDF::loadView('penjualan.struk', $data);
         // $path = public_path('pdf/');
         // $random = substr(md5(mt_rand()), 0, 7);
-        // $fileName =  $penjualan->penjualan_id.'_'.$penjualan->penjualan_tanggalpenjualan.$random.'.pdf' ;
+        // $fileName =  $penjualan->penjualan_id.'_'.$penjualan->penjualan_tanggalwaktupenjualan.$random.'.pdf' ;
 
         //$pdf->save($path.$fileName);
         //return $data;
@@ -177,7 +177,7 @@ class PenjualanController extends Controller
             $produkkeluar->barangterjual_idproduk = $request->productid;
             $produkkeluar->barangterjual_qty = $request->qty;
             $produkkeluar->barangterjual_totalbarangterjual = $produk->product_hargajual;
-            $produkkeluar->barangterjual_tanggalbarangterjual = $request->tanggalpenjualan;
+            $produkkeluar->barangterjual_tanggalwaktubarangterjual = $request->tanggalpenjualan;
             $produkkeluar->barangterjual_userid = Auth::user()->id;
             $produkkeluar->save();
          } catch (QE $e) {
@@ -250,7 +250,7 @@ class PenjualanController extends Controller
             $produkkeluar->barangterjual_diskon = $potonganharga;
             $produkkeluar->barangterjual_totalbarangterjual = $produk->product_hargajual*$request->qtyorders[$key];
             $produkkeluar->barangterjual_totalpendapatan = ($produk->product_hargajual*$request->qtyorders[$key])-$potonganharga;
-            $produkkeluar->barangterjual_tanggalbarangterjual = $request->penjualan_tanggalpenjualan;
+            $produkkeluar->barangterjual_tanggalwaktubarangterjual = $request->penjualan_tanggalwaktupenjualan;
             $produkkeluar->barangterjual_userid = Auth::user()->id;
             $produk->product_stokakhir = $produk->product_stokakhir-$request->qtyorders[$key];
             if($produk->status == 1){
@@ -276,7 +276,7 @@ class PenjualanController extends Controller
             $riwayat->riwayatpotongan_namapotongan = $val;
             $riwayat->riwayatpotongan_jumlahpotongan = $request->potongantotal[$key];
             $riwayat->riwayatpotongan_idpenjualan = $addpenjualan->penjualan_id;
-            $riwayat->riwayatpotongan_tanggalriwayatpotongan = $request->penjualan_tanggalpenjualan;
+            $riwayat->riwayatpotongan_tanggalriwayatpotongan = $request->penjualan_tanggalwaktupenjualan;
             $riwayat->riwayatpotongan_userid = Auth::user()->id;
             $riwayat->save();
             $riwayatid = $riwayat->riwayatpotongan_id;
@@ -303,7 +303,7 @@ class PenjualanController extends Controller
         $pdf = PDF::loadView('penjualan.strukpenjualan', compact('data'));
         $path = public_path('pdf/');
         $random = substr(md5(mt_rand()), 0, 7);
-        $fileName =  $addpenjualan->penjualan_id.'_'.$addpenjualan->penjualan_tanggalpenjualan.$random.'.pdf' ;
+        $fileName =  $addpenjualan->penjualan_id.'_'.$addpenjualan->penjualan_tanggalwaktupenjualan.$random.'.pdf' ;
         $updatepenjualan->penjualan_receipt = $path.$fileName;
         $updatepenjualan->update();
 

@@ -65,13 +65,13 @@ class HomeController extends Controller
 
         $weeklysales = [];
         $monthlysales = [];
-        $weeklyproductsales = BarangTerjual::whereIn('barangterjual_tanggalbarangterjual',$dateweek)->count('barangterjual_qty');
+        $weeklyproductsales = BarangTerjual::whereIn('barangterjual_tanggalwaktubarangterjual',$dateweek)->count('barangterjual_qty');
         $weeklyproduct = [];
         $totalweekly = 0;
-        $totalmonthly = Penjualan::whereBetween('penjualan_tanggalpenjualan',[Carbon::now()->startOfMonth()->format('Y-m-d'),Carbon::now()->format('Y-m-d')])->sum('penjualan_totalpendapatan');
+        $totalmonthly = Penjualan::whereBetween('penjualan_tanggalwaktupenjualan',[Carbon::now()->startOfMonth()->format('Y-m-d'),Carbon::now()->format('Y-m-d')])->sum('penjualan_totalpendapatan');
         foreach($dateweek as $dw){
-            $sales = Penjualan::where('penjualan_tanggalpenjualan',$dw)->first();
-            $products = BarangTerjual::where('barangterjual_tanggalbarangterjual',$dw)->count('barangterjual_qty');
+            $sales = Penjualan::where('penjualan_tanggalwaktupenjualan',$dw)->first();
+            $products = BarangTerjual::where('barangterjual_tanggalwaktubarangterjual',$dw)->count('barangterjual_qty');
             array_push($weeklysales, $sales?$sales->penjualan_totalpendapatan:0);
             $totalweekly = $totalweekly + ($sales?$sales->penjualan_totalpendapatan:0);
             array_push($weeklyproduct, $products?$products:0);
@@ -84,10 +84,10 @@ class HomeController extends Controller
         $recentsales = BarangTerjual::join('product','product.product_id','=','barangterjual.barangterjual_idproduk')
         ->join('band','band.band_id','=','product.product_idband')
         ->select('product.product_nama','product.product_foto','product.product_hargajual','barangterjual.*','band.band_nama')
-        ->orderBy('barangterjual.barangterjual_tanggalbarangterjual','DESC')->limit(10)->get();
-        $pendapatanthismonth = Penjualan::whereMonth('penjualan_tanggalpenjualan',Carbon::now()->format('m'))->sum('penjualan_totalpendapatan');
-        $diskonthismonth = Penjualan::whereMonth('penjualan_tanggalpenjualan',Carbon::now()->format('m'))->sum('penjualan_diskon');
-        $potonganthismonth = Penjualan::whereMonth('penjualan_tanggalpenjualan',Carbon::now()->format('m'))->sum('penjualan_totalpotongan');
+        ->orderBy('barangterjual.barangterjual_tanggalwaktubarangterjual','DESC')->limit(10)->get();
+        $pendapatanthismonth = Penjualan::whereMonth('penjualan_tanggalwaktupenjualan',Carbon::now()->format('m'))->sum('penjualan_totalpendapatan');
+        $diskonthismonth = Penjualan::whereMonth('penjualan_tanggalwaktupenjualan',Carbon::now()->format('m'))->sum('penjualan_diskon');
+        $potonganthismonth = Penjualan::whereMonth('penjualan_tanggalwaktupenjualan',Carbon::now()->format('m'))->sum('penjualan_totalpotongan');
         $dataproporsi = json_encode([$pendapatanthismonth, $diskonthismonth, $potonganthismonth]);
 
         return view('laporan')->with(compact('dataproporsi','weeklydate','salesweekly','totalweekly','monthlydate','salesmonthly','totalmonthly','recentsales','productweekly','weeklyproductsales','recentsales'));

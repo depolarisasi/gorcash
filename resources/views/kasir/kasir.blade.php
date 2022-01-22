@@ -78,7 +78,7 @@
                     <div class="form-group row mt-4">
                         <label class="col-md-4">Tanggal Penjualan <span class="text-danger">*</span></label>
                         <div class="col-md-8">
-                            <input class="form-control" id="tanggalpenjualan" type="date" name="penjualan_tanggalpenjualan" value="{{\Carbon\Carbon::now()->format('Y-m-d')}}" required/>
+                            <input class="form-control" id="tanggalpenjualan" type="datetime-local" name="penjualan_tanggalwaktupenjualan" value="{{\Carbon\Carbon::now()->setTimezone('Asia/Jakarta')->setTimezone('Asia/Jakarta')->format('Y-m-d H:i:s')}}" required/>
                         </div>
                       </div>
                       <div class="form-group row mt-4">

@@ -42,6 +42,7 @@ class Penjualan extends Model
     'penjualan_kurir',
     'penjualan_resi',
     'penjualan_userid',
+    'penjualan_tanggalwaktupenjualan',
         'created_at',
         'updated_at', ];
 }

@@ -18,7 +18,7 @@ class BarangterjualChangeNull extends Migration
             $table->string('barangterjual_idpenjualan')->nullable()->change();
             $table->string('barangterjual_qty')->nullable()->change();
             $table->string('barangterjual_totalbarangterjual')->nullable()->change();
-            $table->string('barangterjual_tanggalbarangterjual')->nullable()->change();
+            $table->string('barangterjual_tanggalwaktubarangterjual')->nullable()->change();
             $table->integer('barangterjual_userid')->nullable()->change();
         });
     }

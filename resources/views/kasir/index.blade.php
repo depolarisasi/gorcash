@@ -71,7 +71,7 @@
                     <div class="form-group row mt-4">
                         <label class="col-md-4">Tanggal Penjualan</label>
                         <div class="col-md-8">
-                            <input class="form-control" type="date" name="penjualan_tanggalpenjualan"/>
+                            <input class="form-control" type="datetime-local" name="penjualan_tanggalwaktupenjualan"/>
                         </div>
                       </div>
                       <div class="form-group row mt-4">

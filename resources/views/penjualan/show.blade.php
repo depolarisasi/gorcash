@@ -27,7 +27,7 @@
                     <div class="d-flex justify-content-between">
                         <div class="d-flex flex-column flex-root">
                             <span class="font-weight-bolder mb-2">Tanggal Penjualan</span>
-                            <span class="opacity-70">{{$penjualan->penjualan_tanggalpenjualan}}</span>
+                            <span class="opacity-70">{{$penjualan->penjualan_tanggalwaktupenjualan}}</span>
                         </div>
 
                         <div class="d-flex flex-column flex-root">

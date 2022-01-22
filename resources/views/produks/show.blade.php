@@ -115,7 +115,7 @@
 
                     @foreach($barangterjual as $b)
                     <tr>
-                        <td>{{$b->barangterjual_tanggalbarangterjual}}</td>
+                        <td>{{$b->barangterjual_tanggalwaktubarangterjual}}</td>
                         <td>{{$b->product_sku}} - {{$b->product_nama}}</td>
                         <td>{{$b->penjualan_channel}}</td>
                         <td>@money($b->barangterjual_totalbarangterjual)</td>

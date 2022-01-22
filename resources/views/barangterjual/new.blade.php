@@ -111,7 +111,7 @@
                     <div class="form-group row mt-4">
                         <label class="col-md-2">Tanggal Beli</label>
                         <div class="col-md-10">
-                            <input class="form-control" type="date" name="produk_tanggalbeli"/>
+                            <input class="form-control" type="datetime-local" name="produk_tanggalbeli"/>
                         </div>
                       </div>
 

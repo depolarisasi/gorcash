@@ -91,7 +91,7 @@
 
                     @foreach($barangterjual as $key => $b)
                     <tr>
-                        <td>{{$b->barangterjual_tanggalbarangterjual}}</td>
+                        <td>{{$b->barangterjual_tanggalwaktubarangterjual}}</td>
                         <td>{{$b->penjualan_channel}}</td>
                         <td>{{$b->product_sku}}</td>
                         <td>{{$b->band_nama}}</td>
