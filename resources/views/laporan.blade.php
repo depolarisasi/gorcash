@@ -108,7 +108,7 @@ Penjualan </h5>
         </svg><!--end::Svg Icon--></span>              </span>
     </span>
     <div class="d-flex flex-column text-right">
-    <span class="text-dark-75 font-weight-bolder font-size-h3">{{$totalmonthly}}</span>
+    <span class="text-dark-75 font-weight-bolder font-size-h3">@money($totalmonthly)</span>
     <span class="text-muted font-weight-bold mt-2">Pendapatan Bulan Ini</span>
     </div>
     </div>
