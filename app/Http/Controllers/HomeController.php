@@ -105,7 +105,7 @@ class HomeController extends Controller
         $potonganthismonth = Penjualan::whereMonth('penjualan_tanggalwaktupenjualan',Carbon::now()->format('m'))->sum('penjualan_totalpotongan');
         $dataproporsi = json_encode([$pendapatanthismonth, $diskonthismonth, $potonganthismonth]);
 
-        // return view('laporan')->with(compact('totaltoday','productweek','productmonth','producttoday','weeklyproduct','productmonth','productweek','monthlyproduct','dataproporsi','weeklydate','salesweekly','totalweekly','monthlydate','salesmonthly','totalmonthly','recentsales','productweekly','weeklyproductsales','recentsales'));
-        return $productmonthly;
+        return view('laporan')->with(compact('totaltoday','productweek','productmonth','producttoday','weeklyproduct','productmonth','productweek','monthlyproduct','dataproporsi','weeklydate','salesweekly','totalweekly','monthlydate','salesmonthly','totalmonthly','recentsales','productweekly','weeklyproductsales','recentsales'));
+        // return $productmonthly;
     }
 }
