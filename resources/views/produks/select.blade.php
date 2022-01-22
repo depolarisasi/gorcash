@@ -79,9 +79,13 @@
 
 					<td>{{$p->product_vendor}}</td>
                     <td>{{$p->band_nama}}</td>
-                    <td><p><span class="label label-danger label-lg label-inline mr-2">Rp{{$p->product_hargabeli}}</span> </p>
+                    <td>@if(Auth::user()->role == 1)
+                        <p><span class="label label-danger label-lg label-inline mr-2">Rp{{$p->product_hargabeli}}</span> </p>
+                        @endif
                         <p><span class="label label-primary label-lg label-inline mr-2">Rp{{$p->product_hargajual}}</span> </p>
-                        <p><span class="label label-success label-lg label-inline mr-2">Rp{{$p->product_hargajual - $p->product_hargabeli}}</span> </p></td>
+                        >@if(Auth::user()->role == 1)
+                        <p><span class="label label-success label-lg label-inline mr-2">Rp{{$p->product_hargajual - $p->product_hargabeli}}</span> </p>
+                        @endif</td>
                         <td>{{$p->product_stok}}</td>
                         <td>{{$p->product_stokakhir}}</td>
 					<td>
