@@ -65,12 +65,12 @@ class HomeController extends Controller
         $weeklyproductsales = BarangTerjual::whereIn('barangterjual_tanggalwaktubarangterjual',$dateweek)->sum('barangterjual_qty');
         $weeklyproduct = [];
         $monthlyproduct = [];
-        $totaltoday = Penjualan::where('penjualan_tanggalwaktupenjualan', '2022-01-22')->sum('penjualan_paymenttotal');
+        $totaltoday = Penjualan::where('penjualan_tanggalwaktupenjualan', ' ')->sum('penjualan_paymenttotal');
         $totalweekly = Penjualan::whereBetween('penjualan_tanggalwaktupenjualan',[Carbon::now()->setTimezone('Asia/Jakarta')->startOfWeek()->format('Y-m-d'),Carbon::now()->setTimezone('Asia/Jakarta')->format('Y-m-d')])->sum('penjualan_totalpendapatan');
         $totalmonthly = Penjualan::whereBetween('penjualan_tanggalwaktupenjualan',[Carbon::now()->setTimezone('Asia/Jakarta')->startOfMonth()->format('Y-m-d'),Carbon::now()->setTimezone('Asia/Jakarta')->format('Y-m-d')])->sum('penjualan_totalpendapatan');
         $weeklypendapatan = 0; 
         $monthlypendapatan = 0;
-        $producttoday = BarangTerjual::where('barangterjual_tanggalwaktubarangterjual','2022-01-22')->sum('barangterjual_qty');
+        $producttoday = BarangTerjual::where('barangterjual_tanggalwaktubarangterjual',' ')->sum('barangterjual_qty');
         $totproductweek = BarangTerjual::whereBetween('barangterjual_tanggalwaktubarangterjual',[Carbon::now()->setTimezone('Asia/Jakarta')->startOfWeek()->format('Y-m-d'),Carbon::now()->setTimezone('Asia/Jakarta')->format('Y-m-d')])->sum('barangterjual_qty');
         $totproductmonth = BarangTerjual::whereBetween('barangterjual_tanggalwaktubarangterjual',[Carbon::now()->setTimezone('Asia/Jakarta')->startOfMonth()->format('Y-m-d'),Carbon::now()->setTimezone('Asia/Jakarta')->format('Y-m-d')])->sum('barangterjual_qty');
         
@@ -134,12 +134,12 @@ class HomeController extends Controller
         $weeklyproductsales = BarangTerjual::whereIn('barangterjual_tanggalwaktubarangterjual',$dateweek)->sum('barangterjual_qty');
         $weeklyproduct = [];
         $monthlyproduct = [];
-        $totaltoday = Penjualan::where('penjualan_tanggalwaktupenjualan', '2022-01-22')->sum('penjualan_paymenttotal');
+        $totaltoday = Penjualan::where('penjualan_tanggalwaktupenjualan',Carbon::now()->setTimezone('Asia/Jakarta')->format('Y-m-d'))->sum('penjualan_paymenttotal');
         $totalweekly = Penjualan::whereBetween('penjualan_tanggalwaktupenjualan',[Carbon::now()->setTimezone('Asia/Jakarta')->startOfWeek()->format('Y-m-d'),Carbon::now()->setTimezone('Asia/Jakarta')->format('Y-m-d')])->sum('penjualan_totalpendapatan');
         $totalmonthly = Penjualan::whereBetween('penjualan_tanggalwaktupenjualan',[Carbon::now()->setTimezone('Asia/Jakarta')->startOfMonth()->format('Y-m-d'),Carbon::now()->setTimezone('Asia/Jakarta')->format('Y-m-d')])->sum('penjualan_totalpendapatan');
         $weeklypendapatan = 0; 
         $monthlypendapatan = 0;
-        $producttoday = BarangTerjual::where('barangterjual_tanggalwaktubarangterjual','2022-01-22')->sum('barangterjual_qty');
+        $producttoday = BarangTerjual::where('barangterjual_tanggalwaktubarangterjual',Carbon::now()->setTimezone('Asia/Jakarta')->format('Y-m-d'))->sum('barangterjual_qty');
         $totproductweek = BarangTerjual::whereBetween('barangterjual_tanggalwaktubarangterjual',[Carbon::now()->setTimezone('Asia/Jakarta')->startOfWeek()->format('Y-m-d'),Carbon::now()->setTimezone('Asia/Jakarta')->format('Y-m-d')])->sum('barangterjual_qty');
         $totproductmonth = BarangTerjual::whereBetween('barangterjual_tanggalwaktubarangterjual',[Carbon::now()->setTimezone('Asia/Jakarta')->startOfMonth()->format('Y-m-d'),Carbon::now()->setTimezone('Asia/Jakarta')->format('Y-m-d')])->sum('barangterjual_qty');
         
