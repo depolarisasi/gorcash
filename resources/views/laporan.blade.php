@@ -166,7 +166,7 @@ Penjualan </h5>
             </svg><!--end::Svg Icon--></span>              </span>
         </span>
         <div class="d-flex flex-column text-right">
-        <span class="text-dark-75 font-weight-bolder font-size-h3">{{$productweek}}</span>
+        <span class="text-dark-75 font-weight-bolder font-size-h3">{{$totproductweek}}</span>
         <span class="text-muted font-weight-bold mt-2">Barang Terjual Minggu Ini</span>
         </div>
         </div>
@@ -195,7 +195,7 @@ Penjualan </h5>
                 </svg><!--end::Svg Icon--></span>              </span>
             </span>
             <div class="d-flex flex-column text-right">
-            <span class="text-dark-75 font-weight-bolder font-size-h3">{{$productmonth}}</span>
+            <span class="text-dark-75 font-weight-bolder font-size-h3">{{$totproductmonth}}</span>
             <span class="text-muted font-weight-bold mt-2">Barang Terjual Bulan Ini</span>
             </div>
             </div>
@@ -422,8 +422,8 @@ Penjualan </h5>
             }
         };
 
-        var chart2 = new ApexCharts(element, options);
-        chart2.render();
+        var chart = new ApexCharts(element, options);
+        chart.render();
 
 
         var monthelement = document.getElementById("monthpenchart");
@@ -563,7 +563,7 @@ Penjualan </h5>
         var productoptions = {
             series: [{
                 name: 'Product Weekly Sales',
-                data: {!! $productweek !!}
+                data: {!! $productweekly !!}
             }],
             chart: {
                 type: 'area',
@@ -681,35 +681,8 @@ Penjualan </h5>
             }
         };
 
-        var chart3 = new ApexCharts(productelement, productoptions);
-        chart3.render();
-
-
-        const chartdonut = "#chartdonut";
-		var options4 = {
-			series: {!! $dataproporsi !!},
-			chart: {
-				width: 480,
-				type: 'pie',
-			},
-			labels: ['Penjualan', 'Potongan / Diskon Total', 'Diskon Individu'],
-			responsive: [{
-				breakpoint: 480,
-				options: {
-					chart: {
-						width: 240
-					},
-					legend: {
-						position: 'bottom'
-					}
-				}
-			}],
-			colors: [success, warning, danger,]
-		};
-
-		var chart4 = new ApexCharts(document.querySelector(chartdonut), options4);
-		chart4.render();
-
+        var chart6 = new ApexCharts(productelement, productoptions);
+        chart6.render();
 
         var productmonthelement = document.getElementById("monthproductchart");
 
@@ -719,7 +692,7 @@ Penjualan </h5>
         var productmonthoptions = {
             series: [{
                 name: 'Product Monthly Sales',
-                data: {!! $productmonth !!}
+                data: {!! $productmonthly !!}
             }],
             chart: {
                 type: 'area',
@@ -837,8 +810,37 @@ Penjualan </h5>
             }
         };
 
-        var chart5 = new ApexCharts(productelement, productoptions);
+        var chart5 = new ApexCharts(productmonthelement, productmonthoptions);
         chart5.render();
+
+        
+        const chartdonut = "#chartdonut";
+		var options4 = {
+			series: {!! $dataproporsi !!},
+			chart: {
+				width: 480,
+				type: 'pie',
+			},
+			labels: ['Penjualan', 'Potongan / Diskon Total', 'Diskon Individu'],
+			responsive: [{
+				breakpoint: 480,
+				options: {
+					chart: {
+						width: 240
+					},
+					legend: {
+						position: 'bottom'
+					}
+				}
+			}],
+			colors: [success, warning, danger,]
+		};
+
+		var chart4 = new ApexCharts(document.querySelector(chartdonut), options4);
+		chart4.render();
+
+
+
 
 
 </script>
