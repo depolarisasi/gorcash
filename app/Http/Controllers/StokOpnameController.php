@@ -196,7 +196,7 @@ class StokOpnameController extends Controller
             $so->so_stok = $publish->publish_stok;
             $so->so_stokakhir = $publish->publish_stokakhir;
             $so->so_stokterjual = $request->stokterjual[$key];
-            $so->so_selisih = $request->selisih[$key];
+            $so->so_selisih = (int) $publish->publish_stokakhir - (int) $request->stokril[$key];
             $so->so_stokakhirreal = $request->stokril[$key];
             $so->so_type = 1;
             $so->so_userid = $request->so_userid;
@@ -248,7 +248,7 @@ class StokOpnameController extends Controller
                 $so->so_stok = $product->product_stok;
                 $so->so_stokakhir = $product->product_stokakhir;
                 $so->so_stokterjual = $request->stokterjual[$key];
-                $so->so_selisih = $request->selisih[$key];
+                $so->so_selisih = (int)$product->publish_stokakhir - (int) $request->stokril[$key];
                 $so->so_stokakhirreal = $request->stokril[$key];
                 $so->so_type = 2;
                 $so->so_userid = $request->so_userid;
@@ -277,9 +277,9 @@ class StokOpnameController extends Controller
             }else {
                 $so = StokOpname::where('so_sku',$p)->first();
                 $product = Product::where('product_sku', $p)->first();
-                $so->so_selisih = $request->selisih[$key];
                 $so->so_stokterjual = $request->stokterjual[$key];
                 $so->so_stokakhirreal = $request->stokril[$key];
+                $so->so_selisih = (int) $product->publish_stokakhir - (int) $request->stokril[$key];
                 $so->so_status = 1;
                 $so->so_type = 2;
                 if($request->stokril[$key] == $request->stoksisa[$key]){
@@ -328,7 +328,7 @@ class StokOpnameController extends Controller
                 $so->so_stok = $product->product_stok;
                 $so->so_stokakhir = $product->product_stokakhir;
                 $so->so_stokterjual = $request->stokterjual[$key];
-                $so->so_selisih = $request->selisih[$key];
+                $so->so_selisih =(int)$product->publish_stokakhir - (int) $request->stokril[$key];$request->selisih[$key];
                 $so->so_stokakhirreal = $request->stokril[$key];
                 $so->so_type = 2;
                 $so->so_userid = Auth::user()->id;
@@ -357,7 +357,7 @@ class StokOpnameController extends Controller
             }else {
                 $so = StokOpname::where('so_sku',$p)->first();
                 $product = Product::where('product_sku', $p)->first();
-                $so->so_selisih = $request->selisih[$key];
+                $so->so_selisih = (int)$product->publish_stokakhir - (int) $request->stokril[$key];
                 $so->so_stokterjual = $request->stokterjual[$key];
                 $so->so_stokakhirreal = $request->stokril[$key];
                 $so->so_status = 1;
@@ -396,7 +396,7 @@ class StokOpnameController extends Controller
         foreach($request->product_skus as $key => $p){
                 $updateso = StokOpname::where('so_sku',$p)->first();
                 $product = Product::where('product_sku', $p)->first();
-                $updateso->so_selisih = $request->selisih[$key];
+                $updateso->so_selisih = (int)$product->publish_stokakhir - (int) $request->stokril[$key];
                 $updateso->so_stokterjual = $request->stokterjual[$key];
                 $updateso->so_stokakhirreal = $request->stokril[$key];
                 $updateso->so_status = 1;
@@ -437,7 +437,7 @@ class StokOpnameController extends Controller
         foreach($request->product_skus as $key => $p){
                 $updateso = StokOpname::where('so_sku',$p)->first();
                 $product = Product::where('product_sku', $p)->first();
-                $updateso->so_selisih = $request->selisih[$key];
+                $updateso->so_selisih = (int)$product->publish_stokakhir - (int) $request->stokril[$key];
                 $updateso->so_stokterjual = $request->stokterjual[$key];
                 $updateso->so_stokakhirreal = $request->stokril[$key];
                 if($updateso->so_status == 1){
@@ -482,7 +482,7 @@ class StokOpnameController extends Controller
                     $so->so_stok = $product->product_stok;
                     $so->so_stokakhir = $product->product_stokakhir;
                     $so->so_stokterjual = $request->stokterjual[$key];
-                    $so->so_selisih = $request->selisih[$key];
+                    $so->so_selisih = (int)$product->publish_stokakhir - (int) $request->stokril[$key];
                     $so->so_stokakhirreal = $request->stokril[$key];
                     $so->so_type = 1;
                     $so->so_userid = $request->so_userid;
@@ -520,7 +520,7 @@ class StokOpnameController extends Controller
         foreach($request->product_skus as $key => $p){
             $product = StokOpname::where('so_sku', $p)->where('so_type',2)->where('so_date',$request->so_date)->where('so_status')->first();
             if($product){
-                $product->so_selisih = $request->selisih[$key];
+                $product->so_selisih = (int)$product->publish_stokakhir - (int) $request->stokril[$key];
                 $product->so_stokterjual = $request->stokterjual[$key];
                 $product->so_stokakhirreal = $request->stokril[$key];
                 $product->so_status = 2;
@@ -556,7 +556,7 @@ class StokOpnameController extends Controller
                 $so->so_stok = $product->product_stok;
                 $so->so_stokakhir = $product->product_stokakhir;
                 $so->so_stokterjual = $request->stokterjual[$key];
-                $so->so_selisih = $request->selisih[$key];
+                $so->so_selisih = (int)$product->publish_stokakhir - (int) $request->stokril[$key];
                 $so->so_stokakhirreal = $request->stokril[$key];
                 $so->so_type = 2;
                 $so->so_userid = Auth::user()->id;
