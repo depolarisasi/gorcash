@@ -44,7 +44,7 @@
 <div class="mb-7">
 	<div class="row ">
         <div class="col-md-4">
-			<div class="h2 mb-1">Laporan Stock Opname @if($info->so_type == 1) Mingguan @elseif($info->so_type == 2) Bulanan @endif</div>
+			<div class="h2 mb-1">Laporan Stock Opname @if($info->so_type == 1) Mingguan @elseif($info->so_type == 2) Bulanan {{$info->so_namaso}} ({{$info->so_char}})@endif</div>
             <p>Pemeriksa : <b>{{$info->so_userid}}</b></p>
             <p>Tanggal Periksa : {{\Carbon\Carbon::parse($info->so_date)->format('d M Y')}}</p>
 		</div>

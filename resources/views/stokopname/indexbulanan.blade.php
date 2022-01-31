@@ -39,6 +39,7 @@
         <thead>
             <tr>
                 <th>Tanggal</th>
+                <th>Nama / Abjad Band SO</th>
                 <th>Jumlah Produk</th>
                 <th>Action</th>
             </tr>
@@ -48,7 +49,8 @@
             @foreach($riwayatso as $p)
             <tr>
                 <td>{{\Carbon\Carbon::parse($p->so_date)->format('d-m-Y')}}</td>
-                <td>{{$p->count}}</td>
+                <td>{{$p->so_namaso}} ({{$p->so_char}})</td>
+                <td>{{$p->count}}</td> 
                 <td>
 
                     @if($p->so_status == 0)

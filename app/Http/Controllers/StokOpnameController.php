@@ -58,11 +58,34 @@ class StokOpnameController extends Controller
          return view('stokopname.indexbulanan')->with(compact('riwayatso'));
     }
 
-    public function sobulanan(){
-        $product = Product::join('size','size.size_id','product.product_idsize')
+    public function sobulanan(Request $request){
+        
+        $query = Product::join('size','size.size_id','product.product_idsize')
         ->join('band','band.band_id','product.product_idband')
-        ->select('product.*','size.size_nama','band.band_id','band.band_nama')
-        ->get();
+        ->select('product.*','size.size_nama','band.band_id','band.band_nama');
+
+        if($request->get('band') == '' || $request->get('band') == NULL )
+        { 
+        $band_selected = "";
+        $query->whereRaw('band.band_nama LIKE "'.$band_selected.'%"');
+        }else { 
+         $band_selected =  $request->get('band');
+         if($band_selected == '0-9'){ 
+            $query->whereRaw('band.band_nama LIKE "0%"');
+            $query->orWhereRaw('band.band_nama LIKE "1%"');
+            $query->orWhereRaw('band.band_nama LIKE "2%"');
+            $query->orWhereRaw('band.band_nama LIKE "3%"');
+            $query->orWhereRaw('band.band_nama LIKE "4%"');
+            $query->orWhereRaw('band.band_nama LIKE "5%"');
+            $query->orWhereRaw('band.band_nama LIKE "6%"');
+            $query->orWhereRaw('band.band_nama LIKE "7%"');
+            $query->orWhereRaw('band.band_nama LIKE "8%"');
+            $query->orWhereRaw('band.band_nama LIKE "9%"');
+         }else { 
+            $query->whereRaw('band.band_nama LIKE "'.$band_selected.'%"');
+         } 
+        }  
+        $product = $query->orderBy('band_nama','ASC')->get();
         foreach($product as $key => $p){
             $penjualan = BarangTerjual::where('barangterjual_idproduk',$p->product_id)->get();
             $count = 0;
@@ -82,7 +105,8 @@ class StokOpnameController extends Controller
             $product[$key]["stokterjual"] = $count;
         }
 
-        return view('stokopname.sobulanan')->with(compact('product'));
+        return view('stokopname.sobulanan')->with(compact('product','band_selected'));
+        // return $product->toSql();
     }
 
     public function somingguan($pubgroup){
@@ -252,6 +276,8 @@ class StokOpnameController extends Controller
                 $so->so_stokakhirreal = $request->stokril[$key];
                 $so->so_type = 2;
                 $so->so_userid = $request->so_userid;
+                $so->so_namaso = $request->so_namaso;
+                $so->so_char = $request->so_char;
                 $so->so_status = 1;
                 if($request->stokril[$key] == $request->stoksisa[$key]){
                     $so->so_keterangan = "Ada";
@@ -282,6 +308,8 @@ class StokOpnameController extends Controller
                 $so->so_selisih = (int) $product->publish_stokakhir - (int) $request->stokril[$key];
                 $so->so_status = 1;
                 $so->so_type = 2;
+                $so->so_namaso = $request->so_namaso;
+                $so->so_char = $request->so_char;
                 if($request->stokril[$key] == $request->stoksisa[$key]){
                     $so->so_keterangan = "Ada";
 
@@ -332,6 +360,8 @@ class StokOpnameController extends Controller
                 $so->so_stokakhirreal = $request->stokril[$key];
                 $so->so_type = 2;
                 $so->so_userid = Auth::user()->id;
+                $so->so_namaso = $request->so_namaso;
+                $so->so_char = $request->so_char;
                 $so->so_status = 1;
                 if($request->stokril[$key] == $request->stoksisa[$key]){
                     $so->so_keterangan = "Ada";
@@ -361,6 +391,8 @@ class StokOpnameController extends Controller
                 $so->so_stokterjual = $request->stokterjual[$key];
                 $so->so_stokakhirreal = $request->stokril[$key];
                 $so->so_status = 1;
+                $so->so_namaso = $request->so_namaso;
+                $so->so_char = $request->so_char;
                 if($request->stokril[$key] == $request->stoksisa[$key]){
                     $so->so_keterangan = "Ada";
 

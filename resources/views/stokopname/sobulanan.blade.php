@@ -26,7 +26,7 @@
 <span class="card-label font-weight-bolder text-dark">Stok Opname Bulanan</span>
 </h3>
 <div class="card-toolbar">
-<a href="{{url('stokopname/mingguan')}}" class="btn btn-primary btn-md font-size-sm"><i class="fas fa-arrow-left"></i> Kembali</a>
+<a href="{{url('stokopname/bulanan')}}" class="btn btn-primary btn-md font-size-sm"><i class="fas fa-arrow-left"></i> Kembali</a>
 </div>
 </div>
 <!--end::Header-->
@@ -39,6 +39,10 @@
             <div class="row ">
                 <div class="col-md-4">
                     <div class="row mb-3">
+                        <label class="col-md-4">Nama StokOpname</label>
+                        <input id="namaso" type="text" class="form-control col-md-8" name="so_namaso" value="SO Bulan {{Carbon\Carbon::now()->format('F')}} {{$band_selected    }}" required>
+                </div>
+                    <div class="row mb-3">
                             <label class="col-md-4">Nama Pemeriksa</label>
                             <input id="namapemeriksa" type="text" class="form-control col-md-8" name="so_userid" required>
                     </div>
@@ -46,19 +50,63 @@
                         <label class="col-md-4">Tanggal Periksa</label>
                         <input id="datepicker" type="text" class="form-control col-md-8" name="so_date" required>
                 </div>
-                </div>
+                </div> 
 
-                <div class="col-md-2">
-                    <p>Scan Barcode pada kotak disamping</p>
-                </div>
-                <div class="col-md-4">
+                 
+                <div class="col-md-8">
+                <div class="row mb-3"> 
+                    <label class="col-md-2">Silahka Masukan SKU Disini</label>
+                <div class="col-md-6">
                     <select class="form-control select2" id="productlist" name="param">
                         <option value="X">Masukan SKU Disini</option>
                         @foreach($product as $p)
                         <option value="{{$p->product_sku}}">{{$p->product_sku}} - {{$p->product_nama}} ({{$p->size_nama}})</option>
                         @endforeach
                        </select>
+
+                        
                 </div>
+                </div>
+                <div class="row mb-3">
+                    <label class="col-md-2">Pilih Abjad Awalan Band</label>
+                    <div class="col-md-4">
+                    <div class="d-flex align-items-center"> 
+                        <select class="form-control select2" id="selectband">
+                            <option value="?band=" @if($band_selected == '') selected @endif>All</option> 
+                            <option value="?band=A" @if($band_selected == 'A') selected @endif>A</option> 
+                            <option value="?band=B" @if($band_selected == 'B') selected @endif>B</option> 
+                            <option value="?band=C" @if($band_selected == 'C') selected @endif>C</option> 
+                            <option value="?band=D" @if($band_selected == 'D') selected @endif>D</option> 
+                            <option value="?band=E" @if($band_selected == 'E') selected @endif>E</option> 
+                            <option value="?band=F" @if($band_selected == 'F') selected @endif>F</option> 
+                            <option value="?band=G" @if($band_selected == 'G') selected @endif>G</option> 
+                            <option value="?band=H" @if($band_selected == 'H') selected @endif>H</option> 
+                            <option value="?band=I" @if($band_selected == 'I') selected @endif>I</option> 
+                            <option value="?band=J" @if($band_selected == 'J') selected @endif>J</option> 
+                            <option value="?band=K" @if($band_selected == 'K') selected @endif>K</option> 
+                            <option value="?band=L" @if($band_selected == 'L') selected @endif>L</option> 
+                            <option value="?band=M" @if($band_selected == 'M') selected @endif>M</option> 
+                            <option value="?band=N" @if($band_selected == 'N') selected @endif>N</option> 
+                            <option value="?band=O" @if($band_selected == 'O') selected @endif>O</option> 
+                            <option value="?band=P" @if($band_selected == 'P') selected @endif>P</option> 
+                            <option value="?band=Q" @if($band_selected == 'Q') selected @endif>Q</option> 
+                            <option value="?band=R" @if($band_selected == 'R') selected @endif>R</option> 
+                            <option value="?band=S" @if($band_selected == 'S') selected @endif>S</option> 
+                            <option value="?band=T" @if($band_selected == 'T') selected @endif>T</option> 
+                            <option value="?band=U" @if($band_selected == 'U') selected @endif>U</option> 
+                            <option value="?band=V" @if($band_selected == 'V') selected @endif>V</option> 
+                            <option value="?band=W" @if($band_selected == 'W') selected @endif>W</option> 
+                            <option value="?band=X" @if($band_selected == 'X') selected @endif>X</option> 
+                            <option value="?band=Y" @if($band_selected == 'Y') selected @endif>Y</option> 
+                            <option value="?band=Z" @if($band_selected == 'Z') selected @endif>Z</option> 
+                            <option value="?band=0-9" @if($band_selected == '0-9') selected @endif>0-9</option>  
+                        </select>
+                        
+                        <input id="chars" type="hidden" class="form-control col-md-8" name="so_char" value="{{$band_selected}}" required>
+                    </div>
+                </div>
+            </div>
+        </div>
 
             </div>
         </div>
@@ -143,6 +191,13 @@
 
 
 <script>
+    
+    $('.select2').select2();
+$('#selectband').on('change', function() {
+     url =  $("#selectband :selected").val();
+       window.location.href = url;
+});
+
     $('.inputx').val(0);
     $('#productlist').val("");
     $('#productlist').select2({
@@ -211,6 +266,8 @@ $('#simpan').on('click', function (e) {
                     'selisih[]' :   $('input[name="selisih[]"]').map(function(){  return this.value; }).get(),
                     'so_date' :    $('input[name="so_date"]').val(),
                     'so_userid' :    $('input[name="so_userid"]').val(),
+                    'so_namaso' :    $('input[name="so_namaso"]').val(),
+                    'so_char' :    $('input[name="so_namaso"]').val(),
                 },
                 success: function (data) {
                     if (data['success']) {
