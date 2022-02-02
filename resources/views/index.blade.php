@@ -31,92 +31,6 @@ Dashboard Gorilla Coach </h5>
 <!--begin::Dashboard-->
 <!--begin::Row-->
 
-<!--begin::Row-->
-<div class="row">
-<div class="col-lg-6">
-<!--begin::Mixed Widget 14-->
-<div class="card card-custom card-stretch gutter-b">
-<!--begin::Header-->
-<div class="card-header border-0">
-<h3 class="card-title font-weight-bolder text-dark">Agenda Promo</h3>
-</div>
-<!--end::Header-->
-<!--begin::Body-->
-<div class="card-body pt-2">
-<!--begin::Item-->
-<!--begin::Item-->
-@foreach($agenda as $ag)
-<div class="d-flex align-items-center mt-3">
-<!--begin::Bullet-->
-<span class="bullet bullet-bar bg-danger align-self-stretch"></span>
-<!--end::Bullet-->
-<!--begin::Text-->
-<div class="d-flex flex-column flex-grow-1 mx-4">
-<a href="{{url('agenda/detail/'.$ag->agenda_id)}}" class="text-dark-75 text-hover-primary font-weight-boldest font-size-lg mb-1">{{$ag->agenda_judul}}</a>
-<span class="font-weight-boldest">{{\Carbon\Carbon::parse($ag->agenda_startdate)->format('d-m-Y')}} - {{\Carbon\Carbon::parse($ag->agenda_enddate)->format('d-m-Y')}}</span>
-</div>
-<!--end::Text-->
-</div>
-@endforeach
-
-</div>
-<!--end::Body-->
-</div>
-<!--end::Mixed Widget 14-->
-</div>
-<div class="col-lg-6">
-<!--begin::Advance Table Widget 4-->
-<div class="card card-custom card-stretch gutter-b">
-<!--begin::Header-->
-<div class="card-header border-0 py-5">
-<h3 class="card-title align-items-start flex-column">
-<span class="card-label font-weight-bolder text-dark">Produk Habis</span>
-</h3>
-</div>
-<!--end::Header-->
-
-<!--begin::Body-->
-<div class="card-body pt-0 pb-3">
-<div class="tab-content">
-<!--begin::Table-->
-<div class="table-responsive">
-<table class="table table-head-custom table-head-bg table-borderless table-vertical-center">
-<thead>
-<tr class="text-left text-uppercase">
-<th class="pl-7"><span class="text-dark-75">Nama Produk</span></th>
-<th><span class="text-dark-75">Sisa Stok</span></th>
-</tr>
-</thead>
-<tbody>
-@foreach($produkstokrendah as $ps)
-<tr>
-<td class="pl-0 py-1">
-<div class="d-flex align-items-center">
-<div>
-    <a href="{{url('produk/detail/'.$ps->product_id)}}" class="text-dark-75 font-weight-bolder text-hover-primary mb-1 font-size-lg">{{$ps->product_nama}}</a>
-    <span class="text-muted font-weight-bold d-block">Size {{$ps->size_nama}} - {{$ps->band_nama}}</span>
-</div>
-</div>
-</td>
-<td>
-<span class="text-dark-75 font-weight-bolder d-block font-size-lg">
-{{$ps->product_stok}}
-</span>
-</td>
-</tr>
-@endforeach
-</tbody>
-</table>
-</div>
-<!--end::Table-->
-</div>
-</div>
-<!--end::Body-->
-</div>
-<!--end::Advance Table Widget 4-->
-</div>
-
-</div> 
 @if(Auth::user()->role == 1)
 <div class="row">
     <div class="col-md-4">
@@ -148,7 +62,7 @@ Dashboard Gorilla Coach </h5>
     <!--end::Stats Widget 11-->
     </div>
     <div class="col-md-4">
-    
+
     <!--begin::Stats Widget 12-->
     <div class="card card-custom card-stretch gutter-b">
     <!--begin::Body-->
@@ -235,7 +149,7 @@ Dashboard Gorilla Coach </h5>
             <!--end::Stats Widget 11-->
             </div>
             <div class="col-md-4">
-    
+
             <!--begin::Stats Widget 12-->
             <div class="card card-custom card-stretch gutter-b">
             <!--begin::Body-->
@@ -369,6 +283,93 @@ Dashboard Gorilla Coach </h5>
     </div>
     <!--end::Row-->
     @endif
+<!--begin::Row-->
+<div class="row">
+<div class="col-lg-6">
+<!--begin::Mixed Widget 14-->
+<div class="card card-custom card-stretch gutter-b">
+<!--begin::Header-->
+<div class="card-header border-0">
+<h3 class="card-title font-weight-bolder text-dark">Agenda Promo</h3>
+</div>
+<!--end::Header-->
+<!--begin::Body-->
+<div class="card-body pt-2">
+<!--begin::Item-->
+<!--begin::Item-->
+@foreach($agenda as $ag)
+<div class="d-flex align-items-center mt-3">
+<!--begin::Bullet-->
+<span class="bullet bullet-bar bg-danger align-self-stretch"></span>
+<!--end::Bullet-->
+<!--begin::Text-->
+<div class="d-flex flex-column flex-grow-1 mx-4">
+<a href="{{url('agenda/detail/'.$ag->agenda_id)}}" class="text-dark-75 text-hover-primary font-weight-boldest font-size-lg mb-1">{{$ag->agenda_judul}}</a>
+<span class="font-weight-boldest">{{\Carbon\Carbon::parse($ag->agenda_startdate)->format('d-m-Y')}} - {{\Carbon\Carbon::parse($ag->agenda_enddate)->format('d-m-Y')}}</span>
+</div>
+<!--end::Text-->
+</div>
+@endforeach
+
+</div>
+<!--end::Body-->
+</div>
+<!--end::Mixed Widget 14-->
+</div>
+<div class="col-lg-6">
+<!--begin::Advance Table Widget 4-->
+<div class="card card-custom card-stretch gutter-b">
+<!--begin::Header-->
+<div class="card-header border-0 py-5">
+<h3 class="card-title align-items-start flex-column">
+<span class="card-label font-weight-bolder text-dark">Produk Habis</span>
+</h3>
+</div>
+<!--end::Header-->
+
+<!--begin::Body-->
+<div class="card-body pt-0 pb-3">
+<div class="tab-content">
+<!--begin::Table-->
+<div class="table-responsive">
+<table class="table table-head-custom table-head-bg table-borderless table-vertical-center">
+<thead>
+<tr class="text-left text-uppercase">
+<th class="pl-7"><span class="text-dark-75">Nama Produk</span></th>
+<th><span class="text-dark-75">Sisa Stok</span></th>
+</tr>
+</thead>
+<tbody>
+@foreach($produkstokrendah as $ps)
+<tr>
+<td class="pl-0 py-1">
+<div class="d-flex align-items-center">
+<div>
+    <a href="{{url('produk/detail/'.$ps->product_id)}}" class="text-dark-75 font-weight-bolder text-hover-primary mb-1 font-size-lg">{{$ps->product_nama}}</a>
+    <span class="text-muted font-weight-bold d-block">Size {{$ps->size_nama}} - {{$ps->band_nama}}</span>
+</div>
+</div>
+</td>
+<td>
+<span class="text-dark-75 font-weight-bolder d-block font-size-lg">
+{{$ps->product_stok}}
+</span>
+</td>
+</tr>
+@endforeach
+</tbody>
+</table>
+</div>
+<!--end::Table-->
+</div>
+</div>
+<!--end::Body-->
+</div>
+<!--end::Advance Table Widget 4-->
+</div>
+
+</div>
+
 <!--end::Row-->
 <!--end::Dashboard-->
 </div>
@@ -380,10 +381,17 @@ Dashboard Gorilla Coach </h5>
 @section('js')
 
 <script src="{{asset('assets/js/pages/widgets.js')}}"></script>
-<script src="{{asset('assets/js/pages/features/charts/apexcharts.js')}}"></script>
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 <script src="{{asset('js/fslightbox.js')}}"></script>
 <script>
+
+// Shared Colors Definition
+const primary = '#6993FF';
+const success = '#1BC5BD';
+const info = '#8950FC';
+const warning = '#FFA800';
+const danger = '#F64E60';
+
         var element = document.getElementById("weekpenchart");
 
         var height = parseInt(KTUtil.css(element, 'height'));
@@ -901,7 +909,7 @@ Dashboard Gorilla Coach </h5>
         var chart5 = new ApexCharts(productmonthelement, productmonthoptions);
         chart5.render();
 
-        
+
         const chartdonut = "#chartdonut";
 		var options4 = {
 			series: {!! $dataproporsi !!},

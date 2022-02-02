@@ -26,7 +26,7 @@
                 <span class="card-label font-weight-bolder text-dark">Detail Produk</span>
                 </h3>
                 <div class="card-toolbar">
-                <a href="{{url('produk')}}" class="btn btn-primary btn-md font-size-sm"><i class="fas fa-arrow-left"></i> Kembali</a>
+                <a href="{{url('produk/select/'.$show->product_mastersku)}}" class="btn btn-primary btn-md font-size-sm"><i class="fas fa-arrow-left"></i> Kembali</a>
                 </div>
                 </div>
             <!--end::Card Body-->
