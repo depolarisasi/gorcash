@@ -72,7 +72,7 @@ class HomeController extends Controller
         $totalmonthly = Penjualan::whereBetween(DB::raw('DATE(penjualan_tanggalwaktupenjualan)'),[Carbon::now()->setTimezone('Asia/Jakarta')->startOfMonth()->format('Y-m-d'),Carbon::now()->setTimezone('Asia/Jakarta')->format('Y-m-d')])->sum('penjualan_totalpendapatan');
         $weeklypendapatan = 0;
         $monthlypendapatan = 0;
-        $producttoday = BarangTerjual::whereDate('barangterjual_tanggalwaktubarangterjual',' ')->sum('barangterjual_qty');
+        $producttoday = BarangTerjual::whereDate('barangterjual_tanggalwaktubarangterjual', $todaydate)->sum('barangterjual_qty');
         $totproductweek = BarangTerjual::whereBetween(DB::raw('DATE(barangterjual_tanggalwaktubarangterjual)'),[Carbon::now()->setTimezone('Asia/Jakarta')->startOfWeek()->format('Y-m-d'),Carbon::now()->setTimezone('Asia/Jakarta')->format('Y-m-d')])->sum('barangterjual_qty');
         $totproductmonth = BarangTerjual::whereBetween(DB::raw('DATE(barangterjual_tanggalwaktubarangterjual)'),[Carbon::now()->setTimezone('Asia/Jakarta')->startOfMonth()->format('Y-m-d'),Carbon::now()->setTimezone('Asia/Jakarta')->format('Y-m-d')])->sum('barangterjual_qty');
 
