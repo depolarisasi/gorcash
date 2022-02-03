@@ -43,8 +43,8 @@ class HomeController extends Controller
 
 
 
-        $periodweek = CarbonPeriod::create(Carbon::parse('26-12-2021')->startOfWeek()->format('Y-m-d'), Carbon::parse('26-12-2021')->format('Y-m-d'));
-        $periodmonth = CarbonPeriod::create(Carbon::parse('26-12-2021')->startOfMonth()->format('Y-m-d'), Carbon::parse('26-12-2021')->format('Y-m-d'));
+        $periodweek = CarbonPeriod::create(Carbon::now()->startOfWeek()->format('Y-m-d'), Carbon::now()->format('Y-m-d'));
+        $periodmonth = CarbonPeriod::create(Carbon::now()->startOfMonth()->format('Y-m-d'), Carbon::now()->format('Y-m-d'));
         $weeklydates = [];
         $monthlydates = [];
         $dateweek = [];
