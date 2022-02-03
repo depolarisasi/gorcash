@@ -19,9 +19,9 @@
 @elseif(Auth::user()->role == 2)
 <span class="label label-lg label-rounded label-primary label-jabatan">Store Officer</span>
 @elseif(Auth::user()->role == 3)
-<span class="label label-lg label-rounded label-info label-jabatan">Warehouse Officer</span>
+<span class="label label-lg label-rounded label-info label-jabatan">Staff Officer</span>
 @elseif(Auth::user()->role == 4)
-<span class="label label-lg label-rounded label-success label-jabatan">Accountant</span>
+<span class="label label-lg label-rounded label-success label-jabatan">Gudang</span>
 @endif
                                             </div>
                                             <div class="navi mt-2">

@@ -292,10 +292,16 @@ Penjualan </h5>
 <!--end::Content-->
 @section('js')
 <script src="{{asset('assets/js/pages/widgets.js')}}"></script>
-<script src="{{asset('assets/js/pages/features/charts/apexcharts.js')}}"></script>
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 <script src="{{asset('js/fslightbox.js')}}"></script>
 <script>
+
+// Shared Colors Definition
+const primary = '#6993FF';
+const success = '#1BC5BD';
+const info = '#8950FC';
+const warning = '#FFA800';
+const danger = '#F64E60';
         var element = document.getElementById("weekpenchart");
 
         var height = parseInt(KTUtil.css(element, 'height'));
@@ -813,7 +819,7 @@ Penjualan </h5>
         var chart5 = new ApexCharts(productmonthelement, productmonthoptions);
         chart5.render();
 
-        
+
         const chartdonut = "#chartdonut";
 		var options4 = {
 			series: {!! $dataproporsi !!},
