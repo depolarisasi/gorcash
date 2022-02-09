@@ -29,7 +29,7 @@ class BarangTerjualController extends Controller
         ->join('size','size.size_id','=','product.product_idsize')
         ->join('band','band.band_id','=','product.product_idband')
         ->select('product.*','penjualan.*','barangterjual.*','size.size_nama','band.band_nama')
-        ->where('barangterjual.idpenjualan', '!=', null)
+        ->where('barangterjual.barangterjual_idpenjualan', '!=', null)
         ->get();
 
         return view('barangterjual.index')->with(compact('barangterjual'));
