@@ -169,16 +169,16 @@ var minDate, maxDate;
  // Custom filtering function which will search data in column four between two values
  $.fn.dataTable.ext.search.push(
      function( settings, data, dataIndex ) {
-         var min = minDate.val();
-         var max = maxDate.val();
-         var date = new Date( data[0] );
+         var min = moment(minDate.val()).format("YYYY-MM-DD");
+         var max = moment(maxDate.val()).format("YYYY-MM-DD");
+         var date = moment(data[0]).format("YYYY-MM-DD");
 
          if (
              ( min === null && max === null ) ||
              ( min === null && date <= max ) ||
              ( date <= min && max === null ) ||
              ( min <= date && date <= max ) ||
-             ( min == date && max == date )
+             ( moment(date).isSameOrAfter(min) && moment(date).isSameOrBefore(max) )
          ) {
              return true;
          }
