@@ -74,6 +74,7 @@
                 <thead>
                     <tr>
                         <th>Tanggal</th>
+                        <th>Jam</th>
                         <th>Channel</th>
                         <th>SKU</th>
                         <th>Band</th>
@@ -91,7 +92,8 @@
 
                     @foreach($barangterjual as $key => $b)
                     <tr>
-                        <td>{{$b->barangterjual_tanggalwaktubarangterjual}}</td>
+                        <td>{{\Carbon\Carbon::parse($b->barangterjual_tanggalwaktubarangterjual)->format('Y-m-d')}}</td>
+                        <td>{{\Carbon\Carbon::parse($b->barangterjual_tanggalwaktubarangterjual)->format('H:i')}}</td>
                         <td>{{$b->penjualan_channel}}</td>
                         <td>{{$b->product_sku}}</td>
                         <td>{{$b->band_nama}}</td>
@@ -148,6 +150,7 @@
 				key: 'generalSearch'
 			},
         "paging":   true,
+        "order": [[ 0, "desc" ]]
     } );
 
 
