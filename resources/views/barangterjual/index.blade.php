@@ -176,8 +176,9 @@ var minDate, maxDate;
          if (
              ( min === null && max === null ) ||
              ( min === null && date <= max ) ||
-             ( min <= date   && max === null ) ||
-             ( min <= date   && date <= max )
+             ( date <= min && max === null ) ||
+             ( min <= date && date <= max ) ||
+             ( min === date && date === max )
          ) {
              return true;
          }
