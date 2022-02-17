@@ -167,21 +167,16 @@
         buttons: [
             'excelHtml5',
         ],
-        search: {
-				input: $('#kt_datatable_search_query'),
-				key: 'generalSearch'
-			},
         "paging":   true,
-        "order": [[ 0, "desc" ]]
+        "ordering": true,
+        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
     } );
 
 
         $('#kt_datatable_search_channel').on('change', function() {
-            tabel.search($(this).val());
-            tabel.draw();
+            tabel.columns(2).search($(this).val().toLowerCase()).draw();
         });
 
-        $('#kt_datatable_search_channel').selectpicker();
 
 </script>
 <script>

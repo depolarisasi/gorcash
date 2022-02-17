@@ -263,7 +263,7 @@ Dashboard Gorilla Coach </h5>
     </div>
         </div>
         <div class="col-md-6">
-            <div class="card card-custom card-stretch gutter-b">
+            <div class="card card-custom gutter-b">
                 <!--begin::Header-->
                 <div class="card-header border-0 pt-6 mb-2">
                     <h3 class="card-title align-items-start flex-column">
@@ -279,44 +279,68 @@ Dashboard Gorilla Coach </h5>
                 </div>
                 <!--end::Body-->
             </div>
+
+<!--begin::Mixed Widget 14-->
+<div class="card card-custom gutter-b">
+    <!--begin::Header-->
+    <div class="card-header border-0">
+    <h3 class="card-title font-weight-bolder text-dark">Agenda Promo</h3>
+    </div>
+    <!--end::Header-->
+    <!--begin::Body-->
+    <div class="card-body pt-2">
+    <!--begin::Item-->
+    <!--begin::Item-->
+    @foreach($agenda as $ag)
+    <div class="d-flex align-items-center mt-3">
+    <!--begin::Bullet-->
+    <span class="bullet bullet-bar bg-danger align-self-stretch"></span>
+    <!--end::Bullet-->
+    <!--begin::Text-->
+    <div class="d-flex flex-column flex-grow-1 mx-4">
+    <a href="{{url('agenda/detail/'.$ag->agenda_id)}}" class="text-dark-75 text-hover-primary font-weight-boldest font-size-lg mb-1">{{$ag->agenda_judul}}</a>
+    <span class="font-weight-boldest">{{\Carbon\Carbon::parse($ag->agenda_startdate)->format('d-m-Y')}} - {{\Carbon\Carbon::parse($ag->agenda_enddate)->format('d-m-Y')}}</span>
+    </div>
+    <!--end::Text-->
+    </div>
+    @endforeach
+
+    </div>
+    <!--end::Body-->
+    </div>
+    <div class="card card-custom gutter-b">
+        <!--begin::Header-->
+        <div class="card-header border-0 pt-5">
+        <h3 class="card-title font-weight-bolder">Note</h3>
+        </div>
+        <!--end::Header-->
+
+        <!--begin::Body-->
+        <div class="card-body pt-2">
+            @foreach($note as $n)
+            <div class="d-flex align-items-center mt-3">
+            <!--begin::Bullet-->
+            <span class="bullet bullet-bar bg-danger align-self-stretch"></span>
+            <!--end::Bullet-->
+            <!--begin::Text-->
+            <div class="d-flex flex-column flex-grow-1 mx-4">
+            <a href="{{url('note/detail/'.$n->note_id)}}" class="text-dark-75 text-hover-primary font-weight-boldest font-size-lg mb-1">{{$n->note_judul}}</a>
+            <span class="font-weight-boldest">{{\Carbon\Carbon::parse($n->note_date)->format('d-m-Y')}}</span>
+            </div>
+            <!--end::Text-->
+            </div>
+            @endforeach
+        </div>
+        <!--end::Body-->
+        </div>
+        <!--end::Mixed Widget 14-->
         </div>
     </div>
     <!--end::Row-->
     @endif
 <!--begin::Row-->
 <div class="row">
-<div class="col-lg-6">
-<!--begin::Mixed Widget 14-->
-<div class="card card-custom card-stretch gutter-b">
-<!--begin::Header-->
-<div class="card-header border-0">
-<h3 class="card-title font-weight-bolder text-dark">Agenda Promo</h3>
-</div>
-<!--end::Header-->
-<!--begin::Body-->
-<div class="card-body pt-2">
-<!--begin::Item-->
-<!--begin::Item-->
-@foreach($agenda as $ag)
-<div class="d-flex align-items-center mt-3">
-<!--begin::Bullet-->
-<span class="bullet bullet-bar bg-danger align-self-stretch"></span>
-<!--end::Bullet-->
-<!--begin::Text-->
-<div class="d-flex flex-column flex-grow-1 mx-4">
-<a href="{{url('agenda/detail/'.$ag->agenda_id)}}" class="text-dark-75 text-hover-primary font-weight-boldest font-size-lg mb-1">{{$ag->agenda_judul}}</a>
-<span class="font-weight-boldest">{{\Carbon\Carbon::parse($ag->agenda_startdate)->format('d-m-Y')}} - {{\Carbon\Carbon::parse($ag->agenda_enddate)->format('d-m-Y')}}</span>
-</div>
-<!--end::Text-->
-</div>
-@endforeach
-
-</div>
-<!--end::Body-->
-</div>
-<!--end::Mixed Widget 14-->
-</div>
-<div class="col-lg-6">
+<div class="col-lg-12">
 <!--begin::Advance Table Widget 4-->
 <div class="card card-custom card-stretch gutter-b">
 <!--begin::Header-->

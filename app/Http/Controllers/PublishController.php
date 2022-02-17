@@ -142,7 +142,7 @@ public function apimassunpublish(Request $request){
         $weekofmonth = Carbon::now()->weekOfMonth;
         $todaydate = Carbon::now()->format('M Y');
 
-        $arr = [];
+        // $arr = [];
         foreach($request->product_id as $key => $pid){
             $product = Product::where('product_id',$pid)->first();
             $product->product_tag = $request->product_tag[$key]??null;
@@ -154,28 +154,23 @@ public function apimassunpublish(Request $request){
                 $product->product_stok = $request->product_stok[$key];
                 $product->product_stokakhir = $request->product_stokakhir[$key];
             }
-            $product->update();
             $editpublish = BarangPublish::where('publish_id',$request->publish_id[$key])->first();
             $editpublish->publish_stok = $request->product_stok[$key];
             $editpublish->publish_stokakhir = $request->product_stokakhir[$key];
             $editpublish->publish_name = $request->publish_name;
             $editpublish->publish_tanggal = $request->publish_tanggal;
-            $editpublish->update();
-            array_push($arr, $key);
-        }
-        $pubname = BarangPublish::where('publish_groupid', $request->publish_groupid)->get();
-        foreach ($pubname as $pu){
-            $pu->publish_name = $request->publish_name;
             try {
-                $pu->update();
+                $product->update();
+                $editpublish->update();
                     } catch (QE $e) {
                         toast('Database error','error');
                         return redirect()->back();
                     }
         }
+
          toast('Ubah Publish Berhasil','success');
-        // return redirect('publish');
-        return dd($request);
+        return redirect()->back();
+        // return dd($request);
     }
 
     public function delete($groupid)

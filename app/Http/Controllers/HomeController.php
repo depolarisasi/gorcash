@@ -24,22 +24,22 @@ class HomeController extends Controller
         $agenda = Agenda::limit(9)->get();
         $today = Carbon::now()->setTimezone('Asia/Jakarta')->isoFormat('dddd');
         $todaydate = Carbon::now()->setTimezone('Asia/Jakarta');
-       // $today = "Saturday";
-        // if($today == "Sunday"){
-        //  $workflow = Notes::where('note_judul','LIKE','%Workflow Minggu%')->first();
-        // }elseif($today == "Monday"){
-        //  $workflow = Notes::where('note_judul','LIKE','%Workflow Senin%')->first();
-        // }elseif($today == "Tuesday"){
-        //  $workflow = Notes::where('note_judul','LIKE','%Workflow Selasa%')->first();
-        // }elseif($today == "Wednesday"){
-        //  $workflow = Notes::where('note_judul','LIKE','%Workflow Rabu%')->first();
-        // }elseif($today == "Thursday"){
-        //  $workflow = Notes::where('note_judul','LIKE','%Workflow Kamis%')->first();
-        // }elseif($today == "Friday"){
-        //  $workflow = Notes::where('note_judul','LIKE','%Workflow Jumat%')->first();
-        // }elseif($today == "Saturday"){
-        //  $workflow = Notes::where('note_judul','LIKE','%Workflow Sabtu%')->first();
-        // }
+       $today = "Saturday";
+        if($today == "Sunday"){
+         $workflow = Notes::where('note_judul','LIKE','%Workflow Minggu%')->first();
+        }elseif($today == "Monday"){
+         $workflow = Notes::where('note_judul','LIKE','%Workflow Senin%')->first();
+        }elseif($today == "Tuesday"){
+         $workflow = Notes::where('note_judul','LIKE','%Workflow Selasa%')->first();
+        }elseif($today == "Wednesday"){
+         $workflow = Notes::where('note_judul','LIKE','%Workflow Rabu%')->first();
+        }elseif($today == "Thursday"){
+         $workflow = Notes::where('note_judul','LIKE','%Workflow Kamis%')->first();
+        }elseif($today == "Friday"){
+         $workflow = Notes::where('note_judul','LIKE','%Workflow Jumat%')->first();
+        }elseif($today == "Saturday"){
+         $workflow = Notes::where('note_judul','LIKE','%Workflow Sabtu%')->first();
+        }
 
 
 
@@ -106,7 +106,7 @@ class HomeController extends Controller
         $potonganthismonth = Penjualan::whereMonth('penjualan_tanggalwaktupenjualan',Carbon::now()->setTimezone('Asia/Jakarta')->format('m'))->sum('penjualan_totalpotongan');
         $dataproporsi = json_encode([$pendapatanthismonth, $diskonthismonth, $potonganthismonth]);
 
-        return view('index')->with(compact('note','agenda','produkstokrendah','totaltoday','totproductweek','totproductmonth','producttoday','weeklyproduct','productmonthly','productweek','monthlyproduct','dataproporsi','weeklydate','salesweekly','totalweekly','monthlydate','salesmonthly','totalmonthly','recentsales','productweekly','weeklyproductsales','recentsales'));
+        return view('index')->with(compact('workflow','today','note','agenda','produkstokrendah','totaltoday','totproductweek','totproductmonth','producttoday','weeklyproduct','productmonthly','productweek','monthlyproduct','dataproporsi','weeklydate','salesweekly','totalweekly','monthlydate','salesmonthly','totalmonthly','recentsales','productweekly','weeklyproductsales','recentsales'));
     //   return $dateweek;
     }
 

@@ -57,7 +57,9 @@
 					<th>Size</th>
 					<th>Vendor</th>
 					<th>Band</th>
-					<th>Harga</th>
+                    @if(Auth::user()->role == 1)<th>Harga Beli</th>@endif
+					<th>Harga Jual</th>
+                    @if(Auth::user()->role == 1)<th>Keuntungan</th>@endif
 					<th>Stok Awal</th>
 					<th>Stok Akhir</th>
 					<th>Action</th>
@@ -79,13 +81,9 @@
 
 					<td>{{$p->product_vendor}}</td>
                     <td>{{$p->band_nama}}</td>
-                    <td>@if(Auth::user()->role == 1)
-                        <p><span class="label label-danger label-lg label-inline mr-2">Rp{{$p->product_hargabeli}}</span> </p>
-                        @endif
-                        <p><span class="label label-primary label-lg label-inline mr-2">Rp{{$p->product_hargajual}}</span> </p>
-                        @if(Auth::user()->role == 1)
-                        <p><span class="label label-success label-lg label-inline mr-2">Rp{{$p->product_hargajual - $p->product_hargabeli}}</span> </p>
-                        @endif</td>
+                    @if(Auth::user()->role == 1) <td>@money($p->product_hargabeli)</td>@endif
+                    <td>@money($p->product_hargajual)</td>
+                    @if(Auth::user()->role == 1) <td>@money($p->product_hargajual - $p->product_hargabeli)</td>@endif
                         <td>{{$p->product_stok}}</td>
                         <td>{{$p->product_stokakhir}}</td>
 					<td>
