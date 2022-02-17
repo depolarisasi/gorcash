@@ -144,10 +144,10 @@ public function apimassunpublish(Request $request){
 
         foreach($request->product_id as $key => $pid){
             $product = Product::where('product_id',$pid)->first();
-            $product->product_tag = $request->product_tag[$key]?? null;
-            $product->product_material = $request->product_material[$key]?? null;
-            $product->product_madein = $request->product_madein[$key]?? null;
-            $product->product_condition = $request->product_condition[$key]??null;
+            $product->product_tag = $request->product_tag[$key];
+            $product->product_material = $request->product_material[$key];
+            $product->product_madein = $request->product_madein[$key];
+            $product->product_condition = $request->product_condition[$key];
             $product->product_tanggalpublish = $request->publish_tanggal;
             if($product->product_status == 1){
                 $product->product_stok = $request->product_stok[$key];
