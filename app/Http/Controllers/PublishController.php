@@ -145,22 +145,22 @@ public function apimassunpublish(Request $request){
         $arr = [];
         foreach($request->product_id as $key => $pid){
             $product = Product::where('product_id',$pid)->first();
-            $product->product_tag = $request->product_tag[$key];
-            $product->product_material = $request->product_material[$key];
-            $product->product_madein = $request->product_madein[$key];
-            $product->product_condition = $request->product_condition[$key];
+            $product->product_tag = $request->product_tag[$key]??null;
+            $product->product_material = $request->product_material[$key]??null;
+            $product->product_madein = $request->product_madein[$key]??null;
+            $product->product_condition = $request->product_condition[$key]??null;
             $product->product_tanggalpublish = $request->publish_tanggal;
             if($product->product_status == 1){
                 $product->product_stok = $request->product_stok[$key];
                 $product->product_stokakhir = $request->product_stokakhir[$key];
             }
+            $product->update();
             $editpublish = BarangPublish::where('publish_id',$request->publish_id[$key])->first();
             $editpublish->publish_stok = $request->product_stok[$key];
             $editpublish->publish_stokakhir = $request->product_stokakhir[$key];
             $editpublish->publish_name = $request->publish_name;
             $editpublish->publish_tanggal = $request->publish_tanggal;
             $editpublish->update();
-            $product->update();
             array_push($arr, $key);
         }
         $pubname = BarangPublish::where('publish_groupid', $request->publish_groupid)->get();
