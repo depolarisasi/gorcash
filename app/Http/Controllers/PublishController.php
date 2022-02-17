@@ -153,7 +153,7 @@ public function apimassunpublish(Request $request){
                 $product->product_stok = $request->product_stok[$key];
                 $product->product_stokakhir = $request->product_stokakhir[$key];
             }
-            $editpublish = BarangPublish::where('publish_groupid',$request->publish_groupid)->where('publish_productid',$pid)->first();
+            $editpublish = BarangPublish::where('publish_groupid',$request->publish_groupid)->andWhere('publish_productid',$pid)->first();
             $editpublish->publish_stok = $request->product_stok[$key];
             $editpublish->publish_stokakhir = $request->product_stokakhir[$key];
             $editpublish->publish_name = $request->publish_name;
@@ -164,19 +164,6 @@ public function apimassunpublish(Request $request){
                     toast('Database error','error');
                     return redirect()->back();
                 }
-        }
-        $editpublish = BarangPublish::where('publish_groupid',$request->publish_groupid)->get();
-        foreach($editpublish as $e){
-           $e->publish_stok = $request->product_stok[$key];
-           $e->publish_stokakhir = $request->product_stokakhir[$key];
-           $e->publish_name = $request->publish_name;
-           $e->publish_tanggal = $request->publish_tanggal;
-            try {
-               $e->update();
-                    } catch (QE $e) {
-                        toast('Database error','error');
-                        return redirect()->back();
-                    }
         }
          toast('Ubah Publish Berhasil','success');
         return redirect('publish');
