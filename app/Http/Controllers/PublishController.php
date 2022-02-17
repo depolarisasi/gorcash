@@ -153,8 +153,7 @@ public function apimassunpublish(Request $request){
                 $product->product_stok = $request->product_stok[$key];
                 $product->product_stokakhir = $request->product_stokakhir[$key];
             }
-            $editpublish = BarangPublish::where('publish_groupid',$request->publish_groupid)
-            ->where('publish_productid',$pid)->first();
+            $editpublish = BarangPublish::where('publish_groupid',$request->publish_groupid)->where('publish_productid',$pid)->first();
             $editpublish->publish_stok = $request->product_stok[$key];
             $editpublish->publish_stokakhir = $request->product_stokakhir[$key];
             $editpublish->publish_name = $request->publish_name;
