@@ -159,7 +159,7 @@ public function apimassunpublish(Request $request){
             $editpublish->publish_name = $request->publish_name;
             $editpublish->publish_tanggal = $request->publish_tanggal;
             try {
-                $editpublish->update();
+            $editpublish->update();
             $product->update();
                 } catch (QE $e) {
                     toast('Database error','error');

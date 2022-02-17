@@ -72,7 +72,6 @@
                 @foreach($publish as $p)
 				<tr>
                     <input type="hidden" name="publish_id[]" value="{{$p->publish_id}}">
-                    <input type="hidden" name="tanggalpublish" value="{{$p->publish_tanggalpublish}}">
                     <input type="hidden" name="product_id[]" value="{{$p->product_id}}">
                     <td><a href="{{asset($p->product_foto?$p->product_foto:"/assets/nopicture.png")}}" data-type="image" data-fslightbox="galleryproduk">
                         <img src="{{asset($p->product_foto?$p->product_foto:"/assets/nopicture.png")}}" data-type="image" class="img-fluid" style="width: 50px !important; height: 50px !important;"></a></td>
@@ -86,13 +85,12 @@
 					<td><input type="text" class="form-control" name="product_madein[]" value="{{$p->product_madein}}"></td>
 					<td><input type="text" class="form-control" name="product_condition[]" value="{{$p->product_condition}}"></td>
 
-                    </td>
 				</tr>
                 @endforeach
 
 			</tbody>
 		</table>
-        <div class="row mt-10   ">
+        <div class="row mt-10">
         <div class="col-md-4">
             <button type="submit" class="btn btn-md btn-primary">Publish</button>
         </div>
