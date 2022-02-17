@@ -142,6 +142,7 @@ public function apimassunpublish(Request $request){
         $weekofmonth = Carbon::now()->weekOfMonth;
         $todaydate = Carbon::now()->format('M Y');
 
+        $arr = [];
         foreach($request->product_id as $key => $pid){
             $product = Product::where('product_id',$pid)->first();
             $product->product_tag = $request->product_tag[$key];
@@ -158,13 +159,9 @@ public function apimassunpublish(Request $request){
             $editpublish->publish_stokakhir = $request->product_stokakhir[$key];
             $editpublish->publish_name = $request->publish_name;
             $editpublish->publish_tanggal = $request->publish_tanggal;
-            try {
             $editpublish->update();
             $product->update();
-                } catch (QE $e) {
-                    toast('Database error','error');
-                    return redirect()->back();
-                }
+            array_push($arr, $key);
         }
         $pubname = BarangPublish::where('publish_groupid', $request->publish_groupid)->get();
         foreach ($pubname as $pu){
@@ -178,7 +175,7 @@ public function apimassunpublish(Request $request){
         }
          toast('Ubah Publish Berhasil','success');
         // return redirect('publish');
-        return $request->all();
+        return $request->product_id;
     }
 
     public function delete($groupid)
