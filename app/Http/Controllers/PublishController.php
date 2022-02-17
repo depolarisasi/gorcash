@@ -175,7 +175,7 @@ public function apimassunpublish(Request $request){
         }
          toast('Ubah Publish Berhasil','success');
         // return redirect('publish');
-        return dd($request->product_id);
+        return dd($request);
     }
 
     public function delete($groupid)
