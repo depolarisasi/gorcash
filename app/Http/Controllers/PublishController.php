@@ -153,12 +153,13 @@ public function apimassunpublish(Request $request){
                 $product->product_stok = $request->product_stok[$key];
                 $product->product_stokakhir = $request->product_stokakhir[$key];
             }
-            $editpublish = BarangPublish::where('publish_groupid',$request->publish_groupid)->where('publish_productid',$product->product_id)->first();
+            $editpublish = BarangPublish::where('publish_id',$request->publish_id[$key])->first();
             $editpublish->publish_stok = $request->product_stok[$key];
             $editpublish->publish_stokakhir = $request->product_stokakhir[$key];
             $editpublish->publish_name = $request->publish_name;
             $editpublish->publish_tanggal = $request->publish_tanggal;
             try {
+                $editpublish->update();
             $product->update();
                 } catch (QE $e) {
                     toast('Database error','error');
