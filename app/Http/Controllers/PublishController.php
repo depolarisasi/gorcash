@@ -166,9 +166,19 @@ public function apimassunpublish(Request $request){
                     return redirect()->back();
                 }
         }
+        $pubname = BarangPublish::where('publish_groupid', $request->publish_groupid)->get();
+        foreach ($pubname as $pu){
+            $pu->publish_name = $request->publish_name;
+            try {
+                $pu->update();
+                    } catch (QE $e) {
+                        toast('Database error','error');
+                        return redirect()->back();
+                    }
+        }
          toast('Ubah Publish Berhasil','success');
-        return redirect('publish');
-        // return $request->all();
+        // return redirect('publish');
+        return $request->all();
     }
 
     public function delete($groupid)
