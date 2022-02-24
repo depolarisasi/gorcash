@@ -43,12 +43,12 @@
                     <input id="name" type="text" class="form-control" name="penjualan_invoice" >
                     </div>
                   </div>
-                  {{-- <div class="form-group row mt-4">
+                  <div class="form-group row mt-4">
                     <label class="col-md-4">Nama Customer</label>
                     <div class="col-md-8">
                     <input id="name" type="text" class="form-control" name="penjualan_customername">
                     </div>
-                  </div> --}}
+                  </div>
                   <div class="form-group row mt-4">
                     <label class="col-md-4">Add Product SKU</label>
                     <div class="col-md-8">
@@ -291,6 +291,7 @@
                     <option value="Debit">Debit</option>
                     <option value="Kartu Kredit">Kartu Kredit</option>
                     <option value="Marketplace">Marketplace</option>
+                    <option value="Xendit">Xendit</option>
                   </select>
           </div>
       </div>

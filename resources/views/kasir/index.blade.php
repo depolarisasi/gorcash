@@ -89,6 +89,7 @@
                                 <option value="Debit">Debit</option>
                                 <option value="Kartu Kredit">Kartu Kredit</option>
                                 <option value="Marketplace">Marketplace</option>
+                                <option value="Xendit">Xendit</option>
                               </select>
                         </div>
                       </div>

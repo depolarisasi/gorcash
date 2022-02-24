@@ -141,7 +141,7 @@
 
 <script>
  tabel = $('#product').DataTable({
-    dom: 'Bfrtip',
+    dom: 'Blfrtip',
         buttons: [
             'excelHtml5',
         ],
