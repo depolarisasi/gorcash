@@ -295,10 +295,12 @@ $('#simpan').on('click', function (e) {
 
 
  tabel = $('#product').DataTable({
+    dom: 'Bfrtip',
         search: {
 				input: $('#kt_datatable_search_query'),
 				key: 'generalSearch'
-			},  buttons: [
+			},
+            buttons: [
         {
             extend: 'excelHtml5',
             exportOptions: {
