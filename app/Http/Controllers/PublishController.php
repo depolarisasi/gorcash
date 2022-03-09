@@ -23,8 +23,8 @@ class PublishController extends Controller
 
     public function index(Request $request)
     {
-        $tanggal = BarangPublish::distinct('publish_tanggal')->orderBy('publish_tanggal', 'desc')->pluck('publish_tanggal');
-        $publish = BarangPublish::groupBy('publish_groupid')->get();
+        $tanggal = BarangPublish::distinct('publish_tanggal')->orderBy('publish_tanggal', 'DESC')->pluck('publish_tanggal');
+        $publish = BarangPublish::groupBy('publish_groupid')->orderBy('publish_tanggal', 'DESC')->get();
         foreach($publish as $key => $pub){
             $productcount = BarangPublish::where('publish_groupid',$pub->publish_groupid)->count();
             $publish[$key]['count'] = $productcount;

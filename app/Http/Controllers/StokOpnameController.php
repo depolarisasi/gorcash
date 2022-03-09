@@ -50,7 +50,8 @@ class StokOpnameController extends Controller
     public function indexbulanan()
     {
         $riwayatso = StokOpname::where('so_type', 2)
-        ->groupBy('so_pubgroupname')->get();
+        ->groupBy('so_pubgroupname')
+        ->orderBy('so_date', 'DESC')->get();
         foreach($riwayatso as $key => $pub){
             $productcount = StokOpname::where('so_pubgroupname',$pub->so_pubgroupname)->count();
             $riwayatso[$key]['count'] = $productcount;
@@ -59,18 +60,18 @@ class StokOpnameController extends Controller
     }
 
     public function sobulanan(Request $request){
-        
+
         $query = Product::join('size','size.size_id','product.product_idsize')
         ->join('band','band.band_id','product.product_idband')
         ->select('product.*','size.size_nama','band.band_id','band.band_nama');
 
         if($request->get('band') == '' || $request->get('band') == NULL )
-        { 
+        {
         $band_selected = "";
         $query->whereRaw('band.band_nama LIKE "'.$band_selected.'%"');
-        }else { 
+        }else {
          $band_selected =  $request->get('band');
-         if($band_selected == '0-9'){ 
+         if($band_selected == '0-9'){
             $query->whereRaw('band.band_nama LIKE "0%"');
             $query->orWhereRaw('band.band_nama LIKE "1%"');
             $query->orWhereRaw('band.band_nama LIKE "2%"');
@@ -81,10 +82,10 @@ class StokOpnameController extends Controller
             $query->orWhereRaw('band.band_nama LIKE "7%"');
             $query->orWhereRaw('band.band_nama LIKE "8%"');
             $query->orWhereRaw('band.band_nama LIKE "9%"');
-         }else { 
+         }else {
             $query->whereRaw('band.band_nama LIKE "'.$band_selected.'%"');
-         } 
-        }  
+         }
+        }
         $product = $query->orderBy('band_nama','ASC')->get();
         foreach($product as $key => $p){
             $penjualan = BarangTerjual::where('barangterjual_idproduk',$p->product_id)->get();
