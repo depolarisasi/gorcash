@@ -309,7 +309,7 @@ $('#simpan').on('click', function (e) {
             }
         ],
         "paging":   false,
-        "ordering": false,
+        "order": [[ 0, "desc" ]],
     } );
 
 

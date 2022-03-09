@@ -121,6 +121,7 @@
 				key: 'generalSearch'
 			},
         "paging":   true,
+        "order": [[ 0, "desc" ]],
     } );
 
 
