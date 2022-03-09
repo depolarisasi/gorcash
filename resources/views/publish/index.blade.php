@@ -121,10 +121,6 @@
 				key: 'generalSearch'
 			},
         "paging":   true,
-        columnDefs: [
-    { orderable: false, targets: 0 }
-  ],
-        "ordering": true,
     } );
 
 
