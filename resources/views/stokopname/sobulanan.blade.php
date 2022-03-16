@@ -122,8 +122,8 @@
 					<th width="15%">Nama Produk</th>
 					<th width="5%">Size</th>
 					<th width="5%">Stok Awal</th>
-					<th width="5%">Sudah Terjual</th>
-					<th width="5%">Sisa Stok Tersedia</th>
+					<th width="5%">Stok Terjual</th>
+					<th width="5%">Stok Akhir</th>
 					<th width="5%">Stok Real</th>
 					<th width="5%">Selisih</th>
 				</tr>
@@ -146,8 +146,8 @@
                             <input id="stokterjual" type="hidden" name="stokterjual[]" value="{{$p->stokterjual}}">
                         </td>
 
-                        <td id="sisatersedia{{$p->product_sku}}">{{(int)$p->product_stok - (int)$p->stokterjual}}
-                        <input id="sisainput" type="hidden" name="stoksisa[]" value="{{(int)$p->product_stok - (int)$p->stokterjual}}"></td>
+                        <td id="sisatersedia{{$p->product_sku}}">{{(int)$p->product_stokakhir}}
+                        <input id="sisainput" type="hidden" name="stoksisa[]" value="{{(int)$p->product_stokakhir}}"></td>
 
 					<td><input id="stokrilinput{{$p->product_sku}}" class="form-control stokrilinputs inputx" data-sku="{{$p->product_sku}}" value="0" type="text" name="stokril[]"></td>
 					<td><span id="selisih{{$p->product_sku}}">0</span>
