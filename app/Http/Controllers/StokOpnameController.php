@@ -262,7 +262,7 @@ class StokOpnameController extends Controller
         $rand = mt_rand(1,9999).$this->generateRandomString(5);
         foreach($request->product_skus as $key => $p){
             $product = StokOpname::where('so_sku', $p)->where('so_type',2)->where('so_date',$request->so_date)->where('so_status')->first();
-            if(!$product){
+            if(!$product && $product != NULL){
                 $so = new StokOpname;
                 $date = Carbon::now()->format('Y-m-d');
                 $so->so_date = $date;
