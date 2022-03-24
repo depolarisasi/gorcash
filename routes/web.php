@@ -278,3 +278,5 @@ Route::group(['prefix' => 'size'], function() {
    });
 
 require __DIR__.'/auth.php';
+
+Route::get('/fixdb',[App\Http\Controllers\LogController::class, 'fixdb'])->middleware('auth');

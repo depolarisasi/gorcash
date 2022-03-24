@@ -9,6 +9,7 @@ use App\Models\Product;
 use App\Models\StokOpname;
 use App\Models\Penjualan;
 use App\Models\BarangTerjual;
+use App\Models\Size;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Database\QueryException as QE;
@@ -63,11 +64,12 @@ class StokOpnameController extends Controller
 
         $query = Product::join('size','size.size_id','product.product_idsize')
         ->join('band','band.band_id','product.product_idband')
-        ->select('product.*','size.size_nama','band.band_id','band.band_nama');
+        ->select('product.*','size.size_nama','band.band_id','band.band_nama')
+        ->where('product.product_stokakhir', '>', 0);
 
         if($request->get('band') == '' || $request->get('band') == NULL )
         {
-        $band_selected = "";
+        $band_selected = "A";
         $query->whereRaw('band.band_nama LIKE "'.$band_selected.'%"');
         }else {
          $band_selected =  $request->get('band');
@@ -82,10 +84,24 @@ class StokOpnameController extends Controller
             $query->orWhereRaw('band.band_nama LIKE "7%"');
             $query->orWhereRaw('band.band_nama LIKE "8%"');
             $query->orWhereRaw('band.band_nama LIKE "9%"');
+         }elseif($band_selected == 'All'){
+        $band_selected = "";
+        $query->whereRaw('band.band_nama LIKE "'.$band_selected.'%"');
          }else {
             $query->whereRaw('band.band_nama LIKE "'.$band_selected.'%"');
          }
         }
+
+        if($request->get('size') == '' || $request->get('size') == NULL )
+        {
+        $size_selected = "";
+        $query->whereRaw('size.size_nama LIKE "'.$size_selected.'%"');
+        }else {
+         $size_selected =  $request->get('size');
+            $query->whereRaw('size.size_nama LIKE "'.$size_selected.'%"');
+        }
+
+
         $product = $query->orderBy('band_nama','ASC')->get();
         foreach($product as $key => $p){
             $penjualan = BarangTerjual::where('barangterjual_idproduk',$p->product_id)->get();
@@ -106,7 +122,9 @@ class StokOpnameController extends Controller
             $product[$key]["stokterjual"] = $count;
         }
 
-        return view('stokopname.sobulanan')->with(compact('product','band_selected'));
+        $size = Size::get();
+
+        return view('stokopname.sobulanan')->with(compact('product','band_selected','size','size_selected'));
         // return $product->toSql();
     }
 

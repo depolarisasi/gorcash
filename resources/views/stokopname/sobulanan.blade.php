@@ -72,7 +72,7 @@
                     <div class="col-md-4">
                     <div class="d-flex align-items-center">
                         <select class="form-control select2" id="selectband">
-                            <option value="?band=" @if($band_selected == '') selected @endif>All</option>
+                            <option value="?band=" @if($band_selected == 'All') selected @endif>All</option>
                             <option value="?band=A" @if($band_selected == 'A') selected @endif>A</option>
                             <option value="?band=B" @if($band_selected == 'B') selected @endif>B</option>
                             <option value="?band=C" @if($band_selected == 'C') selected @endif>C</option>
@@ -106,6 +106,20 @@
                     </div>
                 </div>
             </div>
+            <div class="row mb-3">
+                <label class="col-md-2">Pilih Size</label>
+                <div class="col-md-4">
+                <div class="d-flex align-items-center">
+                    <select class="form-control select2" id="selectsize">
+                        <option value="?band={{$band_selected}}&size=" @if($size_selected == '') selected @endif>All</option>
+                        @foreach($size as $s)
+                        <option value="?band={{$band_selected}}&size={{$s->size_nama}}" @if($size_selected == $s->size_nama) selected @endif>{{$s->size_nama}}</option>
+                        @endforeach
+                    </select>
+
+                </div>
+            </div>
+        </div>
         </div>
 
             </div>
@@ -147,10 +161,10 @@
                         <td>{{$p->stokterjual}}
                             <input id="stokterjual" type="hidden" name="stokterjual[]" value="{{$p->stokterjual}}">
                         </td>
-                        <td>{{$p->product_stokgudang}} 
+                        <td>{{$p->product_stokgudang}}
                         </td>
 
-                        <td>{{$p->product_stoktoko}} 
+                        <td>{{$p->product_stoktoko}}
                         </td>
                         <td id="sisatersedia{{$p->product_sku}}">{{(int)$p->product_stokakhir}}
                         <input id="sisainput" type="hidden" name="stoksisa[]" value="{{(int)$p->product_stokakhir}}"></td>
@@ -201,6 +215,12 @@
     $('.select2').select2();
 $('#selectband').on('change', function() {
      url =  $("#selectband :selected").val();
+       window.location.href = url;
+});
+
+
+$('#selectsize').on('change', function() {
+     url =  $("#selectsize :selected").val();
        window.location.href = url;
 });
 
@@ -315,7 +335,6 @@ $('#simpan').on('click', function (e) {
             }
         ],
         "paging":   false,
-        "order": [[ 0, "desc" ]],
     } );
 
 
