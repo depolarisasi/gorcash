@@ -123,6 +123,8 @@
 					<th width="5%">Size</th>
 					<th width="5%">Stok Awal</th>
 					<th width="5%">Stok Terjual</th>
+					<th width="5%">Stok Gudang</th>
+					<th width="5%">Stok Toko</th>
 					<th width="5%">Stok Akhir</th>
 					<th width="5%">Stok Real</th>
 					<th width="5%">Selisih</th>
@@ -145,7 +147,11 @@
                         <td>{{$p->stokterjual}}
                             <input id="stokterjual" type="hidden" name="stokterjual[]" value="{{$p->stokterjual}}">
                         </td>
+                        <td>{{$p->product_stokgudang}} 
+                        </td>
 
+                        <td>{{$p->product_stoktoko}} 
+                        </td>
                         <td id="sisatersedia{{$p->product_sku}}">{{(int)$p->product_stokakhir}}
                         <input id="sisainput" type="hidden" name="stoksisa[]" value="{{(int)$p->product_stokakhir}}"></td>
 
