@@ -208,136 +208,137 @@ Dashboard Gorilla Coach </h5>
                 <!--end::Stats Widget 12-->
                 </div>
     </div>
+    @endif
+    
     <div class="row">
-    <div class="col-md-6">
-    <div class="card card-custom card-stretch gutter-b">
-        <!--begin::Header-->
-        <div class="card-header border-0 pt-6 mb-2">
-            <h3 class="card-title align-items-start flex-column">
-                <span class="card-label font-weight-bold font-size-h4 text-dark-75 mb-3">Penjualan Terakhir</span>
-            </h3>
-        </div>
-        <!--end::Header-->
-        <!--begin::Body-->
-        <div class="card-body pt-2">
-            <!--begin::Table-->
-            <div class="table-responsive">
-                <table class="table table-borderless mb-0">
-                    <tbody>
-                        <!--begin::Item-->
-                        @foreach($recentsales as $rs)
-                        <tr>
-                            <!--begin::Icon-->
-                            <td class="align-middle w-50px pl-0 pr-2 pb-6">
-                                <!--begin::Symbol-->
-                                <div class="symbol symbol-50 symbol-light-success">
-                                    <a href="{{asset($rs->product_foto?$rs->product_foto:"/assets/nopicture.png")}}" data-type="image" data-fslightbox="galleryproduk">
-                                        <img src="{{asset($rs->product_foto?$rs->product_foto:"/assets/nopicture.png")}}" data-type="image" class="img-fluid" style="width: 50px !important; height: 50px !important;"></a>
-                                </div>
-                                <!--end::Symbol-->
-                            </td>
-                            <!--end::Icon-->
-                            <!--begin::Content-->
-                            <td class="align-middle pb-6">
-                                <div class="font-size-lg font-weight-bolder text-dark-75 mb-1">{{$rs->product_nama}}</div>
-                                <div class="font-weight-bold text-muted">{{$rs->band_nama}}</div>
-                            </td>
-                            <td class="font-weight-bold text-muted text-right">
-                                <span class="text-success font-size-h5 font-weight-bolder ml-1">{{$rs->barangterjual_qty}}</span>
-                            </td>
-                            <td class="text-right align-middle pb-6">
-                                <div class="font-weight-bold text-muted mb-1">Pendapatan (- Diskon)</div>
-                                <div class="font-size-lg font-weight-bolder text-dark-75">@money($rs->barangterjual_totalbarangterjual) (-@money($rs->barangterjual_diskon))</div>
-                            </td>
-                            <!--end::Content-->
-                        </tr>
-                        @endforeach
-                        <!--end::Item-->
-                        <!--begin::Item-->
-                    </tbody>
-                </table>
-            </div>
-            <!--end::Table-->
-        </div>
-        <!--end::Body-->
-    </div>
-        </div>
         <div class="col-md-6">
-            <div class="card card-custom gutter-b">
-                <!--begin::Header-->
-                <div class="card-header border-0 pt-6 mb-2">
-                    <h3 class="card-title align-items-start flex-column">
-                        <span class="card-label font-weight-bold font-size-h4 text-dark-75 mb-3">Proporsi Penjualan & Pengeluaran Bulan Ini</span>
-                    </h3>
-                </div>
-                <!--end::Header-->
-                <!--begin::Body-->
-                <div class="card-body pt-2">
-                <!--begin::Chart-->
-                <div id="chartdonut" class="d-flex justify-content-center"></div>
-                <!--end::Chart-->
-                </div>
-                <!--end::Body-->
+        <div class="card card-custom card-stretch gutter-b">
+            <!--begin::Header-->
+            <div class="card-header border-0 pt-6 mb-2">
+                <h3 class="card-title align-items-start flex-column">
+                    <span class="card-label font-weight-bold font-size-h4 text-dark-75 mb-3">Penjualan Terakhir</span>
+                </h3>
             </div>
-
-<!--begin::Mixed Widget 14-->
-<div class="card card-custom gutter-b">
-    <!--begin::Header-->
-    <div class="card-header border-0">
-    <h3 class="card-title font-weight-bolder text-dark">Agenda Promo</h3>
-    </div>
-    <!--end::Header-->
-    <!--begin::Body-->
-    <div class="card-body pt-2">
-    <!--begin::Item-->
-    <!--begin::Item-->
-    @foreach($agenda as $ag)
-    <div class="d-flex align-items-center mt-3">
-    <!--begin::Bullet-->
-    <span class="bullet bullet-bar bg-danger align-self-stretch"></span>
-    <!--end::Bullet-->
-    <!--begin::Text-->
-    <div class="d-flex flex-column flex-grow-1 mx-4">
-    <a href="{{url('agenda/detail/'.$ag->agenda_id)}}" class="text-dark-75 text-hover-primary font-weight-boldest font-size-lg mb-1">{{$ag->agenda_judul}}</a>
-    <span class="font-weight-boldest">{{\Carbon\Carbon::parse($ag->agenda_startdate)->format('d-m-Y')}} - {{\Carbon\Carbon::parse($ag->agenda_enddate)->format('d-m-Y')}}</span>
-    </div>
-    <!--end::Text-->
-    </div>
-    @endforeach
-
-    </div>
-    <!--end::Body-->
-    </div>
+            <!--end::Header-->
+            <!--begin::Body-->
+            <div class="card-body pt-2">
+                <!--begin::Table-->
+                <div class="table-responsive">
+                    <table class="table table-borderless mb-0">
+                        <tbody>
+                            <!--begin::Item-->
+                            @foreach($recentsales as $rs)
+                            <tr>
+                                <!--begin::Icon-->
+                                <td class="align-middle w-50px pl-0 pr-2 pb-6">
+                                    <!--begin::Symbol-->
+                                    <div class="symbol symbol-50 symbol-light-success">
+                                        <a href="{{asset($rs->product_foto?$rs->product_foto:"/assets/nopicture.png")}}" data-type="image" data-fslightbox="galleryproduk">
+                                            <img src="{{asset($rs->product_foto?$rs->product_foto:"/assets/nopicture.png")}}" data-type="image" class="img-fluid" style="width: 50px !important; height: 50px !important;"></a>
+                                    </div>
+                                    <!--end::Symbol-->
+                                </td>
+                                <!--end::Icon-->
+                                <!--begin::Content-->
+                                <td class="align-middle pb-6">
+                                    <div class="font-size-lg font-weight-bolder text-dark-75 mb-1">{{$rs->product_nama}}</div>
+                                    <div class="font-weight-bold text-muted">{{$rs->band_nama}}</div>
+                                </td>
+                                <td class="font-weight-bold text-muted text-right">
+                                    <span class="text-success font-size-h5 font-weight-bolder ml-1">{{$rs->barangterjual_qty}}</span>
+                                </td>
+                                <td class="text-right align-middle pb-6">
+                                    <div class="font-weight-bold text-muted mb-1">Pendapatan (- Diskon)</div>
+                                    <div class="font-size-lg font-weight-bolder text-dark-75">@money($rs->barangterjual_totalbarangterjual) (-@money($rs->barangterjual_diskon))</div>
+                                </td>
+                                <!--end::Content-->
+                            </tr>
+                            @endforeach
+                            <!--end::Item-->
+                            <!--begin::Item-->
+                        </tbody>
+                    </table>
+                </div>
+                <!--end::Table-->
+            </div>
+            <!--end::Body-->
+        </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card card-custom gutter-b">
+                    <!--begin::Header-->
+                    <div class="card-header border-0 pt-6 mb-2">
+                        <h3 class="card-title align-items-start flex-column">
+                            <span class="card-label font-weight-bold font-size-h4 text-dark-75 mb-3">Proporsi Penjualan & Pengeluaran Bulan Ini</span>
+                        </h3>
+                    </div>
+                    <!--end::Header-->
+                    <!--begin::Body-->
+                    <div class="card-body pt-2">
+                    <!--begin::Chart-->
+                    <div id="chartdonut" class="d-flex justify-content-center"></div>
+                    <!--end::Chart-->
+                    </div>
+                    <!--end::Body-->
+                </div>
+    
+    <!--begin::Mixed Widget 14-->
     <div class="card card-custom gutter-b">
         <!--begin::Header-->
-        <div class="card-header border-0 pt-5">
-        <h3 class="card-title font-weight-bolder">Note</h3>
+        <div class="card-header border-0">
+        <h3 class="card-title font-weight-bolder text-dark">Agenda Promo</h3>
         </div>
         <!--end::Header-->
-
         <!--begin::Body-->
         <div class="card-body pt-2">
-            @foreach($note as $n)
-            <div class="d-flex align-items-center mt-3">
-            <!--begin::Bullet-->
-            <span class="bullet bullet-bar bg-danger align-self-stretch"></span>
-            <!--end::Bullet-->
-            <!--begin::Text-->
-            <div class="d-flex flex-column flex-grow-1 mx-4">
-            <a href="{{url('note/detail/'.$n->note_id)}}" class="text-dark-75 text-hover-primary font-weight-boldest font-size-lg mb-1">{{$n->note_judul}}</a>
-            <span class="font-weight-boldest">{{\Carbon\Carbon::parse($n->note_date)->format('d-m-Y')}}</span>
-            </div>
-            <!--end::Text-->
-            </div>
-            @endforeach
+        <!--begin::Item-->
+        <!--begin::Item-->
+        @foreach($agenda as $ag)
+        <div class="d-flex align-items-center mt-3">
+        <!--begin::Bullet-->
+        <span class="bullet bullet-bar bg-danger align-self-stretch"></span>
+        <!--end::Bullet-->
+        <!--begin::Text-->
+        <div class="d-flex flex-column flex-grow-1 mx-4">
+        <a href="{{url('agenda/detail/'.$ag->agenda_id)}}" class="text-dark-75 text-hover-primary font-weight-boldest font-size-lg mb-1">{{$ag->agenda_judul}}</a>
+        <span class="font-weight-boldest">{{\Carbon\Carbon::parse($ag->agenda_startdate)->format('d-m-Y')}} - {{\Carbon\Carbon::parse($ag->agenda_enddate)->format('d-m-Y')}}</span>
+        </div>
+        <!--end::Text-->
+        </div>
+        @endforeach
+    
         </div>
         <!--end::Body-->
         </div>
-        <!--end::Mixed Widget 14-->
+        <div class="card card-custom gutter-b">
+            <!--begin::Header-->
+            <div class="card-header border-0 pt-5">
+            <h3 class="card-title font-weight-bolder">Note</h3>
+            </div>
+            <!--end::Header-->
+    
+            <!--begin::Body-->
+            <div class="card-body pt-2">
+                @foreach($note as $n)
+                <div class="d-flex align-items-center mt-3">
+                <!--begin::Bullet-->
+                <span class="bullet bullet-bar bg-danger align-self-stretch"></span>
+                <!--end::Bullet-->
+                <!--begin::Text-->
+                <div class="d-flex flex-column flex-grow-1 mx-4">
+                <a href="{{url('note/detail/'.$n->note_id)}}" class="text-dark-75 text-hover-primary font-weight-boldest font-size-lg mb-1">{{$n->note_judul}}</a>
+                <span class="font-weight-boldest">{{\Carbon\Carbon::parse($n->note_date)->format('d-m-Y')}}</span>
+                </div>
+                <!--end::Text-->
+                </div>
+                @endforeach
+            </div>
+            <!--end::Body-->
+            </div>
+            <!--end::Mixed Widget 14-->
+            </div>
         </div>
-    </div>
-    <!--end::Row-->
-    @endif
+        <!--end::Row-->
 <!--begin::Row-->
 <div class="row">
 <div class="col-lg-12">
