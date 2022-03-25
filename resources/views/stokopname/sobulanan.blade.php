@@ -117,6 +117,7 @@
                         @endforeach
                     </select>
 
+                    <input id="size" type="hidden" class="form-control col-md-8" name="so_size" value="{{$size_selected}}" required>
                 </div>
             </div>
         </div>

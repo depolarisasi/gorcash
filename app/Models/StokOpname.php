@@ -41,6 +41,7 @@ class StokOpname extends Model
         'so_status',
         'so_namaso',
         'so_char',
+        'so_size',
         'created_at',
         'updated_at', ];
 }
