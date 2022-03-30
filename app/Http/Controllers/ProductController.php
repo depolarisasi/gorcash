@@ -231,7 +231,7 @@ class ProductController extends Controller
                                             }
                                             $store->put('product_vendor', $vendor);
                                             // $store->put('product_productlama', $request->product_productlama);
-                                        if($request->product_tanggalpublish == NULL){
+                                        if($checksku->product_status == 0){
                                             $status = 0;
                                         }else {
                                             $status = 1;
@@ -272,7 +272,7 @@ class ProductController extends Controller
                                             }
                                             $checksku->product_vendor = $vendor;
                                             // $checksku->product_productlama = $request->product_productlama;
-                                        if($request->product_tanggalpublish == NULL){
+                                        if($checksku->product_status == NULL){
                                             $status = 0;
                                         }else {
                                             $status = 1;
@@ -505,7 +505,7 @@ class ProductController extends Controller
     $update->put('product_vendor', $vendor);
 
 
-    if($request->product_tanggalpublish == NULL){
+    if($produk->product_status == 0){
         $status = 0;
     }else {
         $status = 1;

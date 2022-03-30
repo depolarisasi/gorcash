@@ -72,7 +72,7 @@
                     <div class="col-md-4">
                     <div class="d-flex align-items-center">
                         <select class="form-control select2" id="selectband">
-                            <option value="?band=" @if($band_selected == 'All') selected @endif>All</option>
+                            <option value="?band=All" @if($band_selected == 'All') selected @endif>All</option>
                             <option value="?band=A" @if($band_selected == 'A') selected @endif>A</option>
                             <option value="?band=B" @if($band_selected == 'B') selected @endif>B</option>
                             <option value="?band=C" @if($band_selected == 'C') selected @endif>C</option>
