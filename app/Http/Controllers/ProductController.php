@@ -231,7 +231,7 @@ class ProductController extends Controller
                                             }
                                             $store->put('product_vendor', $vendor);
                                             // $store->put('product_productlama', $request->product_productlama);
-                                        if($checksku->product_status == 0){
+                                        if($request->product_tanggalpublish == NULL){
                                             $status = 0;
                                         }else {
                                             $status = 1;
