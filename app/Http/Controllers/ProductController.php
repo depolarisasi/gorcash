@@ -202,7 +202,7 @@ class ProductController extends Controller
                                 $skuvariant = $masterskus.$sizeselected;
                                 $checksku = Product::where('product_sku',$skuvariant)->first();
                                 $masterdata = BarcodeDB::where('barcode_mastersku', $masterskus)->first();
-                                if($masterdata && $masterdata->barcode_productname == $request->product_nama){
+                                if($masterdata && (strcasecmp($masterdata->barcode_productname, $request->product_nama) == 0)){
                                     if(!$checksku){
                                             $store = collect($request->all());
                                             $store->put('product_mastersku', $masterskus);
@@ -245,7 +245,8 @@ class ProductController extends Controller
                                     toast('Database error','error');
                                                 return redirect()->back();
                                             }
-                                    }else {
+                                    }
+                                    else {
 
                                             $checksku->product_idsize = $sizeselected;
                                             $checksku->product_idband = $masterdata->barcode_productband;
