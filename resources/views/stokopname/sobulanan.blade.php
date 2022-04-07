@@ -72,34 +72,34 @@
                     <div class="col-md-4">
                     <div class="d-flex align-items-center">
                         <select class="form-control select2" id="selectband">
-                            <option value="?band=All" @if($band_selected == 'All') selected @endif>All</option>
-                            <option value="?band=A" @if($band_selected == 'A') selected @endif>A</option>
-                            <option value="?band=B" @if($band_selected == 'B') selected @endif>B</option>
-                            <option value="?band=C" @if($band_selected == 'C') selected @endif>C</option>
-                            <option value="?band=D" @if($band_selected == 'D') selected @endif>D</option>
-                            <option value="?band=E" @if($band_selected == 'E') selected @endif>E</option>
-                            <option value="?band=F" @if($band_selected == 'F') selected @endif>F</option>
-                            <option value="?band=G" @if($band_selected == 'G') selected @endif>G</option>
-                            <option value="?band=H" @if($band_selected == 'H') selected @endif>H</option>
-                            <option value="?band=I" @if($band_selected == 'I') selected @endif>I</option>
-                            <option value="?band=J" @if($band_selected == 'J') selected @endif>J</option>
-                            <option value="?band=K" @if($band_selected == 'K') selected @endif>K</option>
-                            <option value="?band=L" @if($band_selected == 'L') selected @endif>L</option>
-                            <option value="?band=M" @if($band_selected == 'M') selected @endif>M</option>
-                            <option value="?band=N" @if($band_selected == 'N') selected @endif>N</option>
-                            <option value="?band=O" @if($band_selected == 'O') selected @endif>O</option>
-                            <option value="?band=P" @if($band_selected == 'P') selected @endif>P</option>
-                            <option value="?band=Q" @if($band_selected == 'Q') selected @endif>Q</option>
-                            <option value="?band=R" @if($band_selected == 'R') selected @endif>R</option>
-                            <option value="?band=S" @if($band_selected == 'S') selected @endif>S</option>
-                            <option value="?band=T" @if($band_selected == 'T') selected @endif>T</option>
-                            <option value="?band=U" @if($band_selected == 'U') selected @endif>U</option>
-                            <option value="?band=V" @if($band_selected == 'V') selected @endif>V</option>
-                            <option value="?band=W" @if($band_selected == 'W') selected @endif>W</option>
-                            <option value="?band=X" @if($band_selected == 'X') selected @endif>X</option>
-                            <option value="?band=Y" @if($band_selected == 'Y') selected @endif>Y</option>
-                            <option value="?band=Z" @if($band_selected == 'Z') selected @endif>Z</option>
-                            <option value="?band=0-9" @if($band_selected == '0-9') selected @endif>0-9</option>
+                            <option value="?band=All&size={{$size_selected}}" @if($band_selected == 'All' && $size_selected == '') selected @endif>All</option>
+                            <option value="?band=A&size={{$size_selected}}" @if($band_selected == 'A') selected @endif>A</option>
+                            <option value="?band=B&size={{$size_selected}}" @if($band_selected == 'B') selected @endif>B</option>
+                            <option value="?band=C&size={{$size_selected}}" @if($band_selected == 'C') selected @endif>C</option>
+                            <option value="?band=D&size={{$size_selected}}" @if($band_selected == 'D') selected @endif>D</option>
+                            <option value="?band=E&size={{$size_selected}}" @if($band_selected == 'E') selected @endif>E</option>
+                            <option value="?band=F&size={{$size_selected}}" @if($band_selected == 'F') selected @endif>F</option>
+                            <option value="?band=G&size={{$size_selected}}" @if($band_selected == 'G') selected @endif>G</option>
+                            <option value="?band=H&size={{$size_selected}}" @if($band_selected == 'H') selected @endif>H</option>
+                            <option value="?band=I&size={{$size_selected}}" @if($band_selected == 'I') selected @endif>I</option>
+                            <option value="?band=J&size={{$size_selected}}" @if($band_selected == 'J') selected @endif>J</option>
+                            <option value="?band=K&size={{$size_selected}}" @if($band_selected == 'K') selected @endif>K</option>
+                            <option value="?band=L&size={{$size_selected}}" @if($band_selected == 'L') selected @endif>L</option>
+                            <option value="?band=M&size={{$size_selected}}" @if($band_selected == 'M') selected @endif>M</option>
+                            <option value="?band=N&size={{$size_selected}}" @if($band_selected == 'N') selected @endif>N</option>
+                            <option value="?band=O&size={{$size_selected}}" @if($band_selected == 'O') selected @endif>O</option>
+                            <option value="?band=P&size={{$size_selected}}" @if($band_selected == 'P') selected @endif>P</option>
+                            <option value="?band=Q&size={{$size_selected}}" @if($band_selected == 'Q') selected @endif>Q</option>
+                            <option value="?band=R&size={{$size_selected}}" @if($band_selected == 'R') selected @endif>R</option>
+                            <option value="?band=S&size={{$size_selected}}" @if($band_selected == 'S') selected @endif>S</option>
+                            <option value="?band=T&size={{$size_selected}}" @if($band_selected == 'T') selected @endif>T</option>
+                            <option value="?band=U&size={{$size_selected}}" @if($band_selected == 'U') selected @endif>U</option>
+                            <option value="?band=V&size={{$size_selected}}" @if($band_selected == 'V') selected @endif>V</option>
+                            <option value="?band=W&size={{$size_selected}}" @if($band_selected == 'W') selected @endif>W</option>
+                            <option value="?band=X&size={{$size_selected}}" @if($band_selected == 'X') selected @endif>X</option>
+                            <option value="?band=Y&size={{$size_selected}}" @if($band_selected == 'Y') selected @endif>Y</option>
+                            <option value="?band=Z&size={{$size_selected}}" @if($band_selected == 'Z') selected @endif>Z</option>
+                            <option value="?band=0-9&size={{$size_selected}}" @if($band_selected == '0-9') selected @endif>0-9</option>
                         </select>
 
                         <input id="chars" type="hidden" class="form-control col-md-8" name="so_char" value="{{$band_selected}}" required>
@@ -111,7 +111,7 @@
                 <div class="col-md-4">
                 <div class="d-flex align-items-center">
                     <select class="form-control select2" id="selectsize">
-                        <option value="?band={{$band_selected}}&size=" @if($size_selected == '') selected @endif>All</option>
+                        <option value="?band={{$band_selected}}&size=All" @if($size_selected == 'All') selected @endif>All</option>
                         @foreach($size as $s)
                         <option value="?band={{$band_selected}}&size={{$s->size_nama}}" @if($size_selected == $s->size_nama) selected @endif>{{$s->size_nama}}</option>
                         @endforeach

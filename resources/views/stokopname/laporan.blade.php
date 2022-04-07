@@ -62,8 +62,11 @@
 					<th width="15%">Nama Produk</th>
 					<th width="5%">Size</th>
 					<th width="5%">Stok Awal</th>
-					<th width="5%">Sudah Terjual</th>
-					<th width="5%">Sisa Stok Tersedia</th>
+					<th width="5%">Stok Terjual</th>
+					<th width="5%">Stok Gudang</th>
+					<th width="5%">Stok Toko</th>
+					<th width="5%">Sisa Akhir</th>
+					<th width="5%">Sisa Akhir 2</th>
 					<th width="5%">Stok Ril SO</th>
 					<th width="5%">Selisih</th>
 					<th width="10%">Keterangan</th>
@@ -79,6 +82,9 @@
 					<td>{{$p->size_nama}}</td>
 					<td>{{$p->so_stok}} </td>
                     <td>{{$p->so_stokterjual}}</td>
+					<td>{{$p->product_stoktoko}}</td>
+					<td>{{$p->product_stokgudang}}</td>
+					<td>{{$p->product_stokakhir}}</td>
                     <td>{{(int)$p->so_stok - (int)$p->so_stokterjual}}</td>
 					<td>{{$p->so_stokakhirreal}}</td>
 					<td>{{$p->so_selisih}}</td>

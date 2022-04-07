@@ -67,9 +67,9 @@ class StokOpnameController extends Controller
         ->select('product.*','size.size_nama','band.band_id','band.band_nama')
         ->where('product.product_stokakhir', '>', 0);
 
-        if($request->get('band') == '' || $request->get('band') == NULL )
+        if($request->get('band') == '' || $request->get('band') == NULL || $request->get('band') == 'All')
         {
-        $band_selected = "A";
+        $band_selected = "";
         $query->whereRaw('band.band_nama LIKE "'.$band_selected.'%"');
         }else {
          $band_selected =  $request->get('band');
@@ -84,15 +84,12 @@ class StokOpnameController extends Controller
             $query->orWhereRaw('band.band_nama LIKE "7%"');
             $query->orWhereRaw('band.band_nama LIKE "8%"');
             $query->orWhereRaw('band.band_nama LIKE "9%"');
-         }elseif($band_selected == 'All'){
-        $band_selected = "";
-        $query->whereRaw('band.band_nama LIKE "'.$band_selected.'%"');
          }else {
             $query->whereRaw('band.band_nama LIKE "'.$band_selected.'%"');
          }
         }
 
-        if($request->get('size') == '' || $request->get('size') == NULL )
+        if($request->get('size') == '' || $request->get('size') == NULL || $request->get('size') == 'All')
         {
         $size_selected = "";
         $query->whereRaw('size.size_nama LIKE "'.$size_selected.'%"');
