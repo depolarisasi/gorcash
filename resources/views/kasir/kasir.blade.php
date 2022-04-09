@@ -280,6 +280,7 @@
       <div class="col-md-4">
           <div class="form-group mt-4">
                 <select class="multisteps-form__input form-control" name="penjualan_paymentype" required>
+                    <option value="Debit" selected>Debit</option>
                     <option value="Cash">Cash</option>
                     <option value="GoPay">GoPay</option>
                     <option value="ShopeePay">ShopeePay</option>
@@ -288,10 +289,10 @@
                     <option value="Transfer Bank BCA">Transfer Bank BCA</option>
                     <option value="Transfer Bank BNI">Transfer Bank BNI</option>
                     <option value="Transfer Bank Mandiri">Transfer Bank Mandiri</option>
-                    <option value="Debit">Debit</option>
                     <option value="Kartu Kredit">Kartu Kredit</option>
                     <option value="Marketplace">Marketplace</option>
                     <option value="Xendit">Xendit</option>
+                    <option value="Split Bill">Split Bill</option>
                   </select>
           </div>
       </div>
