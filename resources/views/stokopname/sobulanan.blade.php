@@ -143,6 +143,7 @@
 					<th width="5%">Stok Toko</th>
 					<th width="5%">Stok Real</th>
 					<th width="5%">Selisih</th>
+					<th width="5%">Keterangan</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -165,15 +166,20 @@
 
                         <td id="sisatersedia{{$p->product_sku}}">{{(int)$p->product_stokakhir}}
                             <input id="sisainput" type="hidden" name="stoksisa[]" value="{{(int)$p->product_stokakhir}}"></td>
-                        <td>{{$p->product_stokgudang}}
-                        </td>
 
-                        <td>{{$p->product_stoktoko}}
-                        </td>
+                        <td id="stokgudang{{$p->product_sku}}"><input id="stokgudang{{$p->product_sku}}" class="form-control stokgudangs inputx" data-sku="{{$p->product_sku}}" value="0" type="text" name="stokgudang[]"></td>
 
-					<td><input id="stokrilinput{{$p->product_sku}}" class="form-control stokrilinputs inputx" data-sku="{{$p->product_sku}}" value="0" type="text" name="stokril[]"></td>
+                        <td id="stoktoko{{$p->product_sku}}"><input id="stoktoko{{$p->product_sku}}" class="form-control stoktokos inputx" data-sku="{{$p->product_sku}}" value="0" type="text" name="stoktoko[]"></td>
+
+					<td>
+                        <span id="stokril{{$p->product_sku}}">0</span>
+                    <input id="stokrilinput{{$p->product_sku}}" class="inputx" value="0" type="hidden" name="stokril[]"></td>
+
 					<td><span id="selisih{{$p->product_sku}}">0</span>
                     <input id="selisihinput{{$p->product_sku}}" class="inputx" value="0" type="hidden" name="selisih[]"></td>
+
+                    <td id="keterangan{{$p->product_sku}}"><input id="keterangan{{$p->product_sku}}" class="form-control keterangans inputx" data-sku="{{$p->product_sku}}" type="text" name="keterangan[]"></td>
+
 				</tr>
                 @endforeach
 
@@ -296,6 +302,7 @@ $('#simpan').on('click', function (e) {
                     'so_userid' :    $('input[name="so_userid"]').val(),
                     'so_namaso' :    $('input[name="so_namaso"]').val(),
                     'so_char' :    $('input[name="so_namaso"]').val(),
+                    'so_size' :    $('input[name="so_size"]').val(),
                 },
                 success: function (data) {
                     if (data['success']) {

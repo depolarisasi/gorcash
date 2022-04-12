@@ -31,8 +31,6 @@ class StokOpname extends Model
         'so_stokakhir',
         'so_stokgudang',
         'so_stoktoko',
-        'so_stokakhirreal',
-        'so_stokgudangreal',
         'so_stoktokoreal',
         'so_selisih',
         'so_keterangan',

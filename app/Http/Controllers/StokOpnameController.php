@@ -125,55 +125,55 @@ class StokOpnameController extends Controller
         // return $product->toSql();
     }
 
-    public function somingguan($pubgroup){
-        $pubdata = BarangPublish::join('product','product.product_id','publish.publish_productid')
-        ->join('size','size.size_id','product.product_idsize')
-        ->join('band','band.band_id','product.product_idband')
-        ->select('publish.*','product.product_id','product.product_nama','band.band_id','band.band_nama','product.product_stoktoko','product.product_stok','product.product_stokakhir','size.size_id','size.size_nama','product.product_mastersku','product.product_sku')
-        ->where('publish_groupid',$pubgroup)
-        ->orderBy('product.product_nama','ASC')
-        ->orderBy('size.size_id','ASC')->get();
-        foreach($pubdata as $key => $p){
-            $from = Carbon::parse($p->publish_tanggal)->format('Y-m-d');
-            $to = Carbon::parse($p->publish_tanggal)->addDays(7)->format('Y-m-d');
-            $penjualan = BarangTerjual::where('barangterjual_idproduk',$p->product_id)
-            ->whereBetween('barangterjual_tanggalwaktubarangterjual', [$from, $to])->get();
+    // public function somingguan($pubgroup){
+    //     $pubdata = BarangPublish::join('product','product.product_id','publish.publish_productid')
+    //     ->join('size','size.size_id','product.product_idsize')
+    //     ->join('band','band.band_id','product.product_idband')
+    //     ->select('publish.*','product.product_id','product.product_nama','band.band_id','band.band_nama','product.product_stoktoko','product.product_stok','product.product_stokakhir','size.size_id','size.size_nama','product.product_mastersku','product.product_sku')
+    //     ->where('publish_groupid',$pubgroup)
+    //     ->orderBy('product.product_nama','ASC')
+    //     ->orderBy('size.size_id','ASC')->get();
+    //     foreach($pubdata as $key => $p){
+    //         $from = Carbon::parse($p->publish_tanggal)->format('Y-m-d');
+    //         $to = Carbon::parse($p->publish_tanggal)->addDays(7)->format('Y-m-d');
+    //         $penjualan = BarangTerjual::where('barangterjual_idproduk',$p->product_id)
+    //         ->whereBetween('barangterjual_tanggalwaktubarangterjual', [$from, $to])->get();
 
-            $count = 0;
-            foreach($penjualan as $pp){
-                $count = $count + (int) $pp->barangterjual_qty;
-            }
-            $pubdata[$key]["stokterjual"] = $count;
-        }
+    //         $count = 0;
+    //         foreach($penjualan as $pp){
+    //             $count = $count + (int) $pp->barangterjual_qty;
+    //         }
+    //         $pubdata[$key]["stokterjual"] = $count;
+    //     }
 
-        $pub = $pubgroup;
-        return view('stokopname.somingguan')->with(compact('pubdata','pub'));
-     }
+    //     $pub = $pubgroup;
+    //     return view('stokopname.somingguan')->with(compact('pubdata','pub'));
+    //  }
 
-     public function resumesomingguan($pubgroup){
-        $pubdata = StokOpname::join('product','product.product_sku','stokopname.so_sku')
-        ->join('size','size.size_id','product.product_idsize')
-        ->join('band','band.band_id','product.product_idband')
-        ->select('stokopname.*','product.product_id','product.product_nama','product.product_stok','product.product_stokakhir','size.size_id','size.size_nama','product.product_mastersku','product.product_sku','band.band_id','band.band_nama')
-        ->where('stokopname.so_pubgroupname',$pubgroup)
-        ->orderBy('product.product_nama','ASC')
-        ->orderBy('size.size_id','ASC')->get();
-        foreach($pubdata as $key => $p){
-            $from = Carbon::parse($p->publish_tanggal)->format('Y-m-d');
-            $to = Carbon::parse($p->publish_tanggal)->addDays(7)->format('Y-m-d');
-            $penjualan = BarangTerjual::where('barangterjual_idproduk',$p->product_id)
-            ->whereBetween('barangterjual_tanggalwaktubarangterjual', [$from, $to])->get();
+    //  public function resumesomingguan($pubgroup){
+    //     $pubdata = StokOpname::join('product','product.product_sku','stokopname.so_sku')
+    //     ->join('size','size.size_id','product.product_idsize')
+    //     ->join('band','band.band_id','product.product_idband')
+    //     ->select('stokopname.*','product.product_id','product.product_nama','product.product_stok','product.product_stokakhir','size.size_id','size.size_nama','product.product_mastersku','product.product_sku','band.band_id','band.band_nama')
+    //     ->where('stokopname.so_pubgroupname',$pubgroup)
+    //     ->orderBy('product.product_nama','ASC')
+    //     ->orderBy('size.size_id','ASC')->get();
+    //     foreach($pubdata as $key => $p){
+    //         $from = Carbon::parse($p->publish_tanggal)->format('Y-m-d');
+    //         $to = Carbon::parse($p->publish_tanggal)->addDays(7)->format('Y-m-d');
+    //         $penjualan = BarangTerjual::where('barangterjual_idproduk',$p->product_id)
+    //         ->whereBetween('barangterjual_tanggalwaktubarangterjual', [$from, $to])->get();
 
-            $count = 0;
-            foreach($penjualan as $pp){
-                $count = $count + (int) $pp->barangterjual_qty;
-            }
-            $pubdata[$key]["stokterjual"] = $count;
-        }
-        $soinfo = StokOpname::where('stokopname.so_pubgroupname',$pubgroup)->first();
-        $pub = $pubgroup;
-        return view('stokopname.resumemingguan')->with(compact('pubdata','pub','soinfo'));
-     }
+    //         $count = 0;
+    //         foreach($penjualan as $pp){
+    //             $count = $count + (int) $pp->barangterjual_qty;
+    //         }
+    //         $pubdata[$key]["stokterjual"] = $count;
+    //     }
+    //     $soinfo = StokOpname::where('stokopname.so_pubgroupname',$pubgroup)->first();
+    //     $pub = $pubgroup;
+    //     return view('stokopname.resumemingguan')->with(compact('pubdata','pub','soinfo'));
+    //  }
 
      public function resumesobulanan($pubgroup){
         $pubdata = StokOpname::join('product','product.product_sku','stokopname.so_sku')
@@ -222,55 +222,55 @@ class StokOpnameController extends Controller
 
         // return view('stokopname.laporanpdf')->with(compact('product','info'));
     }
-    public function storesomingguan(Request $request)
-    {
-        foreach($request->product_skus as $key => $p){
-            $so = new StokOpname;
-            $date = Carbon::parse($request->so_date)->format('Y-m-d');
-            $so->so_date = $date;
-            $so->so_pubgroupname = $request->publishgroup;
-            $product = Product::where('product_sku', $p)->first();
-            $publish = BarangPublish::where('publish_productid', $product->product_id)->where('publish_groupid', $request->publishgroup)->first();
-            $so->so_mastersku = $product->product_mastersku;
-            $so->so_sku = $p;
-            $so->so_stok = $publish->publish_stok;
-            $so->so_stokakhir = $publish->publish_stokakhir;
-            $so->so_stokterjual = $request->stokterjual[$key];
-            $so->so_selisih = (int) $publish->publish_stokakhir - (int) $request->stokril[$key];
-            $so->so_stokakhirreal = $request->stokril[$key];
-            $so->so_type = 1;
-            $so->so_userid = $request->so_userid;
-            $so->so_status = 1;
-            if($request->stokril[$key] == $request->stokakhir[$key]){
-                $so->so_keterangan = "Ada";
+    // public function storesomingguan(Request $request)
+    // {
+    //     foreach($request->product_skus as $key => $p){
+    //         $so = new StokOpname;
+    //         $date = Carbon::parse($request->so_date)->format('Y-m-d');
+    //         $so->so_date = $date;
+    //         $so->so_pubgroupname = $request->publishgroup;
+    //         $product = Product::where('product_sku', $p)->first();
+    //         $publish = BarangPublish::where('publish_productid', $product->product_id)->where('publish_groupid', $request->publishgroup)->first();
+    //         $so->so_mastersku = $product->product_mastersku;
+    //         $so->so_sku = $p;
+    //         $so->so_stok = $publish->publish_stok;
+    //         $so->so_stokakhir = $publish->publish_stokakhir;
+    //         $so->so_stokterjual = $request->stokterjual[$key];
+    //         $so->so_selisih = (int) $publish->publish_stokakhir - (int) $request->stokril[$key];
+    //         $so->so_stokakhirreal = $request->stokril[$key];
+    //         $so->so_type = 1;
+    //         $so->so_userid = $request->so_userid;
+    //         $so->so_status = 1;
+    //         if($request->stokril[$key] == $request->stokakhir[$key]){
+    //             $so->so_keterangan = "Ada";
 
-            }elseif($request->stokril[$key] < $request->stokakhir[$key]){
-                $from = Carbon::parse($publish->publish_tanggal)->format('Y-m-d');
-                $to = Carbon::parse($publish->publish_tanggal)->addDays(7)->format('Y-m-d');
-                $checkpenjualan = BarangTerjual::where('barangterjual_idproduk',$product->product_id)
-                ->whereBetween('barangterjual_tanggalwaktubarangterjual', [$from, $to])->get();
-                if(count($checkpenjualan) > 0){
-                    $qtyterjual = 0;
-                    $channelterjual = array();
-                    foreach($checkpenjualan as $cp){
-                        $qtyterjual = $qtyterjual+$cp->barangterjual_qty;
-                        $channelpenjualan = Penjualan::where('penjualan_id',$cp->barangterjual_idpenjualan)->get();
-                        foreach($channelpenjualan as $ccp){
-                            array_push($channelterjual, $ccp->penjualan_channel);
-                        }
-                    }
-                        $so->so_keterangan = "Terjual ".$qtyterjual." di ".implode(',',$channelterjual);
-                }else {
-                    $so->so_keterangan = "Missing";
-                }
-            }
-            $so->save();
+    //         }elseif($request->stokril[$key] < $request->stokakhir[$key]){
+    //             $from = Carbon::parse($publish->publish_tanggal)->format('Y-m-d');
+    //             $to = Carbon::parse($publish->publish_tanggal)->addDays(7)->format('Y-m-d');
+    //             $checkpenjualan = BarangTerjual::where('barangterjual_idproduk',$product->product_id)
+    //             ->whereBetween('barangterjual_tanggalwaktubarangterjual', [$from, $to])->get();
+    //             if(count($checkpenjualan) > 0){
+    //                 $qtyterjual = 0;
+    //                 $channelterjual = array();
+    //                 foreach($checkpenjualan as $cp){
+    //                     $qtyterjual = $qtyterjual+$cp->barangterjual_qty;
+    //                     $channelpenjualan = Penjualan::where('penjualan_id',$cp->barangterjual_idpenjualan)->get();
+    //                     foreach($channelpenjualan as $ccp){
+    //                         array_push($channelterjual, $ccp->penjualan_channel);
+    //                     }
+    //                 }
+    //                     $so->so_keterangan = "Terjual ".$qtyterjual." di ".implode(',',$channelterjual);
+    //             }else {
+    //                 $so->so_keterangan = "Missing";
+    //             }
+    //         }
+    //         $so->save();
 
 
-        }
+    //     }
 
-        return redirect('stokopname/laporan/'.$request->publishgroup);
-    }
+    //     return redirect('stokopname/laporan/'.$request->publishgroup);
+    // }
 
     public function updatesobulanan(Request $request){
 
@@ -372,12 +372,15 @@ class StokOpnameController extends Controller
                 $so->so_stok = $product->product_stok;
                 $so->so_stokakhir = $product->product_stokakhir;
                 $so->so_stokterjual = $request->stokterjual[$key];
-                $so->so_selisih =(int)$product->publish_stokakhir - (int) $request->stokril[$key];$request->selisih[$key];
+                $so->so_selisih = (int)$product->publish_stokakhir - (int) $request->stokril[$key];$request->selisih[$key];
                 $so->so_stokakhirreal = $request->stokril[$key];
                 $so->so_type = 2;
                 $so->so_userid = Auth::user()->id;
                 $so->so_namaso = $request->so_namaso;
                 $so->so_char = $request->so_char;
+                $so->so_size = $request->so_size;
+                $so->so_stoktoko = $request->so_stoktoko;
+                $so->so_stokgudang = $request->so_stokgudang;
                 $so->so_status = 1;
                 if($request->stokril[$key] == $request->stoksisa[$key]){
                     $so->so_keterangan = "Ada";
