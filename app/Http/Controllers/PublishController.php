@@ -99,7 +99,7 @@ public function apimassunpublish(Request $request){
         $publish = BarangPublish::join('product','product.product_id','publish.publish_productid')
         ->join('band','band.band_id','product.product_idband')
         ->join('size','size.size_id','product.product_idsize')
-        ->select('publish.*','product.product_id','product.product_foto','band.band_nama','product.product_nama','size.size_nama','product.product_mastersku','product.product_sku'
+        ->select('publish.*','product.product_id','product.product_foto','product.product_hargajual','product.product_keterangan','band.band_nama','product.product_nama','size.size_nama','product.product_mastersku','product.product_sku'
         ,'product.product_material'
         ,'product.product_tag'
         ,'product.product_madein'
@@ -118,7 +118,7 @@ public function apimassunpublish(Request $request){
         $publish = BarangPublish::join('product','product.product_id','publish.publish_productid')
         ->join('size','size.size_id','product.product_idsize')
         ->join('band','band.band_id','product.product_idband')
-        ->select('publish.*','product.product_id','product.product_foto','band.band_nama','product.product_nama','size.size_nama','product.product_mastersku','product.product_sku'
+        ->select('publish.*','product.product_id','product.product_foto','product.product_hargajual','product.product_keterangan','band.band_nama','product.product_nama','size.size_nama','product.product_mastersku','product.product_sku'
         ,'product.product_material'
         ,'product.product_tag'
         ,'product.product_madein'
@@ -149,6 +149,7 @@ public function apimassunpublish(Request $request){
             $product->product_material = $request->product_material[$key]??null;
             $product->product_madein = $request->product_madein[$key]??null;
             $product->product_condition = $request->product_condition[$key]??null;
+            $product->product_keterangan = $request->product_keterangan[$key]??null;
             $product->product_tanggalpublish = $request->publish_tanggal;
             if($product->product_status == 1){
                 $product->product_stok = $request->product_stok[$key];

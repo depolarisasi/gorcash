@@ -12,7 +12,7 @@
 <!--begin::Entry-->
 <div class="d-flex flex-column-fluid">
 <!--begin::Container-->
-<div class="container">
+<div class="container-fluid">
 <!--begin::Dashboard-->
 
 <!--begin::Row-->
@@ -42,12 +42,14 @@
 					<th width="5%">SKU</th>
 					<th width="10%">Nama Band</th>
 					<th width="20%">Nama Produk</th>
+					<th width="20%">Harga</th>
 					<th width="10%">Stok Awal</th>
 					<th width="10%">Stok Akhir</th>
 					<th width="10%">Tag</th>
 					<th width="10%">Material</th>
 					<th width="10%">Made In</th>
 					<th width="10%">Condition</th>
+					<th width="10%">Keterangan</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -60,11 +62,13 @@
 					<td>{{$p->band_nama}}</td>
 					<td>{{$p->product_nama}} ({{$p->size_nama}})</td>
 					<td>{{$p->product_stok}}</td>
+					<td>{{$p->product_hargajual}}</td>
 					<td>{{$p->product_stokakhir}}</td>
 					<td>{{$p->product_tag}}</td>
 					<td>{{$p->product_material}}</td>
 					<td>{{$p->product_madein}}</td>
 					<td>{{$p->product_condition}}</td>
+					<td>{{$p->product_keterangan}}</td>
 
                     </td>
 				</tr>

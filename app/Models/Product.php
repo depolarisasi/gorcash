@@ -46,6 +46,7 @@ class Product extends Model
     'product_productlama',
     'product_barcodelama',
     'product_typeid',
+    'product_keterangan',
         'created_at',
         'updated_at', ];
 
