@@ -57,7 +57,7 @@
 				<tr>
 					<th width="5%">Foto</th>
 					<th width="5%">SKU</th>
-					<th width="10%">Nama Band</th>
+					<th width="5%">Nama Band</th>
 					<th width="15%">Nama Produk</th>
 					<th width="5%">Harga</th>
 					<th width="10%">Stok Awal</th>
@@ -80,7 +80,7 @@
 					<td>{{$p->product_sku}}</td>
 					<td>{{$p->band_nama}}</td>
 					<td>{{$p->product_nama}} ({{$p->size_nama}})</td>
-					<td>{{$p->product_hargajual}}</td>
+					<td>@money($p->product_hargajual)</td>
                     <td><input type="number" class="form-control" name="product_stok[]" value="{{$p->publish_stok}}"></td>
                     <td><input type="number" class="form-control" name="product_stokakhir[]" value="{{$p->publish_stokakhir}}"></td>
 					<td><input type="text" class="form-control" name="product_tag[]" value="{{$p->product_tag}}"></td>
