@@ -201,6 +201,7 @@ class ProductController extends Controller
                                 $sizeselected = $s;
                                 $skuvariant = $masterskus.$sizeselected;
                                 $checksku = Product::where('product_sku',$skuvariant)->first();
+                                $otherproduct = Product::where('product_mastersku',$masterskus)->first();
                                 $masterdata = BarcodeDB::where('barcode_mastersku', $masterskus)->first();
                                 if($masterdata && (strcasecmp($masterdata->barcode_productname, $request->product_nama) == 0)){
                                     if(!$checksku){
@@ -231,7 +232,7 @@ class ProductController extends Controller
                                             }
                                             $store->put('product_vendor', $vendor);
                                             // $store->put('product_productlama', $request->product_productlama);
-                                        if($request->product_tanggalpublish == NULL){
+                                        if($otherproduct->product_status == NULL || $otherproduct->product_status == 0){
                                             $status = 0;
                                         }else {
                                             $status = 1;
@@ -273,11 +274,11 @@ class ProductController extends Controller
                                             }
                                             $checksku->product_vendor = $vendor;
                                             // $checksku->product_productlama = $request->product_productlama;
-                                        if($checksku->product_status == NULL){
-                                            $status = 0;
-                                        }else {
-                                            $status = 1;
-                                        }
+                                            if($otherproduct->product_status == NULL || $otherproduct->product_status == 0){
+                                                $status = 0;
+                                            }else {
+                                                $status = 1;
+                                            }
                                         $checksku->product_status = $status;
 
                                         try {
