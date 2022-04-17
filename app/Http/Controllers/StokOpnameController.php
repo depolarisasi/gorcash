@@ -372,66 +372,32 @@ class StokOpnameController extends Controller
                 $so->so_stok = $product->product_stok;
                 $so->so_stokakhir = $product->product_stokakhir;
                 $so->so_stokterjual = $request->stokterjual[$key];
-                $so->so_selisih = (int)$product->publish_stokakhir - (int) $request->stokril[$key];$request->selisih[$key];
+                $so->so_selisih = $request->selisih[$key];
                 $so->so_stokakhirreal = $request->stokril[$key];
                 $so->so_type = 2;
                 $so->so_userid = Auth::user()->id;
                 $so->so_namaso = $request->so_namaso;
                 $so->so_char = $request->so_char;
                 $so->so_size = $request->so_size;
-                $so->so_stoktoko = $request->so_stoktoko;
-                $so->so_stokgudang = $request->so_stokgudang;
+                $so->so_stoktoko = $request->stoktoko[$key];
+                $so->so_stokgudang = $request->stokgudang[$key];
                 $so->so_status = 1;
-                if($request->stokril[$key] == $request->stoksisa[$key]){
-                    $so->so_keterangan = "Ada";
-
-                }elseif($request->stokril[$key] < $request->stoksisa[$key]){
-                    $checkpenjualan = BarangTerjual::where('barangterjual_idproduk',$product->product_id)->get();
-                    if(count($checkpenjualan) > 0){
-                        $qtyterjual = 0;
-                        $channelterjual = array();
-                        foreach($checkpenjualan as $cp){
-                            $qtyterjual = $qtyterjual+$cp->barangterjual_qty;
-                            $channelpenjualan = Penjualan::where('penjualan_id',$cp->barangterjual_idpenjualan)->get();
-                            foreach($channelpenjualan as $ccp){
-                                array_push($channelterjual, $ccp->penjualan_channel);
-                            }
-                        }
-                            $so->so_keterangan = "Terjual ".$qtyterjual." di ".implode(',',$channelterjual);
-                    }else {
-                        $so->so_keterangan = "Missing";
-                    }
-                }
+                $so->so_keterangan = $request->keterangan[$key];
                 $so->save();
             }else {
                 $so = StokOpname::where('so_sku',$p)->first();
                 $product = Product::where('product_sku', $p)->first();
-                $so->so_selisih = (int)$product->publish_stokakhir - (int) $request->stokril[$key];
+                $so->so_selisih = $request->selisih[$key];
                 $so->so_stokterjual = $request->stokterjual[$key];
                 $so->so_stokakhirreal = $request->stokril[$key];
                 $so->so_status = 1;
                 $so->so_namaso = $request->so_namaso;
                 $so->so_char = $request->so_char;
-                if($request->stokril[$key] == $request->stoksisa[$key]){
-                    $so->so_keterangan = "Ada";
-
-                }elseif($request->stokril[$key] < $request->stoksisa[$key]){
-                    $checkpenjualan = BarangTerjual::where('barangterjual_idproduk',$product->product_id)->get();
-                    if(count($checkpenjualan) > 0){
-                        $qtyterjual = 0;
-                        $channelterjual = array();
-                        foreach($checkpenjualan as $cp){
-                            $qtyterjual = $qtyterjual+$cp->barangterjual_qty;
-                            $channelpenjualan = Penjualan::where('penjualan_id',$cp->barangterjual_idpenjualan)->get();
-                            foreach($channelpenjualan as $ccp){
-                                array_push($channelterjual, $ccp->penjualan_channel);
-                            }
-                        }
-                            $so->so_keterangan = "Terjual ".$qtyterjual." di ".implode(',',$channelterjual);
-                    }else {
-                        $so->so_keterangan = "Missing";
-                    }
-                }
+                $so->so_size = $request->so_size;
+                $so->so_stoktoko = $request->stoktoko[$key];
+                $so->so_stokgudang = $request->stokgudang[$key];
+                $so->so_status = 1;
+                $so->so_keterangan = $request->keterangan[$key];
             $so->update();
             }
 
@@ -571,30 +537,15 @@ class StokOpnameController extends Controller
         foreach($request->product_skus as $key => $p){
             $product = StokOpname::where('so_sku', $p)->where('so_type',2)->where('so_date',$request->so_date)->where('so_status')->first();
             if($product){
-                $product->so_selisih = (int)$product->publish_stokakhir - (int) $request->stokril[$key];
+                $product->so_selisih = $request->selisih[$key];
                 $product->so_stokterjual = $request->stokterjual[$key];
                 $product->so_stokakhirreal = $request->stokril[$key];
                 $product->so_status = 2;
-                if($request->stokril[$key] == $request->stoksisa[$key]){
-                    $product->so_keterangan = "Ada";
-
-                }elseif($request->stokril[$key] < $request->stoksisa[$key]){
-                    $checkpenjualan = BarangTerjual::where('barangterjual_idproduk',$product->product_id)->get();
-                    if(count($checkpenjualan) > 0){
-                        $qtyterjual = 0;
-                        $channelterjual = array();
-                        foreach($checkpenjualan as $cp){
-                            $qtyterjual = $qtyterjual+$cp->barangterjual_qty;
-                            $channelpenjualan = Penjualan::where('penjualan_id',$cp->barangterjual_idpenjualan)->get();
-                            foreach($channelpenjualan as $ccp){
-                                array_push($channelterjual, $ccp->penjualan_channel);
-                            }
-                        }
-                        $product->so_keterangan = "Terjual ".$qtyterjual." di ".implode(',',$channelterjual);
-                    }else {
-                        $product->so_keterangan = "Missing";
-                    }
-                }
+                $so->so_char = $request->so_char;
+                $so->so_size = $request->so_size;
+                $so->so_stoktoko = $request->stoktoko[$key];
+                $so->so_stokgudang = $request->stokgudang[$key];
+                $so->so_keterangan = $request->keterangan[$key];
             $product->update();
             }else {
                 $so = new StokOpname;
@@ -607,31 +558,16 @@ class StokOpnameController extends Controller
                 $so->so_stok = $product->product_stok;
                 $so->so_stokakhir = $product->product_stokakhir;
                 $so->so_stokterjual = $request->stokterjual[$key];
-                $so->so_selisih = (int)$product->publish_stokakhir - (int) $request->stokril[$key];
+                $so->so_selisih = $request->selisih[$key];
                 $so->so_stokakhirreal = $request->stokril[$key];
                 $so->so_type = 2;
                 $so->so_userid = Auth::user()->id;
                 $so->so_status = 2;
-                if($request->stokril[$key] == $request->stoksisa[$key]){
-                    $so->so_keterangan = "Ada";
-
-                }elseif($request->stokril[$key] < $request->stoksisa[$key]){
-                    $checkpenjualan = BarangTerjual::where('barangterjual_idproduk',$product->product_id)->get();
-                    if(count($checkpenjualan) > 0){
-                        $qtyterjual = 0;
-                        $channelterjual = array();
-                        foreach($checkpenjualan as $cp){
-                            $qtyterjual = $qtyterjual+$cp->barangterjual_qty;
-                            $channelpenjualan = Penjualan::where('penjualan_id',$cp->barangterjual_idpenjualan)->get();
-                            foreach($channelpenjualan as $ccp){
-                                array_push($channelterjual, $ccp->penjualan_channel);
-                            }
-                        }
-                            $so->so_keterangan = "Terjual ".$qtyterjual." di ".implode(',',$channelterjual);
-                    }else {
-                        $so->so_keterangan = "Missing";
-                    }
-                }
+                $so->so_char = $request->so_char;
+                $so->so_size = $request->so_size;
+                $so->so_stoktoko = $request->stoktoko[$key];
+                $so->so_stokgudang = $request->stokgudang[$key];
+                $so->so_keterangan = $request->keterangan[$key];
             $so->save();
             }
         }

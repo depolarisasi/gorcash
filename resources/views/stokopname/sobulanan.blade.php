@@ -12,7 +12,7 @@
 <!--begin::Entry-->
 <div class="d-flex flex-column-fluid">
 <!--begin::Container-->
-<div class="container">
+<div class="container-fluid">
 <!--begin::Dashboard-->
 
 <!--begin::Row-->
@@ -132,10 +132,9 @@
 		<table class="table table-bordered mt-5" id="product">
 			<thead>
 				<tr>
-					<th width="10%">SKU</th>
-					<th width="10%">Band</th>
+					<th width="5%">SKU</th>
+					<th width="5%">Band</th>
 					<th width="15%">Nama Produk</th>
-					<th width="5%">Size</th>
 					<th width="5%">Stok Awal</th>
 					<th width="5%">Stok Terjual</th>
 					<th width="5%">Stok Akhir</th>
@@ -154,7 +153,6 @@
 					<td>{{$p->product_sku}}</td>
 					<td>{{$p->band_nama}}</td>
 					<td>{{$p->product_nama}} ({{$p->size_nama}})</td>
-					<td>{{$p->size_nama}}</td>
 
 
 					<td id="stok{{$p->product_sku}}">{{$p->product_stok}}
@@ -167,9 +165,9 @@
                         <td id="sisatersedia{{$p->product_sku}}">{{(int)$p->product_stokakhir}}
                             <input id="sisainput" type="hidden" name="stoksisa[]" value="{{(int)$p->product_stokakhir}}"></td>
 
-                        <td id="stokgudang{{$p->product_sku}}"><input id="stokgudang{{$p->product_sku}}" class="form-control stokgudangs inputx" data-sku="{{$p->product_sku}}" value="0" type="text" name="stokgudang[]"></td>
+                        <td><input id="stokgudang{{$p->product_sku}}" class="form-control stokgudanginput inputx" data-sku="{{$p->product_sku}}" value="0" type="number" name="stokgudang[]"></td>
 
-                        <td id="stoktoko{{$p->product_sku}}"><input id="stoktoko{{$p->product_sku}}" class="form-control stoktokos inputx" data-sku="{{$p->product_sku}}" value="0" type="text" name="stoktoko[]"></td>
+                        <td><input id="stoktoko{{$p->product_sku}}" class="form-control stoktokoinput inputx" data-sku="{{$p->product_sku}}" value="0" type="number" name="stoktoko[]"></td>
 
 					<td>
                         <span id="stokril{{$p->product_sku}}">0</span>
@@ -276,11 +274,20 @@ $('#selectsize').on('change', function() {
 });
 
 
-$('.stokrilinputs').on('change', function (e) {
+$('.stoktokoinput').on('change', function (e) {
     select_val = $(this).attr('data-sku');
-    $("#stokrilinput"+select_val).val(parseInt($(this).val()));
-    $("#selisih"+select_val).text(parseInt($("#sisatersedia"+select_val).text())-parseInt($("#stokrilinput"+select_val).val()));
-    $("#selisihinput"+select_val).val(parseInt($("#selisih"+select_val).text()));
+    $("#stokril"+select_val).text(parseInt($("#stoktoko"+select_val).val())+parseInt($("#stokgudang"+select_val).val()));
+    $("#stokrilinput"+select_val).val(parseInt($("#stoktoko"+select_val).val())+parseInt($("#stokgudang"+select_val).val()));
+    $("#selisih"+select_val).text(parseInt($("#stoktoko"+select_val).val())-parseInt($("#stokgudang"+select_val).val()));
+    $("#selisihinput"+select_val).val(parseInt($("#stoktoko"+select_val).val())+parseInt($("#stokgudang"+select_val).val()));
+});
+
+$('.stokgudanginput').on('change', function (e) {
+    select_val = $(this).attr('data-sku');
+    $("#stokril"+select_val).text(parseInt($("#stoktoko"+select_val).val())+parseInt($("#stokgudang"+select_val).val()));
+    $("#stokrilinput"+select_val).val(parseInt($("#stoktoko"+select_val).val())+parseInt($("#stokgudang"+select_val).val()));
+    $("#selisih"+select_val).text(parseInt($("#stoktoko"+select_val).val())-parseInt($("#stokgudang"+select_val).val()));
+    $("#selisihinput"+select_val).val(parseInt($("#stoktoko"+select_val).val())+parseInt($("#stokgudang"+select_val).val()));
 });
 
 $('#simpan').on('click', function (e) {
@@ -297,6 +304,9 @@ $('#simpan').on('click', function (e) {
                     'stokterjual[]' :   $('input[name="stokterjual[]"]').map(function(){  return this.value; }).get(),
                     'stoksisa[]' :   $('input[name="stoksisa[]"]').map(function(){  return this.value; }).get(),
                     'stokril[]' :   $('input[name="stokril[]"]').map(function(){  return this.value; }).get(),
+                    'stoktoko[]' :   $('input[name="stoktoko[]"]').map(function(){  return this.value; }).get(),
+                    'stokgudang[]' :   $('input[name="stokgudang[]"]').map(function(){  return this.value; }).get(),
+                    'keterangan[]' :   $('input[name="keterangan[]"]').map(function(){  return this.value; }).get(),
                     'selisih[]' :   $('input[name="selisih[]"]').map(function(){  return this.value; }).get(),
                     'so_date' :    $('input[name="so_date"]').val(),
                     'so_userid' :    $('input[name="so_userid"]').val(),
