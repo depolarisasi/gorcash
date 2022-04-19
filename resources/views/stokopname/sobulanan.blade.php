@@ -54,7 +54,7 @@
 
 
                 <div class="col-md-8">
-                <div class="row mb-3">
+                {{-- <div class="row mb-3">
                     <label class="col-md-2">Silahka Masukan SKU Disini</label>
                 <div class="col-md-6">
                     <select class="form-control select2" id="productlist" name="param">
@@ -66,10 +66,10 @@
 
 
                 </div>
-                </div>
+                </div> --}}
                 <div class="row mb-3">
                     <label class="col-md-2">Pilih Abjad Awalan Band</label>
-                    <div class="col-md-4">
+                    <div class="col-md-4">  
                     <div class="d-flex align-items-center">
                         <select class="form-control select2" id="selectband">
                             <option value="?band=All&size={{$size_selected}}" @if($band_selected == 'All' && $size_selected == '') selected @endif>All</option>
@@ -163,7 +163,7 @@
                         </td>
 
                         <td id="sisatersedia{{$p->product_sku}}">{{(int)$p->product_stokakhir}}
-                            <input id="sisainput" type="hidden" name="stoksisa[]" value="{{(int)$p->product_stokakhir}}"></td>
+                            <input id="sisainput{{$p->product_sku}}" type="hidden" name="stoksisa[]" value="{{(int)$p->product_stokakhir}}"></td>
 
                         <td><input id="stokgudang{{$p->product_sku}}" class="form-control stokgudanginput inputx" data-sku="{{$p->product_sku}}" value="0" type="number" name="stokgudang[]"></td>
 
@@ -176,7 +176,7 @@
 					<td><span id="selisih{{$p->product_sku}}">0</span>
                     <input id="selisihinput{{$p->product_sku}}" class="inputx" value="0" type="hidden" name="selisih[]"></td>
 
-                    <td id="keterangan{{$p->product_sku}}"><input id="keterangan{{$p->product_sku}}" class="form-control keterangans inputx" data-sku="{{$p->product_sku}}" type="text" name="keterangan[]"></td>
+                    <td id="keterangan{{$p->product_sku}}"><input id="keterangan{{$p->product_sku}}" class="form-control keterangans" data-sku="{{$p->product_sku}}" value=" " type="text" name="keterangan[]"></td>
 
 				</tr>
                 @endforeach
@@ -276,18 +276,18 @@ $('#selectsize').on('change', function() {
 
 $('.stoktokoinput').on('change', function (e) {
     select_val = $(this).attr('data-sku');
-    $("#stokril"+select_val).text(parseInt($("#stoktoko"+select_val).val())+parseInt($("#stokgudang"+select_val).val()));
-    $("#stokrilinput"+select_val).val(parseInt($("#stoktoko"+select_val).val())+parseInt($("#stokgudang"+select_val).val()));
-    $("#selisih"+select_val).text(parseInt($("#stoktoko"+select_val).val())-parseInt($("#stokgudang"+select_val).val()));
-    $("#selisihinput"+select_val).val(parseInt($("#stoktoko"+select_val).val())+parseInt($("#stokgudang"+select_val).val()));
+    $("#stokril"+select_val).text(parseInt($("#stoktoko"+select_val).val())+parseInt($("#stokgudang"+select_val).val()-parseInt($("#sisainput"+select_val).val())));
+    $("#stokrilinput"+select_val).val(parseInt($("#stoktoko"+select_val).val())+parseInt($("#stokgudang"+select_val).val()-parseInt($("#sisainput"+select_val).val())));
+    $("#selisih"+select_val).text(parseInt($("#stoktoko"+select_val).val())+parseInt($("#stokgudang"+select_val).val()-parseInt($("#sisainput"+select_val).val())));
+    $("#selisihinput"+select_val).val(parseInt($("#stoktoko"+select_val).val())+parseInt($("#stokgudang"+select_val).val()-parseInt($("#sisainput"+select_val).val())));
 });
 
 $('.stokgudanginput').on('change', function (e) {
     select_val = $(this).attr('data-sku');
-    $("#stokril"+select_val).text(parseInt($("#stoktoko"+select_val).val())+parseInt($("#stokgudang"+select_val).val()));
-    $("#stokrilinput"+select_val).val(parseInt($("#stoktoko"+select_val).val())+parseInt($("#stokgudang"+select_val).val()));
-    $("#selisih"+select_val).text(parseInt($("#stoktoko"+select_val).val())-parseInt($("#stokgudang"+select_val).val()));
-    $("#selisihinput"+select_val).val(parseInt($("#stoktoko"+select_val).val())+parseInt($("#stokgudang"+select_val).val()));
+    $("#stokril"+select_val).text(parseInt($("#stoktoko"+select_val).val())+parseInt($("#stokgudang"+select_val).val()-parseInt($("#sisainput"+select_val).val())));
+    $("#stokrilinput"+select_val).val(parseInt($("#stoktoko"+select_val).val())+parseInt($("#stokgudang"+select_val).val()-parseInt($("#sisainput"+select_val).val())));
+    $("#selisih"+select_val).text(parseInt($("#stoktoko"+select_val).val())+parseInt($("#stokgudang"+select_val).val()-parseInt($("#sisainput"+select_val).val())));
+    $("#selisihinput"+select_val).val(parseInt($("#stoktoko"+select_val).val())+parseInt($("#stokgudang"+select_val).val()-parseInt($("#sisainput"+select_val).val())));
 });
 
 $('#simpan').on('click', function (e) {
@@ -321,6 +321,7 @@ $('#simpan').on('click', function (e) {
                          'Laporan SO Berhasil Disimpan',
                          'success'
                          );
+                         window.location = "{{url('stokopname/bulanan/edit/')}}".$('input[name="publishgroup"]').val();
 
                     } else if (data['error']) {
                          Swal.fire(

@@ -40,7 +40,10 @@
             <div class="row ">
                 <div class="col-md-4">
                     <div class="row mb-3">
-
+                        <label class="col-md-4">Nama StokOpname</label>
+                        <input id="namaso" type="text" class="form-control col-md-8" name="so_namaso" value="{{$soinfo->so_namaso}}" required>
+                </div>
+                    <div class="row mb-3">
                             <label class="col-md-4">Nama Pemeriksa</label>
                             <input id="namapemeriksa" type="text" class="form-control col-md-8" name="so_userid" value="{{$soinfo->so_userid}}" required>
                     </div>
@@ -50,35 +53,45 @@
                 </div>
                 </div>
 
-                <div class="col-md-2">
-                    <p>Scan Barcode pada kotak disamping</p>
-                </div>
-                <div class="col-md-4">
+
+                <div class="col-md-8">
+                <div class="row mb-3">
+                    <label class="col-md-2">Silahka Masukan SKU Disini</label>
+                <div class="col-md-6">
                     <select class="form-control select2" id="productlist" name="param">
                         <option value="X">Masukan SKU Disini</option>
                         @foreach($pubdata as $p)
                         <option value="{{$p->product_sku}}">{{$p->product_sku}} - {{$p->product_nama}} ({{$p->size_nama}})</option>
                         @endforeach
                        </select>
+
+
                 </div>
+                </div>
+               
+            
+        </div>
 
             </div>
         </div>
+  
 
 		<!--begin: Datatable-->
         <div class="table-responsive">
 		<table class="table table-bordered mt-5" id="product">
 			<thead>
 				<tr>
-					<th width="10%">SKU</th>
-					<th width="25%">Band</th>
-					<th width="25%">Nama Produk</th>
-					<th width="5%">Size</th>
-					<th width="5%">Stok Awal</th>
-					<th width="5%">Sudah Terjual</th>
-					<th width="5%">Sisa Stok Tersedia</th>
+					<th width="3%">SKU</th>
+					<th width="3%">Band</th>
+					<th width="5%">Nama Produk</th>
+					<th width="3%">Stok Awal</th>
+					<th width="3%">Stok Terjual</th>
+					<th width="3%">Stok Akhir</th>
+					<th width="5%">Stok Gudang</th>
+					<th width="5%">Stok Toko</th>
 					<th width="5%">Stok Real</th>
-					<th width="5%">Selisih</th>
+					<th width="3%">Selisih</th>
+					<th width="5%">Keterangan</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -86,11 +99,9 @@
                 @foreach($pubdata as $p)
 				<tr>
                     <input type="hidden" id="product_skus" name="product_skus[]" value="{{$p->product_sku}}">
-                    <input type="hidden" id="publishgroup" name="publishgroup" value="{{$pub}}">
 					<td>{{$p->product_sku}}</td>
-					<td>{{$p->band_nama}} </td>
+					<td>{{$p->band_nama}}</td>
 					<td>{{$p->product_nama}} ({{$p->size_nama}})</td>
-					<td>{{$p->size_nama}}</td>
 
 
 					<td id="stok{{$p->product_sku}}">{{$p->product_stok}}
@@ -100,12 +111,22 @@
                             <input id="stokterjual" type="hidden" name="stokterjual[]" value="{{$p->stokterjual}}">
                         </td>
 
-                        <td id="sisatersedia{{$p->product_sku}}">{{(int)$p->product_stok - (int)$p->stokterjual}}
-                        <input id="sisainput" type="hidden" name="stoksisa[]" value="{{(int)$p->product_stok - (int)$p->stokterjual}}"></td>
+                        <td id="sisatersedia{{$p->product_sku}}">{{(int)$p->product_stokakhir}}
+                            <input id="sisainput{{$p->product_sku}}" type="hidden" name="stoksisa[]" value="{{(int)$p->product_stokakhir}}"></td>
 
-                        <td><input id="stokrilinput{{$p->product_sku}}" class="form-control stokrilinputs inputx" data-sku="{{$p->product_sku}}" value="{{$p->so_stokakhirreal}}" type="text" name="stokril[]"></td>
+                        <td><input id="stokgudang{{$p->product_sku}}" class="form-control stokgudanginput inputx" data-sku="{{$p->product_sku}}" value="{{$p->so_stokgudang}}" type="number" name="stokgudang[]"></td>
+
+                        <td><input id="stoktoko{{$p->product_sku}}" class="form-control stoktokoinput inputx" data-sku="{{$p->product_sku}}" value="{{$p->so_stoktoko}}" type="number" name="stoktoko[]"></td>
+
+					<td>
+                        <span id="stokril{{$p->product_sku}}">{{$p->so_stokakhirreal}}</span>
+                    <input id="stokrilinput{{$p->product_sku}}" class="inputx" value="{{$p->so_stokakhirreal}}" type="hidden" name="stokril[]"></td>
+
 					<td><span id="selisih{{$p->product_sku}}">{{$p->so_selisih}}</span>
                     <input id="selisihinput{{$p->product_sku}}" class="inputx" value="{{$p->so_selisih}}" type="hidden" name="selisih[]"></td>
+
+                    <td id="keterangan{{$p->product_sku}}"><input id="keterangan{{$p->product_sku}}" class="form-control keterangans" data-sku="{{$p->product_sku}}" value="{{$p->so_keterangan}}" type="text" name="keterangan[]"></td>
+
 				</tr>
                 @endforeach
 
@@ -186,22 +207,30 @@
                     alert(data.responseText);
                 }
             });
-});
-$('.stokrilinputs').on('change', function (e) {
+}); 
+
+$('.stoktokoinput').on('change', function (e) {
     select_val = $(this).attr('data-sku');
-    $("#stokrilinput"+select_val).val(parseInt($(this).val()));
-    $("#selisih"+select_val).text(parseInt($("#sisatersedia"+select_val).text())-parseInt($("#stokrilinput"+select_val).val()));
-    $("#selisihinput"+select_val).val(parseInt($("#selisih"+select_val).text()));
+    $("#stokril"+select_val).text(parseInt($("#stoktoko"+select_val).val())+parseInt($("#stokgudang"+select_val).val()-parseInt($("#sisainput"+select_val).val())));
+    $("#stokrilinput"+select_val).val(parseInt($("#stoktoko"+select_val).val())+parseInt($("#stokgudang"+select_val).val()-parseInt($("#sisainput"+select_val).val())));
+    $("#selisih"+select_val).text(parseInt($("#stoktoko"+select_val).val())+parseInt($("#stokgudang"+select_val).val()-parseInt($("#sisainput"+select_val).val())));
+    $("#selisihinput"+select_val).val(parseInt($("#stoktoko"+select_val).val())+parseInt($("#stokgudang"+select_val).val()-parseInt($("#sisainput"+select_val).val())));
+});
+
+$('.stokgudanginput').on('change', function (e) {
+    select_val = $(this).attr('data-sku');
+    $("#stokril"+select_val).text(parseInt($("#stoktoko"+select_val).val())+parseInt($("#stokgudang"+select_val).val()-parseInt($("#sisainput"+select_val).val())));
+    $("#stokrilinput"+select_val).val(parseInt($("#stoktoko"+select_val).val())+parseInt($("#stokgudang"+select_val).val()-parseInt($("#sisainput"+select_val).val())));
+    $("#selisih"+select_val).text(parseInt($("#stoktoko"+select_val).val())+parseInt($("#stokgudang"+select_val).val()-parseInt($("#sisainput"+select_val).val())));
+    $("#selisihinput"+select_val).val(parseInt($("#stoktoko"+select_val).val())+parseInt($("#stokgudang"+select_val).val()-parseInt($("#sisainput"+select_val).val())));
 });
 $('#simpan').on('click', function (e) {
     e.preventDefault();
     $.ajax({
-                url: '/api/simpanso',
+                url: '/api/simpansobulanan',
                 type: 'POST',
                 data: {
-                    _token : "{{csrf_token()}}",
-                    'so_userid' :   $('input[name="so_userid"]').val(),
-                    'so_date' :   $('input[name="so_date"]').val(),
+                    _token : "{{csrf_token()}}", 
                     'product_skus[]' :   $('input[name="product_skus[]"]').map(function(){  return this.value; }).get(),
                     'publishgroup' :   $('input[name="publishgroup"]').val(),
                     'stok[]' :   $('input[name="stok[]"]').map(function(){  return this.value; }).get(),
@@ -209,7 +238,15 @@ $('#simpan').on('click', function (e) {
                     'stokterjual[]' :   $('input[name="stokterjual[]"]').map(function(){  return this.value; }).get(),
                     'stoksisa[]' :   $('input[name="stoksisa[]"]').map(function(){  return this.value; }).get(),
                     'stokril[]' :   $('input[name="stokril[]"]').map(function(){  return this.value; }).get(),
+                    'stoktoko[]' :   $('input[name="stoktoko[]"]').map(function(){  return this.value; }).get(),
+                    'stokgudang[]' :   $('input[name="stokgudang[]"]').map(function(){  return this.value; }).get(),
+                    'keterangan[]' :   $('input[name="keterangan[]"]').map(function(){  return this.value; }).get(),
                     'selisih[]' :   $('input[name="selisih[]"]').map(function(){  return this.value; }).get(),
+                    'so_date' :    $('input[name="so_date"]').val(),
+                    'so_userid' :    $('input[name="so_userid"]').val(),
+                    'so_namaso' :    $('input[name="so_namaso"]').val(),
+                    'so_char' :    $('input[name="so_namaso"]').val(),
+                    'so_size' :    $('input[name="so_size"]').val(),
                 },
                 success: function (data) {
                     if (data['success']) {
@@ -217,7 +254,9 @@ $('#simpan').on('click', function (e) {
                          'Success',
                          'Laporan SO Berhasil Disimpan',
                          'success'
-                         )
+                         );
+                         
+                         window.location = "{{url('stokopname/bulanan/edit/')}}".$('input[name="publishgroup"]').val();
 
                     } else if (data['error']) {
                          Swal.fire(

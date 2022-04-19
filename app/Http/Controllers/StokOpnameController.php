@@ -189,9 +189,11 @@ class StokOpnameController extends Controller
             }
             $pubdata[$key]["stokterjual"] = $count;
         }
+ 
 
+        $soinfo = StokOpname::where('stokopname.so_pubgroupname',$pubgroup)->first();
         $pub = $pubgroup;
-        return view('stokopname.resumebulanan')->with(compact('pubdata','pub'));
+        return view('stokopname.resumebulanan')->with(compact('pubdata','pub','soinfo'));
      }
 
     public function getso(Request $request){
