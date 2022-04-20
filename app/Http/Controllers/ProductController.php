@@ -97,7 +97,8 @@ class ProductController extends Controller
         group_concat(DISTINCT size.size_nama ORDER BY size.size_id ASC SEPARATOR ', ') as product_idsize,
         group_concat(DISTINCT vendor.vendor_nama SEPARATOR ', ') as product_vendor,
          group_concat(product.product_stokakhir ORDER BY size.size_id ASC SEPARATOR', ') as product_stokakhir")
-        ->where('product.product_stokakhir','>',0)
+        ->where('product.product_stokakhir','>',0) 
+        ->Orwhere('product.product_stok','=',0) 
         ->orderBy('product.product_id', 'DESC')
         ->groupBy('product.product_mastersku')
         ->get();
@@ -132,6 +133,7 @@ class ProductController extends Controller
         ->join('size','size.size_id','=','product.product_idsize')
         ->selectRaw("product.*, band.band_id,band.band_nama,size.size_id,size.size_nama,vendor.vendor_id,vendor.vendor_nama")
         ->where('product.product_stokakhir','=',0)
+        ->where('product.product_stok','>',0)
         ->orderBy('product.product_id', 'DESC')
         ->get();
 
@@ -168,7 +170,9 @@ class ProductController extends Controller
         $band = Band::orderBy('band_nama','ASC')->get();
         $color = Color::get();
         $type = TypeProduct::get();
-        $barcode = BarcodeDB::get();
+        $barcode = BarcodeDB::join('band','band.band_id','=','barcode.barcode_productband')
+        ->select('barcode.*','band.band_nama')
+        ->get();
         return view('produks.new')->with(compact('vendor','size','band','color','type','barcode','sizeanak','sizedewasa','sizebarang'));
     }
 
@@ -232,7 +236,7 @@ class ProductController extends Controller
                                             }
                                             $store->put('product_vendor', $vendor);
                                             // $store->put('product_productlama', $request->product_productlama);
-                                        if($otherproduct->product_status == NULL || $otherproduct->product_status == 0){
+                                        if(!$otherproduct && ($otherproduct->product_status == NULL || $otherproduct->product_status == 0)){
                                             $status = 0;
                                         }else {
                                             $status = 1;
@@ -274,7 +278,7 @@ class ProductController extends Controller
                                             }
                                             $checksku->product_vendor = $vendor;
                                             // $checksku->product_productlama = $request->product_productlama;
-                                            if($otherproduct->product_status == NULL || $otherproduct->product_status == 0){
+                                            if(!$otherproduct && ($otherproduct->product_status == NULL || $otherproduct->product_status == 0)){
                                                 $status = 0;
                                             }else {
                                                 $status = 1;
@@ -359,7 +363,7 @@ class ProductController extends Controller
                             }
                             $store->put('product_vendor', $vendor);
                             // $store->put('product_productlama', $request->product_productlama);
-                            if($request->product_tanggalpublish == NULL){
+                            if($request->product_tanggalpublish == NULL || $request->product_status == 0){
                                 $status = 0;
                             }else {
                                 $status = 1;
