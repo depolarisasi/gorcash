@@ -46,6 +46,7 @@
         </div>
     </div>
 		<!--begin: Datatable-->
+        <div class="table-responsive">
 		<table class="table table-striped table-bordered mt-5" id="product">
 			<thead>
 				<tr>
@@ -96,6 +97,7 @@
 
 			</tbody>
 		</table>
+    </div>
 		<!--end: Datatable-->
 </div>
 <!--end::Body-->
