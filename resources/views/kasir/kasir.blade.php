@@ -390,7 +390,20 @@ var potongan = 0;
 $(document).ready(function() {
 $('#productlist').select2({
    placeholder: "Masukan SKU Produk",
-   allowClear: true
+   allowClear: true, 
+   language: {
+        inputTooShort: function (args) {
+
+            return "2 or more symbol.";
+        },
+        noResults: function () {
+            return "Not Found.";
+        },
+        searching: function () {
+            return "Searching...";
+        }
+    },
+    minimumInputLength: 2,
   });
 });
 
