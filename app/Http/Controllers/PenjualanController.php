@@ -47,7 +47,7 @@ class PenjualanController extends Controller
                     $produk = Product::join('size','size.size_id','=','product.product_idsize')
                     ->select('product.*','size.size_nama')
                     ->where('product.product_id',$barangterjual->barangterjual_idproduk)->first(); 
-                    array_push($barangarray, $produk->product_sku.' - '.$produk->product_nama." (".$product->size_nama.")"." x".$barangterjual->barangterjual_qty);
+                    array_push($barangarray, $produk->product_sku.' - '.$produk->product_nama." (".$produk->size_nama.")"." x".$barangterjual->barangterjual_qty);
                 }
             }
             foreach (explode(',', $p->penjualan_daftarpotongan) as $p) {
