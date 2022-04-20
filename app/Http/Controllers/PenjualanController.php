@@ -44,9 +44,10 @@ class PenjualanController extends Controller
             foreach (explode(',', $p->penjualan_barangterjual) as $b) {
                 $barangterjual = BarangTerjual::whereNotNull('barangterjual_id')->where('barangterjual_id', $b)->first();
                 if ($barangterjual) {
-                    $produk = Product::where('product_id',$barangterjual->barangterjual_idproduk)->first();
-                    $size = Size::where('size_id',$produk->product_idsize)->first();
-                    array_push($barangarray, $produk->product_sku.' - '.$produk->product_nama." (".$size->size_nama.")"." x".$barangterjual->barangterjual_qty);
+                    $produk = Product::join('size','size.size_id','=','product.product_idsize')
+                    ->select('product.*','size.size_nama')
+                    ->where('product.product_id',$barangterjual->barangterjual_idproduk)->first(); 
+                    array_push($barangarray, $produk->product_sku.' - '.$produk->product_nama." (".$product->size_nama.")"." x".$barangterjual->barangterjual_qty);
                 }
             }
             foreach (explode(',', $p->penjualan_daftarpotongan) as $p) {
