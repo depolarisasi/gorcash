@@ -53,7 +53,7 @@
                     <div class="col-md-10">
                         <select class="form-control select2" name="product_mastersku" id="selectsku" required>
                           @foreach($barcode as $barcode)
-                          <option value="{{$barcode->barcode_mastersku}}">{{$barcode->barcode_productname}}</option>
+                          <option value="{{$barcode->barcode_mastersku}}">{{$barcode->barcode_mastersku}} : {{$barcode->band_nama}} - {{$barcode->barcode_productname}}</option>
                           @endforeach
                           <option value="NEW" selected>Buat Baru</option>
                         </select>
