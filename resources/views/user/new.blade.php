@@ -48,8 +48,8 @@
             <div class="col-md-3">
                 <select class="multisteps-form__input form-control" name="role">
                 <option value="1">Admin Owner</option>
-                <option value="2">Toko</option>
-                <option value="3">Staff</option>
+                <option value="2">Kasir</option>
+                <option value="3">Sosmed</option>
                 <option value="4">Gudang</option>
               </select>
             </div>

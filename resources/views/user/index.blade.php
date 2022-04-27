@@ -57,9 +57,9 @@
 @if($u->role == 1)
 <span class="label label-lg label-rounded label-danger label-jabatan">Admin Owner</span>
 @elseif($u->role == 2)
-<span class="label label-lg label-rounded label-primary label-jabatan">Toko</span>
+<span class="label label-lg label-rounded label-primary label-jabatan">Kasir</span>
 @elseif($u->role == 3)
-<span class="label label-lg label-rounded label-primary label-jabatan">Staff</span>
+<span class="label label-lg label-rounded label-primary label-jabatan">Sosmed</span>
 @elseif($u->role == 4)
 <span class="label label-lg label-rounded label-primary label-jabatan">Gudang</span>
 @endif

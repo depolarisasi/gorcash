@@ -327,7 +327,7 @@ background-color: #fff !important;
                     </div>
                 </li>
                 @endif
-                @if(Auth::user()->role == 1 || Auth::user()->role == 2 )
+                @if(Auth::user()->role == 1 || Auth::user()->role == 2  || Auth::user()->role == 4 )
                 <li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
                     <a href="javascript:;" class="menu-link menu-toggle">
                         <span class="svg-icon svg-icon-white menu-icon"><!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo5/dist/../src/media/svg/icons/Files/Selected-file.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -459,7 +459,7 @@ background-color: #fff !important;
                                         <div class=" container-fluid  d-flex flex-column flex-md-row align-items-center justify-content-between">
                                             <!--begin::Copyright-->
                                             <div class="text-dark order-2 order-md-1">
-                                                <span class="text-muted font-weight-bold mr-2">2021 &copy;</span>
+                                                <span class="text-muted font-weight-bold mr-2">2022 &copy;</span>
                                                 <a href="https://gorillacoachid.com" target="_blank" class="text-dark-75 text-hover-primary">Gorilla Coach</a>
                                             </div>
                                             <!--end::Copyright-->

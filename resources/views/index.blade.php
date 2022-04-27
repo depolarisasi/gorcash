@@ -209,7 +209,7 @@ Dashboard Gorilla Coach </h5>
                 </div>
     </div>
     @endif
-    
+
     <div class="row">
         <div class="col-md-6">
         <div class="card card-custom card-stretch gutter-b">
@@ -265,6 +265,7 @@ Dashboard Gorilla Coach </h5>
         </div>
             </div>
             <div class="col-md-6">
+                @if(Auth::user()->role == 1)
                 <div class="card card-custom gutter-b">
                     <!--begin::Header-->
                     <div class="card-header border-0 pt-6 mb-2">
@@ -281,7 +282,8 @@ Dashboard Gorilla Coach </h5>
                     </div>
                     <!--end::Body-->
                 </div>
-    
+                @endif
+
     <!--begin::Mixed Widget 14-->
     <div class="card card-custom gutter-b">
         <!--begin::Header-->
@@ -306,7 +308,7 @@ Dashboard Gorilla Coach </h5>
         <!--end::Text-->
         </div>
         @endforeach
-    
+
         </div>
         <!--end::Body-->
         </div>
@@ -316,7 +318,7 @@ Dashboard Gorilla Coach </h5>
             <h3 class="card-title font-weight-bolder">Note</h3>
             </div>
             <!--end::Header-->
-    
+
             <!--begin::Body-->
             <div class="card-body pt-2">
                 @foreach($note as $n)
