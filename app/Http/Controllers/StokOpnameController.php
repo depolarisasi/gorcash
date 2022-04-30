@@ -294,17 +294,18 @@ class StokOpnameController extends Controller
             }
     
         foreach($request->product_skus as $key => $p){
-            $product = StokOpname::where('so_sku', $p)->where('so_type',2)->where('so_date',$request->so_date)->where('so_status')->first();
+            $product = StokOpname::where('so_sku', $p)->where('so_type',2)->where('so_date',$request->so_date)->where('so_status',2)
+            ->where('so_pubgroupname', $request->pubgroupname)->first();
             if(!$product && $product != NULL){
                 $so = new StokOpname;
                 $date = Carbon::now()->format('Y-m-d');
                 $so->so_date = $date;
                 $so->so_pubgroupname = $rand;
-                $product = Product::where('product_sku', $p)->first();
+                $product2 = Product::where('product_sku', $p)->first();
                 $so->so_mastersku = $product->product_mastersku;
                 $so->so_sku = $p;
-                $so->so_stok = $product->product_stok;
-                $so->so_stokakhir = $product->product_stokakhir;
+                $so->so_stok = $request->product_stok;
+                $so->so_stokakhir = $request->product_stokakhir;
                 $so->so_stokterjual = $request->stokterjual[$key];
                 $so->so_stoktoko = $request->stoktoko[$key];
                 $so->so_stokgudang = $request->stokgudang[$key];
@@ -317,8 +318,7 @@ class StokOpnameController extends Controller
                 $so->so_status = 1; 
                 $so->save();
             }else {
-                $so = StokOpname::where('so_sku',$p)->first();
-                $product = Product::where('product_sku', $p)->first();
+                $so = StokOpname::where('so_sku',$p)->where('so_pubgroupname', $request->pubgroupname)->first(); 
                 $so->so_stokterjual = $request->stokterjual[$key];
                 $so->so_stoktoko = $request->stoktoko[$key];
                 $so->so_stokgudang = $request->stokgudang[$key];
@@ -335,12 +335,21 @@ class StokOpnameController extends Controller
 
         }
 
-        return redirect('stokopname/laporan/'.$so->so_pubgroupname);
+        return redirect('stokopname/laporan/'.$rand);
     }
 
     public function storesobulanan(Request $request)
     {
+        if($request->pubgroupname == NULL || $request->pubgroupname == ""){ 
+            $rand = mt_rand(1,9999).$this->generateRandomString(5); 
         $rand = mt_rand(1,9999).$this->generateRandomString(5);
+            $rand = mt_rand(1,9999).$this->generateRandomString(5); 
+        $rand = mt_rand(1,9999).$this->generateRandomString(5);
+            $rand = mt_rand(1,9999).$this->generateRandomString(5); 
+          }else { 
+            $rand = $request->pubgroupname;
+          }
+  
         foreach($request->product_skus as $key => $p){
             $product = StokOpname::where('so_sku', $p)->where('so_type',2)->where('so_date',$request->so_date)->where('so_status',2)
             ->where('so_pubgroupname', $request->pubgroupname)->first();
@@ -388,131 +397,9 @@ class StokOpnameController extends Controller
 
         }
 
-        return redirect('stokopname/laporan/'.$so->so_pubgroupname);
+        return redirect('stokopname/laporan/'.$rand);
     }
-
-    // public function updatesomingguan(Request $request)
-    // {
-    //     foreach($request->product_skus as $key => $p){
-    //             $updateso = StokOpname::where('so_sku',$p)->first();
-    //             $product = Product::where('product_sku', $p)->first();
-    //             $updateso->so_selisih = (int)$product->publish_stokakhir - (int) $request->stokril[$key];
-    //             $updateso->so_stokterjual = $request->stokterjual[$key];
-    //             $updateso->so_stokakhirreal = $request->stokril[$key];
-    //             $updateso->so_status = 1;
-    //             $date = Carbon::parse($request->so_date)->format('Y-m-d');
-    //             $updateso->so_date = $date;
-    //             $updateso->so_userid = $request->so_userid;
-    //             if($request->stokril[$key] == $request->stoksisa[$key]){
-    //                 $updateso->so_keterangan = "Ada";
-
-    //             }elseif($request->stokril[$key] < $request->stoksisa[$key]){
-    //                 $checkpenjualan = BarangTerjual::where('barangterjual_idproduk',$product->product_id)->get();
-    //                 if(count($checkpenjualan) > 0){
-    //                     $qtyterjual = 0;
-    //                     $channelterjual = array();
-    //                     foreach($checkpenjualan as $cp){
-    //                         $qtyterjual = $qtyterjual+$cp->barangterjual_qty;
-    //                         $channelpenjualan = Penjualan::where('penjualan_id',$cp->barangterjual_idpenjualan)->get();
-    //                         foreach($channelpenjualan as $ccp){
-    //                             array_push($channelterjual, $ccp->penjualan_channel);
-    //                         }
-    //                     }
-    //                         $updateso->so_keterangan = "Terjual ".$qtyterjual." di ".implode(',',$channelterjual);
-    //                 }else {
-    //                     $updateso->so_keterangan = "Missing";
-    //                 }
-    //             }
-    //         $updateso->update();
-    //         }
-
-    //         return redirect('stokopname/laporan/'.$request->publishgroup);
-    // // }
-
-    // public function pausesomingguan(Request $request)
-    // {
-
-    //     $soprod = StokOpname::where('so_pubgroupname',$request->publishgroup)->get();
-    //     if(count($soprod) > 0){
-    //     foreach($request->product_skus as $key => $p){
-    //             $updateso = StokOpname::where('so_sku',$p)->first();
-    //             $product = Product::where('product_sku', $p)->first();
-    //             $updateso->so_selisih = (int)$product->publish_stokakhir - (int) $request->stokril[$key];
-    //             $updateso->so_stokterjual = $request->stokterjual[$key];
-    //             $updateso->so_stokakhirreal = $request->stokril[$key];
-    //             if($updateso->so_status == 1){
-    //             $updateso->so_status = 1;
-    //             }else {
-    //                 $updateso->so_status = 2;
-    //             }
-    //             $date = Carbon::parse($request->so_date)->format('Y-m-d');
-    //             $updateso->so_date = $date;
-    //             $updateso->so_userid = $request->so_userid;
-    //             if($request->stokril[$key] == $request->stoksisa[$key]){
-    //                 $updateso->so_keterangan = "Ada";
-
-    //             }elseif($request->stokril[$key] < $request->stoksisa[$key]){
-    //                 $checkpenjualan = BarangTerjual::where('barangterjual_idproduk',$product->product_id)->get();
-    //                 if(count($checkpenjualan) > 0){
-    //                     $qtyterjual = 0;
-    //                     $channelterjual = array();
-    //                     foreach($checkpenjualan as $cp){
-    //                         $qtyterjual = $qtyterjual+$cp->barangterjual_qty;
-    //                         $channelpenjualan = Penjualan::where('penjualan_id',$cp->barangterjual_idpenjualan)->get();
-    //                         foreach($channelpenjualan as $ccp){
-    //                             array_push($channelterjual, $ccp->penjualan_channel);
-    //                         }
-    //                     }
-    //                        $updateso->so_keterangan = "Terjual ".$qtyterjual." di ".implode(',',$channelterjual);
-    //                 }else {
-    //                    $updateso->so_keterangan = "Missing";
-    //                 }
-    //             }
-    //         $updateso->update();
-    //         }
-    //         }else {
-    //             foreach($request->product_skus as $key => $p){
-    //                 $so = new StokOpname;
-    //                 $date = Carbon::parse($request->so_date)->format('Y-m-d');
-    //                 $so->so_date = $date;
-    //                 $so->so_pubgroupname = $request->publishgroup;
-    //                 $product = Product::where('product_sku', $p)->first();
-    //                 $so->so_mastersku = $product->product_mastersku;
-    //                 $so->so_sku = $p;
-    //                 $so->so_stok = $product->product_stok;
-    //                 $so->so_stokakhir = $product->product_stokakhir;
-    //                 $so->so_stokterjual = $request->stokterjual[$key];
-    //                 $so->so_selisih = (int)$product->publish_stokakhir - (int) $request->stokril[$key];
-    //                 $so->so_stokakhirreal = $request->stokril[$key];
-    //                 $so->so_type = 1;
-    //                 $so->so_userid = $request->so_userid;
-    //                 $so->so_status = 2;
-    //                 if($request->stokril[$key] == $request->stoksisa[$key]){
-    //                     $so->so_keterangan = "Ada";
-
-    //                 }elseif($request->stokril[$key] < $request->stoksisa[$key]){
-    //                     $checkpenjualan = BarangTerjual::where('barangterjual_idproduk',$product->product_id)->get();
-    //                     if(count($checkpenjualan) > 0){
-    //                         $qtyterjual = 0;
-    //                         $channelterjual = array();
-    //                         foreach($checkpenjualan as $cp){
-    //                             $qtyterjual = $qtyterjual+$cp->barangterjual_qty;
-    //                             $channelpenjualan = Penjualan::where('penjualan_id',$cp->barangterjual_idpenjualan)->get();
-    //                             foreach($channelpenjualan as $ccp){
-    //                                 array_push($channelterjual, $ccp->penjualan_channel);
-    //                             }
-    //                         }
-    //                             $so->so_keterangan = "Terjual ".$qtyterjual." di ".implode(',',$channelterjual);
-    //                     }else {
-    //                         $so->so_keterangan = "Missing";
-    //                     }
-    //                 }
-    //             $so->save();
-    //             }
-    //         }
-
-    //     return response()->json(['success'=>"SO Saved."]);
-    // }
+ 
 
     public function pausesobulanan(Request $request)
     {
@@ -537,7 +424,8 @@ class StokOpnameController extends Controller
                 $product->so_userid = $request->so_userid; 
                 if(Auth::user()->role == 4 || Auth::user()->role == 1 ){
                     $product->so_stokgudang = $request->stokgudang[$key];
-                }else if(Auth::user()->role == 2 || Auth::user()->role == 1){
+                }
+                if(Auth::user()->role == 2 || Auth::user()->role == 1){
                     $product->so_stoktoko = $request->stoktoko[$key];
                 }
                 $product->so_keterangan = $request->keterangan[$key];

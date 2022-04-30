@@ -273,19 +273,18 @@ $('#selectsize').on('change', function() {
             });
 });
 
-
 $('.stoktokoinput').on('change', function (e) {
     select_val = $(this).attr('data-sku');
-    $("#stokril"+select_val).text(parseInt($("#stoktoko"+select_val).val())+parseInt($("#stokgudang"+select_val).val()-parseInt($("#sisainput"+select_val).val())));
-    $("#stokrilinput"+select_val).val(parseInt($("#stoktoko"+select_val).val())+parseInt($("#stokgudang"+select_val).val()-parseInt($("#sisainput"+select_val).val())));
+    $("#stokril"+select_val).text(parseInt($("#stoktoko"+select_val).val())+parseInt($("#stokgudang"+select_val).val()));
+    $("#stokrilinput"+select_val).val(parseInt($("#stoktoko"+select_val).val())+parseInt($("#stokgudang"+select_val).val()));
     $("#selisih"+select_val).text(parseInt($("#stoktoko"+select_val).val())+parseInt($("#stokgudang"+select_val).val()-parseInt($("#sisainput"+select_val).val())));
     $("#selisihinput"+select_val).val(parseInt($("#stoktoko"+select_val).val())+parseInt($("#stokgudang"+select_val).val()-parseInt($("#sisainput"+select_val).val())));
 });
 
 $('.stokgudanginput').on('change', function (e) {
     select_val = $(this).attr('data-sku');
-    $("#stokril"+select_val).text(parseInt($("#stoktoko"+select_val).val())+parseInt($("#stokgudang"+select_val).val()-parseInt($("#sisainput"+select_val).val())));
-    $("#stokrilinput"+select_val).val(parseInt($("#stoktoko"+select_val).val())+parseInt($("#stokgudang"+select_val).val()-parseInt($("#sisainput"+select_val).val())));
+    $("#stokril"+select_val).text(parseInt($("#stoktoko"+select_val).val())+parseInt($("#stokgudang"+select_val).val()));
+    $("#stokrilinput"+select_val).val(parseInt($("#stoktoko"+select_val).val())+parseInt($("#stokgudang"+select_val).val()));
     $("#selisih"+select_val).text(parseInt($("#stoktoko"+select_val).val())+parseInt($("#stokgudang"+select_val).val()-parseInt($("#sisainput"+select_val).val())));
     $("#selisihinput"+select_val).val(parseInt($("#stoktoko"+select_val).val())+parseInt($("#stokgudang"+select_val).val()-parseInt($("#sisainput"+select_val).val())));
 });
