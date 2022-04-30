@@ -23,7 +23,7 @@
 <!--begin::Header-->
 <div class="card-header border-0 py-5">
 <h3 class="card-title align-items-start flex-column">
-<span class="card-label font-weight-bolder text-dark">Stok Opname</span>
+<span class="card-label font-weight-bolder text-dark">Stok Opname Gudang</span>
 </h3>
 <div class="card-toolbar">
 <a href="{{url('stokopname/bulanan')}}" class="btn btn-primary btn-md font-size-sm"><i class="fas fa-arrow-left"></i> Kembali</a>
@@ -56,9 +56,15 @@
 
 
                 <div class="col-md-8">
-                <div class="row mb-3"> 
+                <div class="row mb-3">
+                    <label class="col-md-2">Silahka Masukan SKU Disini</label>
                 <div class="col-md-6">
-                   
+                    <select class="form-control select2" id="productlist" name="param">
+                        <option value="X">Masukan SKU Disini</option>
+                        @foreach($pubdata as $p)
+                        <option value="{{$p->product_sku}}">{{$p->product_sku}} - {{$p->product_nama}} ({{$p->size_nama}})</option>
+                        @endforeach
+                       </select>
 
 
                 </div>
@@ -123,11 +129,11 @@
                         @endif
                         @if(Auth::user()->role == 1)
 					<td>
-                        <span id="stokril{{$p->product_sku}}">{{(int) $p->so_stoktoko + (int) $p->so_stokgudang}}</span>
-                    <input id="stokrilinput{{$p->product_sku}}" class="inputx" value="{{(int) $p->so_stoktoko + (int) $p->so_stokgudang}}" type="hidden" name="stokril[]"></td>
+                        <span id="stokril{{$p->product_sku}}">{{$p->so_stokakhirreal}}</span>
+                    <input id="stokrilinput{{$p->product_sku}}" class="inputx" value="{{$p->so_stokakhirreal}}" type="hidden" name="stokril[]"></td>
 
-					<td><span id="selisih{{$p->product_sku}}">{{((int) $p->so_stoktoko + (int) $p->so_stokgudang)-(int)$p->product_stokakhir}}</span>
-                    <input id="selisihinput{{$p->product_sku}}" class="inputx" value="{{((int) $p->so_stoktoko + (int) $p->so_stokgudang)-(int)$p->product_stokakhir}}" type="hidden" name="selisih[]"></td>
+					<td><span id="selisih{{$p->product_sku}}">{{$p->so_selisih}}</span>
+                    <input id="selisihinput{{$p->product_sku}}" class="inputx" value="{{$p->so_selisih}}" type="hidden" name="selisih[]"></td>
                         @endif
                     <td id="keterangan{{$p->product_sku}}"><input id="keterangan{{$p->product_sku}}" class="form-control keterangans" data-sku="{{$p->product_sku}}" value="{{$p->so_keterangan}}" type="text" name="keterangan[]"></td>
 
@@ -137,8 +143,7 @@
 			</tbody>
 		</table>
         <div class="row mt-10">
-        <div class="col-md-4">
-            <button type="submit" class="btn btn-md btn-primary">Submit</button>
+        <div class="col-md-4"> 
             <button id="simpan" class="btn btn-md btn-warning">Simpan</button>
         </div>
     </div>
@@ -189,12 +194,7 @@
                 },
                 success: function (data) {
                     if (data['success']) {
-                        $("#stokrilinput"+select_val).val(parseInt($("#stokrilinput"+select_val).val())+1);
-                        $("#selisih"+select_val).text(parseInt($("#sisatersedia"+select_val).text())-parseInt($("#stokrilinput"+select_val).val()));
-                        $("#selisihinput"+select_val).val(parseInt($("#selisih"+select_val).text()));
-                        console.log(select_val);
-                        console.log($("#stokrilinput"+select_val).val());
-                        console.log($("#selisihinput"+select_val).val());
+                        $("#stokgudang"+select_val).val(parseInt($("#stokgudang"+select_val).val())+1);  
                         $("#productlist").val(null).trigger('change');
                         $('.select2-search__field').val(null).trigger('change');
                     } else if (data['error']) {
@@ -212,22 +212,7 @@
                 }
             });
 }); 
-
-$('.stoktokoinput').on('change', function (e) {
-    select_val = $(this).attr('data-sku');
-    $("#stokril"+select_val).text(parseInt($("#stoktoko"+select_val).val())+parseInt($("#stokgudang"+select_val).val()));
-    $("#stokrilinput"+select_val).val(parseInt($("#stoktoko"+select_val).val())+parseInt($("#stokgudang"+select_val).val()));
-    $("#selisih"+select_val).text(parseInt($("#stoktoko"+select_val).val())+parseInt($("#stokgudang"+select_val).val()-parseInt($("#sisainput"+select_val).val())));
-    $("#selisihinput"+select_val).val(parseInt($("#stoktoko"+select_val).val())+parseInt($("#stokgudang"+select_val).val()-parseInt($("#sisainput"+select_val).val())));
-});
-
-$('.stokgudanginput').on('change', function (e) {
-    select_val = $(this).attr('data-sku');
-    $("#stokril"+select_val).text(parseInt($("#stoktoko"+select_val).val())+parseInt($("#stokgudang"+select_val).val()));
-    $("#stokrilinput"+select_val).val(parseInt($("#stoktoko"+select_val).val())+parseInt($("#stokgudang"+select_val).val()));
-    $("#selisih"+select_val).text(parseInt($("#stoktoko"+select_val).val())+parseInt($("#stokgudang"+select_val).val()-parseInt($("#sisainput"+select_val).val())));
-    $("#selisihinput"+select_val).val(parseInt($("#stoktoko"+select_val).val())+parseInt($("#stokgudang"+select_val).val()-parseInt($("#sisainput"+select_val).val())));
-});
+ 
 $('#simpan').on('click', function (e) {
     e.preventDefault();
     $.ajax({
@@ -240,12 +225,15 @@ $('#simpan').on('click', function (e) {
                     'stok[]' :   $('input[name="stok[]"]').map(function(){  return this.value; }).get(),
                     'stokakhir[]' :   $('input[name="stokakhir[]"]').map(function(){  return this.value; }).get(),
                     'stokterjual[]' :   $('input[name="stokterjual[]"]').map(function(){  return this.value; }).get(),
-                    'stoksisa[]' :   $('input[name="stoksisa[]"]').map(function(){  return this.value; }).get(),
-                    'stokril[]' :   $('input[name="stokril[]"]').map(function(){  return this.value; }).get(),
-                    'stoktoko[]' :   $('input[name="stoktoko[]"]').map(function(){  return this.value; }).get(),
-                    'stokgudang[]' :   $('input[name="stokgudang[]"]').map(function(){  return this.value; }).get(),
+                    'stoksisa[]' :   $('input[name="stoksisa[]"]').map(function(){  return this.value; }).get(), 
+                    'stoktoko[]' :   $('input[name="stoktoko[]"]').map(function(){  return this.value; }).get(), 
                     'keterangan[]' :   $('input[name="keterangan[]"]').map(function(){  return this.value; }).get(),
+                    @if(Auth::user()->role == 1)
                     'selisih[]' :   $('input[name="selisih[]"]').map(function(){  return this.value; }).get(),
+                    'stokril[]' :   $('input[name="stokril[]"]').map(function(){  return this.value; }).get(),
+                    @elseif(Auth::user()->role == 4) 
+                    'stokgudang[]' :   $('input[name="stokgudang[]"]').map(function(){  return this.value; }).get(),
+                    @endif
                     'so_date' :    $('input[name="so_date"]').val(),
                     'so_userid' :    $('input[name="so_userid"]').val(),
                     'so_namaso' :    $('input[name="so_namaso"]').val(),
@@ -294,7 +282,7 @@ $('#simpan').on('click', function (e) {
             }
         ],
         "paging":   false,
-    } );
+    } );    
 
 
     $('#datepicker').datepicker({

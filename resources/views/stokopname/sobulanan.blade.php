@@ -185,7 +185,7 @@
 		</table>
         <div class="row mt-10">
         <div class="col-md-4">
-            <button type="submit" class="btn btn-md btn-primary">Submit</button>
+            {{-- <button type="submit" class="btn btn-md btn-primary">Submit</button> --}}
             <button id="simpan" class="btn btn-md btn-warning">Simpan</button>
         </div>
     </div>
@@ -321,7 +321,7 @@ $('#simpan').on('click', function (e) {
                          'Laporan SO Berhasil Disimpan',
                          'success'
                          );
-                         window.location = "{{url('stokopname/bulanan/edit/')}}".$('input[name="publishgroup"]').val();
+                         window.location = "{{url('stokopname/bulanan/edit/')}}"+"/"+(data['pubgroup']);
 
                     } else if (data['error']) {
                          Swal.fire(

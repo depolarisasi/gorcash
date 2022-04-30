@@ -205,12 +205,12 @@ Route::group(['prefix' => 'size'], function() {
    });
 
    Route::group(['prefix' => 'barcode'], function() {
-    Route::get('/',[App\Http\Controllers\BarcodeDBController::class, 'index'])->middleware('storeofficer');
-    Route::get('/new',[App\Http\Controllers\BarcodeDBController::class, 'create'])->middleware('storeofficer');
-    Route::post('/store',[App\Http\Controllers\BarcodeDBController::class, 'store'])->middleware('storeofficer');
-    Route::get('/edit/{id}',[App\Http\Controllers\BarcodeDBController::class, 'edit'])->middleware('storeofficer');
-    Route::post('/update',[App\Http\Controllers\BarcodeDBController::class, 'update'])->middleware('storeofficer');
-    Route::get('/delete/{id}',[App\Http\Controllers\BarcodeDBController::class, 'delete'])->middleware('storeofficer');
+    Route::get('/',[App\Http\Controllers\BarcodeDBController::class, 'index'])->middleware('auth');
+    Route::get('/new',[App\Http\Controllers\BarcodeDBController::class, 'create'])->middleware('auth');
+    Route::post('/store',[App\Http\Controllers\BarcodeDBController::class, 'store'])->middleware('auth');
+    Route::get('/edit/{id}',[App\Http\Controllers\BarcodeDBController::class, 'edit'])->middleware('auth');
+    Route::post('/update',[App\Http\Controllers\BarcodeDBController::class, 'update'])->middleware('auth');
+    Route::get('/delete/{id}',[App\Http\Controllers\BarcodeDBController::class, 'delete'])->middleware('auth');
     Route::get('/import',[App\Http\Controllers\BarcodeDBController::class, 'importdata'])->middleware('auth');
     Route::post('/importing',[App\Http\Controllers\BarcodeDBController::class, 'importing'])->middleware('auth');
     Route::post('/massdelete',[App\Http\Controllers\BarcodeDBController::class, 'apimassdelete'])->middleware('auth');

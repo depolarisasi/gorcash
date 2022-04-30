@@ -44,7 +44,7 @@
 <div class="mb-7">
 	<div class="row ">
         <div class="col-md-4">
-			<div class="h2 mb-1">Laporan Stock Opname @if($info->so_type == 1) Mingguan @elseif($info->so_type == 2) Bulanan {{$info->so_namaso}} ({{$info->so_char}})@endif</div>
+			<div class="h2 mb-1">Laporan Stock Opname {{$info->so_namaso}}</div>
             <p>Pemeriksa : <b>{{$info->so_userid}}</b></p>
             <p>Tanggal Periksa : {{\Carbon\Carbon::parse($info->so_date)->format('d M Y')}}</p>
 		</div>
@@ -82,8 +82,8 @@
 					<td>{{$p->so_stok}} </td>
                     <td>{{$p->so_stokterjual}}</td>
                     <td>{{(int)$p->so_stok - (int)$p->so_stokterjual}}</td>
-					<td>{{$p->product_stoktoko}}</td>
-					<td>{{$p->product_stokgudang}}</td>
+					<td>{{$p->so_stoktoko}}</td>
+					<td>{{$p->so_stokgudang}}</td>
 					<td>{{$p->so_stokakhirreal}}</td>
 					<td>{{$p->so_selisih}}</td>
 					<td>{{$p->so_keterangan}}</td>

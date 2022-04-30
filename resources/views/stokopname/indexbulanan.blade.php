@@ -26,12 +26,78 @@
 <span class="card-label font-weight-bolder text-dark">Stok Opname Bulanan</span>
 </h3>
 <div class="card-toolbar">
-    @if(Auth::user()->role == 1)
-    <a href="{{url('stokopname/bulanan/new')}}" class="btn btn-primary btn-md "><i class="fas fa-plus"></i> Lakukan Stock Opname</a>
+    @if(Auth::user()->role == 1) 
+<button type="button" class="btn btn-primary font-weight-bold mb-5" data-toggle="modal" data-target="#modaltambahrole">
+   Lakukan Stok Opname
+</button>
     @endif
     </div>
 </div>
 <!--end::Header-->
+
+
+<div class="modal fade" id="modaltambahrole" tabindex="-1" role="dialog" aria-labelledby="modaltambahroleLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Tambah Kuota</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i aria-hidden="true" class="ki ki-close"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="GET" action="{{url('stokopname/bulanan/new')}}"> 
+                    <div class="form-group">
+                        <label>Band</label>
+                        <select class="form-control" name="band" id="selectproduk" required>
+                            <option value="All">All</option>
+                            <option value="A" >A</option>
+                            <option value="B" >B</option>
+                            <option value="C" >C</option>
+                            <option value="D" >D</option>
+                            <option value="E" >E</option>
+                            <option value="F" >F</option>
+                            <option value="G" >G</option>
+                            <option value="H" >H</option>
+                            <option value="I" >I</option>
+                            <option value="J" >J</option>
+                            <option value="K" >K</option>
+                            <option value="L" >L</option>
+                            <option value="M" >M</option>
+                            <option value="N" >N</option>
+                            <option value="O" >O</option>
+                            <option value="P" >P</option>
+                            <option value="Q" >Q</option>
+                            <option value="R" >R</option>
+                            <option value="S" >S</option>
+                            <option value="T" >T</option>
+                            <option value="U" >U</option>
+                            <option value="V" >V</option>
+                            <option value="W" >W</option>
+                            <option value="X" >X</option>
+                            <option value="Y" >Y</option>
+                            <option value="Z" >Z</option>
+                            <option value="0-9">0-9</option>
+                          </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Size</label>
+                        <select class="form-control" name="size" id="selectproduk" required>
+                            <option value="All">All</option>
+                            @foreach($size as $s)
+                            <option value="{{$s->size_nama}}">{{$s->size_nama}}</option>
+                            @endforeach
+                          </select>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary font-weight-bold">Tambah</button>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>
 
 <!--begin::Body-->
 <div class="card-body pt-0 pb-3">
