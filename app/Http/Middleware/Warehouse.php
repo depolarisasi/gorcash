@@ -17,7 +17,7 @@ class Warehouse
     public function handle(Request $request, Closure $next)
     {
         if(Auth::check()){
-            if(Auth::user()->role == 2 || Auth::user()->role == 3 || Auth::user()->role == 1){
+            if(Auth::user()->role == 4 || Auth::user()->role == 2 || Auth::user()->role == 3 || Auth::user()->role == 1){
                 return $next($request);
             }else {
             toast('No Access Right','error');

@@ -26,14 +26,15 @@
 <span class="card-label font-weight-bolder text-dark">Stok Opname Bulanan</span>
 </h3>
 <div class="card-toolbar">
+    @if(Auth::user()->role == 1)
     <a href="{{url('stokopname/bulanan/new')}}" class="btn btn-primary btn-md "><i class="fas fa-plus"></i> Lakukan Stock Opname</a>
+    @endif
     </div>
 </div>
 <!--end::Header-->
 
 <!--begin::Body-->
 <div class="card-body pt-0 pb-3">
-<
 <div class="table-responsive">
     <table class="table table-striped table-bordered mt-5" id="product">
         <thead>
@@ -50,14 +51,22 @@
             <tr>
                 <td>{{\Carbon\Carbon::parse($p->so_date)->format('d-m-Y')}}</td>
                 <td>{{$p->so_namaso}} ({{$p->so_char}})</td>
-                <td>{{$p->count}}</td> 
+                <td>{{$p->count}}</td>
                 <td>
 
                     @if($p->so_status == 0)
 @elseif($p->so_status == 2)
-<a href="{{url('/stokopname/bulanan/edit/'.$p->so_pubgroupname)}}" class="btn btn-xs btn-warning"><i class="fas fa-info-circle nopadding"></i> Lanjutkan Stok Opname</a>
+@if(Auth::user()->role == 2 )
+<a href="{{url('/stokopname/bulanan/edit/'.$p->so_pubgroupname)}}" class="btn btn-xs btn-warning"><i class="fas fa-info-circle nopadding"></i> Stok Opname Toko</a>
+@elseif(Auth::user()->role == 4 )
+<a href="{{url('/stokopname/bulanan/edit/'.$p->so_pubgroupname)}}" class="btn btn-xs btn-warning"><i class="fas fa-info-circle nopadding"></i> Stok Opname Gudang</a>
 @else
+<a href="{{url('/stokopname/bulanan/edit/'.$p->so_pubgroupname)}}" class="btn btn-xs btn-warning"><i class="fas fa-info-circle nopadding"></i> Stok Opname</a>
+@endif
+@else
+@if(Auth::user()->role == 1 )
 <a href="{{url('/stokopname/laporan/'.$p->so_pubgroupname)}}" class="btn btn-xs btn-success"><i class="fas fa-info-circle nopadding"></i> Laporan Stok Opname</a>
+@endif
 @endif
 
                 </td>
