@@ -14,7 +14,12 @@ class TurunBarangController extends Controller
         ->join('size','size.size_id','=','product.product_idsize')
         ->select('barangturun.*','product.*','size.size_nama')
         ->get();
-        return view('barangturun.index')->with(compact('barangturun'));
+        
+        $product = Product::join('size','size.size_id','=','product.product_idsize')
+        ->select('product.*','size.size_nama')
+        ->get();
+
+        return view('barangturun.index')->with(compact('barangturun','product'));
     }
 
     public function create()
@@ -25,6 +30,27 @@ class TurunBarangController extends Controller
         ->get();
         return view('barangturun.new')->with(compact('product'));
     }
+
+public function apiturunbarang(Request $request){
+
+    $product = Product::where('product_sku',$request->sku)->first();
+    if($product){
+        $tb = new TurunBarang;
+        $tb->barangturun_sku = $request->sku;
+        $tb->barangturun_mastersku = $product->product_mastersku;
+        $tb->barangturun_namapetugas = Auth::user()->name;
+        $tb->barangturun_tanggalambil =  Carbon::now()->format('Y-m-d');
+           try {
+           $tb->save();
+           } catch (QE $e) { 
+               return response()->json(['error'=>"ERROR."]);
+           }
+           
+           return response()->json(['success'=>"success turun barang","sku" =>]);
+    }
+   
+}
+
 
     public function store(Request $request)
     {

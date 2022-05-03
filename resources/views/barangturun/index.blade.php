@@ -26,7 +26,7 @@
 </h3>
 <div class="card-toolbar">
 <a href="{{url('turunbarang/new')}}" class="btn btn-primary btn-md font-size-sm"><i class="fas fa-plus"></i> Buat </a>
-<a href="{{url('turunbarang/kembali')}}" class="btn btn-primary btn-md font-size-sm ml-3"><i class="fas fa-plus"></i> Kembalikan Barang </a>
+{{-- <a href="{{url('turunbarang/kembali')}}" class="btn btn-primary btn-md font-size-sm ml-3"><i class="fas fa-plus"></i> Kembalikan Barang </a> --}}
 </div>
 </div>
 <!--end::Header-->
@@ -35,6 +35,21 @@
 <div class="card-body pt-0 pb-3">
 <div class="tab-content">
 <!--begin::Table-->
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-group row mt-4">
+            <label class="col-md-2">Add Product SKU</label>
+            <div class="col-md-6">
+                <select class="form-control select2" id="productlist" name="param">
+                    @foreach($product as $p)
+                    <option value="{{$p->product_id}}">@if($p->product_productlama == 1) {{$p->product_barcodelama}} @endif{{$p->product_sku}} - {{$p->product_nama}} ({{$p->size_nama}})</option>
+                    @endforeach
+                   </select>
+            </div>
+          </div>
+    </div>
+     
+</div>
 <div class="table-responsive">
     <table id="table" class="table table-striped table-bordered mt-5" style="width:100%">
 <thead>
@@ -102,8 +117,66 @@
 <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap4.min.js"></script>
 <script>
+      
+
     $(document).ready(function(){
 
+        var table = $("#table").DataTable({
+            "paging":   true,
+            "ordering": true,
+            "order": [[ 2, "desc" ]]
+           });
+
+        $("#productlist").val(null).trigger('change');
+
+        $('#productlist').select2({
+   placeholder: "Masukan SKU Produk",
+   allowClear: true, 
+   language: {
+        inputTooShort: function (args) {
+
+            return "2 or more symbol.";
+        },
+        noResults: function () {
+            return "Not Found.";
+        },
+        searching: function () {
+            return "Searching...";
+        }
+    },
+    minimumInputLength: 2,
+  });
+
+  $('#productlist').on('select2:select', function (e) {
+    e.preventDefault();
+    var select_val = $(e.currentTarget).val();
+    $.ajax({
+                url: '/api/turunbarang',
+                type: 'POST',
+                data: {
+                    _token : "{{csrf_token()}}",
+                    'sku' : select_val, 
+                },
+                success: function (data) {
+                    if (data['success']) {
+                        table.row.add( [  counter +'.1',  ] ).draw( false );
+                    } else if (data['error']) {
+                         Swal.fire(
+                         'Error',
+                         'SKU tersebut tidak ada dalam daftar publish ini',
+                         'error'
+                         )
+                    } else {
+                        alert('Whoops Something went wrong!!');
+                    }
+                },
+                error: function (data) {
+                    alert(data.responseText);
+                }
+            });
+});  
+  
+$('#productlist').val('');
 
         $(document).on('click', '.deletebtn', function(e) {
            var href = $(this).attr('href');
@@ -132,12 +205,7 @@
 
           });
             });
-
-           var table = $("#table").DataTable({
-            "paging":   true,
-            "ordering": true,
-           });
-
+ 
                             </script>
 @endsection
 @endsection

@@ -120,6 +120,7 @@ Route::group(['prefix' => 'size'], function() {
     Route::post('/exportsku',[App\Http\Controllers\ExportSKUController::class, 'exportskuapi'])->middleware('auth');
     Route::get('/getproductmastersku',[App\Http\Controllers\BarcodeDBController::class, 'getproductmastersku'])->middleware('auth');
     Route::post('/getso',[App\Http\Controllers\StokOpnameController::class, 'getso'])->middleware('auth');
+    Route::post('/turunbarang',[App\Http\Controllers\TurunBarangController::class, 'apiturunbarang'])->middleware('auth');
     Route::post('/simpanso',[App\Http\Controllers\StokOpnameController::class, 'pausesomingguan'])->middleware('auth');
     Route::post('/simpansobulanan',[App\Http\Controllers\StokOpnameController::class, 'pausesobulanan'])->middleware('auth');
    });
