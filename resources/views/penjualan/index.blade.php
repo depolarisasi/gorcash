@@ -86,7 +86,7 @@
                         <th>Total Penjualan</th>
                         <th>Diskon</th>
                         <th>Ongkos Kirim</th>
-                        <th>Total Pembayaran</th>
+                        <th>Total Pendapatan</th>
                         <th>Tipe Pembayaran</th>
                         <th>Action</th>
                     </tr>
@@ -119,7 +119,7 @@
                         <td>@money($p->penjualan_totalpenjualan?$p->penjualan_totalpenjualan:0)</td>
                         <td>@money($p->penjualan_diskon)</td>
                         <td>{{$p->penjualan_kurir?$p->penjualan_kurir:"none"}} - @money($p->penjualan_ongkoskirim?$p->penjualan_ongkoskirim:0)</td>
-                        <td>@money($p->penjualan_paymenttotal)</td>
+                        <td>@money($p->penjualan_totalpendapatan)</td>
                         <td>{{$p->penjualan_paymentype}}</td>
                         <td>
                             <a href="{{url('/penjualan/detail/'.$p->penjualan_id)}}" class="btn btn-icon btn-xs btn-primary"><i class="fas fa-info-circle nopadding"></i></a>
