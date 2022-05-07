@@ -39,6 +39,7 @@
                                 @if($penjualan->penjualan_kurir != "None")
                                 <span>Ongkos Kirim : @money($penjualan->penjualan_ongkoskirim)</span>
                                 @endif
+                                <span>Notes : {{$penjualan->penjualan_notes}}</span>
                         </div>
                     </div>
                 </div>

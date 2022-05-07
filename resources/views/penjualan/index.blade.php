@@ -88,6 +88,7 @@
                         <th>Ongkos Kirim</th>
                         <th>Total Pendapatan</th>
                         <th>Tipe Pembayaran</th>
+                        <th>Notes</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -121,6 +122,7 @@
                         <td>{{$p->penjualan_kurir?$p->penjualan_kurir:"none"}} - @money($p->penjualan_ongkoskirim?$p->penjualan_ongkoskirim:0)</td>
                         <td>@money($p->penjualan_totalpendapatan)</td>
                         <td>{{$p->penjualan_paymentype}}</td>
+                        <td>{{$p->penjualan_notes}}</td>
                         <td>
                             <a href="{{url('/penjualan/detail/'.$p->penjualan_id)}}" class="btn btn-icon btn-xs btn-primary"><i class="fas fa-info-circle nopadding"></i></a>
                             @if($p->penjualan_receipt != NULL)<a href="{{url('/penjualan/struk/'.$p->penjualan_id)}}" class="btn btn-icon btn-xs btn-info"><i class="fas fa-print nopadding"></i></a>@endif
@@ -168,6 +170,7 @@
         buttons: [
             'excelHtml5',
         ],
+        "order": [[ 0, "desc" ]],
         "paging":   true,
         "ordering": true,
         "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]]

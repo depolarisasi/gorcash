@@ -99,7 +99,7 @@ class VendorController extends Controller
         return redirect('/vendors');
     }
 
-    
+
     public function apimassdelete(Request $request){
 
         $ids = $request->ids;

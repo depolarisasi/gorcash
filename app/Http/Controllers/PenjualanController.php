@@ -33,7 +33,7 @@ class PenjualanController extends Controller
 
     public function index()
     {
-        $penjualan = Penjualan::get();
+        $penjualan = Penjualan::OrderBy('penjualan_tanggalwaktupenjualan','DESC')->get();
         $barang = []; //array penampung informasi produk untuk listing produk di avail_pen
         $potongan = []; //array penampung informasi produk untuk listing produk di avail_pen
         $pot = []; //array penampung informasi produk untuk listing produk di avail_pen
@@ -46,7 +46,7 @@ class PenjualanController extends Controller
                 if ($barangterjual) {
                     $produk = Product::join('size','size.size_id','=','product.product_idsize')
                     ->select('product.*','size.size_nama')
-                    ->where('product.product_id',$barangterjual->barangterjual_idproduk)->first(); 
+                    ->where('product.product_id',$barangterjual->barangterjual_idproduk)->first();
                     array_push($barangarray, $produk->product_sku.' - '.$produk->product_nama." (".$produk->size_nama.")"." x".$barangterjual->barangterjual_qty);
                 }
             }
@@ -69,13 +69,13 @@ class PenjualanController extends Controller
 
     }
 
-    public function create()
-    {
-        $vendor = Vendor::get();
-        $size = Size::get();
-        $band = Band::get();
-        return view('penjualan.new')->with(compact('vendor','size','band'));
-    }
+    // public function create()
+    // {
+    //     $vendor = Vendor::get();
+    //     $size = Size::get();
+    //     $band = Band::get();
+    //     return view('penjualan.new')->with(compact('vendor','size','band'));
+    // }
 
 
     public function show($id)

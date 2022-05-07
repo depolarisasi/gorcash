@@ -37,12 +37,14 @@
                     <input id="name" type="hidden" name="penjualan_invoicegorilla" value="{{$invoice}}" >
                     </div>
                   </div>
+                  @if(Auth::user()->role == 2 || Auth::user()->role == 1)
                   <div class="form-group row mt-4">
                     <label class="col-md-4">Invoice Marketplace <small>(kosongkan apabila bukan dari marketplace)</small></label>
                     <div class="col-md-8">
                     <input id="name" type="text" class="form-control" name="penjualan_invoice" >
                     </div>
                   </div>
+                  @endif
                   <div class="form-group row mt-4">
                     <label class="col-md-4">Nama Customer</label>
                     <div class="col-md-8">
@@ -65,13 +67,18 @@
                     <label class="col-md-4">Channel</label>
                     <div class="col-md-8">
                       <select class="multisteps-form__input form-control" name="penjualan_channel" required>
-                        <option value="Toko">Toko</option>
+
+                        @if(Auth::user()->role == 2)
+                        <option value="Tokopedia">Tokopedia</option>
                         <option value="Website">Website</option>
                         <option value="Shopee">Shopee</option>
-                        <option value="Tokopedia">Tokopedia</option>
                         <option value="Blibli">Blibli</option>
                         <option value="BukaLapak">BukaLapak</option>
-                        <option value="WhatsApp">WhatsApp</option>
+                        @endif
+                    @if(Auth::user()->role == 5)
+                    <option value="Marketplace">Toko</option>
+                    <option value="WhatsApp">WhatsApp</option>
+                    @endif
                       </select>
                     </div>
                   </div>
@@ -81,6 +88,8 @@
                             <input class="form-control" id="tanggalpenjualan" type="datetime-local" name="penjualan_tanggalwaktupenjualan" value="{{\Carbon\Carbon::now()->setTimezone('Asia/Jakarta')->setTimezone('Asia/Jakarta')->format('Y-m-d H:i:s')}}" required/>
                         </div>
                       </div>
+
+                  @if(Auth::user()->role == 2 || Auth::user()->role == 1)
                       <div class="form-group row mt-4">
                         <label class="col-md-4">Kurir Pengiriman</label>
                         <div class="col-md-8">
@@ -114,6 +123,16 @@
                                   <span class="input-group-text">Rp</span>
                                 </div>
                                 <input class="form-control" type="text" id="ongkoskirim" onchange="tambahongkir(this);" name="penjualan_ongkoskirim" aria-label="Payment" aria-describedby="ongkoskirim"/>
+                              </div>
+
+                        </div>
+                      </div>
+                      @endif
+                      <div class="form-group row mt-4">
+                        <label class="col-md-4">Notes</label>
+                        <div class="col-md-8">
+                            <div class="input-group mb-3">
+                            <textarea class="form-control" name="penjualan_notes" rows="3"></textarea>
                               </div>
 
                         </div>
@@ -251,6 +270,7 @@
     </div>
 </div>
 
+@if(Auth::user()->role == 2 || Auth::user()->role == 1)
 <div class="row mt-4">
     <div class="col-md-8">
       <p class="font-weight-bolder font-size-h4 text-right">Ongkos Kirim</p>
@@ -259,6 +279,7 @@
         <span id="ongkirkurir" class="font-weight-bolder font-size-h4 text-right">0</span>
     </div>
 </div>
+@endif
 <div class="row mt-4">
     <div class="col-md-8">
         <p class="font-weight-bolder font-size-h4 text-right">Pembayaran oleh Customer</p>
@@ -290,9 +311,12 @@
                     <option value="Transfer Bank BNI">Transfer Bank BNI</option>
                     <option value="Transfer Bank Mandiri">Transfer Bank Mandiri</option>
                     <option value="Kartu Kredit">Kartu Kredit</option>
-                    <option value="Marketplace">Marketplace</option>
                     <option value="Xendit">Xendit</option>
                     <option value="Split Bill">Split Bill</option>
+
+                    @if(Auth::user()->role == 5)
+                    <option value="Marketplace">Marketplace</option>
+                    @endif
                   </select>
           </div>
       </div>
@@ -390,7 +414,7 @@ var potongan = 0;
 $(document).ready(function() {
 $('#productlist').select2({
    placeholder: "Masukan SKU Produk",
-   allowClear: true, 
+   allowClear: true,
    language: {
         inputTooShort: function (args) {
 
