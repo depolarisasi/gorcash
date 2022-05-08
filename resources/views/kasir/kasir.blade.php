@@ -68,7 +68,7 @@
                     <div class="col-md-8">
                       <select class="multisteps-form__input form-control" name="penjualan_channel" required>
 
-                        @if(Auth::user()->role == 2 !! Auth::user()->role == 1)
+                        @if(Auth::user()->role == 2 || Auth::user()->role == 1)
                         <option value="Tokopedia">Tokopedia</option>
                         <option value="Website">Website</option>
                         <option value="Shopee">Shopee</option>
