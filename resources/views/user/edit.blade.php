@@ -50,7 +50,7 @@
                 <option value="2" @if($edit->role == 2) selected @endif>Toko</option>
                 <option value="3" @if($edit->role == 3) selected @endif>Sosmed</option>
                 <option value="4" @if($edit->role == 4) selected @endif>Gudang</option>
-                <option value="4" @if($edit->role == 5) selected @endif>Kasir</option>
+                <option value="5" @if($edit->role == 5) selected @endif>Kasir</option>
               </select>
             </div>
           </div>
