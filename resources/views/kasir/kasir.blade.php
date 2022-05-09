@@ -74,10 +74,10 @@
                         <option value="Shopee">Shopee</option>
                         <option value="Blibli">Blibli</option>
                         <option value="BukaLapak">BukaLapak</option>
+                        <option value="WhatsApp">WhatsApp</option>
                         @endif
                     @if(Auth::user()->role == 5 || Auth::user()->role == 1)
-                    <option value="Marketplace">Toko</option>
-                    <option value="WhatsApp">WhatsApp</option>
+                    <option value="Marketplace">Toko</option> 
                     @endif
                       </select>
                     </div>
@@ -308,18 +308,19 @@
                     <option value="GoPay">GoPay</option>
                     <option value="ShopeePay">ShopeePay</option>
                     <option value="OVO">OVO</option>
-                    <option value="QRIS">QRIS</option>
-                    <option value="Transfer Bank BCA">Transfer Bank BCA</option>
-                    <option value="Transfer Bank BNI">Transfer Bank BNI</option>
-                    <option value="Transfer Bank Mandiri">Transfer Bank Mandiri</option>
-                    <option value="Kartu Kredit">Kartu Kredit</option>
-                    <option value="Xendit">Xendit</option>
-                    <option value="Split Bill">Split Bill</option>
+                    <option value="QRIS">QRIS</option> 
+                    <option value="Kartu Kredit">Kartu Kredit</option> 
                     @endif
 
                     @if(Auth::user()->role == 2)
                     <option value="Marketplace">Marketplace</option>
                     @endif
+                    
+                    <option value="Transfer Bank BCA">Transfer Bank BCA</option>
+                    <option value="Transfer Bank BNI">Transfer Bank BNI</option>
+                    <option value="Transfer Bank Mandiri">Transfer Bank Mandiri</option> 
+                    <option value="Xendit">Xendit</option>
+                    <option value="Split Bill">Split Bill</option>
                   </select>
           </div>
       </div>
