@@ -419,6 +419,7 @@ class StokOpnameController extends Controller
                 }
                 $product->so_stokterjual = $request->stokterjual[$key]; 
                 $product->so_status = 2;
+                $product->so_namaso = $request->so_namaso;
                 $product->so_char = $request->so_namaso;
                 $product->so_size = $request->so_size;
                 $product->so_userid = $request->so_userid; 
