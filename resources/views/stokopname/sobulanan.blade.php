@@ -40,7 +40,7 @@
                 <div class="col-md-4">
                     <div class="row mb-3">
                         <label class="col-md-4">Nama StokOpname</label>
-                        <input id="namaso" type="text" class="form-control col-md-8" name="so_namaso" value="SO Bulan {{Carbon\Carbon::now()->format('F')}} {{$band_selected    }}" required>
+                        <input id="namaso" type="text" class="form-control col-md-8" name="so_namaso" value="SO Bulan {{Carbon\Carbon::now()->format('F')}} {{$band_selected}}" required>
                 </div>
                     <div class="row mb-3">
                             <label class="col-md-4">Nama Pemeriksa</label>
