@@ -14,7 +14,7 @@ class TurunBarangController extends Controller
         ->join('size','size.size_id','=','product.product_idsize')
         ->select('barangturun.*','product.*','size.size_nama')
         ->get();
-        
+
         $product = Product::join('size','size.size_id','=','product.product_idsize')
         ->select('product.*','size.size_nama')
         ->get();
@@ -33,22 +33,26 @@ class TurunBarangController extends Controller
 
 public function apiturunbarang(Request $request){
 
-    $product = Product::where('product_sku',$request->sku)->first();
+    $product = Product::join('size','size.size_id','=','product.product_idsize')
+    ->select('product.*','size.size_nama')
+    ->where('product_sku',$request->sku)->first();
     if($product){
-        $tb = new TurunBarang;
-        $tb->barangturun_sku = $request->sku;
-        $tb->barangturun_mastersku = $product->product_mastersku;
-        $tb->barangturun_namapetugas = Auth::user()->name;
-        $tb->barangturun_tanggalambil =  Carbon::now()->format('Y-m-d');
+        $data = [
+            'barangturun_sku'  => $request->sku,
+            'barangturun_mastersku'  => $product->product_mastersku,
+            'barangturun_namapetugas'  => $request->petugas,
+            'barangturun_tanggalambil'  =>  $request->tanggal,
+        ];
+
            try {
-           $tb->save();
-           } catch (QE $e) { 
+           $barang = TurunBarang::create($data);
+           return response()->json(['success'=>"success turun barang","id" => $barang->barangturun_id,"sku" => $data['barangturun_sku'], "namaproduk" => $product->product_nama, "size" => $product->size_nama,"namapetugas"=> $request->petugas, "tanggalambil" => $request->tanggal]);
+           } catch (QE $e) {
                return response()->json(['error'=>"ERROR."]);
            }
-           
-           return response()->json(['success'=>"success turun barang","sku" =>]);
+
     }
-   
+
 }
 
 

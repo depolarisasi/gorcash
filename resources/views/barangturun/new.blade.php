@@ -32,22 +32,12 @@
 <!--begin::Body-->
 <div class="card-body pt-0 pb-3">
 <div class="tab-content">
-    <form method="POST" action="{{url('turunbarang/store')}}">
         @csrf
+        <label class="form-label">ISI DAHULU NAMA DAN TANGGAL SEBELUM ISI PRODUK</label>
         <div class="form-group row mt-4">
-            <label class="col-md-2">SKU Barang</label>
-            <div class="col-md-3">
-                <select class="form-control select2" id="productlist" name="barangturun_sku">
-                    @foreach($product as $p)
-                    <option value="{{$p->product_sku}}">{{$p->product_sku}} - {{$p->product_nama}} ({{$p->size_nama}})</option>
-                    @endforeach
-                   </select>
-            </div>
-          </div>
-          <div class="form-group row mt-4">
             <label class="col-md-2">Nama Petugas</label>
             <div class="col-md-3">
-            <input type="text" class="form-control" name="barangturun_namapetugas">
+            <input type="text" id="namapetugas" class="form-control" name="barangturun_namapetugas">
             </div>
           </div>
           <div class="form-group row mt-4">
@@ -56,17 +46,26 @@
             <input type="text" class="form-control" id="datepicker1" name="barangturun_tanggalambil" placeholder="Select date">
             </div>
           </div>
+        <div class="form-group row mt-4">
+            <label class="col-md-2">SKU Barang</label>
+            <div class="col-md-3">
+                <select class="form-control select2" id="productlist" name="barangturun_sku">
+                    @foreach($product as $p)
+                    <option value="{{$p->product_id}}">@if($p->product_productlama == 1) {{$p->product_barcodelama}} @endif{{$p->product_sku}} - {{$p->product_nama}} ({{$p->size_nama}})</option>
+                    @endforeach
+                   </select>
+            </div>
+          </div>
+
 
 
 
 
       <div class="form-group row mt-4">
         <div class="col-md-6">
-    <button class="btn btn-md btn-primary" type="submit">Tambah Status Barang Turun</button>
         </div>
     </div>
 
-      </form>
 </div>
 </div>
 <!--end::Body-->
@@ -89,14 +88,69 @@
         format: "yyyy-mm-dd",
     });
 
-    $('#productlist').select2({
-        placeholder: "Scan SKU disini",
-        allowClear: true
+    $(document).ready(function(){
+
+
+$("#productlist").val(null).trigger('change');
+
+$('#productlist').select2({
+placeholder: "Masukan SKU Produk",
+allowClear: true,
+language: {
+inputTooShort: function (args) {
+
+    return "2 or more symbol.";
+},
+noResults: function () {
+    return "Not Found.";
+},
+searching: function () {
+    return "Searching...";
+}
+},
+minimumInputLength: 2,
+});
+
+$('#productlist').on('select2:select', function (e) {
+e.preventDefault();
+var select_val = $(e.currentTarget).val();
+var tanggal_val = $('#datepicker1').val();
+var namapetugas = $('#namapetugas').val();
+$.ajax({
+        url: '/api/turunbarang',
+        type: 'POST',
+        data: {
+            _token : "{{csrf_token()}}",
+            'sku' : select_val,
+            'petugas' : namapetugas,
+            'tanggal' : tanggal_val,
+        },
+        success: function (data) {
+            if (data['success']) {
+                    t.row.add( [
+            counter +'.1',
+            counter +'.2',
+            counter +'.3',
+            counter +'.4',
+            counter +'.5'
+        ] ).draw( false );
+            } else if (data['error']) {
+                 Swal.fire(
+                 'Error',
+                 'Terdapat kesalahan dalam memasukan ke daftar',
+                 'error'
+                 )
+            } else {
+                alert(data.responseText);
+            }
+        },
+        error: function (data) {
+            alert(data.responseText);
+        }
     });
+});
 
-    $( document ).ready(function() {
-
-$('#productlist').val("");
+$('#productlist').val('');
 });
     </script>
 @endsection
