@@ -1,8 +1,10 @@
 @extends('layouts.app')
 @section('title','Kasir - ')
+@if (Auth::user()->role == 2)
 @section('body')
 oncopy="return false" oncut="return false" onpaste="return false"
 @endsection
+@endif
 @section('content')
 	<!--begin::Content-->
     <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
