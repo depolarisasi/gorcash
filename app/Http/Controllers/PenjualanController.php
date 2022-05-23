@@ -33,7 +33,16 @@ class PenjualanController extends Controller
 
     public function index()
     {
-        $penjualan = Penjualan::OrderBy('penjualan_tanggalwaktupenjualan','DESC')->get();
+        if(Auth::user()->role == 1){
+            $penjualan = Penjualan::OrderBy('penjualan_tanggalwaktupenjualan','DESC')->get();
+        }elseif(Auth::user()->role == 2){
+            $penjualan = Penjualan::where('penjualan_channel', '!=', 'Toko')
+            ->OrderBy('penjualan_tanggalwaktupenjualan','DESC')->get();
+        }elseif(Auth::user()->role == 5){
+            $penjualan = Penjualan::where('penjualan_channel', '=', 'Toko')
+            ->OrderBy('penjualan_tanggalwaktupenjualan','DESC')->get();
+        }
+        // $penjualan = Penjualan::OrderBy('penjualan_tanggalwaktupenjualan','DESC')->get();
         $barang = []; //array penampung informasi produk untuk listing produk di avail_pen
         $potongan = []; //array penampung informasi produk untuk listing produk di avail_pen
         $pot = []; //array penampung informasi produk untuk listing produk di avail_pen

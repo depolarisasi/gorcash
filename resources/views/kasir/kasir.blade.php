@@ -1,13 +1,16 @@
 @extends('layouts.app')
 @section('title','Kasir - ')
+@section('body')
+oncopy="return false" oncut="return false" onpaste="return false"
+@endsection
 @section('content')
 	<!--begin::Content-->
-    <div class="content  d-flex flex-column flex-column-fluid" id="kt_content">
+    <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
 
 <!--begin::Entry-->
 <div class="d-flex flex-column-fluid">
 <!--begin::Container-->
-<div class=" container ">
+<div class="container">
 <!--begin::Dashboard-->
 <!--begin::Row-->
 <div class="row">
@@ -302,7 +305,7 @@
           <div class="form-group mt-4">
                 <select class="multisteps-form__input form-control" name="penjualan_paymentype" required>
 
-                    @if(Auth::user()->role == 5)
+                    @if(Auth::user()->role == 5 || Auth::user()->role == 1 )
                     <option value="Debit" selected>Debit</option>
                     <option value="Cash">Cash</option>
                     <option value="GoPay">GoPay</option>
@@ -313,7 +316,7 @@
                     <option value="Split Bill">Split Bill</option>
                     @endif
 
-                    @if(Auth::user()->role == 2)
+                    @if(Auth::user()->role == 2 || Auth::user()->role == 1)
                     <option value="Marketplace">Marketplace</option>
                     @endif
 
@@ -416,6 +419,14 @@ var subtotal = 0;
 var potongan = 0;
 
 $(document).ready(function() {
+    $('.select2-search').bind("cut copy paste",function(e) {
+    return false;
+ });
+
+ $('.select2-search__field').bind("cut copy paste",function(e) {
+    return false;
+ });
+
 $('#productlist').select2({
    placeholder: "Masukan SKU Produk",
    allowClear: true,

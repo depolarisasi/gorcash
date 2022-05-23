@@ -44,7 +44,7 @@ background-color: #fff !important;
     <!--end::Head-->
 
     <!--begin::Body-->
-    <body id="kt_body"  class="header-fixed header-mobile-fixed subheader-enabled subheader-fixed aside-enabled aside-fixed aside-minimize-hoverable page-loading"  >
+    <body id="kt_body" class="header-fixed header-mobile-fixed subheader-enabled subheader-fixed aside-enabled aside-fixed aside-minimize-hoverable page-loading" @yield('body') >
     	<!--begin::Main-->
 
 	<!--begin::Header Mobile-->
@@ -185,7 +185,6 @@ background-color: #fff !important;
 
 
 
-                @if(Auth::user()->role != 5)
 
                 <li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
                     <a href="javascript:;" class="menu-link menu-toggle">
@@ -271,7 +270,6 @@ background-color: #fff !important;
                         </ul>
                     </div>
                 </li>
-@endif
 
                 @if(Auth::user()->role == 1)
                 <li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
