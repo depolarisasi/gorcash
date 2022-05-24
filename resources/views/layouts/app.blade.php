@@ -44,7 +44,7 @@ background-color: #fff !important;
     <!--end::Head-->
 
     <!--begin::Body-->
-    <body id="kt_body" class="header-fixed header-mobile-fixed subheader-enabled subheader-fixed aside-enabled aside-fixed aside-minimize-hoverable page-loading" @yield('body') >
+    <body id="kt_body" class="header-fixed header-mobile-fixed subheader-enabled subheader-fixed aside-enabled aside-fixed aside-minimize-hoverable page-loading" >
     	<!--begin::Main-->
 
 	<!--begin::Header Mobile-->
