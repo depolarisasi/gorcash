@@ -96,7 +96,7 @@
 
                     @foreach($penjualan as $key => $p)
                     <tr>
-                        <td>{{\Carbon\Carbon::parse($p->penjualan_tanggalwaktupenjualan)->format('d-m-Y')}}</td>
+                        <td>{{\Carbon\Carbon::parse($p->penjualan_tanggalwaktupenjualan)->format('Y-m-d')}}</td>
                         <td>{{\Carbon\Carbon::parse($p->penjualan_tanggalwaktupenjualan)->format('H:i')}}</td>
                         <td>{{$p->penjualan_channel}}</td>
                         <td><ol class="styled">
@@ -172,7 +172,7 @@
         ],
         "order": [[ 0, "desc" ]],
         "paging":   true,
-        "ordering": false,
+        "ordering": true,
         "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]]
     } );
 
