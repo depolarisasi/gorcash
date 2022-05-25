@@ -56,7 +56,7 @@
                         <td>{{$p->band_nama}}</td>
                         <td>{{$p->size_nama}}</td>
                         <td>@money($p->product_hargajual)</td>
-                        <td>{{$p->product_stokahir}}</td>
+                        <td>{{$p->product_stokakhir}}</td>
 
                     </tr>
                     @endforeach
