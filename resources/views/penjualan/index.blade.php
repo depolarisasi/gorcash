@@ -81,6 +81,7 @@
                         <th>Tanggal</th>
                         <th>Jam</th>
                         <th>Channel</th>
+                        <th>Invoice</th>
                         <th>Barang Terjual</th>
                         <th>Potongan</th>
                         <th>Total Penjualan</th>
@@ -99,6 +100,7 @@
                         <td>{{\Carbon\Carbon::parse($p->penjualan_tanggalwaktupenjualan)->format('Y-m-d')}}</td>
                         <td>{{\Carbon\Carbon::parse($p->penjualan_tanggalwaktupenjualan)->format('H:i')}}</td>
                         <td>{{$p->penjualan_channel}}</td>
+                        <td>{{$p->penjualan_invoice}}</td>
                         <td><ol class="styled">
                             @php $counter = count($barang[$key]); @endphp
                             @foreach($barang[$key] as $brg)
