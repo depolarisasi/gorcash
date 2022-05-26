@@ -109,19 +109,20 @@
                     <div class="form-group row mt-4">
                         <label class="col-md-2">Stock Awal <span class="text-danger">*</span></label>
                         <div class="col-md-10">
-                        <input type="number" min="0" class="form-control" name="product_stok" value="{{$edit->product_stok}}" required>
+                        <input type="number" min="0" class="form-control" name="product_stok" value="{{$edit->product_stok}}" @if(Auth::user()->role == 1) required @endif @if(Auth::user()->role == 4) disabled @endif>
                         </div>
                       </div>
                       <div class="form-group row mt-4">
                         <label class="col-md-2">Stock Akhir <span class="text-danger">*</span></label>
                         <div class="col-md-10">
-                        <input type="number" min="0" class="form-control" name="product_stokakhir" value="{{$edit->product_stokakhir}}" required>
+                        <input type="number" min="0" class="form-control" name="product_stokakhir" value="{{$edit->product_stokakhir}}"  @if(Auth::user()->role == 1) required @endif @if(Auth::user()->role == 4) disabled @endif>
                         </div>
                       </div>
 
 
             </div>
             <div class="col-md-6">
+              @if(Auth::user()->role == 1)
                 <div class="form-group row mt-4">
                     <label class="col-md-2">Harga Beli <span class="text-danger">*</span></label>
                     <div class="col-md-10">
@@ -134,6 +135,7 @@
                     <input type="text" class="form-control" name="product_hargajual" value="{{$edit->product_hargajual}}" >
                     </div>
                   </div>
+                  @endif
                   <div class="form-group row mt-4">
                     <label class="col-md-2">Material</label>
                     <div class="col-md-10">

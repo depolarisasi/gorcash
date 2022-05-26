@@ -133,9 +133,11 @@
                     <td>{{$p->product_stokakhir}}</td>
 					<td>
                         <a href="{{url('/produk/select/'.$p->product_mastersku)}}" class="btn btn-icon btn-xs btn-primary"><i class="fas fa-info-circle nopadding"></i></a>
-                        @if(Auth::user()->role == 1)
+                        @if(Auth::user()->role == 1 || Auth::user()->role == 4)
                         <a href="{{url('/produk/select/'.$p->product_mastersku)}}" class="btn btn-icon btn-xs btn-warning"><i class="fas fa-edit nopadding"></i></a>
+                        @if(Auth::user()->role == 1)
                         <button type="button" href="{{url('/produk/deletemaster/'.$p->product_mastersku)}}" class="deletebtn btn btn-icon btn-xs btn-danger"><i class="fas fa-trash nopadding"></i></button>
+                        @endif
                         @endif
                     </td>
 				</tr>
