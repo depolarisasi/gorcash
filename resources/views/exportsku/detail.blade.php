@@ -44,18 +44,20 @@
                         <th>Band</th>
                         <th>Size</th>
                         <th>Harga</th>
+                        <th>Stok Akhir</th>
                     </tr>
                 </thead>
                 <tbody>
 
                     @foreach($export as $p)
+                <tr>
                         <td>{{$p->product_sku}}</td>
                         <td>{{$p->product_nama}}</td>
                         <td>{{$p->band_nama}}</td>
                         <td>{{$p->size_nama}}</td>
                         <td>@money($p->product_hargajual)</td>
+                        <td>{{$p->product_stokakhir}}</td>
 
-                        </td>
                     </tr>
                     @endforeach
 
@@ -96,7 +98,7 @@
         {
             extend: 'excelHtml5',
             exportOptions: {
-            columns: [ 1,2,3,4,5 ]
+            columns: [ 0,1,2,3,4,5 ]
             }
             },
         ],
