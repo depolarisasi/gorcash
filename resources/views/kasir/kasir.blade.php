@@ -75,7 +75,8 @@
                         <option value="Blibli">Blibli</option>
                         <option value="BukaLapak">BukaLapak</option>
                         <option value="WhatsApp">WhatsApp</option>
-                        <option value="Live">Live</option>
+                        <option value="Instagram">Instagram</option>
+                        <option value="Tiktok">Tiktok</option>
                         @endif
                     @if(Auth::user()->role == 5 || Auth::user()->role == 1)
                     <option value="Toko">Toko</option>
