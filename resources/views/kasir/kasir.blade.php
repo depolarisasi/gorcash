@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title','Kasir - ')  
+@section('title','Kasir - ')
 @section('content')
 	<!--begin::Content-->
     <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
@@ -75,6 +75,7 @@
                         <option value="Blibli">Blibli</option>
                         <option value="BukaLapak">BukaLapak</option>
                         <option value="WhatsApp">WhatsApp</option>
+                        <option value="Live">Live</option>
                         @endif
                     @if(Auth::user()->role == 5 || Auth::user()->role == 1)
                     <option value="Toko">Toko</option>
