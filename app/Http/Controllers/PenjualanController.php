@@ -33,7 +33,7 @@ class PenjualanController extends Controller
 
     public function index()
     {
-        if(Auth::user()->role == 1){
+        if(Auth::user()->role == 1 || Auth::user()->role == 4){
             $penjualan = Penjualan::OrderBy('penjualan_tanggalwaktupenjualan','DESC')->get();
         }elseif(Auth::user()->role == 2){
             $penjualan = Penjualan::where('penjualan_channel', '!=', 'Toko')

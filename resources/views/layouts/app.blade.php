@@ -141,7 +141,7 @@ background-color: #fff !important;
                 </li>
                 @endif
 
-                @if(Auth::user()->role == 1 || Auth::user()->role == 2 || Auth::user()->role == 5)
+                @if(Auth::user()->role == 1 || Auth::user()->role == 2 || Auth::user()->role == 5 || Auth::user()->role == 4)
                 <li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
                     <a href="javascript:;" class="menu-link menu-toggle">
                         <span class="svg-icon svg-icon-white menu-icon"><!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo5/dist/../src/media/svg/icons/Navigation/Route.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">

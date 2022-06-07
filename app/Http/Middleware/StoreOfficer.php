@@ -18,7 +18,7 @@ class StoreOfficer
     public function handle(Request $request, Closure $next)
     {
         if(Auth::check()){
-            if(Auth::user()->role == 2 || Auth::user()->role == 5 || Auth::user()->role == 1){
+            if(Auth::user()->role == 2 || Auth::user()->role == 5 || Auth::user()->role == 1 || Auth::user()->role == 4){
                 return $next($request);
             }else {
             toast('No Access Right','error');
