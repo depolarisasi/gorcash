@@ -99,13 +99,14 @@ public function apimassunpublish(Request $request){
         $publish = BarangPublish::join('product','product.product_id','publish.publish_productid')
         ->join('band','band.band_id','product.product_idband')
         ->join('size','size.size_id','product.product_idsize')
+        ->join('color','color.color_id','product.product_color')
         ->select('publish.*','product.product_id','product.product_foto','product.product_hargajual','product.product_keterangan','band.band_nama','product.product_nama','size.size_nama','product.product_mastersku','product.product_sku'
         ,'product.product_material'
         ,'product.product_tag'
         ,'product.product_madein'
         ,'product.product_condition'
         ,'product.product_stok'
-        ,'product.product_stokakhir')
+        ,'product.product_stokakhir', 'color_nama')
         ->where('publish.publish_groupid',$id)
         ->orderBy('product.product_nama','ASC')->get();
         $infopub = BarangPublish::where('publish_groupid',$id)->first();

@@ -45,6 +45,7 @@
 					<th width="5%">Harga</th>
 					<th width="5%">Stok Awal</th>
 					<th width="5%">Stok Akhir</th>
+					<th width="10%">Color</th>
 					<th width="10%">Tag</th>
 					<th width="10%">Material</th>
 					<th width="10%">Made In</th>
@@ -64,6 +65,7 @@
 					<td>@money($p->product_hargajual)</td>
 					<td>{{$p->product_stok}}</td>
 					<td>{{$p->product_stokakhir}}</td>
+					<td>{{$p->color_nama}}</td>
 					<td>{{$p->product_tag}}</td>
 					<td>{{$p->product_material}}</td>
 					<td>{{$p->product_madein}}</td>
