@@ -35,6 +35,7 @@
             <tr>
                 <th>Tanggal</th>
                 <th>Logs</th>
+                <th>Action</th>
                 <th>User</th>
             </tr>
         </thead>
@@ -45,6 +46,7 @@
                 <td>{{$log->log_tanggal}}</td>
                 <td>{{$log->log_msg}}</td>
                 <td>{{$log->log_name}}</td>
+                <td>{{$log->name}}</td>
             </tr>
             @endforeach
 
