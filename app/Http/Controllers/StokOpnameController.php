@@ -57,7 +57,7 @@ class StokOpnameController extends Controller
             $productcount = StokOpname::where('so_pubgroupname',$pub->so_pubgroupname)->count();
             $riwayatso[$key]['count'] = $productcount;
         }
-        
+
         $size = Size::get();
 
          return view('stokopname.indexbulanan')->with(compact('riwayatso','size'));
@@ -192,17 +192,17 @@ class StokOpnameController extends Controller
             }
             $pubdata[$key]["stokterjual"] = $count;
         }
- 
+
 
         $soinfo = StokOpname::where('stokopname.so_pubgroupname',$pubgroup)->first();
         $pub = $pubgroup;
         if(Auth::user()->role == 1){
         return view('stokopname.resumebulanan')->with(compact('pubdata','pub','soinfo'));
         }
-        elseif(Auth::user()->role == 2) { 
+        elseif(Auth::user()->role == 2) {
             return view('stokopname.resumebulanantoko')->with(compact('pubdata','pub','soinfo'));
         }
-        elseif(Auth::user()->role == 4) { 
+        elseif(Auth::user()->role == 4) {
             return view('stokopname.resumebulanangudang')->with(compact('pubdata','pub','soinfo'));
         }
      }
@@ -286,13 +286,13 @@ class StokOpnameController extends Controller
     // }
 
     public function updatesobulanan(Request $request){
- 
-            if($request->pubgroupname == NULL || $request->pubgroupname == ""){ 
-              $rand = mt_rand(1,9999).$this->generateRandomString(5); 
-            }else { 
+
+            if($request->pubgroupname == NULL || $request->pubgroupname == ""){
+              $rand = mt_rand(1,9999).$this->generateRandomString(5);
+            }else {
               $rand = $request->pubgroupname;
             }
-    
+
         foreach($request->product_skus as $key => $p){
             $product = StokOpname::where('so_sku', $p)->where('so_type',2)->where('so_date',$request->so_date)->where('so_status',2)
             ->where('so_pubgroupname', $request->pubgroupname)->first();
@@ -307,27 +307,39 @@ class StokOpnameController extends Controller
                 $so->so_stok = $request->product_stok;
                 $so->so_stokakhir = $request->product_stokakhir;
                 $so->so_stokterjual = $request->stokterjual[$key];
-                $so->so_stoktoko = $request->stoktoko[$key];
-                $so->so_stokgudang = $request->stokgudang[$key];
+                if(Auth::user()->role == 4) {
+                    $so->so_stokgudang = $request->stokgudang[$key];
+                }else if(Auth::user()->role == 2){
+                    $so->so_stoktoko = $request->stoktoko[$key];
+                }else {
+                    $so->so_stoktoko = $request->stoktoko[$key];
+                    $so->so_stokgudang = $request->stokgudang[$key];
+                }
                 $so->so_selisih = $request->selisih[$key];
                 $so->so_stokakhirreal = $request->stokril[$key];
                 $so->so_type = 2;
                 $so->so_userid = $request->so_userid;
                 $so->so_namaso = $request->so_namaso;
                 $so->so_char = $request->so_char;
-                $so->so_status = 1; 
+                $so->so_status = 1;
                 $so->save();
             }else {
-                $so = StokOpname::where('so_sku',$p)->where('so_pubgroupname', $request->pubgroupname)->first(); 
+                $so = StokOpname::where('so_sku',$p)->where('so_pubgroupname', $request->pubgroupname)->first();
                 $so->so_stokterjual = $request->stokterjual[$key];
-                $so->so_stoktoko = $request->stoktoko[$key];
-                $so->so_stokgudang = $request->stokgudang[$key];
+                if(Auth::user()->role == 4) {
+                    $so->so_stokgudang = $request->stokgudang[$key];
+                }else if(Auth::user()->role == 2){
+                    $so->so_stoktoko = $request->stoktoko[$key];
+                }else {
+                    $so->so_stoktoko = $request->stoktoko[$key];
+                    $so->so_stokgudang = $request->stokgudang[$key];
+                }
                 $so->so_selisih = $request->selisih[$key];
                 $so->so_stokakhirreal = $request->stokril[$key];
                 $so->so_status = 1;
                 $so->so_type = 2;
                 $so->so_namaso = $request->so_namaso;
-                $so->so_char = $request->so_char; 
+                $so->so_char = $request->so_char;
             $so->update();
             }
 
@@ -340,16 +352,16 @@ class StokOpnameController extends Controller
 
     public function storesobulanan(Request $request)
     {
-        if($request->pubgroupname == NULL || $request->pubgroupname == ""){ 
-            $rand = mt_rand(1,9999).$this->generateRandomString(5); 
+        if($request->pubgroupname == NULL || $request->pubgroupname == ""){
+            $rand = mt_rand(1,9999).$this->generateRandomString(5);
         $rand = mt_rand(1,9999).$this->generateRandomString(5);
-            $rand = mt_rand(1,9999).$this->generateRandomString(5); 
+            $rand = mt_rand(1,9999).$this->generateRandomString(5);
         $rand = mt_rand(1,9999).$this->generateRandomString(5);
-            $rand = mt_rand(1,9999).$this->generateRandomString(5); 
-          }else { 
+            $rand = mt_rand(1,9999).$this->generateRandomString(5);
+          }else {
             $rand = $request->pubgroupname;
           }
-  
+
         foreach($request->product_skus as $key => $p){
             $product = StokOpname::where('so_sku', $p)->where('so_type',2)->where('so_date',$request->so_date)->where('so_status',2)
             ->where('so_pubgroupname', $request->pubgroupname)->first();
@@ -399,13 +411,13 @@ class StokOpnameController extends Controller
 
         return redirect('stokopname/laporan/'.$rand);
     }
- 
+
 
     public function pausesobulanan(Request $request)
     {
-        if($request->pubgroupname == NULL || $request->pubgroupname == ""){ 
-          $rand = mt_rand(1,9999).$this->generateRandomString(5); 
-        }else { 
+        if($request->pubgroupname == NULL || $request->pubgroupname == ""){
+          $rand = mt_rand(1,9999).$this->generateRandomString(5);
+        }else {
           $rand = $request->pubgroupname;
         }
 
@@ -417,12 +429,12 @@ class StokOpnameController extends Controller
                     $product->so_selisih = $request->selisih[$key];
                     $product->so_stokakhirreal = $request->stokril[$key];
                 }
-                $product->so_stokterjual = $request->stokterjual[$key]; 
+                $product->so_stokterjual = $request->stokterjual[$key];
                 $product->so_status = 2;
                 $product->so_namaso = $request->so_namaso;
                 $product->so_char = $request->so_namaso;
                 $product->so_size = $request->so_size;
-                $product->so_userid = $request->so_userid; 
+                $product->so_userid = $request->so_userid;
                 if(Auth::user()->role == 4 || Auth::user()->role == 1 ){
                     $product->so_stokgudang = $request->stokgudang[$key];
                 }
