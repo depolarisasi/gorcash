@@ -56,20 +56,20 @@
 
 
                 <div class="col-md-8">
-                <div class="row mb-3"> 
+                <div class="row mb-3">
                 <div class="col-md-6">
-                   
+
 
 
                 </div>
                 </div>
-               
-            
+
+
         </div>
 
             </div>
         </div>
-  
+
 
 		<!--begin: Datatable-->
         <div class="table-responsive">
@@ -84,7 +84,7 @@
 					<th width="3%">Stok Akhir</th>
                     @if(Auth::user()->role == 4 || Auth::user()->role == 1)
 					<th width="5%">Stok Gudang</th>
-                    @endif 
+                    @endif
                     @if(Auth::user()->role == 2 || Auth::user()->role == 1)
 					<th width="5%">Stok Toko</th>
                     @endif
@@ -211,7 +211,7 @@
                     alert(data.responseText);
                 }
             });
-}); 
+});
 
 $('.stoktokoinput').on('change', function (e) {
     select_val = $(this).attr('data-sku');
@@ -234,7 +234,7 @@ $('#simpan').on('click', function (e) {
                 url: '/api/simpansobulanan',
                 type: 'POST',
                 data: {
-                    _token : "{{csrf_token()}}", 
+                    _token : "{{csrf_token()}}",
                     'product_skus[]' :   $('input[name="product_skus[]"]').map(function(){  return this.value; }).get(),
                     'pubgroupname' :   $('input[name="pubgroupname"]').val(),
                     'stok[]' :   $('input[name="stok[]"]').map(function(){  return this.value; }).get(),
@@ -259,7 +259,7 @@ $('#simpan').on('click', function (e) {
                          'Laporan SO Berhasil Disimpan',
                          'success'
                          );
-                         
+
                          window.location = "{{url('stokopname/bulanan/edit/')}}"+"/"+(data['pubgroup']);
 
                     } else if (data['error']) {
@@ -289,7 +289,7 @@ $('#simpan').on('click', function (e) {
         {
             extend: 'excelHtml5',
             exportOptions: {
-            columns: [ 0,1,2,3,4,5,6,7,8]
+            columns: [ 0,1,2,3,4,5,6,7,8,9,10]
             }
             }
         ],
