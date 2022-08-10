@@ -69,13 +69,13 @@
 
                 </div>
                 </div>
-               
-            
+
+
         </div>
 
             </div>
         </div>
-  
+
 
 		<!--begin: Datatable-->
         <div class="table-responsive">
@@ -85,12 +85,13 @@
 					<th width="3%">SKU</th>
 					<th width="3%">Band</th>
 					<th width="5%">Nama Produk</th>
+					<th width="3%">Harga</th>
 					<th width="3%">Stok Awal</th>
 					<th width="3%">Stok Terjual</th>
 					<th width="3%">Stok Akhir</th>
                     @if(Auth::user()->role == 4 || Auth::user()->role == 1)
 					<th width="5%">Stok Gudang</th>
-                    @endif 
+                    @endif
                     @if(Auth::user()->role == 2 || Auth::user()->role == 1)
 					<th width="5%">Stok Toko</th>
                     @endif
@@ -109,6 +110,8 @@
 					<td>{{$p->product_sku}}</td>
 					<td>{{$p->band_nama}}</td>
 					<td>{{$p->product_nama}} ({{$p->size_nama}})</td>
+					<td>{{$p->product_hargajual}}</td>
+
 
 
 					<td id="stok{{$p->product_sku}}">{{$p->product_stok}}
@@ -143,7 +146,7 @@
 			</tbody>
 		</table>
         <div class="row mt-10">
-        <div class="col-md-4"> 
+        <div class="col-md-4">
             <button id="simpan" class="btn btn-md btn-warning">Simpan</button>
         </div>
     </div>
@@ -194,7 +197,7 @@
                 },
                 success: function (data) {
                     if (data['success']) {
-                        $("#stoktoko"+select_val).val(parseInt($("#stoktoko"+select_val).val())+1);  
+                        $("#stoktoko"+select_val).val(parseInt($("#stoktoko"+select_val).val())+1);
                         $("#productlist").val(null).trigger('change');
                         $('.select2-search__field').val(null).trigger('change');
                     } else if (data['error']) {
@@ -211,27 +214,27 @@
                     alert(data.responseText);
                 }
             });
-}); 
- 
+});
+
 $('#simpan').on('click', function (e) {
     e.preventDefault();
     $.ajax({
                 url: '/api/simpansobulanan',
                 type: 'POST',
                 data: {
-                    _token : "{{csrf_token()}}", 
+                    _token : "{{csrf_token()}}",
                     'product_skus[]' :   $('input[name="product_skus[]"]').map(function(){  return this.value; }).get(),
                     'pubgroupname' :   $('input[name="pubgroupname"]').val(),
                     'stok[]' :   $('input[name="stok[]"]').map(function(){  return this.value; }).get(),
                     'stokakhir[]' :   $('input[name="stokakhir[]"]').map(function(){  return this.value; }).get(),
                     'stokterjual[]' :   $('input[name="stokterjual[]"]').map(function(){  return this.value; }).get(),
-                    'stoksisa[]' :   $('input[name="stoksisa[]"]').map(function(){  return this.value; }).get(), 
-                    'stoktoko[]' :   $('input[name="stoktoko[]"]').map(function(){  return this.value; }).get(), 
+                    'stoksisa[]' :   $('input[name="stoksisa[]"]').map(function(){  return this.value; }).get(),
+                    'stoktoko[]' :   $('input[name="stoktoko[]"]').map(function(){  return this.value; }).get(),
                     'keterangan[]' :   $('input[name="keterangan[]"]').map(function(){  return this.value; }).get(),
                     @if(Auth::user()->role == 1)
                     'selisih[]' :   $('input[name="selisih[]"]').map(function(){  return this.value; }).get(),
                     'stokril[]' :   $('input[name="stokril[]"]').map(function(){  return this.value; }).get(),
-                    @elseif(Auth::user()->role == 4) 
+                    @elseif(Auth::user()->role == 4)
                     'stokgudang[]' :   $('input[name="stokgudang[]"]').map(function(){  return this.value; }).get(),
                     @endif
                     'so_date' :    $('input[name="so_date"]').val(),
@@ -247,7 +250,7 @@ $('#simpan').on('click', function (e) {
                          'Laporan SO Berhasil Disimpan',
                          'success'
                          );
-                         
+
                          window.location = "{{url('stokopname/bulanan/edit/')}}"+"/"+(data['pubgroup']);
 
                     } else if (data['error']) {
@@ -282,7 +285,7 @@ $('#simpan').on('click', function (e) {
             }
         ],
         "paging":   false,
-    } );    
+    } );
 
 
     $('#datepicker').datepicker({

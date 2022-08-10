@@ -69,7 +69,7 @@
                 </div> --}}
                 <div class="row mb-3">
                     <label class="col-md-2">Pilih Abjad Awalan Band</label>
-                    <div class="col-md-4">  
+                    <div class="col-md-4">
                     <div class="d-flex align-items-center">
                         <select class="form-control select2" id="selectband">
                             <option value="?band=All&size={{$size_selected}}" @if($band_selected == 'All' && $size_selected == '') selected @endif>All</option>
@@ -135,6 +135,7 @@
 					<th width="5%">SKU</th>
 					<th width="5%">Band</th>
 					<th width="15%">Nama Produk</th>
+					<th width="5%">Harga</th>
 					<th width="5%">Stok Awal</th>
 					<th width="5%">Stok Terjual</th>
 					<th width="5%">Stok Akhir</th>
@@ -153,6 +154,7 @@
 					<td>{{$p->product_sku}}</td>
 					<td>{{$p->band_nama}}</td>
 					<td>{{$p->product_nama}} ({{$p->size_nama}})</td>
+					<td>{{$p->product_hargajual}}</td>
 
 
 					<td id="stok{{$p->product_sku}}">{{$p->product_stok}}

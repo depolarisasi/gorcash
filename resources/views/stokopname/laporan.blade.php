@@ -60,6 +60,7 @@
 					<th width="10%">SKU</th>
 					<th width="10%">Band</th>
 					<th width="15%">Nama Produk</th>
+					<th width="5%">Harga</th>
 					<th width="5%">Size</th>
 					<th width="5%">Stok Awal</th>
 					<th width="5%">Stok Terjual</th>
@@ -78,6 +79,7 @@
 					<td>{{$p->product_sku}}</td>
 					<td>{{$p->band_nama}}</td>
 					<td>{{$p->product_nama}}</td>
+					<td>{{$p->product_hargajual}}</td>
 					<td>{{$p->size_nama}}</td>
 					<td>{{$p->so_stok}} </td>
                     <td>{{$p->so_stokterjual}}</td>

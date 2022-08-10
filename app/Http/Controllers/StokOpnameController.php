@@ -95,10 +95,10 @@ class StokOpnameController extends Controller
         if($request->get('size') == '' || $request->get('size') == NULL || $request->get('size') == 'All')
         {
         $size_selected = "";
-        $query->whereRaw('size.size_nama LIKE "'.$size_selected.'%"');
+        $query->whereRaw('size.size_nama LIKE "%'.$size_selected.'%"');
         }else {
          $size_selected =  $request->get('size');
-            $query->whereRaw('size.size_nama LIKE "'.$size_selected.'%"');
+          $query->whereRaw('size.size_nama LIKE "%'.$size_selected.'%"');
         }
 
 

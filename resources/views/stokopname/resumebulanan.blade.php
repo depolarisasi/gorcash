@@ -79,6 +79,7 @@
 					<th width="3%">SKU</th>
 					<th width="3%">Band</th>
 					<th width="5%">Nama Produk</th>
+					<th width="3%">Harga</th>
 					<th width="3%">Stok Awal</th>
 					<th width="3%">Stok Terjual</th>
 					<th width="3%">Stok Akhir</th>
@@ -103,6 +104,7 @@
 					<td>{{$p->product_sku}}</td>
 					<td>{{$p->band_nama}}</td>
 					<td>{{$p->product_nama}} ({{$p->size_nama}})</td>
+					<td>{{$p->product_hargajual}}</td>
 
 
 					<td id="stok{{$p->product_sku}}">{{$p->product_stok}}
