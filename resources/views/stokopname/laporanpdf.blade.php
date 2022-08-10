@@ -176,7 +176,7 @@ footer {
             <tr>
                 <td>{{$p['product_sku']}}</td>
     <td>{{$p['product_nama']}}</td>
-    <td>{{$p['product_hargajual']}}</td>
+    <td>Rp @money($p->product_hargajual)</td>
     <td>{{$p['size_nama']}}</td>
     <td>{{$p['so_stok']}} </td>
     <td>{{$p['so_stokterjual']}}</td>

@@ -154,7 +154,7 @@
 					<td>{{$p->product_sku}}</td>
 					<td>{{$p->band_nama}}</td>
 					<td>{{$p->product_nama}} ({{$p->size_nama}})</td>
-					<td>{{$p->product_hargajual}}</td>
+					<td>Rp @money($p->product_hargajual)</td>
 
 
 					<td id="stok{{$p->product_sku}}">{{$p->product_stok}}
