@@ -133,7 +133,7 @@
 				key: 'generalSearch'
 			},
         "paging":   false,
-        "ordering": false,
+        order: [[2, 'asc']],
     } );
 
 
