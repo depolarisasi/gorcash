@@ -44,6 +44,7 @@
                         <th>Band</th>
                         <th>Size</th>
                         <th>Harga</th>
+                        <th>Stok Awal</th>
                         <th>Stok Akhir</th>
                     </tr>
                 </thead>
@@ -56,6 +57,7 @@
                         <td>{{$p->band_nama}}</td>
                         <td>{{$p->size_nama}}</td>
                         <td>@money($p->product_hargajual)</td>
+                        <td>{{$p->product_stok}}</td>
                         <td>{{$p->product_stokakhir}}</td>
 
                     </tr>
