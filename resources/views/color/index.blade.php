@@ -123,6 +123,14 @@
                 dom: 'Blfrtip',
         buttons: [
            {
+            {
+            extend: 'excelHtml5', 
+            },
+            {
+            extend: 'pdfHtml5',
+            orientation: 'landscape',
+            pageSize: 'A4',  
+            },
                 text: 'Delete',
                 action: function () {
 
