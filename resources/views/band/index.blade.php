@@ -125,6 +125,14 @@
                 dom: 'Blfrtip',
         buttons: [
             {
+            extend: 'excelHtml5', 
+            },
+            {
+            extend: 'pdfHtml5',
+            orientation: 'landscape',
+            pageSize: 'A4',  
+            },
+            {
       text: 'Select All On Page',
       action: function() {
         table.rows({
