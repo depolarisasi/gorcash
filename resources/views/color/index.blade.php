@@ -122,7 +122,6 @@
             var table = $("#table").DataTable({
                 dom: 'Blfrtip',
         buttons: [
-           {
             {
             extend: 'excelHtml5', 
             },
@@ -131,6 +130,8 @@
             orientation: 'landscape',
             pageSize: 'A4',  
             },
+           {
+            
                 text: 'Delete',
                 action: function () {
 
