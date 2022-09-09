@@ -45,8 +45,8 @@
 <div class="mb-7">
 	<div class="row align-items-center">
 		<div class="col-lg-8 col-xl-8">
-			<div class="row align-items-center">
-                <div class="col-md-4 my-2 my-md-0">
+            <div class="row align-items-center">
+                <div class="col-md-3 my-2 my-md-0">
 					<div class="d-flex align-items-center">
 						<label class="mr-3 mb-0 d-none d-md-block">Size:</label>
 						<select class="form-control" id="kt_datatable_search_size">
@@ -58,7 +58,7 @@
 						</select>
 					</div>
 				</div>
-                <div class="col-md-4 my-2 my-md-0">
+                <div class="col-md-3 my-2 my-md-0">
 					<div class="d-flex align-items-center">
 						<label class="mr-3 mb-0 d-none d-md-block">Band:</label>
 						<select class="form-control" id="kt_datatable_search_band">
@@ -70,13 +70,24 @@
 						</select>
 					</div>
 				</div>
-				<div class="col-md-4 my-2 my-md-0">
+				<div class="col-md-3 my-2 my-md-0">
 					<div class="d-flex align-items-center">
 						<label class="mr-3 mb-0 d-none d-md-block">Vendor:</label>
 						<select class="form-control" id="kt_datatable_search_vendor">
 							<option value="">All</option>
                             @foreach($vendor as $v)
                             <option value="{{$v->vendor_nama}}">{{$v->vendor_nama}}</option>
+                            @endforeach
+						</select>
+					</div>
+				</div>
+                <div class="col-md-3 my-2 my-md-0">
+					<div class="d-flex align-items-center">
+						<label class="mr-3 mb-0 d-none d-md-block">Type:</label>
+						<select class="form-control" id="kt_datatable_search_type">
+							<option value="">All</option>
+                            @foreach($type as $v)
+                            <option value="{{$v->type_nama}}">{{$v->type_name}}</option>
                             @endforeach
 						</select>
 					</div>
@@ -102,6 +113,7 @@
 					<th>Master SKU</th>
 					<th>Nama Produk</th>
 					<th>Size</th>
+					<th>Type</th>
 					<th>Vendor</th>
 					<th>Band</th>
 					@if(Auth::user()->role == 1)<th>Harga Beli</th>@endif
@@ -122,6 +134,7 @@
                         <span class="label label-success label-sm label-inline mr-2"><i class="fas fa-check text-white p-0" style="font-size: 0.8em"></i></span>
                     @endif</td>
 					<td>{{$p->size_nama}}</td>
+					<td>{{$p->type_name}}</td>
 					<td>{{$p->vendor_nama}}</td>
 					<td>{{$p->band_nama}}</td>
                     @if(Auth::user()->role == 1) <td>@money($p->product_hargabeli)</td>@endif
@@ -131,7 +144,7 @@
                     <td>{{$p->product_stokakhir}}</td>
 					<td>
                         <a href="{{url('/produk/select/'.$p->product_mastersku)}}" class="btn btn-icon btn-xs btn-primary"><i class="fas fa-info-circle nopadding"></i></a>
-                        
+
                         @if(Auth::user()->role == 1 || Auth::user()->role == 4)
                         <a href="{{url('/produk/select/'.$p->product_mastersku)}}" class="btn btn-icon btn-xs btn-warning"><i class="fas fa-edit nopadding"></i></a>
                         <button type="button" href="{{url('/produk/deletemaster/'.$p->product_mastersku)}}" class="deletebtn btn btn-icon btn-xs btn-danger"><i class="fas fa-trash nopadding"></i></button>
@@ -177,9 +190,9 @@
                 extend: 'excelHtml5',
                 exportOptions: {
                     @if(Auth::user()->role == 1)
-                    columns: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+                    columns: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10,11]
                     @else
-                    columns: [ 1, 2, 3, 4, 5, 7, 9, 10 ]
+                    columns: [ 1, 2, 3, 4, 5, 6 , 8, 10,11 ]
                     @endif
                 }
             },
@@ -389,15 +402,18 @@
             tabel.columns(3).search($(this).val().toLowerCase()).draw();
         });
 
-        $('#kt_datatable_search_band').on('change', function() {
-            tabel.columns(5).search($(this).val().toLowerCase()).draw();
-        });
-
-        $('#kt_datatable_search_vendor').on('change', function() {
+        $('#kt_datatable_search_type').on('change', function() {
             tabel.columns(4).search($(this).val().toLowerCase()).draw();
         });
+        $('#kt_datatable_search_vendor').on('change', function() {
+            tabel.columns(5).search($(this).val().toLowerCase()).draw();
+        });
+        $('#kt_datatable_search_band').on('change', function() {
+            tabel.columns(6).search($(this).val().toLowerCase()).draw();
+        });
 
-        $('#kt_datatable_search_size,#kt_datatable_search_band,#kt_datatable_search_vendor').selectpicker();
+
+        $('#kt_datatable_search_size,#kt_datatable_search_band,#kt_datatable_search_vendor,#kt_datatable_search_type').selectpicker();
 
 </script>
 <script>

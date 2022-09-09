@@ -91,14 +91,16 @@ class ProductController extends Controller
         $produk = Product::join('band','band.band_id','=','product.product_idband')
         ->join('vendor','vendor.vendor_id','=','product.product_vendor')
         ->join('size','size.size_id','=','product.product_idsize')
+        ->join('type','type.type_id','=','product.product_typeid')
         ->selectRaw("SUM(product_stok) AS product_stokawal, product.*,
         band.band_id,
         band.band_nama,
+        type.type_name,
         group_concat(DISTINCT size.size_nama ORDER BY size.size_id ASC SEPARATOR ', ') as product_idsize,
         group_concat(DISTINCT vendor.vendor_nama SEPARATOR ', ') as product_vendor,
          group_concat(product.product_stokakhir ORDER BY size.size_id ASC SEPARATOR', ') as product_stokakhir")
-        ->where('product.product_stokakhir','>',0) 
-        ->Orwhere('product.product_stok','=',0) 
+        ->where('product.product_stokakhir','>',0)
+        ->Orwhere('product.product_stok','=',0)
         ->orderBy('product.product_id', 'DESC')
         ->groupBy('product.product_mastersku')
         ->get();
@@ -122,7 +124,8 @@ class ProductController extends Controller
         $vendor = Vendor::get();
         $band = Band::orderBy('band_nama','ASC')->get();
         $size = Size::get();
-        return view('produks.index')->with(compact('produk','vendor','band','size'));
+        $type = TypeProduct::get();
+        return view('produks.index')->with(compact('produk','vendor','band','size','type'));
         // return $produk;
     }
 
@@ -131,7 +134,9 @@ class ProductController extends Controller
         $produk = Product::join('band','band.band_id','=','product.product_idband')
         ->join('vendor','vendor.vendor_id','=','product.product_vendor')
         ->join('size','size.size_id','=','product.product_idsize')
-        ->selectRaw("product.*, band.band_id,band.band_nama,size.size_id,size.size_nama,vendor.vendor_id,vendor.vendor_nama")
+        ->join('type','type.type_id','=','product.product_typeid')
+        ->selectRaw("product.*, band.band_id,band.band_nama,size.size_id,size.size_nama,vendor.vendor_id,vendor.vendor_nama,
+        type.type_name")
         ->where('product.product_stokakhir','=',0)
         ->where('product.product_stok','>',0)
         ->orderBy('product.product_id', 'DESC')
@@ -156,7 +161,8 @@ class ProductController extends Controller
         $vendor = Vendor::get();
         $band = Band::orderBy('band_nama','ASC')->get();
         $size = Size::get();
-        return view('produks.outofstock')->with(compact('produk','vendor','band','size'));
+        $type = TypeProduct::get();
+        return view('produks.outofstock')->with(compact('produk','vendor','band','size','type'));
         // return $produk;
     }
 
