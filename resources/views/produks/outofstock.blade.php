@@ -87,7 +87,7 @@
 						<select class="form-control" id="kt_datatable_search_type">
 							<option value="">All</option>
                             @foreach($type as $v)
-                            <option value="{{$v->type_nama}}">{{$v->type_name}}</option>
+                            <option value="{{$v->type_name}}">{{$v->type_name}} ({{$v->type_category}})</option>
                             @endforeach
 						</select>
 					</div>
