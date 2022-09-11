@@ -13,6 +13,7 @@ use App\Models\Penjualan;
 use App\Models\BarangPublish;
 use App\Models\BarangTerjual;
 use App\Models\RiwayatPotongan;
+use App\Models\Logs;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Database\QueryException as QE;
@@ -262,13 +263,29 @@ class PenjualanController extends Controller
             $produkkeluar->barangterjual_totalpendapatan = ($produk->product_hargajual*$request->qtyorders[$key])-$potonganharga;
             $produkkeluar->barangterjual_tanggalwaktubarangterjual = $request->penjualan_tanggalwaktupenjualan;
             $produkkeluar->barangterjual_userid = Auth::user()->id;
+            $stoklama = $produk->product_stokakhir;
             $produk->product_stokakhir = $produk->product_stokakhir-$request->qtyorders[$key];
-            if($produk->status == 1){
+            $produk->update();
+            if($produk->wasChanged()){
+                Logs::create(['log_name' => '[PEN] Stok Akhir Berubah', 'log_msg' => "Stok Akhir Produk ".$produk->product_nama." berubah karena penjualan dari ".$stoklama." menjadi ".$produk->product_stokakhir, 'log_userid' => Auth::user()->id, 'log_tanggal' => Carbon::now()->setTimezone('Asia/Jakarta')->setTimezone('Asia/Jakarta')->format('Y-m-d H:i:s')]);
+            }else {
+                Logs::create(['log_name' => '[PEN] Stok Akhir GAGAL Berubah', 'log_msg' => "Stok Akhir Produk ".$produk->product_nama." GAGAL berubah karena penjualan dari ".$stoklama." menjadi ".$produk->product_stokakhir, 'log_userid' => Auth::user()->id, 'log_tanggal' => Carbon::now()->setTimezone('Asia/Jakarta')->setTimezone('Asia/Jakarta')->format('Y-m-d H:i:s')]);
+
+            }
+
+
                 $publish = BarangPublish::where('publish_productid',$val)->orderBy('publish_tanggal','DESC')->first();
+                if($publish){
+                $stokpublama = $publish->publish_stokakhir;
                 $publish->publish_stokakhir = $publish->publish_stokakhir-$request->qtyorders[$key];
                 $publish->update();
+                if($publish->wasChanged()){
+                    Logs::create(['log_name' => '[PUB] Produk Stok Berubah', 'log_msg' => "Stok Akhir Produk ".$produk->product_nama." di Publish ".$publish->publish_name." berubah karena penjualan dari ".$stokpublama." menjadi ". $publish->publish_stokakhir, 'log_userid' => Auth::user()->id, 'log_tanggal' => Carbon::now()->setTimezone('Asia/Jakarta')->setTimezone('Asia/Jakarta')->format('Y-m-d H:i:s')]);
+                }else {
+                    Logs::create(['log_name' => '[PUB] Produk Stok GAGAL Berubah', 'log_msg' => "Stok Akhir Produk ".$produk->product_nama." di Publish ".$publish->publish_name." GAGAL berubah karena penjualan dari ".$stokpublama." menjadi ". $publish->publish_stokakhir, 'log_userid' => Auth::user()->id, 'log_tanggal' => Carbon::now()->setTimezone('Asia/Jakarta')->setTimezone('Asia/Jakarta')->format('Y-m-d H:i:s')]);
+                }
+
             }
-            $produk->update();
             $produkkeluar->update();
             array_push($barangterjual,$produkkeluar->barangterjual_id);
             $totalpenjualan = $totalpenjualan+($produk->product_hargajual*$request->qtyorders[$key]);

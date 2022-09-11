@@ -528,12 +528,20 @@ class ProductController extends Controller
     }
     $update->put('product_status', $status);
 
-    if($status == 1){
+
         $pub = BarangPublish::where('publish_productid',$produk->product_id)->orderBy('publish_tanggal','DESC')->first();
+        if($pub){
+        $stokawallama = $pub->publish_stok;
+        $stokakhirlama = $pub->publish_stokakhir;
         $pub->publish_stok = $request->product_stok;
         $pub->publish_stokakhir = $request->product_stokakhir;
         $pub->update();
-    }
+        if($pub->wasChanged()){
+            Logs::create(['log_name' => '[PUB] Produk Stok Berubah', 'log_msg' => "Stok Akhir Produk ".$produk->product_nama." di Publish ".$pub->publish_name." berubah karena edit product stok awal lama ".$stokawallama." menjadi ". $pub->publish_stok." dan stok akhir lama ".$stokawallama." menjadi " . $pub->publish_stokakhir, 'log_userid' => Auth::user()->id, 'log_tanggal' => Carbon::now()->setTimezone('Asia/Jakarta')->setTimezone('Asia/Jakarta')->format('Y-m-d H:i:s')]);
+        }else {
+            Logs::create(['log_name' => '[PUB] Produk Stok GAGAL Berubah', 'log_msg' => "Stok Akhir Produk ".$produk->product_nama." di Publish ".$pub->publish_name." GAGAL berubah karena edit product stok awal lama ".$stokawallama." menjadi ". $pub->publish_stok." dan stok akhir lama ".$stokawallama." menjadi " . $pub->publish_stokakhir, 'log_userid' => Auth::user()->id, 'log_tanggal' => Carbon::now()->setTimezone('Asia/Jakarta')->setTimezone('Asia/Jakarta')->format('Y-m-d H:i:s')]);
+        }
+         }
 
 
         try {
