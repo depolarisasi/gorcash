@@ -30,7 +30,7 @@ class BarcodeDBController extends Controller
         $barcode = BarcodeDB::join('band','band.band_id','=','barcode.barcode_productband')
         ->join('type','type.type_id','=','barcode.barcode_producttype')
         ->join('color','color.color_id','=','barcode.barcode_productcolor')
-        ->select('barcode.*','type.type_id','color.color_id','band.band_id','band.band_nama','type.type_name','color.color_nama')
+        ->select('barcode.*','type.type_id','type.type_category','color.color_id','band.band_id','band.band_nama','type.type_name','color.color_nama')
         ->orderBy('barcode.barcode_productname', 'ASC')
         ->get();
 

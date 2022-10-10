@@ -63,7 +63,7 @@
 <div class="d-flex align-items-center">{{$barcode->band_nama}}</div>
 </td>
 <td class="pl-3 py-3">
-<div class="d-flex align-items-center">{{$barcode->type_name}}</div>
+<div class="d-flex align-items-center">{{$barcode->type_name}} ({{$barcode->type_category}})</div>
 </td>
 
 <td class="pl-3 py-3">

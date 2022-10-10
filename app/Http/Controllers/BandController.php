@@ -58,7 +58,7 @@ class BandController extends Controller
         $edit = Band::where('band_id', $id)->first();
 
         return view('band.edit')->with(compact('edit'));
-    }
+    } 
 
     public function update(Request $request)
     {
@@ -66,13 +66,13 @@ class BandController extends Controller
         $barcode = BarcodeDB::where('barcode_productband',$request->band_id)->first();
         $update = collect($request->all());
         try {
-            if(!is_null($barcode)){
-                $datatype = TypeProduct::where('type_id',$barcode->barcode_producttype)->first();
-                $datacolor = Color::where('color_id',$barcode->barcode_productcolor)->first();
-                $sericode = $barcode->barcode_productseri;
-                $masterskubaru = $request->band_code.$datatype->type_code.$sericode.$datacolor->color_code;
-                $barcode->barcode_mastersku = $masterskubaru;
-            }
+            // if(!is_null($barcode)){
+            //     $datatype = TypeProduct::where('type_id',$barcode->barcode_producttype)->first();
+            //     $datacolor = Color::where('color_id',$barcode->barcode_productcolor)->first();
+            //     $sericode = $barcode->barcode_productseri;
+            //     $masterskubaru = $request->band_code.$datatype->type_code.$sericode.$datacolor->color_code;
+            //     $barcode->barcode_mastersku = $masterskubaru;
+            // }
         $band->update($update->all());
         $barcode->update();
         } catch (QE $e) {
