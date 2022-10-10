@@ -70,7 +70,7 @@ class BarcodeDBController extends Controller
             $countseri = $sericode+1;
             $serivarian = $countseri.$firstbandletter;
         }
-        $mastersku = $databand->band_code.$datatype->type_code.$serivarian.$datacolor->color_code;
+        $mastersku = $databand->band_code."XX".$datatype->type_code.$serivarian.$datacolor->color_code;
         $store = collect($request->all());
         $store->put('barcode_mastersku', $mastersku);
         $store->put('barcode_productseri', $serivarian);
