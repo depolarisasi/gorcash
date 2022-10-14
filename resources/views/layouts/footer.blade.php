@@ -14,7 +14,7 @@
                                             </a>
                                             <div class="text-muted mt-1">
 
-@if(Auth::user()->role == 1)
+@if(Auth::user()->role == 1 || Auth::user()->role == 6)
 <span class="label label-lg label-rounded label-danger label-jabatan">Super Admin</span>
 @elseif(Auth::user()->role == 2)
 <span class="label label-lg label-rounded label-primary label-jabatan">Store Officer</span>
@@ -22,6 +22,10 @@
 <span class="label label-lg label-rounded label-info label-jabatan">Social Media Officer</span>
 @elseif(Auth::user()->role == 4)
 <span class="label label-lg label-rounded label-success label-jabatan">Gudang</span>
+@elseif(Auth::user()->role == 5)
+<span class="label label-lg label-rounded label-success label-jabatan">Kasir</span>
+@elseif(Auth::user()->role == 6)
+<span class="label label-lg label-rounded label-success label-jabatan">Administrator</span>
 @endif
                                             </div>
                                             <div class="navi mt-2">

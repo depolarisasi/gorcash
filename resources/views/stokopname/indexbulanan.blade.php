@@ -26,7 +26,7 @@
 <span class="card-label font-weight-bolder text-dark">Stok Opname Bulanan</span>
 </h3>
 <div class="card-toolbar">
-    @if(Auth::user()->role == 1) 
+    @if(Auth::user()->role == 1 || Auth::user()->role == 6) 
 <button type="button" class="btn btn-primary font-weight-bold mb-5" data-toggle="modal" data-target="#modaltambahrole">
    Lakukan Stok Opname
 </button>
@@ -130,7 +130,7 @@
 <a href="{{url('/stokopname/bulanan/edit/'.$p->so_pubgroupname)}}" class="btn btn-xs btn-warning"><i class="fas fa-info-circle nopadding"></i> Stok Opname</a>
 @endif
 @else
-@if(Auth::user()->role == 1 )
+@if(Auth::user()->role == 1  || Auth::user()->role == 6)
 <a href="{{url('/stokopname/laporan/'.$p->so_pubgroupname)}}" class="btn btn-xs btn-success"><i class="fas fa-info-circle nopadding"></i> Laporan Stok Opname</a>
 @endif
 @endif

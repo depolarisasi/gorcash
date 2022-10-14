@@ -52,6 +52,7 @@
                 <option value="3">Sosmed</option>
                 <option value="4">Gudang</option>
                 <option value="5">Kasir</option>
+                <option value="6">Administrator</option>
               </select>
             </div>
           </div>

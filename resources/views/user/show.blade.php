@@ -46,6 +46,8 @@
         <span class="label label-lg label-rounded label-primary label-jabatan">Gudang</span>
         @elseif($show->role == 5)
         <span class="label label-lg label-rounded label-primary label-jabatan">Kasir</span>
+        @elseif($show->role == 6)
+        <span class="label label-lg label-rounded label-primary label-jabatan">Administrator</span>
         @endif</p>
 
 </br>

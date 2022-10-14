@@ -31,7 +31,7 @@ Dashboard Gorilla Coach </h5>
 <!--begin::Dashboard-->
 <!--begin::Row-->
 
-@if(Auth::user()->role == 1)
+@if(Auth::user()->role == 1 )
 <div class="row">
     <div class="col-md-4">
     <!--begin::Stats Widget 11-->

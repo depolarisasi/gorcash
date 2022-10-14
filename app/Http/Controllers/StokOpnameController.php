@@ -196,7 +196,7 @@ class StokOpnameController extends Controller
 
         $soinfo = StokOpname::where('stokopname.so_pubgroupname',$pubgroup)->first();
         $pub = $pubgroup;
-        if(Auth::user()->role == 1){
+        if(Auth::user()->role == 1 ||  Auth::user()->role == 6){
         return view('stokopname.resumebulanan')->with(compact('pubdata','pub','soinfo'));
         }
         elseif(Auth::user()->role == 2) {
@@ -425,7 +425,7 @@ class StokOpnameController extends Controller
             $product = StokOpname::where('so_sku', $p)->where('so_type',2)->where('so_date',$request->so_date)->where('so_status',2)
             ->where('so_pubgroupname', $request->pubgroupname)->first();
             if($product){
-                if(Auth::user()->role == 1){
+                if(Auth::user()->role == 1 ||  Auth::user()->role == 6){
                     $product->so_selisih = $request->selisih[$key];
                     $product->so_stokakhirreal = $request->stokril[$key];
                 }
@@ -435,10 +435,10 @@ class StokOpnameController extends Controller
                 $product->so_char = $request->so_namaso;
                 $product->so_size = $request->so_size;
                 $product->so_userid = $request->so_userid;
-                if(Auth::user()->role == 4 || Auth::user()->role == 1 ){
+                if(Auth::user()->role == 4 || Auth::user()->role == 1 ||  Auth::user()->role == 6 ){
                     $product->so_stokgudang = $request->stokgudang[$key];
                 }
-                if(Auth::user()->role == 2 || Auth::user()->role == 1){
+                if(Auth::user()->role == 2 || Auth::user()->role == 1 ||  Auth::user()->role == 6){
                     $product->so_stoktoko = $request->stoktoko[$key];
                 }
                 $product->so_keterangan = $request->keterangan[$key];

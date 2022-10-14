@@ -89,13 +89,13 @@
 					<th width="3%">Stok Awal</th>
 					<th width="3%">Stok Terjual</th>
 					<th width="3%">Stok Akhir</th>
-                    @if(Auth::user()->role == 4 || Auth::user()->role == 1)
+                    @if(Auth::user()->role == 4 || Auth::user()->role == 1 || Auth::user()->role == 6)
 					<th width="5%">Stok Gudang</th>
                     @endif
-                    @if(Auth::user()->role == 2 || Auth::user()->role == 1)
+                    @if(Auth::user()->role == 2 || Auth::user()->role == 1 || Auth::user()->role == 6)
 					<th width="5%">Stok Toko</th>
                     @endif
-                    @if(Auth::user()->role == 1)
+                    @if(Auth::user()->role == 1 || Auth::user()->role == 6)
 					<th width="5%">Stok Real</th>
 					<th width="3%">Selisih</th>
                     @endif
@@ -125,13 +125,13 @@
                         <td id="sisatersedia{{$p->product_sku}}">{{(int)$p->product_stokakhir}}
                             <input id="sisainput{{$p->product_sku}}" type="hidden" name="stoksisa[]" value="{{(int)$p->product_stokakhir}}"></td>
 
-                            @if(Auth::user()->role == 4 || Auth::user()->role == 1)
+                            @if(Auth::user()->role == 4 || Auth::user()->role == 1 || Auth::user()->role == 6)
                         <td><input id="stokgudang{{$p->product_sku}}" class="form-control stokgudanginput inputx" data-sku="{{$p->product_sku}}" value="{{$p->so_stokgudang}}" type="number" name="stokgudang[]"></td>
                             @endif
-                        @if(Auth::user()->role == 2 || Auth::user()->role == 1)
+                        @if(Auth::user()->role == 2 || Auth::user()->role == 1 || Auth::user()->role == 6)
                         <td><input id="stoktoko{{$p->product_sku}}" class="form-control stoktokoinput inputx" data-sku="{{$p->product_sku}}" value="{{$p->so_stoktoko}}" type="number" name="stoktoko[]"></td>
                         @endif
-                        @if(Auth::user()->role == 1)
+                        @if(Auth::user()->role == 1 || Auth::user()->role == 6)
 					<td>
                         <span id="stokril{{$p->product_sku}}">{{$p->so_stokakhirreal}}</span>
                     <input id="stokrilinput{{$p->product_sku}}" class="inputx" value="{{$p->so_stokakhirreal}}" type="hidden" name="stokril[]"></td>
@@ -232,7 +232,7 @@ $('#simpan').on('click', function (e) {
                     'stoksisa[]' :   $('input[name="stoksisa[]"]').map(function(){  return this.value; }).get(),
                     'stoktoko[]' :   $('input[name="stoktoko[]"]').map(function(){  return this.value; }).get(),
                     'keterangan[]' :   $('input[name="keterangan[]"]').map(function(){  return this.value; }).get(),
-                    @if(Auth::user()->role == 1)
+                    @if(Auth::user()->role == 1 || Auth::user()->role == 6)
                     'selisih[]' :   $('input[name="selisih[]"]').map(function(){  return this.value; }).get(),
                     'stokril[]' :   $('input[name="stokril[]"]').map(function(){  return this.value; }).get(),
                     @elseif(Auth::user()->role == 4)

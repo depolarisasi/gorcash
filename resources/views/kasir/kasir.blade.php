@@ -37,7 +37,7 @@
                     <input id="name" type="hidden" name="penjualan_invoicegorilla" value="{{$invoice}}" >
                     </div>
                   </div>
-                  @if(Auth::user()->role == 2 || Auth::user()->role == 1)
+                  @if(Auth::user()->role == 2 || Auth::user()->role == 1  || Auth::user()->role == 6)
                   <div class="form-group row mt-4">
                     <label class="col-md-4">Invoice Marketplace <small>(kosongkan apabila bukan dari marketplace)</small></label>
                     <div class="col-md-8">
@@ -68,7 +68,7 @@
                     <div class="col-md-8">
                       <select class="multisteps-form__input form-control" name="penjualan_channel" required>
 
-                        @if(Auth::user()->role == 2 || Auth::user()->role == 1)
+                        @if(Auth::user()->role == 2 || Auth::user()->role == 1 || Auth::user()->role == 6)
                         <option value="Tokopedia">Tokopedia</option>
                         <option value="Website">Website</option>
                         <option value="Shopee">Shopee</option>
@@ -78,7 +78,7 @@
                         <option value="Instagram">Instagram</option>
                         <option value="Tiktok">Tiktok</option>
                         @endif
-                    @if(Auth::user()->role == 5 || Auth::user()->role == 1)
+                    @if(Auth::user()->role == 5 || Auth::user()->role == 1 || Auth::user()->role == 6)
                     <option value="Toko">Toko</option>
                     @endif
                       </select>
@@ -91,7 +91,7 @@
                         </div>
                       </div>
 
-                  @if(Auth::user()->role == 2 || Auth::user()->role == 1)
+                  @if(Auth::user()->role == 2 || Auth::user()->role == 1 || Auth::user()->role == 6)
                       <div class="form-group row mt-4">
                         <label class="col-md-4">Kurir Pengiriman</label>
                         <div class="col-md-8">
@@ -272,7 +272,7 @@
     </div>
 </div>
 
-@if(Auth::user()->role == 2 || Auth::user()->role == 1)
+@if(Auth::user()->role == 2 || Auth::user()->role == 1 || Auth::user()->role == 6)
 <div class="row mt-4">
     <div class="col-md-8">
       <p class="font-weight-bolder font-size-h4 text-right">Ongkos Kirim</p>
@@ -304,7 +304,7 @@
           <div class="form-group mt-4">
                 <select class="multisteps-form__input form-control" name="penjualan_paymentype" required>
 
-                    @if(Auth::user()->role == 5 || Auth::user()->role == 1 )
+                    @if(Auth::user()->role == 5 || Auth::user()->role == 1 || Auth::user()->role == 6)
                     <option value="Debit" selected>Debit</option>
                     <option value="Cash">Cash</option>
                     <option value="GoPay">GoPay</option>
@@ -315,7 +315,7 @@
                     <option value="Split Bill">Split Bill</option>
                     @endif
 
-                    @if(Auth::user()->role == 2 || Auth::user()->role == 1)
+                    @if(Auth::user()->role == 2 || Auth::user()->role == 1 || Auth::user()->role == 6)
                     <option value="Marketplace">Marketplace</option>
                     @endif
 
