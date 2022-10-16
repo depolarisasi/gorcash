@@ -29,7 +29,7 @@
 <!--begin::Body-->
 <div class="card-body pt-0 pb-3">
 <div class="tab-content">
-    <form method="POST" action="{{url('color/store')}}">
+    <form method="POST" action="{{url('color/update')}}">
         @csrf
         <input type="hidden" name="color_id" value="{{$edit->color_id}}">
         <div class="form-group row mt-4">
