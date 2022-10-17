@@ -109,13 +109,13 @@
                     <div class="form-group row mt-4">
                         <label class="col-md-2">Stock Awal <span class="text-danger">*</span></label>
                         <div class="col-md-10">
-                        <input type="number" min="0" class="form-control" name="product_stok" value="{{$edit->product_stok}}" @if(Auth::user()->role == 1 || Auth::user()->role == 6) required @endif @if(Auth::user()->role != 1 || Auth::user()->role != 6 ) disabled @endif>
+                        <input type="number" min="0" class="form-control" name="product_stok" value="{{$edit->product_stok}}" @if(Auth::user()->role == 1 || Auth::user()->role == 6) required @endif @if(Auth::user()->role != 1 && Auth::user()->role != 6 ) disabled @endif>
                         </div>
                       </div>
                       <div class="form-group row mt-4">
                         <label class="col-md-2">Stock Akhir <span class="text-danger">*</span></label>
                         <div class="col-md-10">
-                        <input type="number" min="0" class="form-control" name="product_stokakhir" value="{{$edit->product_stokakhir}}"  @if(Auth::user()->role == 1 || Auth::user()->role == 6) required @endif @if(Auth::user()->role != 1 || Auth::user()->role != 6 ) disabled @endif>
+                        <input type="number" min="0" class="form-control" name="product_stokakhir" value="{{$edit->product_stokakhir}}"  @if(Auth::user()->role == 1 || Auth::user()->role == 6) required @endif @if(Auth::user()->role != 1 && Auth::user()->role != 6 ) disabled @endif>
                         </div>
                       </div>
 
