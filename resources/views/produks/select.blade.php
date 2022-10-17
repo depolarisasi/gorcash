@@ -82,16 +82,16 @@
 
 					<td>{{$p->product_vendor}}</td>
                     <td>{{$p->band_nama}}</td>
-                    @if(Auth::user()->role == 1) <td>@money($p->product_hargabeli)</td>@endif
+                    @if(Auth::user()->role == 1 || Auth::user()->role == 6) <td>@money($p->product_hargabeli)</td>@endif
                     <td>@money($p->product_hargajual)</td>
-                    @if(Auth::user()->role == 1) <td>@money($p->product_hargajual - $p->product_hargabeli)</td>@endif
+                    @if(Auth::user()->role == 1 || Auth::user()->role == 6) <td>@money($p->product_hargajual - $p->product_hargabeli)</td>@endif
                         <td>{{$p->product_stok}}</td>
                         <td>{{$p->product_stokakhir}}</td>
 					<td>
                         <a href="{{url('/produk/detail/'.$p->product_id)}}" class="btn btn-icon btn-xs btn-primary"><i class="fas fa-info-circle nopadding"></i></a>
-                        @if(Auth::user()->role == 1 || Auth::user()->role == 4)
+                        @if(Auth::user()->role == 1 || Auth::user()->role == 6 || Auth::user()->role == 4)
                         <a href="{{url('/produk/edit/'.$p->product_id)}}" class="btn btn-icon btn-xs btn-warning"><i class="fas fa-edit nopadding"></i></a>
-                        @if(Auth::user()->role == 1)
+                        @if(Auth::user()->role == 1 || Auth::user()->role == 6)
                         <button type="button" href="{{url('/produk/delete/'.$p->product_sku)}}" class="deletebtn btn btn-icon btn-xs btn-danger"><i class="fas fa-trash nopadding"></i></button>
                         @endif
                         @endif 

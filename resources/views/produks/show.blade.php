@@ -49,9 +49,9 @@
                     <a href="#" class="text-dark-75">{{$show->product_nama}}</a>
                 </h3>
 
-                @if(Auth::user()->role == 1)<div class="text-primary font-size-h4">Harga Beli Rp {{$show->product_hargabeli}}</div>@endif
+                @if(Auth::user()->role == 1 || Auth::user()->role == 6)<div class="text-primary font-size-h4">Harga Beli Rp {{$show->product_hargabeli}}</div>@endif
                 <div class="text-primary font-size-h4">Harga Jual Rp {{$show->product_hargajual}}</div>
-                @if(Auth::user()->role == 1)<div class="text-primary font-size-h4 mb-9">Profit Rp {{$show->product_hargajual-$show->product_hargabeli}}</div>@endif
+                @if(Auth::user()->role == 1 || Auth::user()->role == 6)<div class="text-primary font-size-h4 mb-9">Profit Rp {{$show->product_hargajual-$show->product_hargabeli}}</div>@endif
                 <!--begin::Info-->
                 <div class="d-flex mb-3">
                     <span class="text-dark-50 flex-root font-weight-bold">Master SKU</span>
