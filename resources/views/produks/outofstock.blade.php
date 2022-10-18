@@ -116,9 +116,9 @@
 					<th>Type</th>
 					<th>Vendor</th>
 					<th>Band</th>
-					@if(Auth::user()->role == 1)<th>Harga Beli</th>@endif
+					@if(Auth::user()->role == 1 || Auth::user()->role == 6 )<th>Harga Beli</th>@endif
 					<th>Harga Jual</th>
-                    @if(Auth::user()->role == 1)<th>Keuntungan</th>@endif
+                    @if(Auth::user()->role == 1 || Auth::user()->role == 6 )<th>Keuntungan</th>@endif
 					<th width="5%">Stok Awal</th>
 					<th width="5%">Stok Akhir</th>
 					<th>Action</th>
@@ -137,9 +137,9 @@
 					<td>{{$p->type_name}}</td>
 					<td>{{$p->vendor_nama}}</td>
 					<td>{{$p->band_nama}}</td>
-                    @if(Auth::user()->role == 1) <td>@money($p->product_hargabeli)</td>@endif
+                    @if(Auth::user()->role == 1 || Auth::user()->role == 6 ) <td>@money($p->product_hargabeli)</td>@endif
                     <td>@money($p->product_hargajual)</td>
-                    @if(Auth::user()->role == 1) <td>@money($p->product_hargajual - $p->product_hargabeli)</td>@endif
+                    @if(Auth::user()->role == 1 || Auth::user()->role == 6 ) <td>@money($p->product_hargajual - $p->product_hargabeli)</td>@endif
 					<td>{{$p->product_stok}}</td>
                     <td>{{$p->product_stokakhir}}</td>
 					<td>

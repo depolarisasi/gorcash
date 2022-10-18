@@ -58,9 +58,9 @@
 					<th>Size</th>
 					<th>Vendor</th>
 					<th>Band</th>
-                    @if(Auth::user()->role == 1)<th>Harga Beli</th>@endif
+                    @if(Auth::user()->role == 1 || Auth::user()->role == 6 )<th>Harga Beli</th>@endif
 					<th>Harga Jual</th>
-                    @if(Auth::user()->role == 1)<th>Keuntungan</th>@endif
+                    @if(Auth::user()->role == 1 || Auth::user()->role == 6 )<th>Keuntungan</th>@endif
 					<th>Stok Awal</th>
 					<th>Stok Akhir</th>
 					<th>Action</th>
