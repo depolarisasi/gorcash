@@ -32,7 +32,7 @@ class Karyawan extends Model
     'karyawan_kewarganegaraan',
     'karyawan_nik',
     'karyawan_bpjs',
-    'karyawan_status',
+    'karyawan_status', 
     'karyawan_agama',
     'karyawan_alamatsekarang',
     'karyawan_kotasekarang',

@@ -333,7 +333,7 @@ background-color: #fff !important;
 
 
                 <li class="menu-item menu-item">
-                    <a href="{{url('user')}}" class="menu-link ">
+                    <a href="{{url('karyawan')}}" class="menu-link ">
                         <span class="svg-icon svg-icon-white menu-icon"><!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo5/dist/../src/media/svg/icons/Communication/Group.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                             <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                 <polygon points="0 0 24 0 24 24 0 24"/>
@@ -343,12 +343,8 @@ background-color: #fff !important;
                         </svg><!--end::Svg Icon--></span>
                         <span class="menu-text">Data Karyawan</span></a>
                 </li>
-                        </ul>
-                    </div>
-                </li>
-                
                 <li class="menu-item menu-item">
-                    <a href="{{url('user')}}" class="menu-link ">
+                    <a href="{{url('slipgaji')}}" class="menu-link ">
                         <span class="svg-icon svg-icon-white menu-icon"><!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo5/dist/../src/media/svg/icons/Communication/Group.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                             <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                 <polygon points="0 0 24 0 24 24 0 24"/>
@@ -361,6 +357,8 @@ background-color: #fff !important;
                         </ul>
                     </div>
                 </li>
+                
+                 
                 @endif
 
                 @if(Auth::user()->role == 1 || Auth::user()->role == 6 || Auth::user()->role == 2  || Auth::user()->role == 4 )

@@ -31,6 +31,18 @@ Route::group(['prefix' => 'user'], function() {
 
 });
 
+
+Route::group(['prefix' => 'karyawan'], function() {
+    Route::get('/',[App\Http\Controllers\KaryawanController::class, 'index'])->middleware('admin');
+    Route::get('/detail/{id}',[App\Http\Controllers\KaryawanController::class, 'show'])->middleware('admin');
+    Route::get('/new',[App\Http\Controllers\KaryawanController::class, 'create'])->middleware('admin');
+    Route::post('/store',[App\Http\Controllers\KaryawanController::class, 'store'])->middleware('admin');
+    Route::get('/edit/{id}',[App\Http\Controllers\KaryawanController::class, 'edit'])->middleware('admin');
+    Route::post('/update',[App\Http\Controllers\KaryawanController::class, 'update'])->middleware('admin');
+    Route::get('/delete/{id}',[App\Http\Controllers\KaryawanController::class, 'delete'])->middleware('admin');
+   
+   });
+
 Route::group(['prefix' => 'vendors'], function() {
     Route::get('/',[App\Http\Controllers\VendorController::class, 'index'])->middleware('auth');
     Route::get('/detail/{id}',[App\Http\Controllers\VendorController::class, 'show'])->middleware('auth');
