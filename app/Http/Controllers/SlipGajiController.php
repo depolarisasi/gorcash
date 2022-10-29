@@ -2,29 +2,28 @@
 
 namespace App\Http\Controllers;
 
+
 use Illuminate\Http\Request; 
 use Auth;
 use App\Models\User;
 use App\Models\Karyawan;
+use App\Models\SlipGaji;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Database\QueryException as QE;
 use RealRashid\SweetAlert\Facades\Alert;
 
-class KaryawanController extends Controller
+class SlipGajiController extends Controller
 {
     public function index()
     {
-        $karyawan = Karyawan::join('users','users.id','=','karyawan.karyawan_userid')
-        ->select('karyawan.*','users.name','users.email')
-        ->get();
-        return view('karyawan.index')->with(compact('karyawan'));
+        $gaji = SlipGaji::get();
+        return view('slipgaji.index')->with(compact('gaji'));
     }
 
     public function create()
-    {
-        $use = User::get();
-        return view('karyawan.new')->with(compact('use'));
+    { 
+        return view('slipgaji.new');
     }
 
     public function store(Request $request)
@@ -32,7 +31,7 @@ class KaryawanController extends Controller
         $data = collect($request->all());
 
         try {
-            Karyawan::create($data->all()); 
+            SlipGaji::create($data->all()); 
         } catch (QE $e) {
             toast('Database Error','error');
 
@@ -44,21 +43,21 @@ class KaryawanController extends Controller
 
     public function show($id)
     {
-        $show = Karyawan::where('id', $id)->first();
+        $show = SlipGaji::where('id', $id)->first();
 
-        return view('karyawan.show')->with(compact('show'));
+        return view('slipgaji.show')->with(compact('show'));
     }
 
     public function edit($id)
     {
-        $edit = Karyawan::where('id', $id)->first();
+        $edit = SlipGaji::where('id', $id)->first();
 
-        return view('karyawan.edit')->with(compact('edit'));
+        return view('slipgaji.edit')->with(compact('edit'));
     }
 
     public function update(Request $request)
     {
-        $user = Karyawan::where('email', $request->email)->first();
+        $user = SlipGaji::where('email', $request->email)->first();
         $update = collect($request->all());
         $passlama = $user->password;
         $passbaru = $request->password;
@@ -121,7 +120,7 @@ class KaryawanController extends Controller
 
     public function delete($id)
     {
-        $user = Karyawan::where('id', $id)->first();
+        $user = SlipGaji::where('id', $id)->first();
 
         try {
             $user->delete();
@@ -137,12 +136,12 @@ class KaryawanController extends Controller
 
     public function setting()
     {
-        return view('karyawan.setting');
+        return view('slipgaji.setting');
     }
 
     public function userupdate(Request $request)
     {
-        $user = Karyawan::where('id', $request->id)->first();
+        $user = SlipGaji::where('id', $request->id)->first();
         $passbaru = $request->password;
 
         $passlama = $request->passwordlama;
@@ -173,5 +172,9 @@ class KaryawanController extends Controller
 
         return redirect('user');
     }
- 
+
+    public function logout(){
+        Auth::logout();
+        return redirect('/');
+    }
 }

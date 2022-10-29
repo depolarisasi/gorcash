@@ -95,6 +95,7 @@ class Karyawan extends Model
     'karyawan_foto',
     'karyawan_fotoktp',
     'karyawan_tanggalbekerja', 
+    'karyawan_userid', 
         'created_at',
         'updated_at', ];
 }

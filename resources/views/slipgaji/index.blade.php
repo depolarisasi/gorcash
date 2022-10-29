@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title','Karyawan - ')
+@section('title','Slip Gaji - ')
 @section('content')
 	<!--begin::Content-->
     <div class="content  d-flex flex-column flex-column-fluid" id="kt_content">
@@ -18,10 +18,10 @@
 <!--begin::Header-->
 <div class="card-header border-0 py-5">
 <h3 class="card-title align-items-start flex-column">
-<span class="card-label font-weight-bolder text-dark">Daftar Karyawan</span>
+<span class="card-label font-weight-bolder text-dark">Daftar Slip Gaji</span>
 </h3>
 <div class="card-toolbar">
-<a href="{{url('karyawan/new')}}" class="btn btn-primary btn-md font-size-sm"><i class="fas fa-plus"></i> Tambah</a>
+<a href="{{url('slipgaji/new')}}" class="btn btn-primary btn-md font-size-sm"><i class="fas fa-plus"></i> Tambah</a>
 </div>
 </div>
 <!--end::Header-->
@@ -36,12 +36,13 @@
 <tr class="text-left">
 <th style="min-width: 50px"><span class="text-dark-75">Nama</span></th>
 <th style="min-width: 100px">Jabatan</th> 
-<th style="min-width: 100px">User Sistem</th> 
+<th style="min-width: 100px">Bulan & Tahun</th> 
+<th style="min-width: 100px">Jumlah THP</th> 
 <th style="min-width: 80px">Action</th>
 </tr>
 </thead>
 <tbody>
-    @foreach($karyawan as $k)
+    @foreach($gaji as $k)
 <tr>
 <td class="pl-3 py-3">
 <div class="d-flex align-items-center">
@@ -55,13 +56,13 @@
 </td> 
 <td class="pl-3 py-3">
 <div class="d-flex align-items-center">
-  {{$k->name}} ({{$k->email}})
+  {{$k->gaji_bulan}} ({{$k->gaji_tahun}})
 </div>
 </td>
 <td>
-    <a href="{{url('/karyawan/detail/'.$k->karyawan_id)}}" class="btn btn-xs btn-icon btn-primary"><i class="fas fa-info-circle nopadding"></i></a>
-    <a href="{{url('/karyawan/edit/'.$k->karyawan_id)}}" class="btn btn-xs btn-icon btn-warning"><i class="fas fa-edit nopadding"></i></a>
-    <button type="button" href="{{url('/karyawan/delete/'.$k->karyawan_id)}}" class="deletebtn btn btn-xs btn-icon btn-danger"><i class="fas fa-trash nopadding"></i></button></td>
+    <a href="{{url('/slipgaji/detail/'.$k->id)}}" class="btn btn-xs btn-icon btn-primary"><i class="fas fa-info-circle nopadding"></i></a>
+    <a href="{{url('/slipgaji/edit/'.$k->id)}}" class="btn btn-xs btn-icon btn-warning"><i class="fas fa-edit nopadding"></i></a>
+    <button type="button" href="{{url('/slipgaji/delete/'.$k->id)}}" class="deletebtn btn btn-xs btn-icon btn-danger"><i class="fas fa-trash nopadding"></i></button></td>
 </td>
 </tr>
 @endforeach
