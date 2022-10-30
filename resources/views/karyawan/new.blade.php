@@ -93,7 +93,7 @@
         <div class="form-group row mt-4">
           <label class="col-md-2">Nomor Induk Karyawan</label>
           <div class="col-md-4">
-          <input id="name" type="text" class="form-control" name="karyawan_noktp" >
+          <input id="name" type="text" class="form-control" name="karyawan_noinduk" >
           </div>
         </div>
         <div class="form-group row mt-4">
@@ -366,7 +366,7 @@
           <div class="form-group row mt-4">
            <label class="col-md-2">Perusahaan 1</label>
            <div class="col-md-4">
-               <input class="form-control" type="date" name="karyawan_employment1"/>
+               <input class="form-control" type="text" name="karyawan_employment1"/>
            </div>
            <label class="col-md-2">Periode Perusahaan 1</label>
            <div class="col-md-4">
@@ -388,7 +388,7 @@
           <div class="form-group row mt-4">
             <label class="col-md-2">Perusahaan 2</label>
             <div class="col-md-4">
-                <input class="form-control" type="date" name="karyawan_employment2"/>
+                <input class="form-control" type="text" name="karyawan_employment2"/>
             </div>
             <label class="col-md-2">Periode Perusahaan 2</label>
             <div class="col-md-4">

@@ -51,9 +51,11 @@ class KaryawanController extends Controller
 
     public function edit($id)
     {
-        $edit = Karyawan::where('id', $id)->first();
+        
+        $use = User::get();
+        $edit = Karyawan::where('karyawan_id', $id)->first();
 
-        return view('karyawan.edit')->with(compact('edit'));
+        return view('karyawan.edit')->with(compact('edit','use'));
     }
 
     public function update(Request $request)
