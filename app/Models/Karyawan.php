@@ -81,7 +81,7 @@ class Karyawan extends Model
     'karyawan_namaibu',
     'karyawan_telpibu',
     'karyawan_alamatibu', 
-    'karyawan_haritententu',
+    'karyawan_haritertentu',
     'karyawan_sim',
     'karyawan_jenissim',
     'karyawan_berlakusim',

@@ -14,7 +14,7 @@ class AddColumnKaryawan3 extends Migration
     public function up()
     {
         Schema::table('karyawan', function (Blueprint $table) {  
-            $table->string('karyawan_haritententu')->nullable();
+            $table->string('karyawan_haritertentu')->nullable();
             $table->string('karyawan_sim')->nullable();
             $table->string('karyawan_jenissim')->nullable();
             $table->string('karyawan_berlakusim')->nullable();

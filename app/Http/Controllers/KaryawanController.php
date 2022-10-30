@@ -10,9 +10,61 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Database\QueryException as QE;
 use RealRashid\SweetAlert\Facades\Alert;
+use Intervention\Image\ImageManagerStatic as Image;
+use Illuminate\Support\Facades\File;
 
 class KaryawanController extends Controller
 {
+    
+    public function uploadKTP($image){
+        if ($image == '') {
+            $fileurl = '';
+    } else {
+        $file = $image;
+        $fileArray = ['karyawan_fotoktp' => $file];
+        $rules = ['karyawan_fotoktp' => 'mimes:jpeg,jpg,png,gif|required|max:100000'];
+        $validator = Validator::make($fileArray, $rules);
+        if ($validator->fails()) {
+            // Redirect or return json to frontend with a helpful message to inform the user
+            // that the provided file was not an adFile bukan gambar
+
+         toast('File bukanlah gambar','error');
+            return redirect()->back();
+        } else {
+            $img_id = mt_rand(1, 10000);
+            $fileName = $img_id.time().'.'.$file->getClientOriginalName();
+            Image::make($file)->encode('jpg', 90)->save('fotoktp/'.$fileName);
+            $filektp = 'fotoktp/'.$fileName;
+        }
+    }
+    return $filektp;
+    }
+
+    public function uploadFoto($image){
+        if ($image == '') {
+            $fileurl = '';
+    } else {
+        $file = $image;
+        $fileArray = ['karyawan_foto' => $file];
+        $rules = ['karyawan_foto' => 'mimes:jpeg,jpg,png,gif|required|max:100000'];
+        $validator = Validator::make($fileArray, $rules);
+        if ($validator->fails()) {
+            // Redirect or return json to frontend with a helpful message to inform the user
+            // that the provided file was not an adFile bukan gambar
+
+         toast('File bukanlah gambar','error');
+            return redirect()->back();
+        } else {
+            $img_id = mt_rand(1, 10000);
+            $fileName = $img_id.time().'.'.$file->getClientOriginalName();
+            Image::make($file)->encode('jpg', 90)->save('foto/'.$fileName);
+            $filefoto = 'foto/'.$fileName;
+        }
+    }
+    return $filefoto;
+    }
+
+
     public function index()
     {
         $karyawan = Karyawan::join('users','users.id','=','karyawan.karyawan_userid')
@@ -31,6 +83,22 @@ class KaryawanController extends Controller
     { 
         $data = collect($request->all());
 
+        if ($request->file('karyawan_foto') == '') {
+            $filefoto = '/foto/nophoto.png';
+    } else {
+            $filefoto =  $this->uploadFoto($request->file('karyawan_foto'));
+    }
+
+    
+    if ($request->file('karyawan_fotoktp') == '') {
+        $filektp = '/fotoktp/nophoto.png';
+} else {
+        $filektp =  $this->uploadKTP($request->file('karyawan_fotoktp'));
+}
+
+    $data->put('karyawan_foto',$filefoto);
+    $data->put('karyawan_fotoktp',$filektp);
+
         try {
             Karyawan::create($data->all()); 
         } catch (QE $e) {
@@ -44,7 +112,7 @@ class KaryawanController extends Controller
 
     public function show($id)
     {
-        $show = Karyawan::where('id', $id)->first();
+        $show = Karyawan::where('karyawan_id', $id)->first();
 
         return view('karyawan.show')->with(compact('show'));
     }
@@ -60,53 +128,26 @@ class KaryawanController extends Controller
 
     public function update(Request $request)
     {
-        $user = Karyawan::where('email', $request->email)->first();
+        $user = Karyawan::where('karyawan_id', $request->karyawan_id)->first();
         $update = collect($request->all());
-        $passlama = $user->password;
-        $passbaru = $request->password;
+      
+        if ($request->file('karyawan_foto') == '') {
+            $filefoto = $user->karyawan_foto;
+    } else {
+            $filefoto =  $this->uploadFoto($request->file('karyawan_foto'));
+    }
 
-        if (!is_null($request->password) && !is_null($request->password_confirmation)) {
-            if (Hash::check($passbaru, $passlama)) {
-                $update->put('password', $user->password);
+    
+    if ($request->file('karyawan_fotoktp') == '') {
+        $filektp = $user->karyawan_fotoktp;
+} else {
+        $filektp =  $this->uploadKTP($request->file('karyawan_fotoktp'));
+}
 
-                try {
-                    $user->update($update->all());
-                } catch (QE $e) {
-                   alert()->warning('Database Error');
-
-                    return redirect()->back();
-                }
-
-               alert()->success('Akun berhasil diubah');
-
-                return redirect('user');
-            } else {
-                if ($request->password == $request->password_confirmation) {
-                    $newpass = $request->password;
-                    $update->put('password', Hash::make($passbaru));
-
-                    try {
-                        $user->update($update->all());
-                    } catch (QE $e) {
-
-                toast('Database Error','error');
-
-                        return redirect()->back();
-                    }
-
-                    toast('Akun Berhasil Diubah','success');
-
-                    return redirect('user');
-                } else {
-                    toast('Konfirmasi Password Tidak Cocok','error');
-
-
-                    return redirect()->back();
-                }
-            }
-        } else {
-            try {
-                $update->put('password', $user->password);
+    $update->put('karyawan_foto',$filefoto);
+    $update->put('karyawan_fotoktp', $filektp);
+ 
+            try { 
                 $user->update($update->all());
             } catch (QE $e) {
 
@@ -114,16 +155,14 @@ class KaryawanController extends Controller
 
                 return redirect()->back();
             }
-            toast('Akun Berhasil Diubah','success');
+            toast('Karyawan Berhasil Diubah','success'); 
 
-
-            return redirect('user');
-        }
+            return redirect('karyawan'); 
     }
 
     public function delete($id)
     {
-        $user = Karyawan::where('id', $id)->first();
+        $user = Karyawan::where('karyawan_id', $id)->first();
 
         try {
             $user->delete();
@@ -131,49 +170,10 @@ class KaryawanController extends Controller
             return $e;
         } //show db error message
 
-        toast('Akun Berhasil Dihapus','success');
+        toast('Karyawan Berhasil Dihapus','success');
 
 
-        return redirect('user');
-    }
-
-    public function setting()
-    {
-        return view('karyawan.setting');
-    }
-
-    public function userupdate(Request $request)
-    {
-        $user = Karyawan::where('id', $request->id)->first();
-        $passbaru = $request->password;
-
-        $passlama = $request->passwordlama;
-        if (Hash::check($passlama, $user->password)) {
-            if ($request->password == $request->password_confirmation) {
-                $newpass = $request->password;
-                $user->password = Hash::make($newpass);
-
-                try {
-                    $user->update();
-                } catch (QE $e) {
-                    toast('Perubahan Gagal Disimpan, Coba Lagi','error');
-
-                    return redirect()->back();
-                }
-            } else {
-                toast('Password Baru Tidak Cocok','error');
-
-                return redirect()->back();
-            }
-        } else {
-            toast('Password Lama Tidak Cocok','error');
-
-            return redirect()->back();
-        }
-
-        toast('Perubahan User Berhasil Disimpan!','error');
-
-        return redirect('user');
+        return redirect('karyawan');
     }
  
 }

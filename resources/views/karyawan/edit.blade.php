@@ -32,6 +32,7 @@
 <div class="tab-content">
     <form method="POST" action="{{url('karyawan/update')}}" enctype="multipart/form-data">
         @csrf  
+        <input type="hidden" name="karyawan_id" value="{{$edit->karyawan_id}}">
         <div class="form-group row mt-4">
           <label class="col-md-2">User Sistem</label>
   <div class="col-md-4">
@@ -42,6 +43,12 @@
     </select>
   </div>
 </div>
+<div class="form-group row mt-4">
+         <label class="col-md-2">Tanggal Pertama Bekerja</label>
+         <div class="col-md-4">
+             <input class="form-control" type="date" name="karyawan_tanggalbekerja" value="{{$edit->karyawan_tanggalbekerja}}">
+         </div>
+       </div>
         <div class="form-group row mt-4">
           <label class="col-md-2">Nama</label>
           <div class="col-md-4">
@@ -203,7 +210,7 @@
         <div class="form-group row mt-4">
           <label class="col-md-2" >Nama Rekening Bank</label>
           <div class="col-md-4">
-          <input type="text" class="form-control" name="karyawan_namabank" value="{{$edit->karyawan_namarekbank}}">
+          <input type="text" class="form-control" name="karyawan_namarekbank" value="{{$edit->karyawan_namarekbank}}">
           </div>
         </div>  
          
@@ -522,7 +529,7 @@
             <div class="form-group row mt-4">
                        <label class="col-md-2">Pas Foto</label>
                        <div class="col-md-4">  
-                       <img src="#" class="img-fluid w-50 h-75">
+                       <img src="{{asset($edit->karyawan_foto)}}" class="img-fluid w-50 h-75">
             <div class="custom-file">
                 <input  class="custom-file-input" name="karyawan_foto" id="pasfoto" accept="image/*" type="file"/>
                 <label class="custom-file-label" for="pasfoto">Choose file</label>
@@ -532,7 +539,7 @@
          <div class="form-group row mt-4">
         <label class="col-md-2">Scan / Foto KTP</label>
         <div class="col-md-4">  
-        <img src="#" class="img-fluid w-50 h-75">
+        <img src="{{asset($edit->karyawan_fotoktp)}}" class="img-fluid w-50 h-75">
           <div class="custom-file">
               <input  class="custom-file-input" name="karyawan_fotoktp" id="fotoktp" accept="image/*" type="file"/>
               <label class="custom-file-label" for="fotoktp">Choose file</label>

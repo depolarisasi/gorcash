@@ -35,7 +35,7 @@
         <div class="form-group row mt-4">
           <label class="col-md-2">User Sistem</label>
   <div class="col-md-4">
-    <select class="form-control" name="karyawan_jabatan" required>
+    <select class="form-control" name="karyawan_userid" required>
     @foreach($use as $u)
     <option value="{{$u->id}}">{{$u->name}} ({{$u->email}})</option> 
     @endforeach
@@ -203,7 +203,7 @@
         <div class="form-group row mt-4">
           <label class="col-md-2" >Nama Rekening Bank</label>
           <div class="col-md-4">
-          <input type="text" class="form-control" name="karyawan_namabank">
+          <input type="text" class="form-control" name="karyawan_namarekbank">
           </div>
         </div>  
          
