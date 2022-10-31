@@ -18,6 +18,7 @@ class Komponengaji extends Migration
             $table->integer('gaji_slipid')->nullable();
             $table->string('gaji_kodeunik')->nullable();
             $table->integer('gaji_typekomponen')->nullable(); 
+            $table->string('gaji_komponen')->nullable();   
             $table->string('gaji_jumlah')->nullable();   
             $table->timestamps();
         });

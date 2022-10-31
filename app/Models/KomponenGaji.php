@@ -26,6 +26,7 @@ class KomponenGaji extends Model
     'gaji_slipid',
     'gaji_kodeunik',
     'gaji_typekomponen', 
+    'gaji_komponen', 
     'gaji_jumlah', 
         'created_at',
         'updated_at', ];
