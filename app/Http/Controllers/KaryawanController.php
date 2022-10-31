@@ -11,7 +11,9 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Database\QueryException as QE;
 use RealRashid\SweetAlert\Facades\Alert;
 use Intervention\Image\ImageManagerStatic as Image;
-use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\File; 
+use Carbon\Carbon;
+use Carbon\CarbonPeriod;
 
 class KaryawanController extends Controller
 {
@@ -104,7 +106,7 @@ class KaryawanController extends Controller
         } catch (QE $e) {
             toast('Database Error','error');
 
-            return redirect()->back();
+            return $e;
         } 
         toast('Karyawan Berhasil Dibuat','success'); 
         return redirect('karyawan');

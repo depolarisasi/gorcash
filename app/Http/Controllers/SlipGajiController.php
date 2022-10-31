@@ -8,44 +8,142 @@ use Auth;
 use App\Models\User;
 use App\Models\Karyawan;
 use App\Models\SlipGaji;
+use App\Models\KomponenGaji;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Database\QueryException as QE;
-use RealRashid\SweetAlert\Facades\Alert;
+use RealRashid\SweetAlert\Facades\Alert; 
+use Carbon\Carbon;
+use Carbon\CarbonPeriod; 
+use Illuminate\Support\Str;
 
 class SlipGajiController extends Controller
 {
     public function index()
     {
-        $gaji = SlipGaji::get();
+        $gaji = SlipGaji::join('karyawan','karyawan_id','=','slipgaji_karyawanid')
+        ->select('karyawan.*','slipgaji.*')
+        ->get();
         return view('slipgaji.index')->with(compact('gaji'));
     }
 
-    public function create()
+    public function create(Request $request)
     { 
-        return view('slipgaji.new');
+        
+        $karyawan_list = Karyawan::join('users','users.id','=','karyawan.karyawan_userid')
+        ->select('karyawan.*','users.name','users.email')
+        ->get();
+        
+        if(!is_null($request->get('k') && is_numeric($request->get('k')))){
+            $karyawan = Karyawan::where('karyawan_id', $request->get('k'))->first(); 
+        return view('slipgaji.new')->with(compact('karyawan','karyawan_list'));
+        }else { 
+        return view('slipgaji.new')->with(compact('karyawan_list'));
+        }
+        
     }
 
     public function store(Request $request)
     { 
-        $data = collect($request->all());
+        $karyawan = Karyawan::where('karyawan_id',$request->slipgaji_karyawanid)->first();
+        $slipgaji = new SlipGaji;
+        $slipgaji->slipgaji_karyawanid = $request->slipgaji_karyawanid;
+        $slipgaji->slipgaji_userid = $karyawan->karyawan_userid;
+        $slipgaji->slipgaji_bulan = $request->slipgaji_bulan;
+        $slipgaji->slipgaji_tahun = $request->slipgaji_tahun;
+        $slipgaji->slipgaji_ttd = $request->slipgaji_ttd;
+        $slipgaji->slipgaji_tanggalgaji = Carbon::now()->setTimezone('Asia/Jakarta')->format('Y-m-d');
+        $randomizer = Str::random(10).$slipgaji->slipgaji_tanggalgaji;
+        $slipgaji->slipgaji_kodeunik = Hash::make($randomizer);
 
         try {
-            SlipGaji::create($data->all()); 
+            $slipgaji->save(); 
         } catch (QE $e) {
-            toast('Database Error','error');
-
-            return redirect()->back();
+            toast('Database Error','error'); 
+            return $e;
         } 
-        toast('Karyawan Berhasil Dibuat','success'); 
-        return redirect('karyawan');
+        
+        $updategaji = SlipGaji::where('slipgaji_id', $slipgaji->slipgaji_id)->first();
+        $penerimaan = array();
+        $potongan = array();
+        $totalgaji = 0;
+        if($request->penerimaanname || $request->potonganname){
+            if($request->penerimaanname){
+                foreach($request->penerimaanname as $key => $val){
+                    $komponenpenerimaan = new KomponenGaji;
+                    $komponenpenerimaan->gaji_slipid = $slipgaji->slipgaji_id;
+                    $komponenpenerimaan->gaji_kodeunik =  $slipgaji->slipgaji_kodeunik;
+                    $komponenpenerimaan->gaji_typekomponen = 1;
+                    $komponenpenerimaan->gaji_komponen = $val;
+                    $komponenpenerimaan->gaji_jumlah = $request->penerimaantotal[$key];
+                    $komponenpenerimaan->save();
+                    $totalgaji = $totalgaji+$request->penerimaantotal[$key];
+                    array_push($penerimaan, $komponenpenerimaan->gaji_id);
+                }
+                
+        $updategaji->slipgaji_komponenpenerimaan = serialize($penerimaan);
+            }
+          
+            if($request->potonganname){
+                foreach($request->potonganname as $key => $val){
+                    $komponenpotongan = new KomponenGaji;
+                    $komponenpotongan->gaji_slipid = $slipgaji->slipgaji_id;
+                    $komponenpotongan->gaji_kodeunik = $slipgaji->slipgaji_kodeunik;
+                    $komponenpotongan->gaji_typekomponen = 2;
+                    $komponenpotongan->gaji_komponen = $val;
+                    $komponenpotongan->gaji_jumlah = $request->potongantotal[$key];
+                    $komponenpotongan->save();
+                    
+                    $totalgaji = $totalgaji-$request->potongantotal[$key];
+                    array_push($penerimaan, $komponenpotongan->gaji_id);
+                }
+                
+        $updategaji->slipgaji_komponenpotongan = serialize($potongan);
+            }
+          
+        $updategaji->slipgaji_thp = $totalgaji;
+        $updategaji->update();
+
+        
+        toast('Slip Gaji Berhasil Dibuat','success');  
+        return redirect('slipgaji');
+
+        }else {
+        alert()->warning('Komponen Penerimaan atau Potongan Kosong');
+
+         return redirect()->back();
+
+        }
+         
     }
 
     public function show($id)
     {
-        $show = SlipGaji::where('id', $id)->first();
+        $show = SlipGaji::join('karyawan','karyawan_id','=','slipgaji_karyawanid')
+        ->join('users','id','=','slipgaji_userid')
+        ->select('slipgaji.*','karyawan.*','users.name','users.id','users.email')
+        ->where('slipgaji_id', $id)->first();
+        $komponenpenerimaan = KomponenGaji::where('gaji_slipid', $show->slipgaji_id)
+        ->where('gaji_typekomponen',1)->get();
+        $komponenpotongan = KomponenGaji::where('gaji_slipid', $show->slipgaji_id)
+        ->where('gaji_typekomponen',2)->get();
 
-        return view('slipgaji.show')->with(compact('show'));
+        return view('slipgaji.show')->with(compact('show','komponenpenerimaan','komponenpotongan'));
+        // return $komponenpenerimaan;
+    }
+    public function print($id)
+    {
+        $show = SlipGaji::join('karyawan','karyawan_id','=','slipgaji_karyawanid')
+        ->join('users','id','=','slipgaji_userid')
+        ->select('slipgaji.*','karyawan.*','users.name','users.id','users.email')
+        ->where('slipgaji_id', $id)->first();
+        $komponenpenerimaan = KomponenGaji::where('gaji_slipid', $show->slipgaji_id)
+        ->where('gaji_typekomponen',1)->get();
+        $komponenpotongan = KomponenGaji::where('gaji_slipid', $show->slipgaji_id)
+        ->where('gaji_typekomponen',2)->get();
+
+        return view('slipgaji.print')->with(compact('show','komponenpenerimaan','komponenpotongan'));
+        // return $komponenpenerimaan;
     }
 
     public function edit($id)
@@ -74,7 +172,7 @@ class SlipGajiController extends Controller
                     return redirect()->back();
                 }
 
-               alert()->success('Akun berhasil diubah');
+               alert()->success('Slip Gaji berhasil diubah');
 
                 return redirect('user');
             } else {
@@ -91,7 +189,7 @@ class SlipGajiController extends Controller
                         return redirect()->back();
                     }
 
-                    toast('Akun Berhasil Diubah','success');
+                    toast('Slip Gaji Berhasil Diubah','success');
 
                     return redirect('user');
                 } else {
@@ -111,7 +209,7 @@ class SlipGajiController extends Controller
 
                 return redirect()->back();
             }
-            toast('Akun Berhasil Diubah','success');
+            toast('Slip Gaji Berhasil Diubah','success');
 
 
             return redirect('user');
@@ -120,61 +218,18 @@ class SlipGajiController extends Controller
 
     public function delete($id)
     {
-        $user = SlipGaji::where('id', $id)->first();
+        $slipgaji = SlipGaji::where('slipgaji_id', $id)->first();
 
         try {
-            $user->delete();
+            $slipgaji->delete();
         } catch (QE $e) {
             return $e;
         } //show db error message
 
-        toast('Akun Berhasil Dihapus','success');
+        toast('Slip Gaji Berhasil Dihapus','success');
 
 
-        return redirect('user');
+        return redirect('slipgaji');
     }
-
-    public function setting()
-    {
-        return view('slipgaji.setting');
-    }
-
-    public function userupdate(Request $request)
-    {
-        $user = SlipGaji::where('id', $request->id)->first();
-        $passbaru = $request->password;
-
-        $passlama = $request->passwordlama;
-        if (Hash::check($passlama, $user->password)) {
-            if ($request->password == $request->password_confirmation) {
-                $newpass = $request->password;
-                $user->password = Hash::make($newpass);
-
-                try {
-                    $user->update();
-                } catch (QE $e) {
-                    toast('Perubahan Gagal Disimpan, Coba Lagi','error');
-
-                    return redirect()->back();
-                }
-            } else {
-                toast('Password Baru Tidak Cocok','error');
-
-                return redirect()->back();
-            }
-        } else {
-            toast('Password Lama Tidak Cocok','error');
-
-            return redirect()->back();
-        }
-
-        toast('Perubahan User Berhasil Disimpan!','error');
-
-        return redirect('user');
-    }
-
-    public function logout(){
-        Auth::logout();
-        return redirect('/');
-    }
+ 
 }

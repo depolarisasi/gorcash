@@ -56,13 +56,19 @@
 </td> 
 <td class="pl-3 py-3">
 <div class="d-flex align-items-center">
-  {{$k->gaji_bulan}} ({{$k->gaji_tahun}})
+  {{$k->slipgaji_bulan}} ({{$k->slipgaji_tahun}})
+</div>
+</td>
+<td class="pl-3 py-3">
+<div class="d-flex align-items-center">
+  Rp  @money($k->slipgaji_thp)
 </div>
 </td>
 <td>
-    <a href="{{url('/slipgaji/detail/'.$k->id)}}" class="btn btn-xs btn-icon btn-primary"><i class="fas fa-info-circle nopadding"></i></a>
-    <a href="{{url('/slipgaji/edit/'.$k->id)}}" class="btn btn-xs btn-icon btn-warning"><i class="fas fa-edit nopadding"></i></a>
-    <button type="button" href="{{url('/slipgaji/delete/'.$k->id)}}" class="deletebtn btn btn-xs btn-icon btn-danger"><i class="fas fa-trash nopadding"></i></button></td>
+    <a href="{{url('/slipgaji/detail/'.$k->slipgaji_id)}}" class="btn btn-xs btn-icon btn-primary"><i class="fas fa-info-circle nopadding"></i></a>
+    <a href="{{url('/slipgaji/print/'.$k->slipgaji_id)}}" class="btn btn-xs btn-icon btn-secondary"><i class="fas fa-print nopadding"></i></a>
+    <!-- <a href="{{url('/slipgaji/edit/'.$k->slipgaji_id)}}" class="btn btn-xs btn-icon btn-warning"><i class="fas fa-edit nopadding"></i></a> -->
+    <button type="button" href="{{url('/slipgaji/delete/'.$k->slipgaji_id)}}" class="deletebtn btn btn-xs btn-icon btn-danger"><i class="fas fa-trash nopadding"></i></button></td>
 </td>
 </tr>
 @endforeach
@@ -99,8 +105,8 @@
         $(document).on('click', '.deletebtn', function(e) {
            var href = $(this).attr('href');
            Swal.fire({
-       title: 'Yakin untuk menghapus akun ini ? ',
-       text: 'SEMUA DATA mengenai akun ini akan dihapus dan tidak dapat dikembalikan!',
+       title: 'Yakin untuk menghapus slip gaji ini ? ',
+       text: 'SEMUA DATA mengenai slip gaji ini akan dihapus dan tidak dapat dikembalikan!',
        icon: 'warning',
        showCancelButton: true,
        confirmButtonColor: '#95000c',

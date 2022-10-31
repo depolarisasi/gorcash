@@ -46,6 +46,7 @@ Route::group(['prefix' => 'karyawan'], function() {
 Route::group(['prefix' => 'slipgaji'], function() {
     Route::get('/',[App\Http\Controllers\SlipGajiController::class, 'index'])->middleware('admin');
     Route::get('/detail/{id}',[App\Http\Controllers\SlipGajiController::class, 'show'])->middleware('admin');
+    Route::get('/print/{id}',[App\Http\Controllers\SlipGajiController::class, 'print'])->middleware('admin');
     Route::get('/new',[App\Http\Controllers\SlipGajiController::class, 'create'])->middleware('admin');
     Route::post('/store',[App\Http\Controllers\SlipGajiController::class, 'store'])->middleware('admin');
     Route::get('/edit/{id}',[App\Http\Controllers\SlipGajiController::class, 'edit'])->middleware('admin');
