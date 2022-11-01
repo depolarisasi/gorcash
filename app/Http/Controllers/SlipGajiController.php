@@ -241,7 +241,7 @@ class SlipGajiController extends Controller
         ->where('gaji_typekomponen',1)->get();
         $komponenpotongan = KomponenGaji::where('gaji_slipid', $show->slipgaji_id)
         ->where('gaji_typekomponen',2)->get();
-        $pdf = PDF::loadView('slipgaji.print', compact('show','komponenpenerimaan','komponenpotongan'));
+        $pdf = PDF::loadView('slipgaji.pdf', compact('show','komponenpenerimaan','komponenpotongan'));
         return $pdf->download('slipgaji-'.$show->karyawan_nama.$show->slipgaji_bulan.$show->slipgaji_tahuh.'pdf');
     }
  
