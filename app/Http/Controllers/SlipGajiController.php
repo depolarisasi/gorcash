@@ -231,5 +231,18 @@ class SlipGajiController extends Controller
 
         return redirect('slipgaji');
     }
+
+    public function pdf($id){
+        $show = SlipGaji::join('karyawan','karyawan_id','=','slipgaji_karyawanid')
+        ->join('users','id','=','slipgaji_userid')
+        ->select('slipgaji.*','karyawan.*','users.name','users.id','users.email')
+        ->where('slipgaji_id', $id)->first();
+        $komponenpenerimaan = KomponenGaji::where('gaji_slipid', $show->slipgaji_id)
+        ->where('gaji_typekomponen',1)->get();
+        $komponenpotongan = KomponenGaji::where('gaji_slipid', $show->slipgaji_id)
+        ->where('gaji_typekomponen',2)->get();
+        $pdf = PDF::loadView('slipgaji.print', compact('show','komponenpenerimaan','komponenpotongan'));
+        return $pdf->download('slipgaji-'.$show->karyawan_nama.$show->slipgaji_bulan.$show->slipgaji_tahuh.'pdf');
+    }
  
 }

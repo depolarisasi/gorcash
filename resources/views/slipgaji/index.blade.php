@@ -67,7 +67,7 @@
 <td>
     <a href="{{url('/slipgaji/detail/'.$k->slipgaji_id)}}" class="btn btn-xs btn-icon btn-primary"><i class="fas fa-info-circle nopadding"></i></a>
     <a href="{{url('/slipgaji/print/'.$k->slipgaji_id)}}" class="btn btn-xs btn-icon btn-secondary"><i class="fas fa-print nopadding"></i></a>
-    <!-- <a href="{{url('/slipgaji/edit/'.$k->slipgaji_id)}}" class="btn btn-xs btn-icon btn-warning"><i class="fas fa-edit nopadding"></i></a> -->
+    <a href="{{url('/slipgaji/print/'.$k->slipgaji_id)}}" class="btn btn-xs btn-icon btn-success"><i class="fas fa-edit nopadding"></i></a>
     <button type="button" href="{{url('/slipgaji/delete/'.$k->slipgaji_id)}}" class="deletebtn btn btn-xs btn-icon btn-danger"><i class="fas fa-trash nopadding"></i></button></td>
 </td>
 </tr>
