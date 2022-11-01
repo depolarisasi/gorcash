@@ -16,6 +16,8 @@ use RealRashid\SweetAlert\Facades\Alert;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod; 
 use Illuminate\Support\Str;
+use PDF;
+
 
 class SlipGajiController extends Controller
 {
