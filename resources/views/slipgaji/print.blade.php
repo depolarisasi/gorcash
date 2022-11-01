@@ -96,34 +96,6 @@ img {
              
         <br> 
         <div class="row g-0">
-        <div class="col-6"> 
-            <table style="width: 100%;">
-                <thead >
-                    <tr style="border-width: 3px 0px 3px 0px; border-style: double;">
-                        <th><span style="float:left;"><b>POTONGAN</b></span></th> 
-                    </tr>
-                </thead>
-                <tbody> 
-                    @php
-                    $potongan = 0;
-                    @endphp
-                    @foreach($komponenpotongan as $kp)
-                    <tr>
-                        <td>{{$kp->gaji_komponen}}</td>
-                        <td>Rp @money($kp->gaji_jumlah)</td>    
-                    </tr>  
-                    
-                    @php
-                    $potongan = $potongan+$kp->gaji_jumlah;
-                    @endphp
-                    @endforeach
-                    <tr style="border-width: 1px 0px 3px 0px; border-style: double;">
-                        <td>TOTAL POTONGAN</td>
-                        <td>Rp @money($potongan)</td>    
-                    </tr> 
-                </tbody>
-            </table>
-        </div>
         <div class="col-6" >
             <table style="width: 100%;">
                 <thead>
@@ -156,6 +128,7 @@ img {
                 </tbody>
             </table>
         </div>
+        
     </div>
       
      <div class="row gt-0 mt-5">
