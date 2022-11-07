@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request; 
+use Illuminate\Http\Request;
 use Auth;
 use App\Models\User;
 use App\Models\Karyawan;
@@ -11,13 +11,13 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Database\QueryException as QE;
 use RealRashid\SweetAlert\Facades\Alert;
 use Intervention\Image\ImageManagerStatic as Image;
-use Illuminate\Support\Facades\File; 
+use Illuminate\Support\Facades\File;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 
 class KaryawanController extends Controller
 {
-    
+
     public function uploadKTP($image){
         if ($image == '') {
             $fileurl = '';
@@ -82,7 +82,7 @@ class KaryawanController extends Controller
     }
 
     public function store(Request $request)
-    { 
+    {
         $data = collect($request->all());
 
         if ($request->file('karyawan_foto') == '') {
@@ -91,7 +91,7 @@ class KaryawanController extends Controller
             $filefoto =  $this->uploadFoto($request->file('karyawan_foto'));
     }
 
-    
+
     if ($request->file('karyawan_fotoktp') == '') {
         $filektp = '/fotoktp/nophoto.png';
 } else {
@@ -102,13 +102,13 @@ class KaryawanController extends Controller
     $data->put('karyawan_fotoktp',$filektp);
 
         try {
-            Karyawan::create($data->all()); 
+            Karyawan::create($data->all());
         } catch (QE $e) {
             toast('Database Error','error');
 
             return $e;
-        } 
-        toast('Karyawan Berhasil Dibuat','success'); 
+        }
+        toast('Karyawan Berhasil Dibuat','success');
         return redirect('karyawan');
     }
 
@@ -121,7 +121,7 @@ class KaryawanController extends Controller
 
     public function edit($id)
     {
-        
+
         $use = User::get();
         $edit = Karyawan::where('karyawan_id', $id)->first();
 
@@ -132,14 +132,14 @@ class KaryawanController extends Controller
     {
         $user = Karyawan::where('karyawan_id', $request->karyawan_id)->first();
         $update = collect($request->all());
-      
+
         if ($request->file('karyawan_foto') == '') {
             $filefoto = $user->karyawan_foto;
     } else {
             $filefoto =  $this->uploadFoto($request->file('karyawan_foto'));
     }
 
-    
+
     if ($request->file('karyawan_fotoktp') == '') {
         $filektp = $user->karyawan_fotoktp;
 } else {
@@ -148,8 +148,8 @@ class KaryawanController extends Controller
 
     $update->put('karyawan_foto',$filefoto);
     $update->put('karyawan_fotoktp', $filektp);
- 
-            try { 
+
+            try {
                 $user->update($update->all());
             } catch (QE $e) {
 
@@ -157,9 +157,9 @@ class KaryawanController extends Controller
 
                 return redirect()->back();
             }
-            toast('Karyawan Berhasil Diubah','success'); 
+            toast('Karyawan Berhasil Diubah','success');
 
-            return redirect('karyawan'); 
+            return redirect('karyawan');
     }
 
     public function delete($id)
@@ -177,5 +177,57 @@ class KaryawanController extends Controller
 
         return redirect('karyawan');
     }
- 
+
+    public function profil()
+    {
+
+        $show = Karyawan::where('karyawan_userid', Auth::user()->id)->first();
+
+        return view('karyawan.profil')->with(compact('show'));
+    }
+
+
+    public function editprofil()
+    {
+
+        $edit = Karyawan::where('karyawan_userid', Auth::user()->id)->first();
+
+        return view('karyawan.editprofil')->with(compact('edit'));
+    }
+
+    public function updateprofil(Request $request)
+    {
+        $user = Karyawan::where('karyawan_id', $request->karyawan_id)->first();
+        $update = collect($request->all());
+
+        if ($request->file('karyawan_foto') == '') {
+            $filefoto = $user->karyawan_foto;
+    } else {
+            $filefoto =  $this->uploadFoto($request->file('karyawan_foto'));
+    }
+
+
+    if ($request->file('karyawan_fotoktp') == '') {
+        $filektp = $user->karyawan_fotoktp;
+} else {
+        $filektp =  $this->uploadKTP($request->file('karyawan_fotoktp'));
+}
+
+    $update->put('karyawan_foto',$filefoto);
+    $update->put('karyawan_fotoktp', $filektp);
+
+            try {
+                $user->update($update->all());
+            } catch (QE $e) {
+
+                toast('Database Error','error');
+
+                return redirect()->back();
+            }
+            toast('Profil Berhasil Diubah','success');
+
+            return redirect('profil-karyawan');
+    }
+
+
 }

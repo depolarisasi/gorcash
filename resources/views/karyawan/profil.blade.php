@@ -17,10 +17,10 @@
 <!--begin::Header-->
 <div class="card-header border-0 py-5">
 <h2 class="card-title align-items-start flex-column">
-<span class="card-label font-weight-bolder text-dark">Informasi Karyawan</span>
+<span class="card-label font-weight-bolder text-dark">Profil Saya</span>
 </h2>
 <div class="card-toolbar">
-<a href="{{url('karyawan/')}}" class="btn btn-primary btn-md font-size-sm"><i class="fas fa-arrow-left"></i> Kembali</a>
+<a href="{{url('profil-karyawan/edit')}}" class="btn btn-warning btn-md font-size-sm"><i class="fas fa-edit"></i> Ubah Profil Saya</a>
 </div>
 </div>
 <!--end::Header-->
