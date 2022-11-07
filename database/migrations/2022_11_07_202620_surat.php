@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class EmailGaji extends Migration
+class Surat extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,12 @@ class EmailGaji extends Migration
      */
     public function up()
     {
-        //
+        Schema::create('surat', function (Blueprint $table) {
+            $table->increments('surat_id');
+            $table->text('surat_nama')->nullable();
+            $table->text('surat_link')->nullable();
+            $table->timestamps();
+        });
     }
 
     /**

@@ -90,6 +90,15 @@ Route::group(['prefix' => 'size'], function() {
     Route::post('/massdelete',[App\Http\Controllers\SizeController::class, 'apimassdelete'])->middleware('auth');
    });
 
+   Route::group(['prefix' => 'surat'], function() {
+    Route::get('/',[App\Http\Controllers\SuratController::class, 'index'])->middleware('auth');
+    Route::get('/new',[App\Http\Controllers\SuratController::class, 'create'])->middleware('auth');
+    Route::post('/store',[App\Http\Controllers\SuratController::class, 'store'])->middleware('auth');
+    Route::get('/edit/{id}',[App\Http\Controllers\SuratController::class, 'edit'])->middleware('auth');
+    Route::post('/update',[App\Http\Controllers\SuratController::class, 'update'])->middleware('auth');
+    Route::get('/delete/{id}',[App\Http\Controllers\SuratController::class, 'delete'])->middleware('auth');
+   });
+
    Route::group(['prefix' => 'type'], function() {
     Route::get('/',[App\Http\Controllers\TypeProductController::class, 'index'])->middleware('auth');
     Route::get('/new',[App\Http\Controllers\TypeProductController::class, 'create'])->middleware('auth');
