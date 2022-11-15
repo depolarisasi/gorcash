@@ -54,7 +54,7 @@
 
 <tr>
 <td class="pl-3 py-3">{{$surat->surat_nama}}</td>
-<td class="pl-3 py-3"><a href="{{url($surat->surat_link)}}"></a>{{$surat->surat_link}}</td>
+<td class="pl-3 py-3"><a href="{{url($surat->surat_link)}}">{{$surat->surat_link}}</a></td>
 
 @if(Auth::user()->role == 1)
 <td>
