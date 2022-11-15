@@ -33,7 +33,7 @@
         @if($show->karyawan_foto)
 <img src="{{asset($show->karyawan_foto)}}" class="img-fluid">
 @else
-<img src="#" class="img-fluid">
+<img src="{{asset('/foto/no-profile.png')}}" class="img-fluid">
 @endif
     </div>
     <div class="col-md-6">
@@ -462,6 +462,17 @@
 <p>{{$show->karyawan_nokontakdrt1}}</p>
     </div>
 
+
+    <div class="col-md-2">
+        <p><b>KTP Karyawan</b></p>
+    </div>
+    <div class="col-md-10">
+    @if($show->karyawan_foto)
+<img src="{{asset($show->karyawan_fotoktp)}}" class="img-fluid">
+@else
+<img src="#" class="img-fluid">
+@endif
+    </div>
 
 </div>
 </div>
