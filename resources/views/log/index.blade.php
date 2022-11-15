@@ -83,10 +83,7 @@
 				input: $('#kt_datatable_search_tanggal'),
 				key: 'generalSearch'
 			},
-        "paging":   true,
-        columnDefs: [
-    { orderable: false, targets: 0 }
-  ],
+        "paging":   true, 
         "ordering": true,
     } );
 
