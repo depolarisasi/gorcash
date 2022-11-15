@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title','Ubah Status Barang - ')
+@section('title','Ubah Status Produk Harian - ')
 @section('css')
 <link rel="stylesheet" type="text/css" id="mce-u0" href="{{asset('assets/js/tinymce/skins/ui/oxide/skin.min.css')}}">
 @endsection
@@ -21,7 +21,7 @@
 <!--begin::Header-->
 <div class="card-header border-0 py-5">
 <h3 class="card-title align-items-start flex-column">
-<span class="card-label font-weight-bolder text-dark">Ubah Status Barang</span>
+<span class="card-label font-weight-bolder text-dark">Ubah Status Produk Harian</span>
 </h3>
 <div class="card-toolbar">
 <a href="{{url('turunbarang/')}}" class="btn btn-primary btn-md font-size-sm"><i class="fas fa-arrow-left"></i> Kembali</a>
