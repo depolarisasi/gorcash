@@ -30,7 +30,11 @@
 <div class="tab-content">
 <div class="row">
     <div class="col-md-6">
+        @if($show->karyawan_foto)
 <img src="{{asset($show->karyawan_foto)}}" class="img-fluid">
+@else
+<img src="#" class="img-fluid">
+@endif
     </div>
     <div class="col-md-6">
         <p><b>Nama : </b> {{$show->karyawan_nama}}</p>

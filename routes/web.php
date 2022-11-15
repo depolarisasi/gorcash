@@ -57,9 +57,9 @@ Route::group(['prefix' => 'slipgaji'], function() {
    });
 
    Route::group(['prefix' => 'profil-karyawan'], function() {
-    Route::get('/',[App\Http\Controllers\KaryawanController::class, 'profil'])->middleware('admin');
-    Route::get('/edit',[App\Http\Controllers\KaryawanController::class, 'editprofil'])->middleware('admin');
-    Route::post('/update',[App\Http\Controllers\KaryawanController::class, 'updateprofil'])->middleware('admin');
+    Route::get('/',[App\Http\Controllers\KaryawanController::class, 'profil'])->middleware('auth');
+    Route::get('/edit',[App\Http\Controllers\KaryawanController::class, 'editprofil'])->middleware('auth');
+    Route::post('/update',[App\Http\Controllers\KaryawanController::class, 'updateprofil'])->middleware('auth');
 
    });
 
