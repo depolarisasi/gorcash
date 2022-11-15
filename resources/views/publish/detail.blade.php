@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title','Detail '.$infopub->publish_name.'- ')
+@section('title','DATABASE PRODUK '.$infopub->publish_name.'- ')
 @section('css')
 <link href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css">
 <link href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css">
