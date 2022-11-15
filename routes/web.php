@@ -183,8 +183,8 @@ Route::group(['prefix' => 'size'], function() {
    });
 
    Route::group(['prefix' => 'kasir'], function() {
-    Route::get('/',[App\Http\Controllers\PenjualanController::class, 'kasir'])->middleware('storeofficer');
-    Route::post('/store',[App\Http\Controllers\PenjualanController::class, 'addpenjualan'])->middleware('storeofficer');
+    Route::get('/',[App\Http\Controllers\PenjualanController::class, 'kasir'])->middleware('auth');
+    Route::post('/store',[App\Http\Controllers\PenjualanController::class, 'addpenjualan'])->middleware('auth');
    });
 
    Route::group(['prefix' => 'productapi'], function() {

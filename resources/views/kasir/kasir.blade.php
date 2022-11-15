@@ -77,9 +77,27 @@
                         <option value="WhatsApp">WhatsApp</option>
                         <option value="Instagram">Instagram</option>
                         <option value="Tiktok">Tiktok</option>
+                        @else
+                        <option value="Tokopedia">Tokopedia</option>
+                        <option value="Website">Website</option>
+                        <option value="Shopee">Shopee</option>
+                        <option value="Blibli">Blibli</option>
+                        <option value="BukaLapak">BukaLapak</option>
+                        <option value="WhatsApp">WhatsApp</option>
+                        <option value="Instagram">Instagram</option>
+                        <option value="Tiktok">Tiktok</option>
                         @endif
                     @if(Auth::user()->role == 5 || Auth::user()->role == 1 || Auth::user()->role == 6)
                     <option value="Toko">Toko</option>
+                    @else
+                    <option value="Tokopedia">Tokopedia</option>
+                        <option value="Website">Website</option>
+                        <option value="Shopee">Shopee</option>
+                        <option value="Blibli">Blibli</option>
+                        <option value="BukaLapak">BukaLapak</option>
+                        <option value="WhatsApp">WhatsApp</option>
+                        <option value="Instagram">Instagram</option>
+                        <option value="Tiktok">Tiktok</option>
                     @endif
                       </select>
                     </div>
