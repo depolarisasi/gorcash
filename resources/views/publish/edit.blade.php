@@ -55,18 +55,19 @@
 		<table class="table table-bordered mt-5" id="product">
 			<thead>
 				<tr>
-					<th width="5%">Foto</th>
+					<th width="5%">FOTO</th>
 					<th width="5%">SKU</th>
-					<th width="5%">Nama Band</th>
-					<th width="15%">Nama Produk</th>
+					<th width="5%">BAND</th>
+					<th width="15%">ARTIKEL</th>
 					<th width="5%">Harga</th>
 					<th width="10%">Stok Awal</th>
 					<th width="10%">Stok Akhir</th>
-					<th width="10%">Tag</th>
-					<th width="10%">Material</th>
-					<th width="10%">Made In</th>
-					<th width="10%">Condition</th>
-					<th width="10%">Keterangan</th>
+					<th width="10%">WARNA</th>
+					<th width="10%">TAG</th>
+					<th width="10%">MATERIAL</th>
+					<th width="10%">MADE IN</th>
+					<th width="10%">UKURAN</th>
+					<th width="10%">KETERANGAN</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -83,6 +84,7 @@
 					<td>@money($p->product_hargajual)</td>
                     <td><input type="number" class="form-control" name="product_stok[]" value="{{$p->publish_stok}}"></td>
                     <td><input type="number" class="form-control" name="product_stokakhir[]" value="{{$p->publish_stokakhir}}"></td>
+					<td>@money($p->color_nama)</td>
 					<td><input type="text" class="form-control" name="product_tag[]" value="{{$p->product_tag}}"></td>
 					<td><input type="text" class="form-control" name="product_material[]" value="{{$p->product_material}}"></td>
 					<td><input type="text" class="form-control" name="product_madein[]" value="{{$p->product_madein}}"></td>

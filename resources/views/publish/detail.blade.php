@@ -23,7 +23,7 @@
 <!--begin::Header-->
 <div class="card-header border-0 py-5">
 <h3 class="card-title align-items-start flex-column">
-<span class="card-label font-weight-bolder text-dark">Detail {{$infopub->publish_name}}</span>
+<span class="card-label font-weight-bolder text-dark">DATABASE PRODUK {{$infopub->publish_name}}</span>
 </h3>
 <div class="card-toolbar">
 <a href="{{url('publish')}}" class="btn btn-primary btn-md font-size-sm"><i class="fas fa-arrow-left"></i> Kembali</a>
@@ -38,19 +38,19 @@
 		<table class="table table-bordered mt-5" id="product">
 			<thead>
 				<tr>
-                    <th width="5%">Foto</th>
+                    <th width="5%">FOTO</th>
 					<th width="5%">SKU</th>
-					<th width="5%">Nama Band</th>
-					<th width="15%">Nama Produk</th>
-					<th width="5%">Harga</th>
-					<th width="5%">Stok Awal</th>
-					<th width="5%">Stok Akhir</th>
-					<th width="10%">Color</th>
-					<th width="10%">Tag</th>
-					<th width="10%">Material</th>
-					<th width="10%">Made In</th>
-					<th width="10%">Condition</th>
-					<th width="10%">Keterangan</th>
+					<th width="5%">BAND</th>
+					<th width="15%">ARTIKEL</th>
+					<th width="5%">HARGA</th>
+					<th width="5%">S.AWAL</th>
+					<th width="5%">S.AKHIR</th>
+					<th width="10%">WARNA</th>
+					<th width="10%">TAG</th>
+					<th width="10%">MATERIAL</th>
+					<th width="10%">MADE IN</th>
+					<th width="10%">UKURAN</th>
+					<th width="10%">KETERANGAN</th>
 				</tr>
 			</thead>
 			<tbody>
