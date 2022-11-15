@@ -78,11 +78,8 @@
 
 
 <script>
- tabel = $('#product').DataTable({
-        search: {
-				input: $('#kt_datatable_search_tanggal'),
-				key: 'generalSearch'
-			},
+ tabel = $('#product').DataTable({ 
+    order: [[0, 'desc']],
         "paging":   true, 
         "ordering": true,
     } );
