@@ -48,13 +48,13 @@
         <td width="30%" style="padding-right: 30px;">
             @if(!is_null($show))
             @if(!is_null($show->karyawan_foto))
-    <img src="{{asset($show->karyawan_foto)}}" width="200" height="275">
+    <img src="{{asset($show->karyawan_foto)}}" width="100" height="175">
     @else
-    <img src="{{asset('/foto/no-profile.png')}}" width="200" height="275">
+    <img src="{{asset('/foto/no-profile.png')}}" width="100" height="175">
     @endif
     @endif</td>
         <td align="left">
-            <h2>Nama</h2>
+            <h2>{{$show->karyawan_nama}}</h2>
             @php
             $time = \Carbon\Carbon::now()->diff($show->karyawan_tanggalbekerja);
             @endphp
@@ -342,7 +342,7 @@
             <p><b>KTP Karyawan</b></p>
         </td>
         @if($show->karyawan_foto)
-    <img src="{{asset($show->karyawan_fotoktp)}}" width="300" height="150">
+    <img src="{{asset($show->karyawan_fotoktp)}}" width="400" height="200">
     @else
     <img src="#" class="img-fluid">
     @endif
