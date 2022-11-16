@@ -53,13 +53,14 @@
     <img src="{{asset('/foto/no-profile.png')}}" width="200" height="275">
     @endif
     @endif</td>
-        <td align="top"><h2>Nama</h2>
+        <td align="left">
+            <h2>Nama</h2>
             @php
             $time = \Carbon\Carbon::now()->diff($show->karyawan_tanggalbekerja);
             @endphp
             <p><b>Tanggal Pertama Bekerja : </b> {{$show->karyawan_tanggalbekerja}},  {{$time->y}} Tahun, {{$time->m}} Bulan, {{$time->d}} Hari</p>
-            <p><b>Jabatan : </b> {{$show->karyawan_jabatan}}</p></td>
-            <p><b>Nomor Induk Karyawan : </b> {{$show->karyawan_noinduk}}</p></td></td> 
+            <p><b>Jabatan : </b> {{$show->karyawan_jabatan}}</p>
+            <p><b>Nomor Induk Karyawan : </b> {{$show->karyawan_noinduk}}</p></td> 
       </tr> 
     </tbody>
  
@@ -341,7 +342,7 @@
             <p><b>KTP Karyawan</b></p>
         </td>
         @if($show->karyawan_foto)
-    <img src="{{asset($show->karyawan_fotoktp)}}" width="300" height="100">
+    <img src="{{asset($show->karyawan_fotoktp)}}" width="300" height="150">
     @else
     <img src="#" class="img-fluid">
     @endif
