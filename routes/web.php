@@ -40,6 +40,7 @@ Route::group(['prefix' => 'karyawan'], function() {
     Route::get('/edit/{id}',[App\Http\Controllers\KaryawanController::class, 'edit'])->middleware('admin');
     Route::post('/update',[App\Http\Controllers\KaryawanController::class, 'update'])->middleware('admin');
     Route::get('/delete/{id}',[App\Http\Controllers\KaryawanController::class, 'delete'])->middleware('admin');
+    Route::get('/print/{id}',[App\Http\Controllers\KaryawanController::class, 'print'])->middleware('admin');
 
    });
 

@@ -20,7 +20,8 @@
 <span class="card-label font-weight-bolder text-dark">Informasi Karyawan</span>
 </h2>
 <div class="card-toolbar">
-<a href="{{url('karyawan/')}}" class="btn btn-primary btn-md font-size-sm"><i class="fas fa-arrow-left"></i> Kembali</a>
+<a href="{{url('karyawan/')}}" class="btn btn-primary btn-md font-size-sm ml-3"><i class="fas fa-arrow-left"></i> Kembali</a>
+<a href="{{url('karyawan/print/'.$show->karyawan_id)}}" class="btn btn-primary btn-md font-size-sm"><i class="fas fa-arrow-left"></i> Print PDF</a>
 </div>
 </div>
 <!--end::Header-->

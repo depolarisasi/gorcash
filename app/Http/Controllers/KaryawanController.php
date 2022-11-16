@@ -13,7 +13,8 @@ use RealRashid\SweetAlert\Facades\Alert;
 use Intervention\Image\ImageManagerStatic as Image;
 use Illuminate\Support\Facades\File;
 use Carbon\Carbon;
-use Carbon\CarbonPeriod;
+use Carbon\CarbonPeriod;     
+use PDF;
 
 class KaryawanController extends Controller
 {
@@ -182,8 +183,13 @@ class KaryawanController extends Controller
     {
 
         $show = Karyawan::where('karyawan_userid', Auth::user()->id)->first();
-
-        return view('karyawan.profil')->with(compact('show'));
+        if($show){
+            return view('karyawan.profil')->with(compact('show'));
+        }
+        else { 
+        toast('Profil Karyawan Tidak Ditemukan','error');
+        return redirect()->back();
+        }
     }
 
 
@@ -229,5 +235,10 @@ class KaryawanController extends Controller
             return redirect('profil-karyawan');
     }
 
+    public function print($id){ 
+        $show = Karyawan::where('karyawan_id', $id)->first();  
+        $pdf = PDF::loadView('karyawan.printpdf', compact('show'));
+        return $pdf->download('karyawan_info_pdf_'.$show->karyawan_nama.'.pdf');
+    }
 
 }

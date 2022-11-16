@@ -30,10 +30,12 @@
 <div class="tab-content">
 <div class="row">
     <div class="col-md-6">
-        @if($show->karyawan_foto)
+        @if(!is_null($show))
+        @if(!is_null($show->karyawan_foto))
 <img src="{{asset($show->karyawan_foto)}}" class="img-fluid">
 @else
 <img src="{{asset('/foto/no-profile.png')}}" class="img-fluid">
+@endif
 @endif
     </div>
     <div class="col-md-6">
