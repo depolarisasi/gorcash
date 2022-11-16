@@ -48,9 +48,9 @@
         <td width="30%" style="padding-right: 30px;">
             @if(!is_null($show))
             @if(!is_null($show->karyawan_foto))
-    <img src="{{asset($show->karyawan_foto)}}" width="100" height="175">
+    <img src="{{asset($show->karyawan_foto)}}" width="150" height="175">
     @else
-    <img src="{{asset('/foto/no-profile.png')}}" width="100" height="175">
+    <img src="{{asset('/foto/no-profile.png')}}" width="150" height="175">
     @endif
     @endif</td>
         <td align="left">
