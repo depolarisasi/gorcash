@@ -48,9 +48,9 @@
         <td width="30%" style="padding-right: 30px;">
             @if(!is_null($show))
             @if(!is_null($show->karyawan_foto))
-    <img src="{{asset($show->karyawan_foto)}}" width="75" height="150">
+    <img src="{{asset($show->karyawan_foto)}}" width="200" height="275">
     @else
-    <img src="{{asset('/foto/no-profile.png')}}" width="75" height="150">
+    <img src="{{asset('/foto/no-profile.png')}}" width="200" height="275">
     @endif
     @endif</td>
         <td align="top"><h2>Nama</h2>
@@ -341,7 +341,7 @@
             <p><b>KTP Karyawan</b></p>
         </td>
         @if($show->karyawan_foto)
-    <img src="{{asset($show->karyawan_fotoktp)}}" width="200" height="55">
+    <img src="{{asset($show->karyawan_fotoktp)}}" width="300" height="100">
     @else
     <img src="#" class="img-fluid">
     @endif
