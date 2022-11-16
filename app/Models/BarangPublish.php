@@ -29,6 +29,7 @@ class BarangPublish extends Model
     'publish_name',
     'publish_stok',
     'publish_stokakhir',
+    'publish_selisih',
         'created_at',
         'updated_at', ];
 }

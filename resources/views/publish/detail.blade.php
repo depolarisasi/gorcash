@@ -45,12 +45,15 @@
 					<th width="5%">HARGA</th>
 					<th width="5%">S.AWAL</th>
 					<th width="5%">S.AKHIR</th>
+					<th width="5%">S.GDNG</th>
+					<th width="5%">S.TOKO</th>
+					<th width="5%">MIN</th>
 					<th width="10%">WARNA</th>
 					<th width="10%">TAG</th>
 					<th width="10%">MATERIAL</th>
 					<th width="10%">MADE IN</th>
 					<th width="10%">UKURAN</th>
-					<th width="10%">KETERANGAN</th>
+					<th width="10%">KET</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -65,6 +68,9 @@
 					<td>@money($p->product_hargajual)</td>
 					<td>{{$p->product_stok}}</td>
 					<td>{{$p->product_stokakhir}}</td>
+					<td>{{$p->product_stokgudang}}</td>
+					<td>{{$p->product_stoktoko}}</td>
+					<td>{{$p->publish_selisih}}</td>
 					<td>{{$p->color_nama}}</td>
 					<td>{{$p->product_tag}}</td>
 					<td>{{$p->product_material}}</td>
