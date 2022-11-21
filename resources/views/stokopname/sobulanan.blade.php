@@ -73,32 +73,9 @@
                     <div class="d-flex align-items-center">
                         <select class="form-control select2" id="selectband">
                             <option value="?band=All&size={{$size_selected}}" @if($band_selected == 'All' && $size_selected == '') selected @endif>All</option>
-                            <option value="?band=A&size={{$size_selected}}" @if($band_selected == 'A') selected @endif>A</option>
-                            <option value="?band=B&size={{$size_selected}}" @if($band_selected == 'B') selected @endif>B</option>
-                            <option value="?band=C&size={{$size_selected}}" @if($band_selected == 'C') selected @endif>C</option>
-                            <option value="?band=D&size={{$size_selected}}" @if($band_selected == 'D') selected @endif>D</option>
-                            <option value="?band=E&size={{$size_selected}}" @if($band_selected == 'E') selected @endif>E</option>
-                            <option value="?band=F&size={{$size_selected}}" @if($band_selected == 'F') selected @endif>F</option>
-                            <option value="?band=G&size={{$size_selected}}" @if($band_selected == 'G') selected @endif>G</option>
-                            <option value="?band=H&size={{$size_selected}}" @if($band_selected == 'H') selected @endif>H</option>
-                            <option value="?band=I&size={{$size_selected}}" @if($band_selected == 'I') selected @endif>I</option>
-                            <option value="?band=J&size={{$size_selected}}" @if($band_selected == 'J') selected @endif>J</option>
-                            <option value="?band=K&size={{$size_selected}}" @if($band_selected == 'K') selected @endif>K</option>
-                            <option value="?band=L&size={{$size_selected}}" @if($band_selected == 'L') selected @endif>L</option>
-                            <option value="?band=M&size={{$size_selected}}" @if($band_selected == 'M') selected @endif>M</option>
-                            <option value="?band=N&size={{$size_selected}}" @if($band_selected == 'N') selected @endif>N</option>
-                            <option value="?band=O&size={{$size_selected}}" @if($band_selected == 'O') selected @endif>O</option>
-                            <option value="?band=P&size={{$size_selected}}" @if($band_selected == 'P') selected @endif>P</option>
-                            <option value="?band=Q&size={{$size_selected}}" @if($band_selected == 'Q') selected @endif>Q</option>
-                            <option value="?band=R&size={{$size_selected}}" @if($band_selected == 'R') selected @endif>R</option>
-                            <option value="?band=S&size={{$size_selected}}" @if($band_selected == 'S') selected @endif>S</option>
-                            <option value="?band=T&size={{$size_selected}}" @if($band_selected == 'T') selected @endif>T</option>
-                            <option value="?band=U&size={{$size_selected}}" @if($band_selected == 'U') selected @endif>U</option>
-                            <option value="?band=V&size={{$size_selected}}" @if($band_selected == 'V') selected @endif>V</option>
-                            <option value="?band=W&size={{$size_selected}}" @if($band_selected == 'W') selected @endif>W</option>
-                            <option value="?band=X&size={{$size_selected}}" @if($band_selected == 'X') selected @endif>X</option>
-                            <option value="?band=Y&size={{$size_selected}}" @if($band_selected == 'Y') selected @endif>Y</option>
-                            <option value="?band=Z&size={{$size_selected}}" @if($band_selected == 'Z') selected @endif>Z</option>
+                            @foreach($band as $b)
+                            <option value="?band={{$b->band_nama}}&size={{$size_selected}}" @if($band_selected == $b->band_nama) selected @endif>{{$b->band_nama}}</option>
+                            @endforeach  
                             <option value="?band=0-9&size={{$size_selected}}" @if($band_selected == '0-9') selected @endif>0-9</option>
                         </select>
 
@@ -132,6 +109,7 @@
 		<table class="table table-bordered mt-5" id="product">
 			<thead>
 				<tr>
+					<th width="5%">Foto</th>
 					<th width="5%">SKU</th>
 					<th width="5%">Band</th>
 					<th width="15%">Nama Produk</th>
@@ -151,6 +129,8 @@
                 @foreach($product as $p)
 				<tr>
                     <input type="hidden" id="product_skus" name="product_skus[]" value="{{$p->product_sku}}">
+                    <td><a href="{{asset($p->product_foto?$p->product_foto:"/assets/nopicture.png")}}" data-type="image" data-fslightbox="galleryproduk">
+                        <img src="{{asset($p->product_foto?$p->product_foto:"/assets/nopicture.png")}}" data-type="image" class="img-fluid" style="width: 50px !important; height: 50px !important;"></a></td>
 					<td>{{$p->product_sku}}</td>
 					<td>{{$p->band_nama}}</td>
 					<td>{{$p->product_nama}} ({{$p->size_nama}})</td>
@@ -216,6 +196,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.0.1/js/buttons.html5.min.js"></script>
+<script src="{{asset('js/fslightbox.js')}}"></script>
 
 
 <script>

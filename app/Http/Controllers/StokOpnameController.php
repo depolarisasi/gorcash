@@ -10,6 +10,7 @@ use App\Models\StokOpname;
 use App\Models\Penjualan;
 use App\Models\BarangTerjual;
 use App\Models\Size;
+use App\Models\Band;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Database\QueryException as QE;
@@ -59,8 +60,9 @@ class StokOpnameController extends Controller
         }
 
         $size = Size::get();
+        $band = Band::get();
 
-         return view('stokopname.indexbulanan')->with(compact('riwayatso','size'));
+         return view('stokopname.indexbulanan')->with(compact('riwayatso','size','band'));
     }
 
     public function sobulanan(Request $request){
@@ -123,8 +125,9 @@ class StokOpnameController extends Controller
         }
 
         $size = Size::get();
+        $band = Band::get();
 
-        return view('stokopname.sobulanan')->with(compact('product','band_selected','size','size_selected'));
+        return view('stokopname.sobulanan')->with(compact('product','band_selected','size','size_selected','band'));
         // return $product->toSql();
     }
 
