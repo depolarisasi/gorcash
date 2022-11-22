@@ -26,9 +26,10 @@
 </h3>
 <div class="card-toolbar"> 
     
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#kirpaket">
+<button type="button" class="btn btn-primary mr-3" data-toggle="modal" data-target="#kirpaket">
    Tambah Kirim Paket
 </button>
+<a href="{{url('kirimpaket/laporan')}}" class="btn btn-secondary">Laporan Kirim Paket</a>
 </div>
 </div>
 <!--end::Header-->

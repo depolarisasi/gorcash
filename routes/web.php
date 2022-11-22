@@ -322,6 +322,7 @@ Route::group(['prefix' => 'size'], function() {
     Route::get('/edit/{id}',[App\Http\Controllers\KirimPaketController::class, 'edit'])->middleware('admin');
     Route::post('/update',[App\Http\Controllers\KirimPaketController::class, 'update'])->middleware('admin');
     Route::get('/delete/{id}',[App\Http\Controllers\KirimPaketController::class, 'delete'])->middleware('admin');
+    Route::get('/laporan/',[App\Http\Controllers\KirimPaketController::class, 'laporan'])->middleware('admin');
  
    });
    Route::group(['prefix' => 'log'], function() {

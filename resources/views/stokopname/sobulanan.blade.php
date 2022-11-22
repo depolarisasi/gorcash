@@ -54,8 +54,8 @@
 
 
                 <div class="col-md-8">
-                {{-- <div class="row mb-3">
-                    <label class="col-md-2">Silahka Masukan SKU Disini</label>
+                  <div class="row mb-3">
+                    <label class="col-md-2">Silahkan Masukan SKU Disini</label>
                 <div class="col-md-6">
                     <select class="form-control select2" id="productlist" name="param">
                         <option value="X">Masukan SKU Disini</option>
@@ -66,7 +66,7 @@
 
 
                 </div>
-                </div> --}}
+                </div>  
                 <div class="row mb-3">
                     <label class="col-md-2">Pilih Abjad Awalan Band</label>
                     <div class="col-md-4">

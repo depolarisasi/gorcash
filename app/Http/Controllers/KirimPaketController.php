@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\KirimPaket;
 use App\Models\Product;
 use App\Models\User; 
+use DB; 
+use \Carbon\Carbon; 
 
 class KirimPaketController extends Controller
 {
@@ -70,6 +72,34 @@ class KirimPaketController extends Controller
         toast('Status Kirim Paket Berhasil Dihapus!','success');
 
         return redirect('kirimpaket');
+    }
+
+    public function laporan(Request $request){
+        if($request->get('bulan') != "" | !empty($request->get('bulan'))){
+            $bulan = $request->get('bulan'); 
+        }else {
+            $bulan = "All";
+        }
+
+        if($request->get('tahun') != "" | !empty($request->get('tahun'))){
+            $tahun = $request->get('tahun'); 
+        }else {
+            $tahun = "All";
+        }
+
+        $selected_month =  $bulan == "All"? Carbon::now()->format('m'):$bulan;
+        $selected_year =  $tahun == "All"? Carbon::now()->format('Y'):$tahun;
+
+        $data = DB::table('kirimpaket')
+        ->join('users','id','=','kirimpaket_user')
+        ->select('kirimpaket.kirimpaket_user','users.name', DB::raw('sum(kirimpaket.kirimpaket_jumlahpaket) as totalpaket'))
+        ->whereMonth('kirimpaket_tanggal', $selected_month)
+        ->whereYear('kirimpaket_tanggal', $selected_year)
+        ->groupBy('kirimpaket_user')
+        ->get();
+        $tahun = KirimPaket::select(DB::Raw('YEAR(kirimpaket_tanggal) as year'))->groupBy('year')->get();
+        return view('kirimpaket.laporan')->with(compact('data', 'tahun'));
+        // return $selected_year;
     }
     
 }
