@@ -58,6 +58,9 @@
                         <label>Size</label>
                         <select class="form-control" name="size" id="selectproduk" required>
                             <option value="All">All</option>
+                            <option value="Dewasa">All Dewasa</option>
+                            <option value="Aksesoris">All Accessories</option>
+                            <option value="Kids">All Kids</option>
                             @foreach($size as $s)
                             <option value="{{$s->size_nama}}">{{$s->size_nama}}</option>
                             @endforeach

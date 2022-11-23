@@ -60,13 +60,13 @@ class StokOpnameController extends Controller
         }
 
         $size = Size::get();
-        $band = Band::get();
-
+        $band = Band::orderBy('band_nama','DESC')->get();
+        
          return view('stokopname.indexbulanan')->with(compact('riwayatso','size','band'));
     }
 
     public function sobulanan(Request $request){
-
+ 
         $query = Product::join('size','size.size_id','product.product_idsize')
         ->join('band','band.band_id','product.product_idband')
         ->select('product.*','size.size_nama','band.band_id','band.band_nama')
@@ -100,7 +100,21 @@ class StokOpnameController extends Controller
         $query->whereRaw('size.size_nama LIKE "%'.$size_selected.'%"');
         }else {
          $size_selected =  $request->get('size');
-          $query->whereRaw('size.size_nama LIKE "%'.$size_selected.'%"');
+            if($size_selected == "Dewasa"){
+            $pilihan_size = Size::where('size_category',"Dewasa")->pluck('size_id');
+            $query->whereIn($pilihan_size);
+
+            }elseif($size_selected == "Aksesoris"){
+            $pilihan_size = Size::where('size_category',"Barang")->pluck('size_id');
+            $query->whereIn($pilihan_size); 
+
+            }elseif($size_selected == "Kids"){
+            $pilihan_size = Size::where('size_category',"Anak Anak")->pluck('size_id');
+            $query->whereIn($pilihan_size); 
+
+            }else {
+                $query->whereRaw('size.size_nama LIKE "%'.$size_selected.'%"');
+            }
         }
 
 
@@ -125,10 +139,10 @@ class StokOpnameController extends Controller
         }
 
         $size = Size::get();
-        $band = Band::get();
+        $band = Band::orderBy('band_nama','DESC')->get();
 
         return view('stokopname.sobulanan')->with(compact('product','band_selected','size','size_selected','band'));
-        // return $product->toSql();
+        // return $size;
     }
 
     // public function somingguan($pubgroup){

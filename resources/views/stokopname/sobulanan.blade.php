@@ -89,6 +89,10 @@
                 <div class="d-flex align-items-center">
                     <select class="form-control select2" id="selectsize">
                         <option value="?band={{$band_selected}}&size=All" @if($size_selected == 'All') selected @endif>All</option>
+                        <option value="All">All</option>
+                            <option value="Dewasa" @if($size_selected == 'Dewasa') selected @endif>All Dewasa</option>
+                            <option value="Aksesoris" @if($size_selected == 'Aksesoris') selected @endif>All Accessories</option>
+                            <option value="Kids" @if($size_selected == 'Kids') selected @endif>All Kids</option> 
                         @foreach($size as $s)
                         <option value="?band={{$band_selected}}&size={{$s->size_nama}}" @if($size_selected == $s->size_nama) selected @endif>{{$s->size_nama}}</option>
                         @endforeach
