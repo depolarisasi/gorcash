@@ -82,6 +82,7 @@
 		<table class="table table-bordered mt-5" id="product">
 			<thead>
 				<tr>
+					<th width="5%">Foto</th>
 					<th width="3%">SKU</th>
 					<th width="3%">Band</th>
 					<th width="5%">Nama Produk</th>
@@ -106,7 +107,10 @@
 
                 @foreach($pubdata as $p)
 				<tr>
+                    
                     <input type="hidden" id="product_skus" name="product_skus[]" value="{{$p->product_sku}}">
+                    <td><a href="{{asset($p->product_foto?$p->product_foto:"/assets/nopicture.png")}}" data-type="image" data-fslightbox="galleryproduk">
+                        <img src="{{asset($p->product_foto?$p->product_foto:"/assets/nopicture.png")}}" data-type="image" class="img-fluid" style="width: 50px !important; height: 50px !important;"></a></td>
 					<td>{{$p->product_sku}}</td>
 					<td>{{$p->band_nama}}</td>
 					<td>{{$p->product_nama}} ({{$p->size_nama}})</td>
