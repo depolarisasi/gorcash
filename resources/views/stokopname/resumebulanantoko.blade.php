@@ -93,7 +93,7 @@
                     @if(Auth::user()->role == 4 || Auth::user()->role == 1 || Auth::user()->role == 6)
 					<th width="5%">Stok Gudang</th>
                     @endif
-                    @if(Auth::user()->role == 2 || Auth::user()->role == 1 || Auth::user()->role == 6)
+                    @if(Auth::user()->role == 5 || Auth::user()->role == 1 || Auth::user()->role == 6)
 					<th width="5%">Stok Toko</th>
                     @endif
                     @if(Auth::user()->role == 1 || Auth::user()->role == 6)
