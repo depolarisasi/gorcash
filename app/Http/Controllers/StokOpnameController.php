@@ -202,7 +202,7 @@ class StokOpnameController extends Controller
         if(Auth::user()->role == 1 ||  Auth::user()->role == 6){
         return view('stokopname.resumebulanan')->with(compact('pubdata','pub','soinfo'));
         }
-        elseif(Auth::user()->role == 2) {
+        elseif(Auth::user()->role == 5) {
             return view('stokopname.resumebulanantoko')->with(compact('pubdata','pub','soinfo'));
         }
         elseif(Auth::user()->role == 4) {
@@ -312,7 +312,7 @@ class StokOpnameController extends Controller
                 $so->so_stokterjual = $request->stokterjual[$key];
                 if(Auth::user()->role == 4) {
                     $so->so_stokgudang = $request->stokgudang[$key];
-                }else if(Auth::user()->role == 2){
+                }else if(Auth::user()->role == 5){
                     $so->so_stoktoko = $request->stoktoko[$key];
                 }else {
                     $so->so_stoktoko = $request->stoktoko[$key];
@@ -331,7 +331,7 @@ class StokOpnameController extends Controller
                 $so->so_stokterjual = $request->stokterjual[$key];
                 if(Auth::user()->role == 4) {
                     $so->so_stokgudang = $request->stokgudang[$key];
-                }else if(Auth::user()->role == 2){
+                }else if(Auth::user()->role == 5){
                     $so->so_stoktoko = $request->stoktoko[$key];
                 }else {
                     $so->so_stoktoko = $request->stoktoko[$key];
@@ -441,7 +441,7 @@ class StokOpnameController extends Controller
                 if(Auth::user()->role == 4 || Auth::user()->role == 1 ||  Auth::user()->role == 6 ){
                     $product->so_stokgudang = $request->stokgudang[$key];
                 }
-                if(Auth::user()->role == 2 || Auth::user()->role == 1 ||  Auth::user()->role == 6){
+                if(Auth::user()->role == 5 || Auth::user()->role == 1 ||  Auth::user()->role == 6){
                     $product->so_stoktoko = $request->stoktoko[$key];
                 }
                 $product->so_keterangan = $request->keterangan[$key];
