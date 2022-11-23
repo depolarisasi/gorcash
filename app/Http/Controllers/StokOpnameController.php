@@ -60,8 +60,8 @@ class StokOpnameController extends Controller
         }
 
         $size = Size::get();
-        $band = Band::orderBy('band_nama','DESC')->get();
-        
+        $band = Band::orderBy('band_nama','ASC')->get();
+
          return view('stokopname.indexbulanan')->with(compact('riwayatso','size','band'));
     }
 
@@ -139,7 +139,7 @@ class StokOpnameController extends Controller
         }
 
         $size = Size::get();
-        $band = Band::orderBy('band_nama','DESC')->get();
+        $band = Band::orderBy('band_nama','ASC')->get();
 
         return view('stokopname.sobulanan')->with(compact('product','band_selected','size','size_selected','band'));
         // return $size;
