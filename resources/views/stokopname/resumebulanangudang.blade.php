@@ -131,7 +131,7 @@
                             @if(Auth::user()->role == 4 || Auth::user()->role == 1 || Auth::user()->role == 6)
                         <td><input id="stokgudang{{$p->product_sku}}" class="form-control stokgudanginput inputx" data-sku="{{$p->product_sku}}" value="{{$p->so_stokgudang}}" type="number" name="stokgudang[]"></td>
                             @endif
-                        @if(Auth::user()->role == 2 || Auth::user()->role == 1 || Auth::user()->role == 6)
+                        @if(Auth::user()->role == 5 || Auth::user()->role == 1 || Auth::user()->role == 6)
                         <td><input id="stoktoko{{$p->product_sku}}" class="form-control stoktokoinput inputx" data-sku="{{$p->product_sku}}" value="{{$p->so_stoktoko}}" type="number" name="stoktoko[]"></td>
                         @endif
                         @if(Auth::user()->role == 1 || Auth::user()->role == 6)
