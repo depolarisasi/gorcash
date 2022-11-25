@@ -38,6 +38,8 @@ class Product extends Model
     'product_condition',
     'product_foto',
     'product_stok',
+    'product_stoktoko',
+    'product_stokgudang',
     'product_color',
     'product_tanggalbeli',
     'product_stokakhir',
