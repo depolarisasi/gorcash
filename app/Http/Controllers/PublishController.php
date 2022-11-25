@@ -106,6 +106,8 @@ public function apimassunpublish(Request $request){
         ,'product.product_madein'
         ,'product.product_condition'
         ,'product.product_stok'
+        ,'product.product_stoktoko'
+        ,'product.product_stokgudang'
         ,'product.product_stokakhir', 'color_nama')
         ->where('publish.publish_groupid',$id)
         ->orderBy('product.product_nama','ASC')->get();
@@ -126,6 +128,8 @@ public function apimassunpublish(Request $request){
         ,'product.product_madein'
         ,'product.product_condition'
         ,'product.product_stok'
+        ,'product.product_stoktoko'
+        ,'product.product_stokgudang'
         ,'product.product_stokakhir', 'color_nama')
         ->where('publish.publish_groupid',$id)
         ->orderBy('product.product_nama','ASC')
