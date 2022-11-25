@@ -4,6 +4,7 @@
 <link href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css">
 <link href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css">
 <link href="https://cdn.datatables.net/buttons/2.0.1/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css">
+
 @endsection
 @section('content')
 	<!--begin::Content-->
@@ -38,22 +39,22 @@
 		<table class="table table-bordered mt-5" id="product">
 			<thead>
 				<tr>
-                    <th width="5%">FOTO</th>
-					<th width="5%">SKU</th>
-					<th width="5%">BAND</th>
-					<th width="15%">ARTIKEL</th>
-					<th width="5%">HARGA</th>
-					<th width="5%">S.AWAL</th>
-					<th width="5%">S.AKHIR</th>
-					<th width="5%">S.GDNG</th>
-					<th width="5%">S.TOKO</th>
-					<th width="5%">MIN</th>
-					<th width="10%">WARNA</th>
-					<th width="10%">TAG</th>
-					<th width="10%">MATERIAL</th>
-					<th width="10%">MADE IN</th>
-					<th width="10%">UKURAN</th>
-					<th width="10%">KET</th>
+                    <th>FOTO</th>
+					<th>SKU</th>
+					<th>BAND</th>
+					<th>ARTIKEL</th>
+					<th>HARGA</th>
+					<th>S.AWAL</th>
+					<th>S.AKHIR</th>
+					<th>S.GDNG</th>
+					<th>S.TOKO</th>
+					<th>MIN</th>
+					<th>WARNA</th>
+					<th>TAG</th>
+					<th>MATERIAL</th>
+					<th>MADE IN</th>
+					<th>UKURAN</th>
+					<th>KET</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -139,6 +140,7 @@
 				key: 'generalSearch'
 			},
         "paging":   false,
+        "autoWidth": false,
         order: [[2, 'asc']],
     } );
 

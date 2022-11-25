@@ -58,19 +58,19 @@
 					<th width="5%">FOTO</th>
 					<th width="5%">SKU</th>
 					<th width="5%">BAND</th>
-					<th width="10%">ARTIKEL</th>
+					<th width="5%">ARTIKEL</th>
 					<th width="5%">HARGA</th>
-					<th width="10%">S.AWAL</th>
-					<th width="10%">S.AKHIR</th>
-					<th width="10%">S.GDNG</th>
-					<th width="10%">S.TOKO</th> 
-					<th width="5%">MIN</th>
+					<th width="8%">S.AWAL</th>
+					<th width="8%">S.AKHIR</th>
+					<th width="8%">S.GDNG</th>
+					<th width="8%">S.TOKO</th>
+					<th width="3%">MIN</th>
 					<th width="5%">WARNA</th>
-					<th width="5%">TAG</th>
-					<th width="5%">MATERIAL</th>
-					<th width="5%">MADE IN</th>
-					<th width="5%">UKURAN</th> 
-					<th width="5%">KET</th> 
+					<th width="7%">TAG</th>
+					<th width="7%">MATERIAL</th>
+					<th width="7%">MADE IN</th>
+					<th width="7%">UKURAN</th>
+					<th width="7%">KET</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -148,7 +148,7 @@ $('.stokakhirinput').on('change', function (e) {
     $("#selisih"+select_val).text(parseInt($("#stoktoko"+select_val).val())+parseInt($("#stokgudang"+select_val).val()-parseInt($("#stokakhir"+select_val).val())));
     $("#selisihinput"+select_val).val(parseInt($("#stoktoko"+select_val).val())+parseInt($("#stokgudang"+select_val).val()-parseInt($("#stokakhir"+select_val).val())));
 });
- 
+
 $('.stokgudanginput').on('change', function (e) {
     select_val = $(this).attr('data-sku');
     $("#selisih"+select_val).text(parseInt($("#stoktoko"+select_val).val())+parseInt($("#stokgudang"+select_val).val()-parseInt($("#stokakhir"+select_val).val())));

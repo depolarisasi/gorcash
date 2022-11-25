@@ -156,9 +156,9 @@ public function apimassunpublish(Request $request){
             if($product->product_status == 1){
                 $product->product_stok = $request->product_stok[$key];
                 $product->product_stokakhir = $request->product_stokakhir[$key];
-                $product->product_stokgudang = $request->product_stokgudang[$key];
-                $product->product_stoktoko = $request->product_stoktoko[$key];
             }
+            $product->product_stokgudang = $request->product_stokgudang[$key];
+            $product->product_stoktoko = $request->product_stoktoko[$key];
             $editpublish = BarangPublish::where('publish_id',$request->publish_id[$key])->first();
             $editpublish->publish_stok = $request->product_stok[$key];
             $editpublish->publish_stokakhir = $request->product_stokakhir[$key];
@@ -170,7 +170,7 @@ public function apimassunpublish(Request $request){
                 $editpublish->update();
                     } catch (QE $e) {
                         toast('Database error','error');
-                        return redirect()->back();
+                        return $e;
                     }
         }
 
