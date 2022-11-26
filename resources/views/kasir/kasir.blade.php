@@ -37,13 +37,13 @@
                     <input id="name" type="hidden" name="penjualan_invoicegorilla" value="{{$invoice}}" >
                     </div>
                   </div>
-                 
+
                   <div class="form-group row mt-4">
                     <label class="col-md-4">Invoice Marketplace <small>(kosongkan apabila bukan dari marketplace)</small></label>
                     <div class="col-md-8">
                     <input id="name" type="text" class="form-control" name="penjualan_invoice" >
                     </div>
-                  </div> 
+                  </div>
                   <div class="form-group row mt-4">
                     <label class="col-md-4">Nama Customer</label>
                     <div class="col-md-8">
@@ -67,7 +67,7 @@
                     <div class="col-md-8">
                       <select class="multisteps-form__input form-control" name="penjualan_channel" required>
 
-                        @if(Auth::user()->role == 2 || Auth::user()->role == 1 || Auth::user()->role == 6)
+                        @if(Auth::user()->role == 4 || Auth::user()->role == 1 || Auth::user()->role == 6)
                         <option value="Tokopedia">Tokopedia</option>
                         <option value="Website">Website</option>
                         <option value="Shopee">Shopee</option>
@@ -76,20 +76,11 @@
                         <option value="WhatsApp">WhatsApp</option>
                         <option value="Instagram">Instagram</option>
                         <option value="Tiktok">Tiktok</option>
-                        <option value="Toko">Toko</option> 
-                        @else
-                        <option value="Tokopedia">Tokopedia</option>
-                        <option value="Website">Website</option>
-                        <option value="Shopee">Shopee</option>
-                        <option value="Blibli">Blibli</option>
-                        <option value="BukaLapak">BukaLapak</option>
-                        <option value="WhatsApp">WhatsApp</option>
-                        <option value="Instagram">Instagram</option>
-                        <option value="Tiktok">Tiktok</option> 
-                        <option value="Toko">Toko</option> 
+                        <option value="Toko">Toko</option>
+
                         @endif
-                    @if(Auth::user()->role == 5 || Auth::user()->role == 1 || Auth::user()->role == 6)
-                    <option value="Toko">Toko</option> 
+                    @if(Auth::user()->role == 5 || Auth::user()->role == 4 || Auth::user()->role == 1 || Auth::user()->role == 6)
+                    <option value="Toko">Toko</option>
                     @endif
                       </select>
                     </div>
@@ -100,7 +91,7 @@
                             <input class="form-control" id="tanggalpenjualan" type="datetime-local" name="penjualan_tanggalwaktupenjualan" value="{{\Carbon\Carbon::now()->setTimezone('Asia/Jakarta')->setTimezone('Asia/Jakarta')->format('Y-m-d H:i:s')}}" required/>
                         </div>
                       </div>
- 
+
                       <div class="form-group row mt-4">
                         <label class="col-md-4">Kurir Pengiriman</label>
                         <div class="col-md-8">
@@ -137,7 +128,7 @@
                               </div>
 
                         </div>
-                      </div> 
+                      </div>
                       <div class="form-group row mt-4">
                         <label class="col-md-4">Notes</label>
                         <div class="col-md-8">
@@ -279,7 +270,7 @@
         <span id="kembalian" class="font-weight-bolder font-size-h4 text-right">0</span>
     </div>
 </div>
- 
+
 <div class="row mt-4">
     <div class="col-md-8">
       <p class="font-weight-bolder font-size-h4 text-right">Ongkos Kirim</p>
@@ -287,7 +278,7 @@
     <div class="col-md-4">
         <span id="ongkirkurir" class="font-weight-bolder font-size-h4 text-right">0</span>
     </div>
-</div> 
+</div>
 <div class="row mt-4">
     <div class="col-md-8">
         <p class="font-weight-bolder font-size-h4 text-right">Pembayaran oleh Customer</p>
@@ -316,8 +307,8 @@
                     <option value="OVO">OVO</option>
                     <option value="QRIS">QRIS</option>
                     <option value="Kartu Kredit">Kartu Kredit</option>
-                    <option value="Split Bill">Split Bill</option>  
-                    <option value="Marketplace">Marketplace</option>  
+                    <option value="Split Bill">Split Bill</option>
+                    <option value="Marketplace">Marketplace</option>
                     <option value="Transfer Bank BCA">Transfer Bank BCA</option>
                     <option value="Transfer Bank BNI">Transfer Bank BNI</option>
                     <option value="Transfer Bank Mandiri">Transfer Bank Mandiri</option>
