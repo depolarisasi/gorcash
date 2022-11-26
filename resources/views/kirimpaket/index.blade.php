@@ -24,8 +24,8 @@
 <h3 class="card-title align-items-start flex-column">
 <span class="card-label font-weight-bolder text-dark">Daftar Kirim Paket</span>
 </h3>
-<div class="card-toolbar"> 
-    
+<div class="card-toolbar">
+
 <button type="button" class="btn btn-primary mr-3" data-toggle="modal" data-target="#kirpaket">
    Tambah Kirim Paket
 </button>
@@ -54,23 +54,23 @@
             </div>
             <div class="modal-body">
             <form method="POST" action="{{url('kirimpaket/kirim')}}">
-        @csrf 
+        @csrf
         <div class="form-group row mt-4">
             <label class="col-md-4">Jumlah Barang</label>
-            <div class="col-md-6"> 
+            <div class="col-md-6">
             <input type="text" class="form-control" name="kirimpaket_jumlahpaket" required>
             </div>
           </div>
           <div class="form-group row mt-4">
             <label class="col-md-4">Nama Petugas</label>
-            <div class="col-md-6">  
+            <div class="col-md-6">
             <p>{{Auth::user()->name}}</p>
             <input type="hidden" class="form-control" name="kirimpaket_user" value="{{Auth::user()->id}}">
             </div>
           </div>
           <div class="form-group row mt-4">
             <label class="col-md-4">Tanggal Kirim</label>
-            <div class="col-md-6"> 
+            <div class="col-md-6">
                 <p>{{\Carbon\Carbon::now()->format('d M Y')}}</p>
             <input type="hidden" class="form-control" name="kirimpaket_tanggal" value="{{\Carbon\Carbon::now()->format('Y-m-d')}}}">
 
@@ -79,14 +79,14 @@
           <div class="form-group row mt-4">
             <label class="col-md-4">Waktu Pengiriman</label>
             <div class="col-md-6">
-            <select class="form-control" id="waktu" name="kirimpaket_waktupengiriman"> 
-             <option value="Pagi">Pagi</option> 
-             <option value="Sore">Sore</option> 
-             <option value="Malam">Malam</option> 
+            <select class="form-control" id="waktu" name="kirimpaket_waktupengiriman">
+             <option value="Pagi">Pagi</option>
+             <option value="Sore">Sore</option>
+             <option value="Malam">Malam</option>
               </select>
             </div>
           </div>
-  
+
       <div class="form-group row mt-4">
         <div class="col-md-6">
     <button class="btn btn-md btn-primary" type="submit">Submit</button>
@@ -94,7 +94,7 @@
     </div>
 
       </form>
-            </div> 
+            </div>
         </div>
     </div>
 </div>
@@ -108,7 +108,7 @@
 <th style="min-width: 10px"><span class="text-dark-75">Tanggal</span></th>
 <th style="min-width: 50px"><span class="text-dark-75">Petugas</span></th>
 <th style="min-width: 50px"><span class="text-dark-75">Jumlah Paket</span></th>
-<th style="min-width: 50px"><span class="text-dark-75">Waktu Pengiriman</span></th> 
+<th style="min-width: 50px"><span class="text-dark-75">Waktu Pengiriman</span></th>
 @if(Auth::user()->role == 1 || Auth::user()->role == 6)
 <th style="min-width: 80px">Action</th>
 @endif
@@ -131,15 +131,15 @@
     <div class="d-flex align-items-center">
     {{$kirimpaket->kirimpaket_jumlahpaket}}
     </div>
-    </td> 
-    
+    </td>
+
 <td>
     <div class="d-flex align-items-center">
     {{$kirimpaket->kirimpaket_waktupengiriman}}
     </div>
-    </td> 
+    </td>
 @if(Auth::user()->role == 1 || Auth::user()->role == 6)
-<td>  
+<td>
     <a href="{{url('/kirimpaket/edit/'.$kirimpaket->kirimpaket_id)}}" class="btn btn-xs btn-icon btn-warning"><i class="fas fa-edit nopadding"></i></a>
     <button type="button" href="{{url('/kirimpaket/delete/'.$kirimpaket->kirimpaket_id)}}" class="deletebtn btn btn-xs btn-icon btn-danger"><i class="fas fa-trash nopadding"></i></button></td>
 </td>

@@ -35,7 +35,7 @@
 	<div class="row align-items-center">
 		<div class="col-lg-8 col-xl-8">
             <form method="get" action="{{url('kirimpaket/laporan')}}">
-			<div class="row align-items-center"> 
+			<div class="row align-items-center">
                 <div class="col-md-4 my-2 my-md-0">
 					<div class="d-flex align-items-center">
 						<label class="mr-3 mb-0 d-none d-md-block">Bulan:</label>
@@ -52,7 +52,7 @@
                             <option value="9"  @if(Request::get('bulan') == "9") selected="selected" @endif>Desember</option>
                             <option value="10"  @if(Request::get('bulan') == "10") selected="selected" @endif>Oktober</option>
                             <option value="11"  @if(Request::get('bulan') == "11") selected="selected" @endif>November</option>
-                            <option value="12"  @if(Request::get('bulan') == "12") selected="selected" @endif>Desember</option>  
+                            <option value="12"  @if(Request::get('bulan') == "12") selected="selected" @endif>Desember</option>
 
 						</select>
 					</div>
@@ -62,34 +62,34 @@
 						<label class="mr-3 mb-0 d-none d-md-block">Tahun:</label>
 						<select class="form-control" name="tahun" id="band">
 							<option value="All" @if(Request::get('tahun') == "All") selected="selected" @endif>All</option>
-                            @foreach($tahun as $t) 
+                            @foreach($tahun as $t)
 							<option value="{{$t->year}}" @if(Request::get('tahun') == $t->year) selected="selected" @endif>{{$t->year}}</option>
                             @endforeach
-                            
+
 
 						</select>
 					</div>
-				</div> 
+				</div>
                 <div class="col-md-4 col-lg-4 col-xl-4 mt-5 mt-lg-0">
                     <button href="#" class="btn btn-light-primary px-6 font-weight-bold">
                         Filter
                     </button>
-                </div> 
+                </div>
                 			</div>
                         </form>
 		</div>
-		 
+
 	</div>
 </div>
-<div class="tab-content"> 
-  
+<div class="tab-content">
+
 <div class="table-responsive">
     <table id="table" class="table table-striped table-bordered mt-5" style="width:100%">
 <thead>
 <tr class="text-left">
 <th style="min-width: 50px"><span class="text-dark-75">Petugas</span></th>
 <th style="min-width: 50px"><span class="text-dark-75">Jumlah Paket</span></th>
-<th style="min-width: 50px"><span class="text-dark-75">Jumlah Komisi</span></th>  
+<th style="min-width: 50px"><span class="text-dark-75">Jumlah Komisi</span></th>
 </tr>
 </thead>
 <tbody>
@@ -109,7 +109,7 @@
     <div class="d-flex align-items-center">
     Rp. @money($d->totalpaket*8000)
     </div>
-    </td>  
+    </td>
 </tr>
 @endforeach
 </tbody>

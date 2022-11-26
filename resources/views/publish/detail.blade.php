@@ -85,13 +85,10 @@
 
 			</tbody>
 		</table>
-        <div class="row mt-10">
-        <div class="col-md-4">
         </div>
-    </div>
+    </form>
     </div>
 		<!--end: Datatable-->
-</div>
 <!--end::Body-->
 </div>
 <!--end::Advance Table Widget 4-->

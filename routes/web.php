@@ -100,6 +100,16 @@ Route::group(['prefix' => 'size'], function() {
     Route::get('/delete/{id}',[App\Http\Controllers\SuratController::class, 'delete'])->middleware('auth');
    });
 
+   Route::group(['prefix' => 'absensi'], function() {
+    Route::get('/',[App\Http\Controllers\AbsensiController::class, 'index'])->middleware('auth');
+    Route::get('/new',[App\Http\Controllers\AbsensiController::class, 'create'])->middleware('auth');
+    Route::post('/store',[App\Http\Controllers\AbsensiController::class, 'store'])->middleware('auth');
+    Route::get('/edit/{id}',[App\Http\Controllers\AbsensiController::class, 'edit'])->middleware('auth');
+    Route::post('/update',[App\Http\Controllers\AbsensiController::class, 'update'])->middleware('auth');
+    Route::get('/delete/{id}',[App\Http\Controllers\AbsensiController::class, 'delete'])->middleware('auth');
+   });
+
+
    Route::group(['prefix' => 'type'], function() {
     Route::get('/',[App\Http\Controllers\TypeProductController::class, 'index'])->middleware('auth');
     Route::get('/new',[App\Http\Controllers\TypeProductController::class, 'create'])->middleware('auth');
@@ -315,15 +325,15 @@ Route::group(['prefix' => 'size'], function() {
     Route::get('/delete/{id}',[App\Http\Controllers\TurunBarangController::class, 'delete'])->middleware('auth');
 
    });
-   
+
    Route::group(['prefix' => 'kirimpaket'], function() {
-    Route::get('/',[App\Http\Controllers\KirimPaketController::class, 'index'])->middleware('auth'); 
+    Route::get('/',[App\Http\Controllers\KirimPaketController::class, 'index'])->middleware('auth');
     Route::post('/kirim',[App\Http\Controllers\KirimPaketController::class, 'store'])->middleware('auth');
     Route::get('/edit/{id}',[App\Http\Controllers\KirimPaketController::class, 'edit'])->middleware('admin');
     Route::post('/update',[App\Http\Controllers\KirimPaketController::class, 'update'])->middleware('admin');
     Route::get('/delete/{id}',[App\Http\Controllers\KirimPaketController::class, 'delete'])->middleware('admin');
     Route::get('/laporan/',[App\Http\Controllers\KirimPaketController::class, 'laporan'])->middleware('admin');
- 
+
    });
    Route::group(['prefix' => 'log'], function() {
     Route::get('/',[App\Http\Controllers\LogController::class, 'index'])->middleware('auth');
