@@ -108,6 +108,7 @@
 <div class="tab-content">
     <form method="POST" action="{{url('absensi/store')}}" >
         @csrf
+        <input type="hidden" name="absensi_karyawanid" value="{{$selected_karyawan->karyawan_id}}">
 		<!--begin: Datatable-->
         <div class="table-responsive">
 
@@ -118,31 +119,48 @@
 					<th width="10%">TANGGAL</th>
 					<th width="10%">JAM MASUK</th>
 					<th width="10%">JAM PULANG</th>
-					<th width="10%">LAMA KERJA</th>
-					<th width="10%">LAMA LEMBUR</th>
+					<th width="5%">LAMA KERJA</th>
+					<th width="5%">LAMA LEMBUR</th>
 					<th width="10%">TYPE KEHADIRAN</th>
-					<th width="20%">KETERANGAN</th>
+					<th width="10%">KETERANGAN</th>
 				</tr>
 			</thead>
-			<tbody>
+			<tbody> 
                 @for($i=1; $i <= \Carbon\Carbon::createFromDate(Request::get('tahun_selected'), Request::get('bulan_selected'), 1)->daysInMonth; $i++)
 				<tr>
-                    <td>{{$i}}</td>
+                    <td>{{$i}}
+                        <input type="hidden" name="index" value="{{$i}}">
+                    </td>
                     @php
                         $trail = $i<10?"0".$i:$i;
                     @endphp
                     <td>{{$trail.'-'.Request::get('bulan_selected').'-'.Request::get('tahun_selected')}}</td>
-                    <td><input class="form-control timepicker" readonly placeholder="Select time" type="text"></td>
-                    <td><input class="form-control timepicker" readonly placeholder="Select time" type="text"></td>
-                    <td>LAMA KERJA</td>
-                    <td>LAMA LEMBUR</td>
-                    <td>TYPE KEHADIRAN</td>
-                    <td>KETERANGAN</td>
+                    <td><input id="jammasuk{{$i}}" class="jammasuk form-control timepicker" readonly onchange="kembalian(this);" name="absensi_jammasuk[]" type="text"></td>
+                    <td><input id="jampulang{{$i}}" class="jampulang form-control timepicker" readonly onchange="kembalian(this);" name="absensi_jampulang[]" type="text"></td>
+                    <td><span class="lamakerja" id="lamakerja{{$i}}">0</span>
+                        <input type="hidden"  id="lamakerja{{$i}}" name="absensi_lamakerja[]" value="0">
+                    </td>
+                    <td><span class="lamalembur" id="lamalembur{{$i}}">0</span>
+                        <input type="hidden" id="lamalembur{{$i}}" name="absensi_lamalembur[]" value="0"></td>
+                    <td><select class="form-control" id="type{{$i}}" name="absensi_type[]">
+                                <option value="1">Masuk</option>
+                                <option value="2">Tidak Masuk</option>
+                                <option value="3">Cuti</option>
+                                <option value="4">Izin Sakit</option>
+                                <option value="5">Izin Telat</option> 
+                                <option value="6">Tanpa Keterangan</option> 
+                                <option value="7">Lembur</option> 
+                            </select></td>
+                    <td><input type="text" id="keterangan{{$i}}" class="form-control" name="absensi_keterangan[]"></td>
 				</tr>
-                @endfor
-
+                @endfor 
 			</tbody>
-		</table>
+		</table> 
+        </div>
+        <div class="row mt-5 mb-5">
+            <div class="col-md-4">
+                <button class="btn btn-md btn-primary" type="submit">Edit Export</button>
+            </div>
         </div>
     </form>
 </div>

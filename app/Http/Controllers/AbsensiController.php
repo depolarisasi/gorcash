@@ -52,14 +52,48 @@ class AbsensiController extends Controller
     public function store(Request $request)
     {
         $store = collect($request->all());
+        foreach($request->index as $id){
+            $product = Product::where('product_id',$pid)->first();
+            $product->product_tag = $request->product_tag[$key]??null;
+            $product->product_material = $request->product_material[$key]??null;
+            $product->product_madein = $request->product_madein[$key]??null;
+            $product->product_condition = $request->product_condition[$key]??null;
+            $product->product_keterangan = $request->product_keterangan[$key]??null;
+            $product->product_tanggalpublish = $request->publish_tanggal;
+            $product->product_stok = $request->product_stok[$key];
+            $product->product_stokakhir = $request->product_stokakhir[$key];
+            $product->product_stokgudang = $request->product_stokgudang[$key];
+            $product->product_stoktoko = $request->product_stoktoko[$key];
+            $editpublish = BarangPublish::where('publish_id',$request->publish_id[$key])->first();
+            $editpublish->publish_stok = $request->product_stok[$key];
+            $editpublish->publish_stokakhir = $request->product_stokakhir[$key];
+            $editpublish->publish_selisih = $request->publish_selisih[$key];
+            $editpublish->publish_name = $request->publish_name;
+            $editpublish->publish_tanggal = $request->publish_tanggal;
+            try {
+                $product->update();
+                $editpublish->update();
+                if($pub->wasChanged()){
+                    Logs::create(['log_name' => '[PUB] Produk Stok Berubah', 'log_msg' => "Stok Akhir Produk ".$produk->product_nama." di Publish ".$editpublish->publish_name." berubah karena edit publish mingguan, stok awal lama ".$product->product_stok." menjadi ". $request->publish_stok[$key]." dan stok akhir lama ".$product->product_stokakhir." menjadi " . $request->product_stokakhir[$key], 'log_userid' => Auth::user()->id, 'log_tanggal' => Carbon::now()->setTimezone('Asia/Jakarta')->setTimezone('Asia/Jakarta')->format('Y-m-d H:i:s')]);
+                }else {
+                    Logs::create(['log_name' => '[PUB] Produk Stok GAGAL Berubah', 'log_msg' => "Stok Akhir Produk ".$produk->product_nama." di Publish ".$editpublish->publish_name." GAGAL berubah karena edit publish mingguan, stok awal lama ".$product->product_stok." menjadi ". $request->publish_stok[$key]." dan stok akhir lama ".$product->product_stokakhir." menjadi " . $request->product_stokakhir[$key], 'log_userid' => Auth::user()->id, 'log_tanggal' => Carbon::now()->setTimezone('Asia/Jakarta')->setTimezone('Asia/Jakarta')->format('Y-m-d H:i:s')]);
+                }
+                    } catch (QE $e) {
+                        toast('Database error','error');
+                        return $e;
+                    }
+        }
+
         try {
         Absensi::create($store->all());
         } catch (QE $e) {
             toast('Database Error','error');
             return redirect()->back();
         }
+
+
         toast('Berhasil Membuat Riwayat Kirim Paket','success');
-        return redirect('absensi');
+        return $request->all();
     }
 
 
