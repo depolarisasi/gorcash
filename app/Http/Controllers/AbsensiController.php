@@ -9,6 +9,9 @@ use App\Models\Karyawan;
 use App\Models\User;
 use DB;
 use \Carbon\Carbon;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Database\QueryException as QE;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class AbsensiController extends Controller
 {
@@ -30,7 +33,13 @@ class AbsensiController extends Controller
         $selected_year =  $tahun == "All"? Carbon::now()->format('Y'):$tahun;
 
         $absensi = Absensi::join('karyawan','karyawan_id','=','absensi_karyawanid')
-        ->select('karyawan.karyawan_nama','absensi.*')
+        ->select(array('absensi.*','karyawan.*',
+        DB::raw('COUNT(absensi.absensi_type) as harikerja'),
+        DB::raw('SUM(CASE WHEN absensi.absensi_type != 1 THEN 1 ELSE 0 END) tidakhadir'),
+        DB::raw('MONTH(absensi.absensi_tanggal) as month'),
+        DB::raw('YEAR(absensi.absensi_tanggal) as year')))
+        ->whereRaw('MONTH(absensi.absensi_tanggal) = '.$selected_month)
+        ->groupBy('absensi.absensi_karyawanid')
         ->get();
         $karyawan = Karyawan::get();
         return view('absensi.index')->with(compact('absensi','selected_month','selected_year','tahun','bulan','karyawan'));
@@ -51,49 +60,27 @@ class AbsensiController extends Controller
 
     public function store(Request $request)
     {
-        $store = collect($request->all());
-        foreach($request->index as $id){
-            $product = Product::where('product_id',$pid)->first();
-            $product->product_tag = $request->product_tag[$key]??null;
-            $product->product_material = $request->product_material[$key]??null;
-            $product->product_madein = $request->product_madein[$key]??null;
-            $product->product_condition = $request->product_condition[$key]??null;
-            $product->product_keterangan = $request->product_keterangan[$key]??null;
-            $product->product_tanggalpublish = $request->publish_tanggal;
-            $product->product_stok = $request->product_stok[$key];
-            $product->product_stokakhir = $request->product_stokakhir[$key];
-            $product->product_stokgudang = $request->product_stokgudang[$key];
-            $product->product_stoktoko = $request->product_stoktoko[$key];
-            $editpublish = BarangPublish::where('publish_id',$request->publish_id[$key])->first();
-            $editpublish->publish_stok = $request->product_stok[$key];
-            $editpublish->publish_stokakhir = $request->product_stokakhir[$key];
-            $editpublish->publish_selisih = $request->publish_selisih[$key];
-            $editpublish->publish_name = $request->publish_name;
-            $editpublish->publish_tanggal = $request->publish_tanggal;
+        foreach($request->index as $key => $key){
+            $absensi = new Absensi;
+            $absensi->absensi_karyawanid = $request->absensi_karyawanid;
+            $absensi->absensi_tanggal = $request->absensi_tanggal[$key]??null;
+            $absensi->absensi_jammasuk = $request->absensi_jammasuk[$key]??null;
+            $absensi->absensi_jampulang = $request->absensi_jampulang[$key]??null;
+            $absensi->absensi_lembur = $request->absensi_lembur[$key]??null;
+            $absensi->absensi_lamakerja = $request->absensi_lamakerja[$key]??null;
+            $absensi->absensi_type = $request->absensi_type[$key]??null;
+            $absensi->absensi_keterangan = $request->absensi_keterangan[$key]??null;
             try {
-                $product->update();
-                $editpublish->update();
-                if($pub->wasChanged()){
-                    Logs::create(['log_name' => '[PUB] Produk Stok Berubah', 'log_msg' => "Stok Akhir Produk ".$produk->product_nama." di Publish ".$editpublish->publish_name." berubah karena edit publish mingguan, stok awal lama ".$product->product_stok." menjadi ". $request->publish_stok[$key]." dan stok akhir lama ".$product->product_stokakhir." menjadi " . $request->product_stokakhir[$key], 'log_userid' => Auth::user()->id, 'log_tanggal' => Carbon::now()->setTimezone('Asia/Jakarta')->setTimezone('Asia/Jakarta')->format('Y-m-d H:i:s')]);
-                }else {
-                    Logs::create(['log_name' => '[PUB] Produk Stok GAGAL Berubah', 'log_msg' => "Stok Akhir Produk ".$produk->product_nama." di Publish ".$editpublish->publish_name." GAGAL berubah karena edit publish mingguan, stok awal lama ".$product->product_stok." menjadi ". $request->publish_stok[$key]." dan stok akhir lama ".$product->product_stokakhir." menjadi " . $request->product_stokakhir[$key], 'log_userid' => Auth::user()->id, 'log_tanggal' => Carbon::now()->setTimezone('Asia/Jakarta')->setTimezone('Asia/Jakarta')->format('Y-m-d H:i:s')]);
-                }
+                $absensi->save();
                     } catch (QE $e) {
                         toast('Database error','error');
                         return $e;
                     }
         }
 
-        try {
-        Absensi::create($store->all());
-        } catch (QE $e) {
-            toast('Database Error','error');
-            return redirect()->back();
-        }
 
-
-        toast('Berhasil Membuat Riwayat Kirim Paket','success');
-        return $request->all();
+        toast('Berhasil Membuat Riwayat Absensi','success');
+        return redirect('absensi');
     }
 
 
@@ -116,22 +103,25 @@ class AbsensiController extends Controller
             return redirect()->back();
         }
 
-        toast('Pengubahan Status Kirim Paket Berhasil','success');
+        toast('Pengubahan Status Absensi Berhasil','success');
         return redirect('absensi');
     }
 
 
-    public function delete($id)
+    public function delete(Request $request)
     {
-        $absensi = Absensi::where('absensi_id', $id)->first();
-
-        try {
-            $absensi->delete();
-        } catch (QE $e) {
-            return $e;
-        } //show db error message
-
-        toast('Status Kirim Paket Berhasil Dihapus!','success');
+        $absensi = Absensi::whereRaw('MONTH(absensi_tanggal) ='.$request->get('bulan'))
+        ->whereRaw('YEAR(absensi_tanggal) ='.$request->get('tahun'))
+        ->where('absensi_karyawanid',$request->get('karyawan'))
+        ->get();
+foreach($absensi as $abs){
+    try {
+        $abs->delete();
+    } catch (QE $e) {
+        return $e;
+    } //show db error message
+}
+        toast('Status Absensi Berhasil Dihapus!','success');
 
         return redirect('absensi');
     }

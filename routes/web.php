@@ -106,7 +106,7 @@ Route::group(['prefix' => 'size'], function() {
     Route::post('/store',[App\Http\Controllers\AbsensiController::class, 'store'])->middleware('auth');
     Route::get('/edit/{id}',[App\Http\Controllers\AbsensiController::class, 'edit'])->middleware('auth');
     Route::post('/update',[App\Http\Controllers\AbsensiController::class, 'update'])->middleware('auth');
-    Route::get('/delete/{id}',[App\Http\Controllers\AbsensiController::class, 'delete'])->middleware('auth');
+    Route::get('/delete/',[App\Http\Controllers\AbsensiController::class, 'delete'])->middleware('auth');
    });
 
 

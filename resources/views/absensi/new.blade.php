@@ -53,12 +53,13 @@
     <div class="mb-7">
         <div class="row align-items-center">
             <div class="col-lg-8 col-xl-8">
-                <form method="get" action="{{url('absensi')}}">
+                <form method="get" action="{{url('absensi/new')}}">
+                    <input type="hidden" name="absensi_karyawanid" value="{{$selected_karyawan->karyawan_id}}">
                 <div class="row align-items-center">
                     <div class="col-md-4 my-2 my-md-0">
                         <div class="d-flex align-items-center">
                             <label class="mr-3 mb-0 d-none d-md-block">Bulan:</label>
-                            <select class="form-control" name="bulan" id="bulan">
+                            <select class="form-control" name="bulan_selected" id="bulan">
                                 <option value="1"  @if(Request::get('bulan_selected') == "1") selected="selected" @endif>Januari</option>
                                 <option value="2"  @if(Request::get('bulan_selected') == "2") selected="selected" @endif>Februari</option>
                                 <option value="3"  @if(Request::get('bulan_selected') == "3") selected="selected" @endif>Maret</option>
@@ -78,7 +79,7 @@
                     <div class="col-md-4 my-2 my-md-0">
                         <div class="d-flex align-items-center">
                             <label class="mr-3 mb-0 d-none d-md-block">Tahun:</label>
-                            <select class="form-control" name="tahun" id="band">
+                            <select class="form-control" name="tahun_selected" id="band">
                                 <option value="2022" @if(Request::get('tahun_selected') == "2022") selected="selected" @endif>2022</option>
                                 <option value="2023" @if(Request::get('tahun_selected') == "2023") selected="selected" @endif>2023</option>
                                 <option value="2024" @if(Request::get('tahun_selected') == "2024") selected="selected" @endif>2024</option>
@@ -125,41 +126,43 @@
 					<th width="10%">KETERANGAN</th>
 				</tr>
 			</thead>
-			<tbody> 
+			<tbody>
                 @for($i=1; $i <= \Carbon\Carbon::createFromDate(Request::get('tahun_selected'), Request::get('bulan_selected'), 1)->daysInMonth; $i++)
 				<tr>
                     <td>{{$i}}
-                        <input type="hidden" name="index" value="{{$i}}">
+                        <input type="hidden" name="index[]" value="{{$i}}">
                     </td>
                     @php
                         $trail = $i<10?"0".$i:$i;
+                        $month = Request::get('bulan_selected')<10?"0".Request::get('bulan_selected'):Request::get('bulan_selected');
                     @endphp
-                    <td>{{$trail.'-'.Request::get('bulan_selected').'-'.Request::get('tahun_selected')}}</td>
-                    <td><input id="jammasuk{{$i}}" class="jammasuk form-control timepicker" readonly onchange="kembalian(this);" name="absensi_jammasuk[]" type="text"></td>
-                    <td><input id="jampulang{{$i}}" class="jampulang form-control timepicker" readonly onchange="kembalian(this);" name="absensi_jampulang[]" type="text"></td>
-                    <td><span class="lamakerja" id="lamakerja{{$i}}">0</span>
+                    <td>{{$trail.'-'.Request::get('bulan_selected').'-'.Request::get('tahun_selected')}}
+                        <input type="hidden" name="absensi_tanggal[]" value="{{Request::get('tahun_selected').'-'.Request::get('bulan_selected').'-'.$trail}}"></td>
+                    <td><input id="jammasuk{{$i}}" data-hari="{{$i}}" class="jammasuk form-control"  onchange="jammasuk(this);" name="absensi_jammasuk[]" type="time"></td>
+                    <td><input id="jampulang{{$i}}" data-hari="{{$i}}" class="jampulang form-control" onchange="jampulang(this);"name="absensi_jampulang[]" type="time"></td>
+                    <td><span class="lamakerja" id="textlamakerja{{$i}}">0</span>
                         <input type="hidden"  id="lamakerja{{$i}}" name="absensi_lamakerja[]" value="0">
                     </td>
-                    <td><span class="lamalembur" id="lamalembur{{$i}}">0</span>
-                        <input type="hidden" id="lamalembur{{$i}}" name="absensi_lamalembur[]" value="0"></td>
+                    <td><span class="lamalembur" id="textlamalembur{{$i}}">0</span>
+                        <input type="hidden" id="lamalembur{{$i}}" name="absensi_lembur[]" value="0"></td>
                     <td><select class="form-control" id="type{{$i}}" name="absensi_type[]">
                                 <option value="1">Masuk</option>
                                 <option value="2">Tidak Masuk</option>
                                 <option value="3">Cuti</option>
                                 <option value="4">Izin Sakit</option>
-                                <option value="5">Izin Telat</option> 
-                                <option value="6">Tanpa Keterangan</option> 
-                                <option value="7">Lembur</option> 
+                                <option value="5">Izin Telat</option>
+                                <option value="6">Tanpa Keterangan</option>
+                                <option value="7">Lembur</option>
                             </select></td>
                     <td><input type="text" id="keterangan{{$i}}" class="form-control" name="absensi_keterangan[]"></td>
 				</tr>
-                @endfor 
+                @endfor
 			</tbody>
-		</table> 
+		</table>
         </div>
         <div class="row mt-5 mb-5">
             <div class="col-md-4">
-                <button class="btn btn-md btn-primary" type="submit">Edit Export</button>
+                <button class="btn btn-md btn-primary" type="submit">Tambah Absensi</button>
             </div>
         </div>
     </form>
@@ -179,18 +182,49 @@
 </div>
 <!--end::Content-->
 @section('js')
+<script src="https://cdn.jsdelivr.net/npm/luxon@3.1.0/build/global/luxon.min.js"></script>
 <script>
-  $('.timepicker').timepicker({
-    showSeconds: false,
-    showMeridian: false,
-    defaultTime: false
-  });
-  $('.timepicker').timepicker().on('changeTime.timepicker', function(e) {
-    console.log('The time is ' + e.time.value);
-    console.log('The hour is ' + e.time.hours);
-    console.log('The minute is ' + e.time.minutes);
-    console.log('The meridian is ' + e.time.meridian);
-  });
+var DateTime = luxon.DateTime;
+function jammasuk(e) {
+var jammasuk = DateTime.fromISO(e.value);
+var id = e.dataset.hari;
+var jampulang = DateTime.fromISO(document.getElementById("jampulang"+id).value);
+var durasijam = jampulang.diff(jammasuk).shiftTo('hours','minutes').toObject();
+
+document.getElementById('textlamakerja'+id).innerHTML = durasijam.hours+" Jam, " +durasijam.minutes+" Menit";
+$('#lamakerja'+id).val(jampulang.diff(jammasuk).as('minutes'));
+if(durasijam.hours > 8){
+var jamlembur = durasijam.hours-8;
+var menitlembur = durasijam.minutes;
+}else {
+var jamlembur = 0
+var menitlembur = 0;
+}
+
+document.getElementById('textlamalembur'+id).innerHTML = jamlembur+" Jam, " + menitlembur +" Menit";
+$('#lamalembur'+id).val(jamlembur*60+menitlembur);
+      };
+
+      function jampulang(e) {
+var jampulang = DateTime.fromISO(e.value);
+var id = e.dataset.hari;
+var jammasuk = DateTime.fromISO(document.getElementById("jammasuk"+id).value);
+var durasijam = jampulang.diff(jammasuk).shiftTo('hours','minutes').toObject();
+
+document.getElementById('textlamakerja'+id).innerHTML = durasijam.hours+" Jam, " +durasijam.minutes+" Menit";
+$('#lamakerja'+id).val(jampulang.diff(jammasuk).as('minutes'));
+if(durasijam.hours > 8){
+var jamlembur = durasijam.hours-8;
+var menitlembur = durasijam.minutes;
+}else {
+var jamlembur = 0
+var menitlembur = 0;
+}
+
+document.getElementById('textlamalembur'+id).innerHTML = jamlembur+" Jam, " + menitlembur +" Menit";
+$('#lamalembur'+id).val(jamlembur*60+menitlembur);
+      };
+
 </script>
 @endsection
 @endsection
