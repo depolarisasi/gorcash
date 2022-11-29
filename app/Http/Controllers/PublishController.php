@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\File;
 use Intervention\Image\ImageManagerStatic as Image;
 use Carbon\Carbon;
 use App\Models\Logs;
+use Auth;
 
 class PublishController extends Controller
 {
@@ -172,9 +173,9 @@ public function apimassunpublish(Request $request){
                 $product->update();
                 $editpublish->update();
                 if($product->wasChanged()){
-                    Logs::create(['log_name' => '[PUB] Produk Stok Berubah', 'log_msg' => "Stok Akhir Produk ".$product->product_nama." di Publish ".$editpublish->publish_name." berubah karena edit publish mingguan, stok awal lama ".$product->product_stok." menjadi ". $request->publish_stok[$key]." dan stok akhir lama ".$product->product_stokakhir." menjadi " . $request->product_stokakhir[$key], 'log_userid' => Auth::user()->id, 'log_tanggal' => Carbon::now()->setTimezone('Asia/Jakarta')->setTimezone('Asia/Jakarta')->format('Y-m-d H:i:s')]);
+                    Logs::create(['log_name' => '[PUB] Produk Stok Berubah', 'log_msg' => "Stok Akhir Produk ".$product->product_nama." di Publish ".$editpublish->publish_name." berubah karena edit publish mingguan, stok awal lama ".$product->product_stok." menjadi ". $request->product_stok[$key]." dan stok akhir lama ".$product->product_stokakhir." menjadi " . $request->product_stokakhir[$key], 'log_userid' => Auth::user()->id, 'log_tanggal' => Carbon::now()->setTimezone('Asia/Jakarta')->setTimezone('Asia/Jakarta')->format('Y-m-d H:i:s')]);
                 }else {
-                    Logs::create(['log_name' => '[PUB] Produk Stok GAGAL Berubah', 'log_msg' => "Stok Akhir Produk ".$product->product_nama." di Publish ".$editpublish->publish_name." GAGAL berubah karena edit publish mingguan, stok awal lama ".$product->product_stok." menjadi ". $request->publish_stok[$key]." dan stok akhir lama ".$product->product_stokakhir." menjadi " . $request->product_stokakhir[$key], 'log_userid' => Auth::user()->id, 'log_tanggal' => Carbon::now()->setTimezone('Asia/Jakarta')->setTimezone('Asia/Jakarta')->format('Y-m-d H:i:s')]);
+                    Logs::create(['log_name' => '[PUB] Produk Stok GAGAL Berubah', 'log_msg' => "Stok Akhir Produk ".$product->product_nama." di Publish ".$editpublish->publish_name." GAGAL berubah karena edit publish mingguan, stok awal lama ".$product->product_stok." menjadi ". $request->product_stok[$key]." dan stok akhir lama ".$product->product_stokakhir." menjadi " . $request->product_stokakhir[$key], 'log_userid' => Auth::user()->id, 'log_tanggal' => Carbon::now()->setTimezone('Asia/Jakarta')->setTimezone('Asia/Jakarta')->format('Y-m-d H:i:s')]);
                 }
                     } catch (QE $e) {
                         toast('Database error','error');
@@ -184,7 +185,7 @@ public function apimassunpublish(Request $request){
 
          toast('Ubah Publish Berhasil','success');
         return redirect()->back();
-        // return dd($request);
+        // return $request->all();
     }
 
     public function delete($groupid)
