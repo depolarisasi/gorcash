@@ -4,11 +4,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Slip Gaji</title> 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
-
-
+    <title>Slip Gaji</title>   
     <style> 
 * {
     font-size: 12px;
@@ -24,8 +20,10 @@ h1 {
     border: none !important;
     width: 100%;
 }
-.table-border {  
-  border: 2px solid black;
+.table-border > table, th, td {
+  border: 1px solid;
+}
+.table-border {   
     width: 100%;
 }
 .noborder { 
@@ -34,36 +32,11 @@ h1 {
 .centered {
     text-align: center;
     align-content: center;
-}
-
-.ticket {
-    width: 210mm;
-    height: 297mm;
-      display: block;
-  margin: 30px;
-  padding: 0;
-}
-
+} 
 img {
     max-width: inherit;
     width: inherit;
 }
-
-@media print {
-    .ticket {
-    width: 210mm;
-    height: 297mm; 
-  margin: 30px;
-  margin: 0;
-    }
-    .hidden-print,
-    .hidden-print * {
-        display: none !important;
-    }
-    .container {
-    width:100% !important;
-  }
-} 
  
     
 @page {
@@ -72,8 +45,7 @@ img {
 }
     </style>
 </head>
-<body>
-    <div class="ticket">   
+<body> 
         <table class="table-noborder">  
             <tr class="noborder"> 
                 <td class="noborder" width="50%"><img src="{{asset('assets/media/logos/logo-light.png')}}" style="width: 140px !important; height: 70px; " alt="Logo" alt="Logo">  
@@ -105,8 +77,8 @@ img {
                 <td width="50%">
                     <table style="width: 100%;">
                         <thead>
-                            <tr style="border-width: 3px 0px 3px 0px; border-style: double;">
-                                <th><span style="float:left;"><b>PENERIMAAN</b></span></th> 
+                            <tr>
+                                <th><span><b>PENERIMAAN</b></span></th> 
                             </tr>
                         </thead>
                         <tbody> 
@@ -123,11 +95,11 @@ img {
                             $penerimaan = $penerimaan+$kp->gaji_jumlah;
                             @endphp
                             @endforeach
-                            <tr style="border-width: 1px 0px 3px 0px; border-style: double;">
+                            <tr>
                                 <td>TOTAL PENERIMAAN</td>
                                 <td>Rp @money($penerimaan)</td>    
                             </tr> 
-                            <tr style="border-width: 1px 0px 3px 0px; border-style: double;">
+                            <tr>
                                 <td>TAKE HOME PAY</td>
                                 <td>Rp @money($show->slipgaji_thp)</td>    
                             </tr> 
@@ -136,9 +108,9 @@ img {
                 </td>   
                 <td width="50%">
                     <table style="width: 100%;">
-                        <thead >
-                            <tr style="border-width: 3px 0px 3px 0px; border-style: double;">
-                                <th><span style="float:left;"><b>POTONGAN</b></span></th> 
+                        <thead>
+                            <tr>
+                                <th><span><b>POTONGAN</b></span></th> 
                             </tr>
                         </thead>
                         <tbody> 
@@ -155,7 +127,7 @@ img {
                             $potongan = $potongan+$kp->gaji_jumlah;
                             @endphp
                             @endforeach
-                            <tr style="border-width: 1px 0px 3px 0px; border-style: double;">
+                            <tr>
                                 <td>TOTAL POTONGAN</td>
                                 <td>Rp @money($potongan)</td>    
                             </tr> 
@@ -181,49 +153,49 @@ img {
                 <tr class="noborder"> 
                     <td class="noborder" width="50%"><table style="width: 100%;">
                         <thead>
-                            <tr>
-                                <th><span><b>Disetujui Oleh</b></span></th> 
+                            <tr class="noborder">
+                                <th  class="noborder"><span><b>Disetujui Oleh</b></span></th> 
                             </tr>
                         </thead>
                         <tbody> 
                             <tr>
-                                <td><br></td>  
+                                <td class="noborder"><br></td>  
                             </tr> 
                             
                             <tr>
-                                <td><br></td>  
+                                <td class="noborder"><br></td>  
                             </tr> 
                             
                             <tr>
-                                <td><br></td>  
+                                <td class="noborder"><br></td>  
                             </tr>
                             <tr>
-                                <td>{{$show->slipgaji_ttd}}</td> 
+                                <td class="noborder">{{$show->slipgaji_ttd}}</td> 
                             </tr> 
                            
                         </tbody>
                     </table></td>   
                     <td class="noborder" width="50%">
-                        <table style="width: 100%;">
+                        <table class="noborder" style="width: 100%;">
                             <thead>
-                                <tr>
-                                    <th><span><b>Diterima Oleh</b></span></th> 
+                                <tr class="noborder">
+                                    <th  class="noborder"><span><b>Diterima Oleh</b></span></th> 
                                 </tr>
                             </thead>
                             <tbody> 
                                 <tr>
-                                    <td><br></td>  
+                                    <td class="noborder"><br></td>  
                                 </tr> 
                                 
                                 <tr>
-                                    <td><br></td>  
+                                    <td class="noborder"><br></td>  
                                 </tr> 
                                 
                                 <tr>
-                                    <td><br></td>  
+                                    <td class="noborder"><br></td>  
                                 </tr>
                                 <tr>
-                                    <td>{{$show->karyawan_nama}}</td> 
+                                    <td class="noborder">{{$show->karyawan_nama}}</td> 
                                 </tr> 
                                
                             </tbody>
@@ -234,7 +206,6 @@ img {
         </tr>   
 </table>
       
-        
-    </div> 
+         
 </body>
 </html>
