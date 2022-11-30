@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title','DATABASE PRODUK '.$infopub->publish_name.'- ')
+@section('title','DATABASE PRODUK '.$infopub->publish_name.' - ')
 @section('css')
 <link href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css">
 <link href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css">
@@ -53,7 +53,7 @@
 					<th>TAG</th>
 					<th>MATERIAL</th>
 					<th>MADE IN</th>
-					<th>UKURAN</th>
+					<th>SIZE</th>
 					<th>KET</th>
 				</tr>
 			</thead>
@@ -126,7 +126,7 @@
             {
             extend: 'pdfHtml5',
             orientation: 'landscape',
-            pageSize: 'A4',
+            pageSize: 'Folio', 
             exportOptions: {
             columns: [  1,2,3,4,5,6,7,8,9,10,11,12,13,14,15  ]
             }
