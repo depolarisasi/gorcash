@@ -102,12 +102,12 @@
 </td>
 <td>
 <div class="d-flex align-items-center">
-{{$d->totalpaket}}
+{{$d->totalpengiriman}}
 </div>
 </td>
 <td>
     <div class="d-flex align-items-center">
-    Rp. @money($d->totalpaket*8000)
+    Rp. @money($d->totalpengiriman*8000)
     </div>
     </td>
 </tr>

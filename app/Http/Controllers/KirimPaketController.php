@@ -90,16 +90,13 @@ class KirimPaketController extends Controller
         $selected_month =  $bulan == "All"? Carbon::now()->format('m'):$bulan;
         $selected_year =  $tahun == "All"? Carbon::now()->format('Y'):$tahun;
 
-        $data = DB::table('kirimpaket')
-        ->join('users','id','=','kirimpaket_user')
-        ->select('kirimpaket.kirimpaket_user','users.name', DB::raw('sum(kirimpaket.kirimpaket_jumlahpaket) as totalpaket'))
-        ->whereMonth('kirimpaket_tanggal', $selected_month)
-        ->whereYear('kirimpaket_tanggal', $selected_year)
-        ->groupBy('kirimpaket_user')
+        $data = KirimPaket::join('users','id','=','kirimpaket_user')
+        ->select(array('kirimpaket.kirimpaket_user','kirimpaket.created_at','users.name', DB::Raw('COUNT(*) as totalpengiriman')))
+        ->whereRaw('MONTH(kirimpaket.created_at) = '. $selected_month.' AND YEAR(kirimpaket.created_at) = '. $selected_year ) 
+        ->groupBy('kirimpaket.kirimpaket_user')
         ->get();
         $tahun = KirimPaket::select(DB::Raw('YEAR(kirimpaket_tanggal) as year'))->groupBy('year')->get();
-        return view('kirimpaket.laporan')->with(compact('data', 'tahun'));
-        // return $selected_year;
+        return view('kirimpaket.laporan')->with(compact('data', 'tahun')); 
     }
     
-}
+}  
