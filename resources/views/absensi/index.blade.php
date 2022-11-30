@@ -187,6 +187,7 @@
 
 @if(Auth::user()->role == 1)
 <td>
+<a href="{{url('/absensi/detail/?bulan='.$absensi->month.'&tahun='.$absensi->year.'&karyawan='.$absensi->karyawan_id)}}" class="btn btn-icon btn-xs btn-primary"><i class="fas fa-info-circle nopadding"></i></a>
     <a href="{{url('/absensi/edit/?bulan='.$absensi->month.'&tahun='.$absensi->year.'&karyawan='.$absensi->karyawan_id)}}" class="btn btn-xs btn-icon btn-warning"><i class="fas fa-edit nopadding"></i></a>
     <button type="button" href="{{url('/absensi/delete/?bulan='.$absensi->month.'&tahun='.$absensi->year.'&karyawan='.$absensi->karyawan_id)}}" class="deletebtn btn btn-xs btn-icon btn-danger"><i class="fas fa-trash nopadding"></i></button></td>
 </td>

@@ -100,13 +100,25 @@ Route::group(['prefix' => 'size'], function() {
     Route::get('/delete/{id}',[App\Http\Controllers\SuratController::class, 'delete'])->middleware('auth');
    });
 
+   Route::group(['prefix' => 'laporankeuangan'], function() {
+    Route::get('/',[App\Http\Controllers\LaporanKeuanganController::class, 'index'])->middleware('auth');
+    Route::get('/new',[App\Http\Controllers\LaporanKeuanganController::class, 'create'])->middleware('auth');
+    Route::post('/store',[App\Http\Controllers\LaporanKeuanganController::class, 'store'])->middleware('auth');
+    Route::get('/edit/{id}',[App\Http\Controllers\LaporanKeuanganController::class, 'edit'])->middleware('auth');
+    Route::post('/update',[App\Http\Controllers\LaporanKeuanganController::class, 'update'])->middleware('auth');
+    Route::get('/delete/{id}',[App\Http\Controllers\LaporanKeuanganController::class, 'delete'])->middleware('auth');
+   });
+
+
    Route::group(['prefix' => 'absensi'], function() {
-    Route::get('/',[App\Http\Controllers\AbsensiController::class, 'index'])->middleware('auth');
-    Route::get('/new',[App\Http\Controllers\AbsensiController::class, 'create'])->middleware('auth');
-    Route::post('/store',[App\Http\Controllers\AbsensiController::class, 'store'])->middleware('auth');
-    Route::get('/edit/{id}',[App\Http\Controllers\AbsensiController::class, 'edit'])->middleware('auth');
-    Route::post('/update',[App\Http\Controllers\AbsensiController::class, 'update'])->middleware('auth');
-    Route::get('/delete/',[App\Http\Controllers\AbsensiController::class, 'delete'])->middleware('auth');
+    Route::get('/',[App\Http\Controllers\AbsensiController::class, 'index'])->middleware('admin');
+    Route::get('/new',[App\Http\Controllers\AbsensiController::class, 'create'])->middleware('admin');
+    Route::post('/store',[App\Http\Controllers\AbsensiController::class, 'store'])->middleware('admin');
+    Route::get('/edit/',[App\Http\Controllers\AbsensiController::class, 'edit'])->middleware('admin');
+    Route::get('/detail/',[App\Http\Controllers\AbsensiController::class, 'show'])->middleware('admin');
+    Route::post('/update',[App\Http\Controllers\AbsensiController::class, 'update'])->middleware('admin');
+    Route::get('/delete/',[App\Http\Controllers\AbsensiController::class, 'delete'])->middleware('admin');
+    Route::get('/pdf/',[App\Http\Controllers\AbsensiController::class, 'pdf'])->middleware('admin');
    });
 
 

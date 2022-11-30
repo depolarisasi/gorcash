@@ -11,8 +11,10 @@ use DB;
 use \Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Database\QueryException as QE;
-use RealRashid\SweetAlert\Facades\Alert;
-
+use RealRashid\SweetAlert\Facades\Alert;  
+use Carbon\CarbonPeriod; 
+use Illuminate\Support\Str;
+use PDF;
 class AbsensiController extends Controller
 {
     public function index(Request $request)
@@ -84,27 +86,62 @@ class AbsensiController extends Controller
     }
 
 
-    public function edit($id)
+    public function edit(Request $request)
     {
-        $edit = Absensi::where('absensi_id', $id)->first();
-        $user = User::get();
+        $edit = Absensi::join('karyawan','karyawan_id','=','absensi_karyawanid')
+        ->select(array('absensi.*','karyawan.*', 
+        DB::raw('MONTH(absensi.absensi_tanggal) as month'),
+        DB::raw('YEAR(absensi.absensi_tanggal) as year')))
+        ->whereRaw('MONTH(absensi.absensi_tanggal) = '.$request->get('bulan')) 
+        ->whereRaw('YEAR(absensi.absensi_tanggal) = '.$request->get('tahun')) 
+        ->whereRaw('absensi.absensi_karyawanid = '.$request->get('karyawan')) 
+        ->get();
+        $selected_karyawan = Karyawan::where('karyawan_id',$request->get('karyawan'))->first();
 
-        return view('absensi.edit')->with(compact('edit','user'));
+        return view('absensi.edit')->with(compact('edit','selected_karyawan'));
+    }
+
+    public function show(Request $request)
+    {
+        $show = Absensi::join('karyawan','karyawan_id','=','absensi_karyawanid')
+        ->select(array('absensi.*','karyawan.*', 
+        DB::raw('MONTH(absensi.absensi_tanggal) as month'),
+        DB::raw('YEAR(absensi.absensi_tanggal) as year')))
+        ->whereRaw('MONTH(absensi.absensi_tanggal) = '.$request->get('bulan')) 
+        ->whereRaw('YEAR(absensi.absensi_tanggal) = '.$request->get('tahun')) 
+        ->whereRaw('absensi.absensi_karyawanid = '.$request->get('karyawan')) 
+        ->get();
+
+        $selected_karyawan = Karyawan::where('karyawan_id',$request->get('karyawan'))->first();
+ 
+
+        return view('absensi.show')->with(compact('show','selected_karyawan'));
     }
 
     public function update(Request $request)
     {
-        $absensi = Absensi::where('absensi_id', $request->absensi_id)->first();
-        $update = collect($request->all());
-        try {
-        $absensi->update($update->all());
-        } catch (QE $e) {
-            toast('Database Error','error');
-            return redirect()->back();
+        foreach($request->index as $key => $val){
+            $absensi = Absensi::where('absensi_id',$request->id[$key])->first(); 
+            $absensi->absensi_karyawanid = $request->absensi_karyawanid;
+            $absensi->absensi_tanggal = $request->absensi_tanggal[$key]??null;
+            $absensi->absensi_jammasuk = $request->absensi_jammasuk[$key]??null;
+            $absensi->absensi_jampulang = $request->absensi_jampulang[$key]??null;
+            $absensi->absensi_lembur = $request->absensi_lembur[$key]??null;
+            $absensi->absensi_lamakerja = $request->absensi_lamakerja[$key]??null;
+            $absensi->absensi_type = $request->absensi_type[$key]??null;
+            $absensi->absensi_keterangan = $request->absensi_keterangan[$key]??null;
+            try {
+                $absensi->update();
+                    } catch (QE $e) {
+                        toast('Database error','error');
+                        return $e;
+                    }
         }
 
-        toast('Pengubahan Status Absensi Berhasil','success');
+
+        toast('Berhasil Membuat Riwayat Absensi','success');
         return redirect('absensi');
+        // return $request->all();
     }
 
 
@@ -152,6 +189,24 @@ foreach($absensi as $abs){
         $tahun = Absensi::select(DB::Raw('YEAR(absensi_tanggal) as year'))->groupBy('year')->get();
         return view('absensi.laporan')->with(compact('data', 'tahun'));
         // return $selected_year;
+    }
+
+    public function pdf(Request $request){
+        
+       
+        $show = Absensi::join('karyawan','karyawan_id','=','absensi_karyawanid')
+        ->select(array('absensi.*','karyawan.*', 
+        DB::raw('MONTH(absensi.absensi_tanggal) as month'),
+        DB::raw('YEAR(absensi.absensi_tanggal) as year')))
+        ->whereRaw('MONTH(absensi.absensi_tanggal) = '.$request->get('bulan')) 
+        ->whereRaw('YEAR(absensi.absensi_tanggal) = '.$request->get('tahun')) 
+        ->whereRaw('absensi.absensi_karyawanid = '.$request->get('karyawan')) 
+        ->get();
+
+        $selected_karyawan = Karyawan::where('karyawan_id',$request->get('karyawan'))->first();
+
+        $pdf = PDF::loadView('absensi.pdf', compact('show','selected_karyawan'));
+        return $pdf->download('absensi-'.$selected_karyawan->karyawan_nama.$request->get('bulan').$request->get('tahun').'.pdf');
     }
 
 }

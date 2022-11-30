@@ -151,8 +151,8 @@
                                 <option value="3">Cuti</option>
                                 <option value="4">Izin Sakit</option>
                                 <option value="5">Izin Telat</option>
-                                <option value="6">Tanpa Keterangan</option>
-                                <option value="7">Lembur</option>
+                                <option value="6">Tanpa Keterangan</option> 
+                                <option value="7">Libur</option> 
                             </select></td>
                     <td><input type="text" id="keterangan{{$i}}" class="form-control" name="absensi_keterangan[]"></td>
 				</tr>
