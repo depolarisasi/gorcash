@@ -268,6 +268,12 @@ $('.publish_all').on('click', function(e) {
 });
 
     $(document).ready(function(){
+        $(".stokakhirinput").each(function(){  
+            select_val = $(this).attr('data-sku');
+    $("#selisih"+select_val).text(parseInt($("#stoktoko"+select_val).val())+parseInt($("#stokgudang"+select_val).val()-parseInt($("#stokakhir"+select_val).val())));
+     $("#selisihinput"+select_val).val(parseInt($("#stoktoko"+select_val).val())+parseInt($("#stokgudang"+select_val).val()-parseInt($("#stokakhir"+select_val).val())));
+}); 
+    
         $(':checkbox:checked').prop('checked',false);
         $(".selectproduct").change(function() {
             checked =  $('input:checkbox:checked').length;
