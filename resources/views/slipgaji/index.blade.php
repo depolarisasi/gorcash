@@ -28,6 +28,57 @@
 
 <!--begin::Body-->
 <div class="card-body pt-0 pb-3">
+  
+<div class="mb-7">
+	<div class="row align-items-center">
+		<div class="col-lg-8 col-xl-8">
+            <form method="get" action="{{url('slipgaji')}}">
+			<div class="row align-items-center">
+                <div class="col-md-4 my-2 my-md-0">
+					<div class="d-flex align-items-center">
+						<label class="mr-3 mb-0 d-none d-md-block">Bulan:</label>
+						<select class="form-control" name="bulan" id="bulan">
+							<option value="All" @if(Request::get('bulan') == "All")) selected="selected" @endif>All</option>
+              <option value="January" @if(Request::get('bulan') == "January") selected="selected" @endif>January</option>
+              <option value="February" @if(Request::get('bulan') == "February") selected="selected" @endif>February</option>
+              <option value="March" @if(Request::get('bulan') == "March") selected="selected" @endif>March</option> 
+              <option value="April" @if(Request::get('bulan') == "April") selected="selected" @endif>April</option>
+              <option value="May" @if(Request::get('bulan') == "May") selected="selected" @endif>May</option>
+              <option value="June" @if(Request::get('bulan') == "June") selected="selected" @endif>June</option>
+              <option value="July" @if(Request::get('bulan') == "July") selected="selected" @endif>July</option>
+              <option value="August" @if(Request::get('bulan') == "August") selected="selected" @endif>August</option>
+              <option value="September" @if(Request::get('bulan') == "September") selected="selected" @endif>September</option>
+              <option value="October" @if(Request::get('bulan') == "October") selected="selected" @endif>October</option>
+              <option value="November" @if(Request::get('bulan') == "November") selected="selected" @endif>November</option>
+              <option value="December" @if(Request::get('bulan') == "December") selected="selected" @endif>December</option> 
+
+						</select>
+					</div>
+				</div>
+                <div class="col-md-4 my-2 my-md-0">
+					<div class="d-flex align-items-center">
+						<label class="mr-3 mb-0 d-none d-md-block">Tahun:</label>
+						<select class="form-control" name="tahun" id="band">
+							<option value="All" @if(Request::get('tahun') == "All") selected="selected" @endif>All</option>
+                            @foreach($tahun as $t)
+							<option value="{{$t->year}}" @if(Request::get('tahun') == $t->year) selected="selected" @endif>{{$t->year}}</option>
+                            @endforeach
+
+
+						</select>
+					</div>
+				</div>
+                <div class="col-md-4 col-lg-4 col-xl-4 mt-5 mt-lg-0">
+                    <button href="#" class="btn btn-light-primary px-6 font-weight-bold">
+                        Filter
+                    </button>
+                </div>
+                			</div>
+                        </form>
+		</div>
+
+	</div>
+</div>
 <div class="tab-content">
 <!--begin::Table-->
 <div class="table-responsive">

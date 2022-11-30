@@ -72,18 +72,18 @@
                         <label class="col-md-4"><b>Bulan Gaji</b></label>
                         <div class="col-md-8">
                         <select class="multisteps-form__input form-control" name="slipgaji_bulan" required> 
-                                <option value="Januari">Januari</option>
-                                <option value="Februari">Februari</option>
-                                <option value="Maret">Maret</option> 
+                                <option value="January">January</option>
+                                <option value="February">February</option>
+                                <option value="March">March</option> 
                                 <option value="April">April</option>
-                                <option value="Mei">Mei</option>
-                                <option value="Juni">Juni</option>
-                                <option value="Juli">Juli</option>
-                                <option value="Agustus">Agustus</option>
+                                <option value="May">May</option>
+                                <option value="June">June</option>
+                                <option value="July">July</option>
+                                <option value="August">August</option>
                                 <option value="September">September</option>
-                                <option value="Oktober">Oktober</option>
+                                <option value="October">October</option>
                                 <option value="November">November</option>
-                                <option value="Desember">Desember</option>
+                                <option value="December">December</option>
                               </select>
                         </div>
                       </div>

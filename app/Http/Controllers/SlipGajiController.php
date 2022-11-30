@@ -21,12 +21,36 @@ use PDF;
 
 class SlipGajiController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        if($request->get('bulan') != "" | !empty($request->get('bulan'))){
+            $bulan = $request->get('bulan'); 
+        }else {
+            $bulan = "All";
+        }
+
+        if($request->get('tahun') != "" | !empty($request->get('tahun'))){
+            $tahun = $request->get('tahun'); 
+        }else {
+            $tahun = "All";
+        }
+
+        $selected_month =  $bulan == "All"? "All":$bulan;
+        $selected_year =  $tahun == "All"? "All":$tahun;
         $gaji = SlipGaji::join('karyawan','karyawan_id','=','slipgaji_karyawanid')
-        ->select('karyawan.*','slipgaji.*')
-        ->get();
-        return view('slipgaji.index')->with(compact('gaji'));
+        ->select('karyawan.*','slipgaji.*');
+
+        if($selected_month != "All"){
+        $gaji->where('slipgaji.slipgaji_bulan',$selected_month);
+        }
+        if($selected_year != "All"){
+        $gaji->where('slipgaji.slipgaji_tahun',$selected_year);
+        }
+
+       $gaji = $gaji->get();
+        
+        $tahun = SlipGaji::select('slipgaji_tahun as year')->groupBy('year')->get();
+        return view('slipgaji.index')->with(compact('gaji','tahun')); 
     }
 
     public function create(Request $request)
@@ -82,7 +106,7 @@ class SlipGajiController extends Controller
                     $totalgaji = $totalgaji+$request->penerimaantotal[$key];
                     array_push($penerimaan, $komponenpenerimaan->gaji_id);
                 }
-                
+                 
         $updategaji->slipgaji_komponenpenerimaan = serialize($penerimaan);
             }
           
