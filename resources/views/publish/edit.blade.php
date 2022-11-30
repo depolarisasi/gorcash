@@ -85,8 +85,8 @@
 					<td>{{$p->band_nama}}</td>
 					<td>{{$p->product_nama}} ({{$p->size_nama}})</td>
 					<td>@money($p->product_hargajual)</td>
-                    <td><input type="number" class="form-control stokinput" min="0" id="stok{{$p->product_sku}}" data-sku="{{$p->product_sku}}" name="product_stok[]" value="{{$p->product_stok}}" @if(Auth::user()->role != 1 || Auth::user()->role != 5) readonly @endif></td>
-                    <td><input type="number" class="form-control stokakhirinput" min="0"  id="stokakhir{{$p->product_sku}}" data-sku="{{$p->product_sku}}" name="product_stokakhir[]" value="{{$p->product_stokakhir}}"  @if(Auth::user()->role != 1 || Auth::user()->role != 5) readonly @endif ></td>
+                    <td><input type="number" class="form-control stokinput" min="0" id="stok{{$p->product_sku}}" data-sku="{{$p->product_sku}}" name="product_stok[]" value="{{$p->product_stok}}"></td>
+                    <td><input type="number" class="form-control stokakhirinput" min="0"  id="stokakhir{{$p->product_sku}}" data-sku="{{$p->product_sku}}" name="product_stokakhir[]" value="{{$p->product_stokakhir}}"  ></td>
                     <td><input type="number" class="form-control stokgudanginput" min="0" id="stokgudang{{$p->product_sku}}"data-sku="{{$p->product_sku}}" name="product_stokgudang[] "@if($p->product_stokgudang == 0) value="0" @else value="{{$p->product_stokgudang}}" @endif ></td>
                     <td><input type="number" class="form-control stoktokoinput" min="0"  id="stoktoko{{$p->product_sku}}" data-sku="{{$p->product_sku}}" name="product_stoktoko[]" @if($p->product_stoktoko == 0) value="0" @else value="{{$p->product_stoktoko}}" @endif></td>
 					<td><span id="selisih{{$p->product_sku}}">{{$p->publish_selisih}}</span>
