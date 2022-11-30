@@ -171,7 +171,7 @@
 		</table>
         <div class="row mt-10">
         <div class="col-md-4">
-            {{-- <button type="submit" class="btn btn-md btn-primary">Submit</button> --}}
+             <button type="submit" class="btn btn-md btn-primary">Submit</button>  
             <button id="simpan" class="btn btn-md btn-warning">Simpan</button>
         </div>
     </div>
@@ -274,6 +274,24 @@ $('.stokgudanginput').on('change', function (e) {
     $("#stokrilinput"+select_val).val(parseInt($("#stoktoko"+select_val).val())+parseInt($("#stokgudang"+select_val).val()));
     $("#selisih"+select_val).text(parseInt($("#stoktoko"+select_val).val())+parseInt($("#stokgudang"+select_val).val()-parseInt($("#sisainput"+select_val).val())));
     $("#selisihinput"+select_val).val(parseInt($("#stoktoko"+select_val).val())+parseInt($("#stokgudang"+select_val).val()-parseInt($("#sisainput"+select_val).val())));
+});
+
+$(document).ready(function(){
+    $(".stoktokoinput").each(function(){  
+    select_val = $(this).attr('data-sku');
+    $("#stokril"+select_val).text(parseInt($("#stoktoko"+select_val).val())+parseInt($("#stokgudang"+select_val).val()));
+    $("#stokrilinput"+select_val).val(parseInt($("#stoktoko"+select_val).val())+parseInt($("#stokgudang"+select_val).val()));
+    $("#selisih"+select_val).text(parseInt($("#stoktoko"+select_val).val())+parseInt($("#stokgudang"+select_val).val()-parseInt($("#sisainput"+select_val).val())));
+    $("#selisihinput"+select_val).val(parseInt($("#stoktoko"+select_val).val())+parseInt($("#stokgudang"+select_val).val()-parseInt($("#sisainput"+select_val).val())));
+}); 
+
+$(".stokgudanginput").each(function(){  
+    select_val = $(this).attr('data-sku');
+    $("#stokril"+select_val).text(parseInt($("#stoktoko"+select_val).val())+parseInt($("#stokgudang"+select_val).val()));
+    $("#stokrilinput"+select_val).val(parseInt($("#stoktoko"+select_val).val())+parseInt($("#stokgudang"+select_val).val()));
+    $("#selisih"+select_val).text(parseInt($("#stoktoko"+select_val).val())+parseInt($("#stokgudang"+select_val).val()-parseInt($("#sisainput"+select_val).val())));
+    $("#selisihinput"+select_val).val(parseInt($("#stoktoko"+select_val).val())+parseInt($("#stokgudang"+select_val).val()-parseInt($("#sisainput"+select_val).val())));
+}); 
 });
 
 $('#simpan').on('click', function (e) {
