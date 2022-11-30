@@ -32,7 +32,7 @@ class SlipGajiController extends Controller
         if($request->get('tahun') != "" | !empty($request->get('tahun'))){
             $tahun = $request->get('tahun'); 
         }else {
-            $tahun = "All";
+            $tahun = "All"; 
         }
 
         $selected_month =  $bulan == "All"? "All":$bulan;
