@@ -20,13 +20,13 @@ class LaporanKeuanganController extends Controller
     public function index(Request $request)
     {
         if($request->get('bulan') != "" | !empty($request->get('bulan'))){
-            $bulan = $request->get('bulan'); 
+            $bulan = $request->get('bulan');
         }else {
             $bulan = "All";
         }
 
         if($request->get('tahun') != "" | !empty($request->get('tahun'))){
-            $tahun = $request->get('tahun'); 
+            $tahun = $request->get('tahun');
         }else {
             $tahun = "All";
         }
@@ -34,16 +34,16 @@ class LaporanKeuanganController extends Controller
         $selected_month =  $bulan == "All"? "All":$bulan;
         $selected_year =  $tahun == "All"? "All":$tahun;
 
-        $laporan = DB::table('LaporanKeuangan');
+        $laporan = DB::table('laporankeuangan');
         if($selected_month != "All"){
             $laporan->where('laporankeuangan.laporankeuangan_bulan',$selected_month);
             }
             if($selected_year != "All"){
             $laporan->where('laporankeuangan.laporankeuangan_tahun',$selected_year);
             }
-    
+
            $laporan = $laporan->get();
-             
+
 
         return view('laporankeuangan.index')->with(compact('laporan'));
     }
