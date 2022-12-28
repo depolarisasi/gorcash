@@ -49,7 +49,7 @@
         </div>
     </div>
     @endif
- 
+
 <div class="tab-content">
     <form method="POST" action="{{url('absensi/update')}}" >
         @csrf
@@ -71,21 +71,21 @@
 				</tr>
 			</thead>
 			<tbody>
-                    
+
             @php
-            $i = 0; 
-            @endphp 
-            @foreach($edit as $e) 
+            $i = 0;
+            @endphp
+            @foreach($edit as $e)
             <tr>
-                    <td>{{$i}} 
+                    <td>{{$i}}
                     <input type="hidden" name="index[]" value="{{$i}}">
                     <input type="hidden" name="id[]" value="{{$e->absensi_id}}">
-                    </td> 
+                    </td>
                     <td>{{$e->absensi_tanggal}}
                         <input type="hidden" name="absensi_tanggal[]" value="{{$e->absensi_tanggal}}"></td>
-                    <td><input id="jammasuk{{$i}}" data-hari="{{$i}}" class="jammasuk form-control"  onchange="jammasuk(this);" name="absensi_jammasuk[]" 
+                    <td><input id="jammasuk{{$i}}" data-hari="{{$i}}" class="jammasuk form-control"  onchange="jammasuk(this);" name="absensi_jammasuk[]"
                     value="{{$e->absensi_jammasuk}}" type="time"></td>
-                    <td><input id="jampulang{{$i}}" data-hari="{{$i}}" class="jampulang form-control" onchange="jampulang(this);"name="absensi_jampulang[]" 
+                    <td><input id="jampulang{{$i}}" data-hari="{{$i}}" class="jampulang form-control" onchange="jampulang(this);"name="absensi_jampulang[]"
                     value="{{$e->absensi_jampulang}}" type="time"></td>
                     <td><span class="lamakerja"  data-tgl="{{$i}}" data-minute="{{$e->absensi_lamakerja}}"  id="textlamakerja{{$i}}">0</span>
                         <input type="hidden"  id="lamakerja{{$i}}" data-tgl="{{$i}}" data-minute="{{$e->absensi_lamakerja}}" class="lamakerja" name="absensi_lamakerja[]" value="{{$e->absensi_lamakerja}}">
@@ -101,10 +101,10 @@
                                 <option value="6" @if($e->absensi_type == 6) selected="selected" @endif>Tanpa Keterangan</option>
                                 <option value="7" @if($e->absensi_type == 7) selected="selected" @endif>Libur</option>
                             </select></td>
-                    <td><input type="text" id="keterangan{{$i}}" class="form-control" name="absensi_keterangan[]"></td>
+                    <td><input type="text" id="keterangan{{$i}}" class="form-control" name="absensi_keterangan[]" value="{{$e->absensi_keterangan}}"></td>
 				</tr>
                 @php
-            $i = $i+1; 
+            $i = $i+1;
             @endphp
                 @endforeach
 			</tbody>
@@ -134,17 +134,17 @@
 @section('js')
 <script src="https://cdn.jsdelivr.net/npm/luxon@3.1.0/build/global/luxon.min.js"></script>
 <script>
-     
+
 
      var DateTime = luxon.DateTime;
-$(document).ready(function(){ 
+$(document).ready(function(){
 
-  $(".lamakerja").each(function(){    
-     var select_val = $(this).attr('data-tgl'); 
+  $(".lamakerja").each(function(){
+     var select_val = $(this).attr('data-tgl');
     var jammasuk = DateTime.fromISO(document.getElementById("jammasuk"+select_val).value != null?document.getElementById("jammasuk"+select_val).value:0);
     var jampulang = DateTime.fromISO(document.getElementById("jampulang"+select_val).value != null?document.getElementById("jampulang"+select_val).value:0);
-    var durasijam = jampulang.diff(jammasuk).shiftTo('hours','minutes').toObject(); 
-    document.getElementById('textlamakerja'+select_val).innerHTML = durasijam.hours+" Jam, " +durasijam.minutes+" Menit";  
+    var durasijam = jampulang.diff(jammasuk).shiftTo('hours','minutes').toObject();
+    document.getElementById('textlamakerja'+select_val).innerHTML = durasijam.hours+" Jam, " +durasijam.minutes+" Menit";
         if(durasijam.hours > 8){
         var jamlembur = durasijam.hours-8;
         var menitlembur = durasijam.minutes;
@@ -152,9 +152,9 @@ $(document).ready(function(){
         var jamlembur = 0
         var menitlembur = 0;
         }
-        document.getElementById('textlamalembur'+select_val).innerHTML = jamlembur+" Jam, " + menitlembur +" Menit"; 
-}); 
-}); 
+        document.getElementById('textlamalembur'+select_val).innerHTML = jamlembur+" Jam, " + menitlembur +" Menit";
+});
+});
 
 function jammasuk(e) {
 var jammasuk = DateTime.fromISO(e.value);
