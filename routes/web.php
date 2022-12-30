@@ -119,6 +119,7 @@ Route::group(['prefix' => 'size'], function() {
     Route::post('/update',[App\Http\Controllers\AbsensiController::class, 'update'])->middleware('admin');
     Route::get('/delete/',[App\Http\Controllers\AbsensiController::class, 'delete'])->middleware('admin');
     Route::get('/pdf/',[App\Http\Controllers\AbsensiController::class, 'pdf'])->middleware('admin');
+    Route::get('/laporan/',[App\Http\Controllers\AbsensiController::class, 'laporan'])->middleware('admin');
    });
 
 

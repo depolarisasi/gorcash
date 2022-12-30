@@ -28,7 +28,7 @@
 </h3>
 <div class="card-toolbar">
     @if(Auth::user()->role == 1)
-    <button type="button" class="btn btn-primary mr-3" data-toggle="modal" data-target="#kirpaket">
+    <button type="button" class="btn btn-primary mr-3" data-toggle="modal" data-target="#absen">
        Tambah Absensi
     </button>
     <a href="{{url('absensi/laporan')}}" class="btn btn-secondary">Laporan Absensi</a>
@@ -49,18 +49,18 @@
                         <div class="d-flex align-items-center">
                             <label class="mr-3 mb-0 d-none d-md-block">Bulan:</label>
                             <select class="form-control" name="bulan" id="bulan">
-                                <option value="1"  @if(Request::get('bulan') == "1" || \Carbon\Carbon::now()->format('m') == "1") selected="selected" @endif>Januari</option>
-                                <option value="2"  @if(Request::get('bulan') == "2" || \Carbon\Carbon::now()->format('m') == "2") selected="selected" @endif>Februari</option>
-                                <option value="3"  @if(Request::get('bulan') == "3" || \Carbon\Carbon::now()->format('m') == "3") selected="selected" @endif>Maret</option>
-                                <option value="4"  @if(Request::get('bulan') == "4" || \Carbon\Carbon::now()->format('m') == "4") selected="selected" @endif>April</option>
-                                <option value="5"  @if(Request::get('bulan') == "5" || \Carbon\Carbon::now()->format('m') == "5") selected="selected" @endif>Mei</option>
-                                <option value="6"  @if(Request::get('bulan') == "6" || \Carbon\Carbon::now()->format('m') == "6") selected="selected" @endif>Juni</option>
-                                <option value="7"  @if(Request::get('bulan') == "7" || \Carbon\Carbon::now()->format('m') == "7") selected="selected" @endif>Juli</option>
-                                <option value="8"  @if(Request::get('bulan') == "8" || \Carbon\Carbon::now()->format('m') == "8") selected="selected" @endif>Agustus</option>
-                                <option value="9"  @if(Request::get('bulan') == "9" || \Carbon\Carbon::now()->format('m') == "9") selected="selected" @endif>Desember</option>
-                                <option value="10"  @if(Request::get('bulan') == "10" || \Carbon\Carbon::now()->format('m') == "10") selected="selected" @endif>Oktober</option>
-                                <option value="11"  @if(Request::get('bulan') == "11" || \Carbon\Carbon::now()->format('m') == "11") selected="selected" @endif>November</option>
-                                <option value="12"  @if(Request::get('bulan') == "12" || \Carbon\Carbon::now()->format('m') == "12") selected="selected" @endif>Desember</option>
+                                <option value="1"  @if(Request::get('bulan') == "1" && \Carbon\Carbon::now()->format('m') == "1") selected="selected" @endif>Januari</option>
+                                <option value="2"  @if(Request::get('bulan') == "2" && \Carbon\Carbon::now()->format('m') == "2") selected="selected" @endif>Februari</option>
+                                <option value="3"  @if(Request::get('bulan') == "3" && \Carbon\Carbon::now()->format('m') == "3") selected="selected" @endif>Maret</option>
+                                <option value="4"  @if(Request::get('bulan') == "4" && \Carbon\Carbon::now()->format('m') == "4") selected="selected" @endif>April</option>
+                                <option value="5"  @if(Request::get('bulan') == "5" && \Carbon\Carbon::now()->format('m') == "5") selected="selected" @endif>Mei</option>
+                                <option value="6"  @if(Request::get('bulan') == "6" && \Carbon\Carbon::now()->format('m') == "6") selected="selected" @endif>Juni</option>
+                                <option value="7"  @if(Request::get('bulan') == "7" && \Carbon\Carbon::now()->format('m') == "7") selected="selected" @endif>Juli</option>
+                                <option value="8"  @if(Request::get('bulan') == "8" && \Carbon\Carbon::now()->format('m') == "8") selected="selected" @endif>Agustus</option>
+                                <option value="9"  @if(Request::get('bulan') == "9" && \Carbon\Carbon::now()->format('m') == "9") selected="selected" @endif>September</option>
+                                <option value="10"  @if(Request::get('bulan') == "10" && \Carbon\Carbon::now()->format('m') == "10") selected="selected" @endif>Oktober</option>
+                                <option value="11"  @if(Request::get('bulan') == "11" && \Carbon\Carbon::now()->format('m') == "11") selected="selected" @endif>November</option>
+                                <option value="12"  @if(Request::get('bulan') == "12" && \Carbon\Carbon::now()->format('m') == "12") selected="selected" @endif>Desember</option>
 
                             </select>
                         </div>
@@ -96,11 +96,11 @@
         </div>
     </div>
 
-<div class="modal fade" id="kirpaket" tabindex="-1" role="dialog" aria-labelledby="kirpaketLabel" aria-hidden="true">
+<div class="modal fade" id="absen" tabindex="-1" role="dialog" aria-labelledby="absenLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="kirpaketLabel">Kirim Paket</h5>
+                <h5 class="modal-title" id="absenLabel">Absensi</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <i aria-hidden="true" class="ki ki-close"></i>
                 </button>
@@ -120,7 +120,7 @@
                 <option value="6">Juni</option>
                 <option value="7">Juli</option>
                 <option value="8">Agustus</option>
-                <option value="9">Desember</option>
+                <option value="9">September</option>
                 <option value="10">Oktober</option>
                 <option value="11">November</option>
                 <option value="12">Desember</option>
