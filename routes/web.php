@@ -231,16 +231,6 @@ Route::group(['prefix' => 'size'], function() {
 
    });
 
-   Route::group(['prefix' => 'laporan-penjualan'], function() {
-    Route::get('/',[App\Http\Controllers\BarangTerjualController::class, 'index'])->middleware('storeofficer');
-    Route::get('/detail/{id}',[App\Http\Controllers\BarangTerjualController::class, 'show'])->middleware('storeofficer');
-    Route::get('/new',[App\Http\Controllers\BarangTerjualController::class, 'create'])->middleware('storeofficer');
-    Route::post('/store',[App\Http\Controllers\BarangTerjualController::class, 'store'])->middleware('storeofficer');
-    Route::get('/edit/{id}',[App\Http\Controllers\BarangTerjualController::class, 'edit'])->middleware('storeofficer');
-    Route::post('/update',[App\Http\Controllers\BarangTerjualController::class, 'update'])->middleware('storeofficer');
-    Route::get('/delete/{id}',[App\Http\Controllers\BarangTerjualController::class, 'delete'])->middleware('storeofficer');
-    Route::get('/struk/{id?}',[App\Http\Controllers\BarangTerjualController::class, 'receipt'])->middleware('storeofficer');
-   });
 
    Route::group(['prefix' => 'barangterjual'], function() {
     Route::get('/',[App\Http\Controllers\BarangTerjualController::class, 'index'])->middleware('storeofficer');
@@ -251,6 +241,7 @@ Route::group(['prefix' => 'size'], function() {
     Route::post('/update',[App\Http\Controllers\BarangTerjualController::class, 'update'])->middleware('storeofficer');
     Route::get('/delete/{id}',[App\Http\Controllers\BarangTerjualController::class, 'delete'])->middleware('storeofficer');
     Route::get('/struk/{id?}',[App\Http\Controllers\BarangTerjualController::class, 'receipt'])->middleware('storeofficer');
+    Route::get('/laporan/',[App\Http\Controllers\BarangTerjualController::class, 'laporan'])->middleware('admin');
    });
 
     Route::group(['prefix' => 'stokopname'], function() {
