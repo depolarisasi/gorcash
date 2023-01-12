@@ -81,7 +81,7 @@
             menubar: false,
             toolbar: ['styleselect fontselect fontsizeselect',
                 'undo redo | cut copy paste | bold italic forecolor backcolor | link image | alignleft aligncenter alignright alignjustify',
-                'bullist numlist | outdent indent | blockquote subscript superscript | advlist | autolink | lists charmap | print preview |  tableprops tabledelete | tableinsertrowbefore tableinsertrowafter tabledeleterow | tableinsertcolbefore tableinsertcolafter tabledeletecol'],
+                'bullist numlist | outdent indent | blockquote subscript superscript | advlist | autolink | lists charmap | print preview | table tableprops tabledelete | tableinsertrowbefore tableinsertrowafter tabledeleterow | tableinsertcolbefore tableinsertcolafter tabledeletecol'],
             plugins : 'advlist autolink link image lists charmap print preview code forecolor backcolor table'
         });
     </script>

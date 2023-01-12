@@ -106,7 +106,8 @@ class HomeController extends Controller
         $potonganthismonth = Penjualan::whereMonth('penjualan_tanggalwaktupenjualan',Carbon::now()->setTimezone('Asia/Jakarta')->format('m'))->sum('penjualan_totalpotongan');
         $dataproporsi = json_encode([$pendapatanthismonth, $diskonthismonth, $potonganthismonth]);
 
-        return view('index')->with(compact('workflow','today','note','agenda','produkstokrendah','totaltoday','totproductweek','totproductmonth','producttoday','weeklyproduct','productmonthly','productweek','monthlyproduct','dataproporsi','weeklydate','salesweekly','totalweekly','monthlydate','salesmonthly','totalmonthly','recentsales','productweekly','weeklyproductsales','recentsales'));
+        $pengumuman = Notes::where('note_id','13')->first();
+        return view('index')->with(compact('pengumuman','workflow','today','note','agenda','produkstokrendah','totaltoday','totproductweek','totproductmonth','producttoday','weeklyproduct','productmonthly','productweek','monthlyproduct','dataproporsi','weeklydate','salesweekly','totalweekly','monthlydate','salesmonthly','totalmonthly','recentsales','productweekly','weeklyproductsales','recentsales'));
     //   return $dateweek;
     }
 

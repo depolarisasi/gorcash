@@ -487,6 +487,7 @@ background-color: #fff !important;
                             </g>
                         </svg><!--end::Svg Icon--></span><span class="menu-text">Agenda Promosi</span></a>
                 </li>
+                @if(Auth::user()->role == 1)
                 <li class="menu-item menu-item">
                     <a href="{{url('note')}}" class="menu-link ">
                         <span class="svg-icon svg-icon-white menu-icon"><!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo5/dist/../src/media/svg/icons/Communication/Thumbtack.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -497,7 +498,6 @@ background-color: #fff !important;
                             </g>
                         </svg><!--end::Svg Icon--></span><span class="menu-text">Note</span></a>
                 </li>
-                @if(Auth::user()->role == 1)
                 <li class="menu-item menu-item">
                     <a href="{{url('informasi')}}" class="menu-link ">
                         <span class="svg-icon svg-icon-white menu-icon"><!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo5/dist/../src/media/svg/icons/Communication/Clipboard-check.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">

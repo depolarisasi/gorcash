@@ -208,6 +208,24 @@ Dashboard Gorilla Coach </h5>
                 <!--end::Stats Widget 12-->
                 </div>
     </div>
+    @else
+    <div class="col-md-12 p-0">
+        <!--begin::Stats Widget 12-->
+        <div class="card card-custom card-stretch gutter-b">
+
+            <div class="card-header border-0 pt-6 mb-2">
+                <h3 class="card-title align-items-start flex-column">
+                    <span class="card-label font-weight-bold font-size-h4 text-dark-75 mb-3">Penjualan Terakhir</span>
+                </h3>
+            </div>
+        <!--begin::Body-->
+        <div class="card-body pt-2">
+            {!! $pengumuman->note_isi !!}
+        </div>
+        <!--end::Body-->
+        </div>
+        <!--end::Stats Widget 12-->
+        </div>
     @endif
 
     <div class="row">
