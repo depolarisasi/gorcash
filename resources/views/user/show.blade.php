@@ -35,16 +35,13 @@
 </br>
     <p><b>Jabatan </b> :
         @if($show->role == 1)
-        <span class="label label-lg label-rounded label-danger label-jabatan">Admin Owner</span> 
-        @elseif($show->role == 3)
-        <span class="label label-lg label-rounded label-primary label-jabatan">Sosmed</span>
-        @endif
+        <span class="label label-lg label-rounded label-danger label-jabatan">Owner</span>
         @elseif($show->role == 4)
-        <span class="label label-lg label-rounded label-primary label-jabatan">Admin</span>
+        <span class="label label-lg label-rounded label-primary label-jabatan">Karyawan</span>
         @elseif($show->role == 5)
-        <span class="label label-lg label-rounded label-primary label-jabatan">Kasir</span>
+        <span class="label label-lg label-rounded label-primary label-jabatan">Toko</span>
         @elseif($show->role == 6)
-        <span class="label label-lg label-rounded label-primary label-jabatan">Super Admin</span>
+        <span class="label label-lg label-rounded label-primary label-jabatan">Admin</span>
         @endif</p>
 
 </br>

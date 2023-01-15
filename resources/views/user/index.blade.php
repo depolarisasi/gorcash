@@ -55,15 +55,13 @@
 </td>
 <td>
 @if($u->role == 1)
-<span class="label label-lg label-rounded label-danger label-jabatan">Owner</span> 
-@elseif($u->role == 3)
-<span class="label label-lg label-rounded label-primary label-jabatan">Sosmed</span>
+<span class="label label-lg label-rounded label-danger label-jabatan">Owner</span>
 @elseif($u->role == 4)
-<span class="label label-lg label-rounded label-primary label-jabatan">Admin</span>
+<span class="label label-lg label-rounded label-primary label-jabatan">Karyawan</span>
 @elseif($u->role == 5)
-<span class="label label-lg label-rounded label-primary label-jabatan">Kasir</span> 
+<span class="label label-lg label-rounded label-primary label-jabatan">Toko</span>
 @elseif($u->role == 6)
-<span class="label label-lg label-rounded label-primary label-jabatan">Super Admin</span>
+<span class="label label-lg label-rounded label-primary label-jabatan">Admin</span>
 @endif
 </td>
 <td>

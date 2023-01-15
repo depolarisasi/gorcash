@@ -47,11 +47,10 @@
             <label class="col-md-2">Jabatan / Peran</label>
             <div class="col-md-3">
                 <select class="multisteps-form__input form-control" name="role">
-                <option value="1">Owner</option> 
-                <option value="3">Sosmed</option>
-                <option value="4">Admin</option>
-                <option value="5">Kasir</option>
-                <option value="6">Super Admin</option>
+                <option value="1">Owner</option>
+                <option value="4">Karyawan</option>
+                <option value="5">Toko</option>
+                <option value="6">Admin</option>
               </select>
             </div>
           </div>

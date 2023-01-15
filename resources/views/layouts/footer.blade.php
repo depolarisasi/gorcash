@@ -15,15 +15,13 @@
                                             <div class="text-muted mt-1">
 
 @if(Auth::user()->role == 1 || Auth::user()->role == 6)
-<span class="label label-lg label-rounded label-danger label-jabatan">Super Admin</span> 
-@elseif(Auth::user()->role == 3)
-<span class="label label-lg label-rounded label-info label-jabatan">Social Media Officer</span>
+<span class="label label-lg label-rounded label-danger label-jabatan">Owner</span>
 @elseif(Auth::user()->role == 4)
-<span class="label label-lg label-rounded label-success label-jabatan">Admin</span>
+<span class="label label-lg label-rounded label-success label-jabatan">Karyawan</span>
 @elseif(Auth::user()->role == 5)
-<span class="label label-lg label-rounded label-success label-jabatan">Kasir</span>
+<span class="label label-lg label-rounded label-success label-jabatan">Toko</span>
 @elseif(Auth::user()->role == 6)
-<span class="label label-lg label-rounded label-success label-jabatan">Super Admin</span>
+<span class="label label-lg label-rounded label-success label-jabatan">Admin</span>
 @endif
                                             </div>
                                             <div class="navi mt-2">

@@ -215,7 +215,7 @@ Dashboard Gorilla Coach </h5>
 
             <div class="card-header border-0 pt-6 mb-2">
                 <h3 class="card-title align-items-start flex-column">
-                    <span class="card-label font-weight-bold font-size-h4 text-dark-75 mb-3">Penjualan Terakhir</span>
+                    <span class="card-label font-weight-bold font-size-h4 text-dark-75 mb-3">WORKFLOW GORILLA COACH</span>
                 </h3>
             </div>
         <!--begin::Body-->

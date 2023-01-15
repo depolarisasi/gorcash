@@ -24,7 +24,7 @@
 <!--begin::Header-->
 <div class="card-header border-0 py-5">
 <h3 class="card-title align-items-start flex-column">
-<span class="card-label font-weight-bolder text-dark">Laporan Trending Produk</span>
+<span class="card-label font-weight-bolder text-dark">Laporan Best Seller Artikel</span>
 </h3>
 <div class="card-toolbar">
 </div>
@@ -97,8 +97,8 @@
             <table class="table table-striped table-bordered" id="laporanproduk">
                 <thead>
                     <tr>
-                        <th>Nama Produk</th>
-                        <th>Nama Band</th>
+                        <th>Produk</th>
+                        <th>Band</th>
                         <th>Size</th>
                         <th>Qty Terjual</th>
                     </tr>
@@ -108,21 +108,21 @@
                     @foreach($laporanproduk as $lp)
                     <tr>
                         <td>{{$lp->product_nama}}</td>
+                        <td>{{$lp->band_nama}}</td>
                         <td>{{$lp->size_nama}}</td>
-                       <td>{{$lp->band_nama}}</td>
-                       <td>{{$lp->jumlahterjual}}</td>
+                        <td>{{$lp->jumlahterjual}}</td>
                     </tr>
                     @endforeach
 
                 </tbody>
             </table>
 
-<span class="card-label font-weight-bolder text-dark">Band Populer Berdasarkan Penjualan</span>
+<span class="card-label font-weight-bolder text-dark">Best Seller Band</span>
 <div class="table-responsive">
     <table class="table table-striped table-bordered" id="laporanband">
         <thead>
             <tr>
-                <th>Nama Band</th>
+                <th>Band</th>
                 <th>Qty Terjual</th>
             </tr>
         </thead>
