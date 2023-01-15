@@ -468,7 +468,7 @@ background-color: #fff !important;
                                 <polygon fill="#000000" points="14.9671522 4.22441676 7.5999999 8.31727912 7.5999999 12.9056825 9.5999999 13.9056825 9.5999999 9.49408582 17.25507 5.24126912"/>
                             </g>
                         </svg><!--end::Svg Icon--></span>
-                        <span class="menu-text">Kirim Paket</span></a>
+                        <span class="menu-text">Paket</span></a>
                 </li>
                         </ul>
                     </div>
@@ -528,7 +528,7 @@ background-color: #fff !important;
                                 <rect fill="#000000" opacity="0.3" transform="translate(18.000000, 13.000000) scale(1, -1) rotate(-180.000000) translate(-18.000000, -13.000000) " x="17" y="7" width="2" height="12" rx="1"/>
                                 <path d="M20.2928932,5.29289322 C20.6834175,4.90236893 21.3165825,4.90236893 21.7071068,5.29289322 C22.0976311,5.68341751 22.0976311,6.31658249 21.7071068,6.70710678 L18.7071068,9.70710678 C18.3165825,10.0976311 17.6834175,10.0976311 17.2928932,9.70710678 L14.2928932,6.70710678 C13.9023689,6.31658249 13.9023689,5.68341751 14.2928932,5.29289322 C14.6834175,4.90236893 15.3165825,4.90236893 15.7071068,5.29289322 L18,7.58578644 L20.2928932,5.29289322 Z" fill="#000000" fill-rule="nonzero" transform="translate(18.000000, 7.500000) scale(1, -1) translate(-18.000000, -7.500000) "/>
                             </g>
-                        </svg><!--end::Svg Icon--></span><span class="menu-text">Produk Harian</span></a>
+                        </svg><!--end::Svg Icon--></span><span class="menu-text">Stok Harian</span></a>
                 </li>
                 @endif
 
