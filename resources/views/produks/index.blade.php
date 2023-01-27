@@ -85,7 +85,7 @@
 				</div>
                 <div class="col-md-3 my-2 my-md-0">
 					<div class="d-flex align-items-center">
-						<label class="mr-3 mb-0 d-none d-md-block">Type:</label>
+						<label class="mr-3 mb-0 d-none d-md-block">Tipe:</label>
 						<select class="form-control" id="kt_datatable_search_type">
 							<option value="">All</option>
                             @foreach($type as $v)
@@ -115,7 +115,7 @@
 					<th>Master SKU</th>
 					<th>Produk</th>
 					<th>Size</th>
-					<th>Type</th>
+					<th>Tipe</th>
 					<th>Vendor</th>
 					<th>Band</th>
 					@if(Auth::user()->role == 1 || Auth::user()->role == 6 )<th>Harga Beli</th>@endif

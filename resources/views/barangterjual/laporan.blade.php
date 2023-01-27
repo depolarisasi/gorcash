@@ -97,6 +97,7 @@
             <table class="table table-striped table-bordered" id="laporanproduk">
                 <thead>
                     <tr>
+                        <th>SKU</th>
                         <th>Produk</th>
                         <th>Band</th>
                         <th>Size</th>
@@ -107,6 +108,7 @@
 
                     @foreach($laporanproduk as $lp)
                     <tr>
+                        <td>{{$lp->product_sku}}</td>
                         <td>{{$lp->product_nama}}</td>
                         <td>{{$lp->band_nama}}</td>
                         <td>{{$lp->size_nama}}</td>
@@ -122,6 +124,7 @@
     <table class="table table-striped table-bordered" id="laporanband">
         <thead>
             <tr>
+                <th>Code</th>
                 <th>Band</th>
                 <th>Qty Terjual</th>
             </tr>
@@ -129,6 +132,7 @@
         <tbody>
  @foreach($laporanband as $lb)
  <tr>
+    <td>{{$lb->band_code}}</td>
     <td>{{$lb->band_nama}}</td>
     <td>{{$lb->jumlahterjual}}</td>
  </tr>

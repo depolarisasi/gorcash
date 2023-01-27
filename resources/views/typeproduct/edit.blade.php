@@ -44,7 +44,7 @@
             </div>
           </div>
           <div class="form-group row mt-4">
-            <label class="col-md-2">Category Type Produk</label>
+            <label class="col-md-2">Category Tipe Produk</label>
             <div class="col-md-3">
                 <select class="multisteps-form__input form-control" name="type_category" required>
                     <option value="Dewasa" @if($edit->type_category == "Dewasa") selected @endif>Dewasa</option>

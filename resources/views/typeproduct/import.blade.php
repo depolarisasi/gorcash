@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title','Import Type Product - ')
+@section('title','Import Tipe Product - ')
 @section('css')
 <link href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css">
 @endsection
@@ -21,7 +21,7 @@
 <!--begin::Header-->
 <div class="card-header border-0 py-5">
 <h3 class="card-title align-items-start flex-column">
-<span class="card-label font-weight-bolder text-dark">Import Type Product</span>
+<span class="card-label font-weight-bolder text-dark">Import Tipe Product</span>
 </h3>
 <div class="card-toolbar">
 <a href="{{url('type')}}" class="btn btn-primary btn-md font-size-sm"><i class="fas fa-arrow-left"></i> Kembali</a>
@@ -50,7 +50,7 @@
 
   <div class="form-group row mt-4">
     <div class="col-md-6">
-<button class="btn btn-md btn-primary" type="submit">Tambah Type Product</button>
+<button class="btn btn-md btn-primary" type="submit">Tambah Tipe Product</button>
     </div>
 </div>
 

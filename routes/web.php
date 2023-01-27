@@ -59,10 +59,18 @@ Route::group(['prefix' => 'slipgaji'], function() {
 
    Route::group(['prefix' => 'profil-karyawan'], function() {
     Route::get('/',[App\Http\Controllers\KaryawanController::class, 'profil'])->middleware('auth');
+    Route::group(['prefix' => 'gaji'], function() {
+        Route::get('/',[App\Http\Controllers\KaryawanController::class, 'slipgaji'])->middleware('auth');
+        Route::get('/detail/{id}',[App\Http\Controllers\KaryawanController::class, 'showslipgaji'])->middleware('admin');
+        Route::get('/print/{id}',[App\Http\Controllers\KaryawanController::class, 'printslipgaji'])->middleware('admin');
+        Route::get('/pdf/{id}',[App\Http\Controllers\KaryawanController::class, 'pdfslipgaji'])->middleware('admin');
+
+       });
     Route::get('/edit',[App\Http\Controllers\KaryawanController::class, 'editprofil'])->middleware('auth');
     Route::post('/update',[App\Http\Controllers\KaryawanController::class, 'updateprofil'])->middleware('auth');
 
    });
+
 
 Route::group(['prefix' => 'vendors'], function() {
     Route::get('/',[App\Http\Controllers\VendorController::class, 'index'])->middleware('auth');

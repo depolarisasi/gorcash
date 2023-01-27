@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title','Type Produk - ')
+@section('title','Tipe Produk - ')
 @section('css')
 <link href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css">
 <link href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css">
@@ -24,7 +24,7 @@
 <!--begin::Header-->
 <div class="card-header border-0 py-5">
 <h3 class="card-title align-items-start flex-column">
-<span class="card-label font-weight-bolder text-dark">Daftar Type Produk</span>
+<span class="card-label font-weight-bolder text-dark">Daftar Tipe Produk</span>
 </h3>
 <div class="card-toolbar">
 <a href="{{url('type/import')}}" class="btn btn-primary btn-md font-size-sm mr-2"><i class="fas fa-plus"></i> Import </a>
@@ -42,10 +42,10 @@
 <thead>
 <tr class="text-left">
 <th style="width: 10%"><span class="text-dark-75">Select</span></th>
-<th style="min-width: 50px"><span class="text-dark-75">Nama Type Produk</span></th>
-<th style="min-width: 50px"><span class="text-dark-75">Code Type Produk</span></th>
+<th style="min-width: 50px"><span class="text-dark-75">Nama Tipe Produk</span></th>
+<th style="min-width: 50px"><span class="text-dark-75">Code Tipe Produk</span></th>
 <th style="min-width: 50px"><span class="text-dark-75">Code Angka </span></th>
-<th style="min-width: 50px"><span class="text-dark-75">Category Type Produk</span></th>
+<th style="min-width: 50px"><span class="text-dark-75">Category Tipe Produk</span></th>
 <th style="min-width: 80px">Action</th>
 </tr>
 </thead>

@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Auth;
 use App\Models\User;
 use App\Models\Karyawan;
+use App\Models\SlipGaji;
+use App\Models\KomponenGaji;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Database\QueryException as QE;
@@ -13,7 +15,7 @@ use RealRashid\SweetAlert\Facades\Alert;
 use Intervention\Image\ImageManagerStatic as Image;
 use Illuminate\Support\Facades\File;
 use Carbon\Carbon;
-use Carbon\CarbonPeriod;     
+use Carbon\CarbonPeriod;
 use PDF;
 
 class KaryawanController extends Controller
@@ -186,7 +188,7 @@ class KaryawanController extends Controller
         if($show){
             return view('karyawan.profil')->with(compact('show'));
         }
-        else { 
+        else {
         toast('Profil Karyawan Tidak Ditemukan','error');
         return redirect()->back();
         }
@@ -235,10 +237,111 @@ class KaryawanController extends Controller
             return redirect('profil-karyawan');
     }
 
-    public function print($id){ 
-        $show = Karyawan::where('karyawan_id', $id)->first();  
+    public function print($id){
+        $show = Karyawan::where('karyawan_id', $id)->first();
         $pdf = PDF::loadView('karyawan.printpdf', compact('show'));
         return $pdf->download('karyawan_info_pdf_'.$show->karyawan_nama.'.pdf');
     }
 
+    public function slipgaji(Request $request)
+    {
+        $show = Karyawan::where('karyawan_userid', Auth::user()->id)->first();
+        if($show){
+
+        if($request->get('bulan') != "" | !empty($request->get('bulan'))){
+            $bulan = $request->get('bulan');
+        }else {
+            $bulan = "All";
+        }
+
+        if($request->get('tahun') != "" | !empty($request->get('tahun'))){
+            $tahun = $request->get('tahun');
+        }else {
+            $tahun = "All";
+        }
+
+        $selected_month =  $bulan == "All"? "All":$bulan;
+        $selected_year =  $tahun == "All"? "All":$tahun;
+        $gaji = SlipGaji::join('karyawan','karyawan_id','=','slipgaji_karyawanid')
+        ->select('karyawan.*','slipgaji.*');
+
+        if($selected_month != "All"){
+        $gaji->where('slipgaji.slipgaji_bulan',$selected_month);
+        }
+        if($selected_year != "All"){
+        $gaji->where('slipgaji.slipgaji_tahun',$selected_year);
+        }
+
+       $gaji->where('slipgaji.slipgaji_userid',Auth::user()->id);
+       $gaji = $gaji->get();
+
+        $tahun = SlipGaji::select('slipgaji_tahun as year')->groupBy('year')->get();
+        return view('karyawan.slipgajikaryawan')->with(compact('gaji','tahun'));
+        }
+        else {
+        toast('Profil Karyawan Tidak Ditemukan','error');
+        return redirect()->back();
+        }
+
+    }
+    public function showslipgaji($id)
+    {
+        $checkuser = SlipGaji::where('slipgaji_id',$id)->first();
+        if($checkuser->slipgaji_userid == Auth::user()->id){
+            $show = SlipGaji::join('karyawan','karyawan_id','=','slipgaji_karyawanid')
+            ->join('users','id','=','slipgaji_userid')
+            ->select('slipgaji.*','karyawan.*','users.name','users.id','users.email')
+            ->where('slipgaji_id', $id)->first();
+            $komponenpenerimaan = KomponenGaji::where('gaji_slipid', $show->slipgaji_id)
+            ->where('gaji_typekomponen',1)->get();
+            $komponenpotongan = KomponenGaji::where('gaji_slipid', $show->slipgaji_id)
+            ->where('gaji_typekomponen',2)->get();
+
+            return view('karyawan.showslipgaji')->with(compact('show','komponenpenerimaan','komponenpotongan'));
+            // return $komponenpenerimaan;
+        }else {
+            toast('Slip Gaji Tidak Ditemukan','error');
+            return redirect()->back();
+        }
+
+    }
+    public function printslipgaji($id)
+    {
+        $checkuser = SlipGaji::where('slipgaji_id',$id)->first();
+        if($checkuser->slipgaji_userid == Auth::user()->id){
+        $show = SlipGaji::join('karyawan','karyawan_id','=','slipgaji_karyawanid')
+        ->join('users','id','=','slipgaji_userid')
+        ->select('slipgaji.*','karyawan.*','users.name','users.id','users.email')
+        ->where('slipgaji_id', $id)->first();
+        $komponenpenerimaan = KomponenGaji::where('gaji_slipid', $show->slipgaji_id)
+        ->where('gaji_typekomponen',1)->get();
+        $komponenpotongan = KomponenGaji::where('gaji_slipid', $show->slipgaji_id)
+        ->where('gaji_typekomponen',2)->get();
+
+        return view('karyawan.printslipgaji')->with(compact('show','komponenpenerimaan','komponenpotongan'));
+        // return $komponenpenerimaan;
+    }else {
+        toast('Slip Gaji Tidak Ditemukan','error');
+        return redirect()->back();
+    }
+    }
+
+    public function pdfslipgaji($id){
+        $checkuser = SlipGaji::where('slipgaji_id',$id)->first();
+        if($checkuser->slipgaji_userid == Auth::user()->id){
+        $show = SlipGaji::join('karyawan','karyawan_id','=','slipgaji_karyawanid')
+        ->join('users','id','=','slipgaji_userid')
+        ->select('slipgaji.*','karyawan.*','users.name','users.id','users.email')
+        ->where('slipgaji_id', $id)->first();
+        $komponenpenerimaan = KomponenGaji::where('gaji_slipid', $show->slipgaji_id)
+        ->where('gaji_typekomponen',1)->get();
+        $komponenpotongan = KomponenGaji::where('gaji_slipid', $show->slipgaji_id)
+        ->where('gaji_typekomponen',2)->get();
+        $pdf = PDF::loadView('karyawan.pdfslipgaji', compact('show','komponenpenerimaan','komponenpotongan'));
+        return $pdf->download('slipgaji-'.$show->karyawan_nama.$show->slipgaji_bulan.$show->slipgaji_tahun.'.pdf');
+    }else {
+        toast('Slip Gaji Tidak Ditemukan','error');
+        return redirect()->back();
+    }
+    }
 }

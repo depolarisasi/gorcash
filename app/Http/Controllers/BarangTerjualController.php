@@ -74,13 +74,13 @@ class BarangTerjualController extends Controller
         }
         $laporanproduk->groupBy('barangterjual.barangterjual_idproduk');
         $laporanproduk->orderBy('jumlahterjual','DESC');
-        $laporanproduk->limit(20);
+        $laporanproduk->limit(50);
         $laporanproduk = $laporanproduk->get();
 
         $laporanband = BarangTerjual::join('product','product.product_id','=','barangterjual.barangterjual_idproduk')
         ->join('size','size.size_id','=','product.product_idsize')
         ->join('band','band.band_id','=','product.product_idband')
-        ->select('band.band_nama', DB::Raw('SUM(barangterjual.barangterjual_qty) as jumlahterjual'))
+        ->select('band.band_nama','band.band_code', DB::Raw('SUM(barangterjual.barangterjual_qty) as jumlahterjual'))
         ->where('product.product_idband', '!=', '627')
         ->where('product.product_idband', '!=', '628');
 
@@ -93,7 +93,7 @@ class BarangTerjualController extends Controller
         $laporanband->groupBy('band.band_id');
         $laporanband->orderBy('jumlahterjual','DESC');
 
-        $laporanband->limit(20);
+        $laporanband->limit(50);
         $laporanband = $laporanband->get();
 
         return view('barangterjual.laporan')->with(compact('selected_month','selected_year','laporanproduk','laporanband'));
