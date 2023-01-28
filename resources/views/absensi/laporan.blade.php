@@ -100,9 +100,9 @@
 <th><span class="text-dark-75">Libur</span></th>
 <th><span class="text-dark-75">Cuti</span></th>
 <th><span class="text-dark-75">Izin Sakit</span></th>
-<th><span class="text-dark-75">Izin Terlambat</span></th>
 <th><span class="text-dark-75">Tanpa Keterangan</span></th>
 <th><span class="text-dark-75">Tidak Hadir</span></th>
+<th><span class="text-dark-75">Terlambat</span></th>
 <th><span class="text-dark-75">Jam Lembur</span></th>
 </tr>
 </thead>
@@ -114,9 +114,9 @@
 <td class="pl-3 py-3">{{(int) $laporan->libur}} Hari</td>
 <td class="pl-3 py-3">{{(int) $laporan->cuti}} Hari</td>
 <td class="pl-3 py-3">{{(int) $laporan->izinsakit}} Hari</td>
-<td class="pl-3 py-3">{{(int) $laporan->izintelat}} Hari</td>
 <td class="pl-3 py-3">{{(int) $laporan->tanpaketerangan}} Hari</td>
 <td class="pl-3 py-3">{{(int) $laporan->tidakhadir}} Hari</td>
+<td class="pl-3 py-3">{{(int) $laporan->terlambat}} Hari</td>
 <td class="pl-3 py-3">{{number_format((float)$laporan->lamalembur/60, 0, '.', '')}} Jam</td>
 
 </tr>

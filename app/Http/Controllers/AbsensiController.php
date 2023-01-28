@@ -181,7 +181,7 @@ foreach($absensi as $abs){
 
 
         $laporan = Absensi::join('karyawan','karyawan_id','=','absensi_karyawanid')
-        ->select(array('absensi.absensi_karyawanid','karyawan.karyawan_nama','karyawan.karyawan_id',
+        ->select(array('absensi.absensi_karyawanid','karyawan.karyawan_nama','karyawan.karyawan_id','karyawan.karyawan_jammasukkerja',
         DB::raw('SUM(CASE WHEN absensi.absensi_type = 1 THEN 1 ELSE 0 END) hadir'),
         DB::raw('SUM(CASE WHEN absensi.absensi_type = 3 THEN 1 ELSE 0 END) cuti'),
         DB::raw('SUM(CASE WHEN absensi.absensi_type = 4 THEN 1 ELSE 0 END) izinsakit'),
@@ -189,6 +189,7 @@ foreach($absensi as $abs){
         DB::raw('SUM(CASE WHEN absensi.absensi_type = 7 THEN 1 ELSE 0 END) libur'),
         DB::raw('SUM(CASE WHEN absensi.absensi_type = 6 THEN 1 ELSE 0 END) tanpaketerangan'),
         DB::raw('SUM(CASE WHEN absensi.absensi_type = 2 THEN 1 ELSE 0 END) tidakhadir'),
+        DB::raw('SUM(CASE WHEN absensi.absensi_jammasuk >= karyawan.karyawan_jammasukkerja AND absensi.absensi_type = 1 THEN 1 ELSE 0 END) terlambat'),
         DB::raw('SUM(absensi.absensi_lembur) lamalembur'),
         DB::raw('MONTH(absensi.absensi_tanggal) as month'),
         DB::raw('YEAR(absensi.absensi_tanggal) as year')));

@@ -50,9 +50,9 @@
         </div>
     </div>
     @endif
- 
+
 <div class="tab-content">
-      
+
 		<!--begin: Datatable-->
         <div class="table-responsive">
 
@@ -65,25 +65,29 @@
 					<th width="10%">JAM PULANG</th>
 					<th width="5%">LAMA KERJA</th>
 					<th width="5%">LAMA LEMBUR</th>
-					<th width="10%">TYPE KEHADIRAN</th>
+					<th width="10%">TIPE KEHADIRAN</th>
 					<th width="10%">KETERANGAN</th>
 				</tr>
 			</thead>
 			<tbody>
-                    
+
             @php
-            $i = 1; 
-            @endphp 
-            @foreach($show as $e) 
+            $i = 1;
+            @endphp
+            @foreach($show as $e)
             <tr>
-                    <td>{{$i}}</td> 
+                    <td>{{$i}}</td>
                     <td>{{\Carbon\Carbon::parse($e->absensi_tanggal)->format('d-m-Y')}}</td>
                     <td><span id="jammasuk{{$i}}" data-hari="{{$i}}" class="jammasuk">{{$e->absensi_jammasuk}}</span></td>
                     <td><span id="jampulang{{$i}}" data-hari="{{$i}}" class="jampulang">{{$e->absensi_jampulang}}</span></td>
                     <td><span class="lamakerja"  data-tgl="{{$i}}" data-minute="{{$e->absensi_lamakerja}}"  id="textlamakerja{{$i}}">0</span></td>
                     <td><span class="lamalembur" id="textlamalembur{{$i}}">0</span></td>
-                    <td>@if($e->absensi_type == 1) 
-                        Masuk 
+                    <td>@if($e->absensi_type == 1)
+                        Masuk @if ($e->absensi_jammasuk >= $e->karyawan_jammasukkerja)
+                        , <span class="badge badge-danger">Terlambat</span>
+                        @else
+                        , <span class="badge badge-success"> Tepat Waktu</span>
+                    @endif
                         @elseif($e->absensi_type == 2)
                         Tidak Masuk
                         @elseif($e->absensi_type == 3)
@@ -91,21 +95,25 @@
                         @elseif($e->absensi_type == 4)
                         Izin Sakit
                         @elseif($e->absensi_type == 5)
-                        Izin Telat
+                        Izin Telat @if ($e->absensi_jammasuk >= $e->karyawan_jammasukkerja)
+                        , <span class="badge badge-danger">Terlambat</span>
+                        @else
+                        , <span class="badge badge-success"> Tepat Waktu</span>
+                    @endif
                         @elseif($e->absensi_type == 6)
                         Tanpa Keterangan
                         @elseif($e->absensi_type == 7)
-                        Libur 
-                        @endif</td>
+                        Libur
+                        @endif </td>
                     <td>{{$e->absensi_keterangan}}</td>
 				</tr>
                 @php
-            $i = $i+1; 
+            $i = $i+1;
             @endphp
                 @endforeach
 			</tbody>
 		</table>
-        </div> 
+        </div>
 </div>
 </div>
 <!--end::Body-->
@@ -124,19 +132,19 @@
 @section('js')
 <script src="https://cdn.jsdelivr.net/npm/luxon@3.1.0/build/global/luxon.min.js"></script>
 <script>
-     
+
 
      var DateTime = luxon.DateTime;
-$(document).ready(function(){ 
+$(document).ready(function(){
 
-  $(".lamakerja").each(function(){    
-     var select_val = $(this).attr('data-tgl'); 
+  $(".lamakerja").each(function(){
+     var select_val = $(this).attr('data-tgl');
     var jammasuk = DateTime.fromISO(document.getElementById("jammasuk"+select_val).innerHTML != null?document.getElementById("jammasuk"+select_val).innerHTML:0);
     var jampulang = DateTime.fromISO(document.getElementById("jampulang"+select_val).innerHTML != null?document.getElementById("jampulang"+select_val).innerHTML:0);
-    var durasijam = jampulang.diff(jammasuk).shiftTo('hours','minutes').toObject(); 
+    var durasijam = jampulang.diff(jammasuk).shiftTo('hours','minutes').toObject();
     var jam = durasijam.hours != undefined?durasijam.hours:0;
     var menit = durasijam.minutes != undefined?durasijam.minutes:0;
-    document.getElementById('textlamakerja'+select_val).innerHTML =  jam +" Jam, " + menit +" Menit";  
+    document.getElementById('textlamakerja'+select_val).innerHTML =  jam +" Jam, " + menit +" Menit";
         if(durasijam.hours > 8){
         var jamlembur = durasijam.hours-8;
         var menitlembur = durasijam.minutes;
@@ -144,9 +152,9 @@ $(document).ready(function(){
         var jamlembur = 0
         var menitlembur = 0;
         }
-        document.getElementById('textlamalembur'+select_val).innerHTML = jamlembur+" Jam, " + menitlembur +" Menit"; 
-}); 
-}); 
+        document.getElementById('textlamalembur'+select_val).innerHTML = jamlembur+" Jam, " + menitlembur +" Menit";
+});
+});
 
 function jammasuk(e) {
 var jammasuk = DateTime.fromISO(e.value);

@@ -97,7 +97,6 @@
                                 <option value="2" @if($e->absensi_type == 2) selected="selected" @endif>Tidak Masuk</option>
                                 <option value="3" @if($e->absensi_type == 3) selected="selected" @endif>Cuti</option>
                                 <option value="4" @if($e->absensi_type == 4) selected="selected" @endif>Izin Sakit</option>
-                                <option value="5" @if($e->absensi_type == 5) selected="selected" @endif>Izin Telat</option>
                                 <option value="6" @if($e->absensi_type == 6) selected="selected" @endif>Tanpa Keterangan</option>
                                 <option value="7" @if($e->absensi_type == 7) selected="selected" @endif>Libur</option>
                             </select></td>
