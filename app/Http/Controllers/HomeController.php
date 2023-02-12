@@ -108,7 +108,7 @@ class HomeController extends Controller
 
         $pengumuman = Notes::where('note_id','13')->first();
         return view('index')->with(compact('pengumuman','workflow','today','note','agenda','produkstokrendah','totaltoday','totproductweek','totproductmonth','producttoday','weeklyproduct','productmonthly','productweek','monthlyproduct','dataproporsi','weeklydate','salesweekly','totalweekly','monthlydate','salesmonthly','totalmonthly','recentsales','productweekly','weeklyproductsales','recentsales'));
-    //   return $dateweek;
+    //   return Auth::user()->foto->karyawan_fotoktp;
     }
 
     public function salesreport(){
