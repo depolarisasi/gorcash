@@ -51,7 +51,7 @@ background-color: #fff !important;
 <div id="kt_header_mobile" class="header-mobile align-items-center header-mobile-fixed"style="background-color: #808080;">
 	<!--begin::Logo-->
 	<a href="{{url('/')}}">
-		<img alt="Logo" class="img-fluid" style="width: 60%;" src="https://d2498fkir7rftp.cloudfront.net/wp-content/uploads/2022/06/web-logo-fix-11.png"/>
+		<img alt="Logo" class="img-fluid" style="width: 60%; padding: 10px !important;" src="https://gorillacoachid.com/wp-content/uploads/2023/02/logo-gorilla-baru.png"/>
 	</a>
 	<!--end::Logo-->
 
@@ -86,10 +86,10 @@ background-color: #fff !important;
 <!--begin::Aside-->
 <div class="aside aside-left  aside-fixed  d-flex flex-column flex-row-auto"  id="kt_aside">
 	<!--begin::Brand-->
-	<div class="brand flex-column-auto " id="kt_brand" style="background-color: #808080;">
+	<div class="brand flex-column-auto " id="kt_brand" style="background-color: #252525;">
 		<!--begin::Logo-->
 		<a href="{{url('/')}}" class="brand-logo">
-			<img alt="Logo" class="img-fluid" src="https://d2498fkir7rftp.cloudfront.net/wp-content/uploads/2022/06/web-logo-fix-11.png"/>
+			<img alt="Logo" class="img-fluid" style="padding: 10px !important;" src="https://gorillacoachid.com/wp-content/uploads/2023/02/logo-gorilla-baru.png"/>
 		</a>
 		<!--end::Logo-->
 
@@ -111,7 +111,7 @@ background-color: #fff !important;
 	<div class="aside-menu-wrapper flex-column-fluid" id="kt_aside_menu_wrapper">
 
 		<!--begin::Menu Container-->
-		<div id="kt_aside_menu" class="aside-menu" data-menu-vertical="1" data-menu-scroll="1" data-menu-dropdown-timeout="500" style="background-color: #808080;">
+		<div id="kt_aside_menu" class="aside-menu" data-menu-vertical="1" data-menu-scroll="1" data-menu-dropdown-timeout="500" style="background-color: #252525;">
 			<!--begin::Menu Nav-->
 			<ul class="menu-nav ">
 				<li class="menu-item menu-item">

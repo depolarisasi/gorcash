@@ -6,7 +6,7 @@
                                     <!--begin::Header-->
                                     <div class="d-flex align-items-center mt-5">
                                         <span class="symbol symbol-100 mr-5 symbol-light-success">
-                                            <span class="symbol-label font-size-h5 font-weight-bold">{{strtoupper(substr(Auth::user()->name,0,1))}}</span>
+		                       <img src="{{asset(Auth::user()->foto->karyawan_foto)}}"></img>
                                         </span>
                                         <div class="d-flex flex-column">
                                             <a href="#" class="font-weight-bold font-size-h5 text-dark-75 text-hover-primary">

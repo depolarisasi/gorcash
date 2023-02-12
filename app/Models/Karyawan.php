@@ -99,4 +99,8 @@ class Karyawan extends Model
     'karyawan_jammasukkerja',
         'created_at',
         'updated_at', ];
+
+        function foto(){
+            return $this->belongsTo('App\User');
+        }
 }
