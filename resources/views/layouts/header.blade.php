@@ -20,7 +20,11 @@
 		            <div class="topbar-item">
 		                <div class="btn btn-icon btn-icon-mobile w-auto btn-clean d-flex align-items-center btn-lg px-2" id="kt_quick_user_toggle">
                             <span class="symbol symbol-lg-35 symbol-25 symbol-light-success">
-		                       <img src="{{asset(Auth::user()->foto->karyawan_foto)}}"></img>
+                                @if(Auth::user()->foto)
+                                <img src="{{asset(Auth::user()->foto->karyawan_foto)}}">
+                                @else
+                                <span class="symbol-label font-size-h5 font-weight-bold">{{strtoupper(substr(Auth::user()->name,0,1))}}</span>
+                                @endif
 		                    </span>
 		                    <span class="text-dark-50 font-weight-bolder font-size-base d-none d-md-inline ml-3">{{Auth::user()->name}}</span>
 
