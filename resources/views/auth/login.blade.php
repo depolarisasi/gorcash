@@ -41,12 +41,12 @@
 <div class="d-flex flex-column flex-root">
     <!--begin::Login-->
 <div class="login login-4 login-signin-on d-flex flex-row-fluid" id="kt_login">
-<div class="d-flex flex-center flex-row-fluid bgi-size-cover bgi-position-top bgi-no-repeat" style="background-image: url('assets/media/bg/bg-3.jpg');">
+<div class="d-flex flex-center flex-row-fluid bgi-size-cover bgi-position-top bgi-no-repeat" style="background-color: #fff;">
     <div class="login-form text-center p-7 position-relative overflow-hidden">
         <!--begin::Login Header-->
         <div class="d-flex flex-center mb-15">
             <a href="#">
-                <img src="{{asset('assets/media/logos/logo-light.png')}}" class="max-h-75px" alt=""/>
+                <img src="{{asset('assets/media/logos/logo-hitam.png')}}" class="max-h-75px" alt=""/>
             </a>
         </div>
         <!--end::Login Header-->
