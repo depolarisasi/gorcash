@@ -31,8 +31,6 @@ class KirimPaketController extends Controller
                 toast('Pengiriman '.$request->kirimpaket_waktupengiriman.' telah dilakukan di hari ini ('.Carbon::parse($paket->kirimpaket_tanggal)->format('d-m-Y').')','error');
                 return redirect()->back();
             }
-        }
-
             else {
                 try {
                     KirimPaket::create($store->all());
@@ -41,6 +39,7 @@ class KirimPaketController extends Controller
                         return redirect()->back();
                     }
             }
+        }
 
         toast('Berhasil Membuat Riwayat Kirim Paket','success');
         return redirect('kirimpaket');
