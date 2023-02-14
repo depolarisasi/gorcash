@@ -25,11 +25,14 @@ class KirimPaketController extends Controller
     {
         $store = collect($request->all());
         $paket = KirimPaket::where('kirimpaket_tanggal',Carbon::now()->format('Y-m-d'))->first();
-        if($paket->kirimpaket_waktupengiriman == $request->kirimpaket_waktupengiriman && $paket->kirimpaket_tanggal == Carbon::now()->format('Y-m-d')){
+        if($paket){
+            if($paket->kirimpaket_waktupengiriman == $request->kirimpaket_waktupengiriman && $paket->kirimpaket_tanggal == Carbon::now()->format('Y-m-d')){
 
-            toast('Pengiriman '.$request->kirimpaket_waktupengiriman.' telah dilakukan di hari ini ('.Carbon::parse($paket->kirimpaket_tanggal)->format('d-m-Y').')','error');
-            return redirect()->back();
+                toast('Pengiriman '.$request->kirimpaket_waktupengiriman.' telah dilakukan di hari ini ('.Carbon::parse($paket->kirimpaket_tanggal)->format('d-m-Y').')','error');
+                return redirect()->back();
+            }
         }
+
             else {
                 try {
                     KirimPaket::create($store->all());
