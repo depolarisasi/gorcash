@@ -48,7 +48,7 @@ background-color: #fff !important;
     	<!--begin::Main-->
 
 	<!--begin::Header Mobile-->
-<div id="kt_header_mobile" class="header-mobile align-items-center header-mobile-fixed"style="background-color: #808080;">
+<div id="kt_header_mobile" class="header-mobile align-items-center header-mobile-fixed"style="background-color: #252525;">
 	<!--begin::Logo-->
 	<a href="{{url('/')}}">
 		<img alt="Logo" class="img-fluid" style="width: 60%; padding: 10px !important;" src="https://gorillacoachid.com/wp-content/uploads/2023/02/logo-gorilla-baru.png"/>
