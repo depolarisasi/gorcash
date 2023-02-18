@@ -101,7 +101,9 @@
     </td>
 <td>
     {{-- <a href="{{url('/turunbarang/kembali/'.$barangturun->barangturun_id)}}" class="btn btn-xs btn-icon btn-primary"><i class="fas fa-arrow-right nopadding"></i></a> --}}
+    @if(Auth::user()->role == 1)
     <a href="{{url('/turunbarang/edit/'.$barangturun->barangturun_id)}}" class="btn btn-xs btn-icon btn-warning"><i class="fas fa-edit nopadding"></i></a>
+    @endif
     <button type="button" href="{{url('/turunbarang/delete/'.$barangturun->barangturun_id)}}" class="deletebtn btn btn-xs btn-icon btn-danger"><i class="fas fa-trash nopadding"></i></button></td>
 </td>
 </tr>
