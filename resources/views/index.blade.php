@@ -330,6 +330,7 @@ Dashboard Gorilla Coach </h5>
         </div>
         <!--end::Body-->
         </div>
+        @if(Auth::user()->role != 1)
         <div class="card card-custom gutter-b">
             <!--begin::Header-->
             <div class="card-header border-0 pt-5">
@@ -355,6 +356,7 @@ Dashboard Gorilla Coach </h5>
             </div>
             <!--end::Body-->
             </div>
+            @endif
             <!--end::Mixed Widget 14-->
             </div>
         </div>
