@@ -73,7 +73,7 @@
 			<tbody>
 
             @php
-            $i = 0;
+            $i = 1;
             @endphp
             @foreach($edit as $e)
             <tr>
