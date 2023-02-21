@@ -66,7 +66,7 @@ class StokOpnameController extends Controller
     }
 
     public function sobulanan(Request $request){
- 
+
         $query = Product::join('size','size.size_id','product.product_idsize')
         ->join('band','band.band_id','product.product_idband')
         ->select('product.*','size.size_nama','band.band_id','band.band_nama')
@@ -106,11 +106,11 @@ class StokOpnameController extends Controller
 
             }elseif($size_selected == "Aksesoris"){
             $pilihan_size = Size::where('size_category',"Barang")->pluck('size_id');
-            $query->whereIn($pilihan_size); 
+            $query->whereIn($pilihan_size);
 
             }elseif($size_selected == "Kids"){
             $pilihan_size = Size::where('size_category',"Anak Anak")->pluck('size_id');
-            $query->whereIn($pilihan_size); 
+            $query->whereIn($pilihan_size);
 
             }else {
                 $query->whereRaw('size.size_nama LIKE "%'.$size_selected.'%"');
@@ -121,16 +121,6 @@ class StokOpnameController extends Controller
         $product = $query->orderBy('band_nama','ASC')->get();
         foreach($product as $key => $p){
             $penjualan = BarangTerjual::where('barangterjual_idproduk',$p->product_id)->get();
-            $count = 0;
-            foreach($penjualan as $pp){
-                $count = $count + (int) $pp->barangterjual_qty;
-            }
-            $product[$key]["stokterjual"] = $count;
-        }
-
-        foreach($product as $key => $p){
-            $penjualan = BarangTerjual::where('barangterjual_idproduk',$p->product_id)->get();
-
             $count = 0;
             foreach($penjualan as $pp){
                 $count = $count + (int) $pp->barangterjual_qty;
@@ -213,15 +203,7 @@ class StokOpnameController extends Controller
 
         $soinfo = StokOpname::where('stokopname.so_pubgroupname',$pubgroup)->first();
         $pub = $pubgroup;
-        if(Auth::user()->role == 1 ||  Auth::user()->role == 6){
         return view('stokopname.resumebulanan')->with(compact('pubdata','pub','soinfo'));
-        }
-        elseif(Auth::user()->role == 5) {
-            return view('stokopname.resumebulanantoko')->with(compact('pubdata','pub','soinfo'));
-        }
-        elseif(Auth::user()->role == 4) {
-            return view('stokopname.resumebulanangudang')->with(compact('pubdata','pub','soinfo'));
-        }
      }
 
     public function getso(Request $request){
@@ -324,14 +306,8 @@ class StokOpnameController extends Controller
                 $so->so_stok = $request->product_stok;
                 $so->so_stokakhir = $request->product_stokakhir;
                 $so->so_stokterjual = $request->stokterjual[$key];
-                if(Auth::user()->role == 4) {
-                    $so->so_stokgudang = $request->stokgudang[$key];
-                }else if(Auth::user()->role == 5){
-                    $so->so_stoktoko = $request->stoktoko[$key];
-                }else {
                     $so->so_stoktoko = $request->stoktoko[$key];
                     $so->so_stokgudang = $request->stokgudang[$key];
-                }
                 $so->so_selisih = $request->selisih[$key];
                 $so->so_stokakhirreal = $request->stokril[$key];
                 $so->so_type = 2;
@@ -343,14 +319,8 @@ class StokOpnameController extends Controller
             }else {
                 $so = StokOpname::where('so_sku',$p)->where('so_pubgroupname', $request->pubgroupname)->first();
                 $so->so_stokterjual = $request->stokterjual[$key];
-                if(Auth::user()->role == 4) {
-                    $so->so_stokgudang = $request->stokgudang[$key];
-                }else if(Auth::user()->role == 5){
-                    $so->so_stoktoko = $request->stoktoko[$key];
-                }else {
                     $so->so_stoktoko = $request->stoktoko[$key];
                     $so->so_stokgudang = $request->stokgudang[$key];
-                }
                 $so->so_selisih = $request->selisih[$key];
                 $so->so_stokakhirreal = $request->stokril[$key];
                 $so->so_status = 1;
@@ -442,22 +412,16 @@ class StokOpnameController extends Controller
             $product = StokOpname::where('so_sku', $p)->where('so_type',2)->where('so_date',$request->so_date)->where('so_status',2)
             ->where('so_pubgroupname', $request->pubgroupname)->first();
             if($product){
-                if(Auth::user()->role == 1 ||  Auth::user()->role == 6){
                     $product->so_selisih = $request->selisih[$key];
                     $product->so_stokakhirreal = $request->stokril[$key];
-                }
                 $product->so_stokterjual = $request->stokterjual[$key];
                 $product->so_status = 2;
                 $product->so_namaso = $request->so_namaso;
                 $product->so_char = $request->so_namaso;
                 $product->so_size = $request->so_size;
                 $product->so_userid = $request->so_userid;
-                if(Auth::user()->role == 4 || Auth::user()->role == 1 ||  Auth::user()->role == 6 ){
                     $product->so_stokgudang = $request->stokgudang[$key];
-                }
-                if(Auth::user()->role == 5 || Auth::user()->role == 1 ||  Auth::user()->role == 6){
                     $product->so_stoktoko = $request->stoktoko[$key];
-                }
                 $product->so_keterangan = $request->keterangan[$key];
             $product->update();
             $pubgroup = $product->so_pubgroupname;

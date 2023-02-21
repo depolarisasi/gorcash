@@ -66,7 +66,7 @@
 
 
                 </div>
-                </div>  
+                </div>
                 <div class="row mb-3">
                     <label class="col-md-2">Pilih Abjad Awalan Band</label>
                     <div class="col-md-4">
@@ -75,7 +75,7 @@
                             <option value="?band=All&size={{$size_selected}}" @if($band_selected == 'All' && $size_selected == '') selected @endif>All</option>
                             @foreach($band as $b)
                             <option value="?band={{$b->band_nama}}&size={{$size_selected}}" @if($band_selected == $b->band_nama) selected @endif>{{$b->band_nama}}</option>
-                            @endforeach  
+                            @endforeach
                             <option value="?band=0-9&size={{$size_selected}}" @if($band_selected == '0-9') selected @endif>0-9</option>
                         </select>
 
@@ -92,7 +92,7 @@
                         <option value="All">All</option>
                             <option value="Dewasa" @if($size_selected == 'Dewasa') selected @endif>All Dewasa</option>
                             <option value="Aksesoris" @if($size_selected == 'Aksesoris') selected @endif>All Accessories</option>
-                            <option value="Kids" @if($size_selected == 'Kids') selected @endif>All Kids</option> 
+                            <option value="Kids" @if($size_selected == 'Kids') selected @endif>All Kids</option>
                         @foreach($size as $s)
                         <option value="?band={{$band_selected}}&size={{$s->size_nama}}" @if($size_selected == $s->size_nama) selected @endif>{{$s->size_nama}}</option>
                         @endforeach
@@ -171,7 +171,7 @@
 		</table>
         <div class="row mt-10">
         <div class="col-md-4">
-             <button type="submit" class="btn btn-md btn-primary">Submit</button>  
+             <button type="submit" class="btn btn-md btn-primary">Submit</button>
             <button id="simpan" class="btn btn-md btn-warning">Simpan</button>
         </div>
     </div>
@@ -277,21 +277,21 @@ $('.stokgudanginput').on('change', function (e) {
 });
 
 $(document).ready(function(){
-    $(".stoktokoinput").each(function(){  
+    $(".stoktokoinput").each(function(){
     select_val = $(this).attr('data-sku');
     $("#stokril"+select_val).text(parseInt($("#stoktoko"+select_val).val())+parseInt($("#stokgudang"+select_val).val()));
     $("#stokrilinput"+select_val).val(parseInt($("#stoktoko"+select_val).val())+parseInt($("#stokgudang"+select_val).val()));
     $("#selisih"+select_val).text(parseInt($("#stoktoko"+select_val).val())+parseInt($("#stokgudang"+select_val).val()-parseInt($("#sisainput"+select_val).val())));
     $("#selisihinput"+select_val).val(parseInt($("#stoktoko"+select_val).val())+parseInt($("#stokgudang"+select_val).val()-parseInt($("#sisainput"+select_val).val())));
-}); 
+});
 
-$(".stokgudanginput").each(function(){  
+$(".stokgudanginput").each(function(){
     select_val = $(this).attr('data-sku');
     $("#stokril"+select_val).text(parseInt($("#stoktoko"+select_val).val())+parseInt($("#stokgudang"+select_val).val()));
     $("#stokrilinput"+select_val).val(parseInt($("#stoktoko"+select_val).val())+parseInt($("#stokgudang"+select_val).val()));
     $("#selisih"+select_val).text(parseInt($("#stoktoko"+select_val).val())+parseInt($("#stokgudang"+select_val).val()-parseInt($("#sisainput"+select_val).val())));
     $("#selisihinput"+select_val).val(parseInt($("#stoktoko"+select_val).val())+parseInt($("#stokgudang"+select_val).val()-parseInt($("#sisainput"+select_val).val())));
-}); 
+});
 });
 
 $('#simpan').on('click', function (e) {

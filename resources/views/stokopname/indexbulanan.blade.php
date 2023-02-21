@@ -25,10 +25,10 @@
 <h3 class="card-title align-items-start flex-column">
 <span class="card-label font-weight-bolder text-dark">Stok Opname Bulanan</span>
 </h3>
-<div class="card-toolbar"> 
+<div class="card-toolbar">
 <button type="button" class="btn btn-primary font-weight-bold mb-5" data-toggle="modal" data-target="#modaltambahrole">
    Lakukan Stok Opname
-</button> 
+</button>
     </div>
 </div>
 <!--end::Header-->
@@ -44,14 +44,14 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form method="GET" action="{{url('stokopname/bulanan/new')}}"> 
+                <form method="GET" action="{{url('stokopname/bulanan/new')}}">
                     <div class="form-group">
                         <label>Band</label>
                         <select class="form-control" name="band" id="selectproduk" required>
                             <option value="All">All</option>
                             @foreach($band as $b)
                             <option value="{{$b->band_nama}}">{{$b->band_nama}}</option>
-                            @endforeach  
+                            @endforeach
                           </select>
                     </div>
                     <div class="form-group">
@@ -98,16 +98,10 @@
                 <td>
 
                     @if($p->so_status == 0)
+
 @elseif($p->so_status == 2)
-@if(Auth::user()->role == 2 )
-<a href="{{url('/stokopname/bulanan/edit/'.$p->so_pubgroupname)}}" class="btn btn-xs btn-warning"><i class="fas fa-info-circle nopadding"></i> Stok Opname Toko</a>
-@elseif(Auth::user()->role == 4 )
-<a href="{{url('/stokopname/bulanan/edit/'.$p->so_pubgroupname)}}" class="btn btn-xs btn-warning"><i class="fas fa-info-circle nopadding"></i> Stok Opname Gudang</a>
-@else
 <a href="{{url('/stokopname/bulanan/edit/'.$p->so_pubgroupname)}}" class="btn btn-xs btn-warning"><i class="fas fa-info-circle nopadding"></i> Stok Opname</a>
-@endif
 @else
-@if(Auth::user()->role == 1  || Auth::user()->role == 6)
 <a href="{{url('/stokopname/laporan/'.$p->so_pubgroupname)}}" class="btn btn-xs btn-success"><i class="fas fa-info-circle nopadding"></i> Laporan Stok Opname</a>
 @endif
 @endif

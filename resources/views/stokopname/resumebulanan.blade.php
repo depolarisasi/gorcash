@@ -84,13 +84,8 @@
 					<th width="3%">Stok Awal</th>
 					<th width="3%">Stok Terjual</th>
 					<th width="3%">Stok Akhir</th>
-                    @if(Auth::user()->role == 4 || Auth::user()->role == 1 || Auth::user()->role == 6)
 					<th width="5%">Stok Gudang</th>
-                    @endif
-                    @if(Auth::user()->role == 5 || Auth::user()->role == 1 || Auth::user()->role == 6)
 					<th width="5%">Stok Toko</th>
-                    @endif
-                    @if(Auth::user()->role == 1 || Auth::user()->role == 6)
 					<th width="5%">Stok Real</th>
 					<th width="3%">Selisih</th>
                     @endif
@@ -121,20 +116,17 @@
                         <td id="sisatersedia{{$p->product_sku}}">{{(int)$p->product_stokakhir}}
                             <input id="sisainput{{$p->product_sku}}" type="hidden" name="stoksisa[]" value="{{(int)$p->product_stokakhir}}"></td>
 
-                            @if(Auth::user()->role == 4 || Auth::user()->role == 1 || Auth::user()->role == 6)
                         <td><input id="stokgudang{{$p->product_sku}}" class="form-control stokgudanginput inputx" data-sku="{{$p->product_sku}}" value="{{$p->so_stokgudang}}" type="number" name="stokgudang[]"></td>
-                            @endif
-                        @if(Auth::user()->role == 5 || Auth::user()->role == 1 || Auth::user()->role == 6)
+
                         <td><input id="stoktoko{{$p->product_sku}}" class="form-control stoktokoinput inputx" data-sku="{{$p->product_sku}}" value="{{$p->so_stoktoko}}" type="number" name="stoktoko[]"></td>
-                        @endif
-                        @if(Auth::user()->role == 1 || Auth::user()->role == 6)
+
 					<td>
                         <span id="stokril{{$p->product_sku}}">{{(int) $p->so_stoktoko + (int) $p->so_stokgudang}}</span>
                     <input id="stokrilinput{{$p->product_sku}}" class="inputx" value="{{(int) $p->so_stoktoko + (int) $p->so_stokgudang}}" type="hidden" name="stokril[]"></td>
 
 					<td><span id="selisih{{$p->product_sku}}">{{((int) $p->so_stoktoko + (int) $p->so_stokgudang)-(int)$p->product_stokakhir}}</span>
                     <input id="selisihinput{{$p->product_sku}}" class="inputx" value="{{((int) $p->so_stoktoko + (int) $p->so_stokgudang)-(int)$p->product_stokakhir}}" type="hidden" name="selisih[]"></td>
-                        @endif
+
                     <td id="keterangan{{$p->product_sku}}"><input id="keterangan{{$p->product_sku}}" class="form-control keterangans" data-sku="{{$p->product_sku}}" value="{{$p->so_keterangan}}" type="text" name="keterangan[]"></td>
 
 				</tr>
@@ -236,21 +228,21 @@ $('.stokgudanginput').on('change', function (e) {
 });
 
 $(document).ready(function(){
-    $(".stoktokoinput").each(function(){  
+    $(".stoktokoinput").each(function(){
     select_val = $(this).attr('data-sku');
     $("#stokril"+select_val).text(parseInt($("#stoktoko"+select_val).val())+parseInt($("#stokgudang"+select_val).val()));
     $("#stokrilinput"+select_val).val(parseInt($("#stoktoko"+select_val).val())+parseInt($("#stokgudang"+select_val).val()));
     $("#selisih"+select_val).text(parseInt($("#stoktoko"+select_val).val())+parseInt($("#stokgudang"+select_val).val()-parseInt($("#sisainput"+select_val).val())));
     $("#selisihinput"+select_val).val(parseInt($("#stoktoko"+select_val).val())+parseInt($("#stokgudang"+select_val).val()-parseInt($("#sisainput"+select_val).val())));
-}); 
+});
 
-$(".stokgudanginput").each(function(){  
+$(".stokgudanginput").each(function(){
     select_val = $(this).attr('data-sku');
     $("#stokril"+select_val).text(parseInt($("#stoktoko"+select_val).val())+parseInt($("#stokgudang"+select_val).val()));
     $("#stokrilinput"+select_val).val(parseInt($("#stoktoko"+select_val).val())+parseInt($("#stokgudang"+select_val).val()));
     $("#selisih"+select_val).text(parseInt($("#stoktoko"+select_val).val())+parseInt($("#stokgudang"+select_val).val()-parseInt($("#sisainput"+select_val).val())));
     $("#selisihinput"+select_val).val(parseInt($("#stoktoko"+select_val).val())+parseInt($("#stokgudang"+select_val).val()-parseInt($("#sisainput"+select_val).val())));
-}); 
+});
 });
 $('#simpan').on('click', function (e) {
     e.preventDefault();
@@ -312,12 +304,12 @@ $('#simpan').on('click', function (e) {
             buttons: [
         {
             extend: 'excelHtml5',
-            exportOptions: { 
+            exportOptions: {
                 @if(Auth::user()->role == 4)
                 columns: [ 0,1,2,3,4,5,6,7,8,12]
                 @elseif(Auth::user()->role == 2)
                 columns: [ 0,1,2,3,4,5,6,7,9,12]
-                @elseif(Auth::user()->role == 1 || Auth::user()->role == 6) 
+                @elseif(Auth::user()->role == 1 || Auth::user()->role == 6)
                 columns: [ 0,1,2,3,4,5,6,7,8,9,10,11,12]
                 @else
                 columns: [ 0,1,2,3,4,5,6,7,8,9,10,11,12]
