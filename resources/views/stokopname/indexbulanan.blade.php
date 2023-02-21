@@ -104,7 +104,6 @@
 @else
 <a href="{{url('/stokopname/laporan/'.$p->so_pubgroupname)}}" class="btn btn-xs btn-success"><i class="fas fa-info-circle nopadding"></i> Laporan Stok Opname</a>
 @endif
-@endif
 
                 </td>
             </tr>
