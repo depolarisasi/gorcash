@@ -51,7 +51,7 @@ img {
                 <td class="noborder" width="50%"><img src="{{asset('assets/media/logos/logo-light.png')}}" style="width: 140px !important; height: 70px; " alt="Logo" alt="Logo">
                     <p>Jl. Guntursari Wetan No. 1, Kota Bandung - Phone : (022) 87328727</p></td>
                 <td class="noborder" width="50%">
-                    <h1 style="float:right;">SLIP GAJI KARYAWAN</h1></td>
+                    <h1 style="float:right; text-transform: uppercase;">SLIP GAJI KARYAWAN {{$show->slipgaji_bulan}} {{$show->slipgaji_tahun}}</h1></td>
             </tr>
     </table>
 
@@ -150,7 +150,7 @@ img {
                 <p style="float:right;">Bandung, {{\Carbon\Carbon::parse($show->slipgaji_tanggalgaji)->format('d M Y')}}</p>
 
                 &nbsp; <img src="{{asset('assets/capdanttd.png')}}" style="width: 225px; z-index: -999; margin-bottom: -150px;">
-            <table class="table-noborder" style="text-align: center;">
+            <table class="table-noborder" style="text-align: right;">
                 <tr class="noborder">
                     <td class="noborder" width="50%"><table style="width: 100%;">
                         <thead>
@@ -171,7 +171,7 @@ img {
                                 <td class="noborder"><br><br></td>
                             </tr>
                             <tr>
-                                <td class="noborder">{{$show->slipgaji_ttd}}</td>
+                                <td class="noborder" style="text-align: right;">{{$show->slipgaji_ttd}}</td>
                             </tr>
 
                         </tbody>
@@ -196,7 +196,7 @@ img {
                                     <td class="noborder"><br><br></td>
                                 </tr>
                                 <tr>
-                                    <td class="noborder">{{$show->karyawan_nama}}</td>
+                                    <td class="noborder" style="text-align: right;">{{$show->karyawan_nama}}</td>
                                 </tr>
 
                             </tbody>

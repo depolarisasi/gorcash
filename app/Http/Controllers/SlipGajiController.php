@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 
-use Illuminate\Http\Request; 
+use Illuminate\Http\Request;
 use Auth;
 use App\Models\User;
 use App\Models\Karyawan;
@@ -12,9 +12,9 @@ use App\Models\KomponenGaji;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Database\QueryException as QE;
-use RealRashid\SweetAlert\Facades\Alert; 
+use RealRashid\SweetAlert\Facades\Alert;
 use Carbon\Carbon;
-use Carbon\CarbonPeriod; 
+use Carbon\CarbonPeriod;
 use Illuminate\Support\Str;
 use PDF;
 
@@ -24,15 +24,15 @@ class SlipGajiController extends Controller
     public function index(Request $request)
     {
         if($request->get('bulan') != "" | !empty($request->get('bulan'))){
-            $bulan = $request->get('bulan'); 
+            $bulan = $request->get('bulan');
         }else {
             $bulan = "All";
         }
 
         if($request->get('tahun') != "" | !empty($request->get('tahun'))){
-            $tahun = $request->get('tahun'); 
+            $tahun = $request->get('tahun');
         }else {
-            $tahun = "All"; 
+            $tahun = "All";
         }
 
         $selected_month =  $bulan == "All"? "All":$bulan;
@@ -48,29 +48,29 @@ class SlipGajiController extends Controller
         }
 
        $gaji = $gaji->get();
-        
+
         $tahun = SlipGaji::select('slipgaji_tahun as year')->groupBy('year')->get();
-        return view('slipgaji.index')->with(compact('gaji','tahun')); 
+        return view('slipgaji.index')->with(compact('gaji','tahun'));
     }
 
     public function create(Request $request)
-    { 
-        
+    {
+
         $karyawan_list = Karyawan::join('users','users.id','=','karyawan.karyawan_userid')
         ->select('karyawan.*','users.name','users.email')
         ->get();
-        
+
         if(!is_null($request->get('k') && is_numeric($request->get('k')))){
-            $karyawan = Karyawan::where('karyawan_id', $request->get('k'))->first(); 
+            $karyawan = Karyawan::where('karyawan_id', $request->get('k'))->first();
         return view('slipgaji.new')->with(compact('karyawan','karyawan_list'));
-        }else { 
+        }else {
         return view('slipgaji.new')->with(compact('karyawan_list'));
         }
-        
+
     }
 
     public function store(Request $request)
-    { 
+    {
         $karyawan = Karyawan::where('karyawan_id',$request->slipgaji_karyawanid)->first();
         $slipgaji = new SlipGaji;
         $slipgaji->slipgaji_karyawanid = $request->slipgaji_karyawanid;
@@ -83,12 +83,12 @@ class SlipGajiController extends Controller
         $slipgaji->slipgaji_kodeunik = Hash::make($randomizer);
 
         try {
-            $slipgaji->save(); 
+            $slipgaji->save();
         } catch (QE $e) {
-            toast('Database Error','error'); 
+            toast('Database Error','error');
             return $e;
-        } 
-        
+        }
+
         $updategaji = SlipGaji::where('slipgaji_id', $slipgaji->slipgaji_id)->first();
         $penerimaan = array();
         $potongan = array();
@@ -106,10 +106,10 @@ class SlipGajiController extends Controller
                     $totalgaji = $totalgaji+$request->penerimaantotal[$key];
                     array_push($penerimaan, $komponenpenerimaan->gaji_id);
                 }
-                 
+
         $updategaji->slipgaji_komponenpenerimaan = serialize($penerimaan);
             }
-          
+
             if($request->potonganname){
                 foreach($request->potonganname as $key => $val){
                     $komponenpotongan = new KomponenGaji;
@@ -119,19 +119,19 @@ class SlipGajiController extends Controller
                     $komponenpotongan->gaji_komponen = $val;
                     $komponenpotongan->gaji_jumlah = $request->potongantotal[$key];
                     $komponenpotongan->save();
-                    
+
                     $totalgaji = $totalgaji-$request->potongantotal[$key];
                     array_push($penerimaan, $komponenpotongan->gaji_id);
                 }
-                
+
         $updategaji->slipgaji_komponenpotongan = serialize($potongan);
             }
-          
+
         $updategaji->slipgaji_thp = $totalgaji;
         $updategaji->update();
 
-        
-        toast('Slip Gaji Berhasil Dibuat','success');  
+
+        toast('Slip Gaji Berhasil Dibuat','success');
         return redirect('slipgaji');
 
         }else {
@@ -140,7 +140,7 @@ class SlipGajiController extends Controller
          return redirect()->back();
 
         }
-         
+
     }
 
     public function show($id)
@@ -270,5 +270,5 @@ class SlipGajiController extends Controller
         $pdf = PDF::loadView('slipgaji.pdf', compact('show','komponenpenerimaan','komponenpotongan'));
         return $pdf->download('slipgaji-'.$show->karyawan_nama.$show->slipgaji_bulan.$show->slipgaji_tahun.'.pdf');
     }
- 
+
 }

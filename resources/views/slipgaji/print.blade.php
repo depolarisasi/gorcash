@@ -76,7 +76,7 @@ img {
                     <p>Jl. Guntursari Wetan No. 1, Kota Bandung - Phone : (022) 87328727</p>
                 </div>
                 <div class="col-6">
-                    <h1 style="float:right;">SLIP GAJI KARYAWAN</h1>
+                    <h1 style="float:right; text-transform: uppercase;">SLIP GAJI KARYAWAN {{$show->slipgaji_bulan}} {{$show->slipgaji_tahun}}</h1>
                 </div>
             </div>
         <br>
