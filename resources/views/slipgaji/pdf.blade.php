@@ -147,7 +147,7 @@ img {
                 <p>Atas Nama : {{$show->karyawan_namarekbank}}</p>
             </td>
             <td class="noborder" width="50%">
-                <p style="float:right;">Bandung, {{\Carbon\Carbon::parse($show->slipgaji_tanggalgaji)->format('d M Y')}}</p>
+                <p style="float:right; margin-bottom: 10px;">Bandung, {{\Carbon\Carbon::parse($show->slipgaji_tanggalgaji)->format('d M Y')}}</p>
 
                 &nbsp; <img src="{{asset('assets/capdanttd.png')}}" style="width: 225px; z-index: -999; margin-bottom: -150px;">
             <table class="table-noborder" style="text-align: right;">
@@ -155,7 +155,7 @@ img {
                     <td class="noborder" width="50%"><table style="width: 100%;">
                         <thead>
                             <tr class="noborder">
-                                <th  class="noborder"><span><b>Disetujui Oleh</b></span></th>
+                                <th  class="noborder" style="text-align: right;"><span><b>Disetujui Oleh</b></span></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -180,7 +180,7 @@ img {
                         <table class="noborder" style="width: 100%;">
                             <thead>
                                 <tr class="noborder">
-                                    <th  class="noborder"><span><b>Diterima Oleh</b></span></th>
+                                    <th  class="noborder" style="text-align: right;"><span><b>Diterima Oleh</b></span></th>
                                 </tr>
                             </thead>
                             <tbody>
