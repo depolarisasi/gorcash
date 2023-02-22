@@ -88,7 +88,6 @@
 					<th width="5%">Stok Toko</th>
 					<th width="5%">Stok Real</th>
 					<th width="3%">Selisih</th>
-                    @endif
 					<th width="5%">Keterangan</th>
 				</tr>
 			</thead>
