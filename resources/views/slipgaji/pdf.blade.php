@@ -149,8 +149,8 @@ img {
             <td class="noborder" width="50%">
                 <p style="float:right;">Bandung, {{\Carbon\Carbon::parse($show->slipgaji_tanggalgaji)->format('d M Y')}}</p>
 
-                &nbsp; <img src="{{asset('assets/capdanttd.png')}}" style="width: 275px; z-index: -999; margin-bottom: -150px;">
-            <table class="table-noborder">
+                &nbsp; <img src="{{asset('assets/capdanttd.png')}}" style="width: 225px; z-index: -999; margin-bottom: -150px;">
+            <table class="table-noborder" style="text-align: center;">
                 <tr class="noborder">
                     <td class="noborder" width="50%"><table style="width: 100%;">
                         <thead>
@@ -160,15 +160,15 @@ img {
                         </thead>
                         <tbody>
                             <tr>
-                                <td class="noborder"><br></td>
+                                <td class="noborder"><br><br></td>
                             </tr>
 
                             <tr>
-                                <td class="noborder"><br></td>
+                                <td class="noborder"><br><br></td>
                             </tr>
 
                             <tr>
-                                <td class="noborder"><br></td>
+                                <td class="noborder"><br><br></td>
                             </tr>
                             <tr>
                                 <td class="noborder">{{$show->slipgaji_ttd}}</td>
@@ -185,15 +185,15 @@ img {
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td class="noborder"><br></td>
+                                    <td class="noborder"><br><br></td>
                                 </tr>
 
                                 <tr>
-                                    <td class="noborder"><br></td>
+                                    <td class="noborder"><br><br></td>
                                 </tr>
 
                                 <tr>
-                                    <td class="noborder"><br></td>
+                                    <td class="noborder"><br><br></td>
                                 </tr>
                                 <tr>
                                     <td class="noborder">{{$show->karyawan_nama}}</td>
