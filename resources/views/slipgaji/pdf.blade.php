@@ -150,7 +150,7 @@ img {
                 <p style="float:right; margin-bottom: 10px;">Bandung, {{\Carbon\Carbon::parse($show->slipgaji_tanggalgaji)->format('d M Y')}}</p>
 
                 &nbsp; <img src="{{asset('assets/capdanttd.png')}}" style="width: 225px; z-index: -999; margin-bottom: -150px;">
-            <table class="table-noborder" style="text-align: right;">
+            <table class="table-noborder" style="text-align: right; margin-top: 10px;">
                 <tr class="noborder">
                     <td class="noborder" width="50%"><table style="width: 100%;">
                         <thead>
