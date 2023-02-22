@@ -31,164 +31,165 @@
 <!--begin::Body-->
 <div class="card-body pt-0 pb-3">
 <div class="tab-content">
-<!--begin::Table--> 
-<div class="container-fluid ticket">   
+<!--begin::Table-->
+<div class="container-fluid ticket">
     <div class="row">
             <div class="col-6">
-                <img src="{{asset('assets/media/logos/logo-light.png')}}" style="width: 140px !important; height: 70px; " alt="Logo" alt="Logo">  
+                <img src="{{asset('assets/media/logos/logo-light.png')}}" style="width: 140px !important; height: 70px; " alt="Logo" alt="Logo">
                 <p>Jl. Guntursari Wetan No. 1, Kota Bandung - Phone : (022) 87328727</p>
             </div>
             <div class="col-6">
                 <h1 style="float:right;">SLIP GAJI KARYAWAN</h1>
-            </div> 
-        </div> 
+            </div>
+        </div>
     <br>
-    <table class="table-noborder">  
-            <tr class="noborder"> 
-                <td class="noborder" width="50%"><b>Nama Karyawan</b> : {{$show->name}}</td>  
+    <table class="table-noborder">
+            <tr class="noborder">
+                <td class="noborder" width="50%"><b>Nama Karyawan</b> : {{$show->name}}</td>
     @php
     $time = \Carbon\Carbon::now()->diff($show->karyawan_tanggalbekerja);
     @endphp
-                <td class="noborder" width="50%"><b>Lama Bekerja </b> : Sejak {{\Carbon\Carbon::parse($show->karyawan_tanggalbekerja)->format('d M Y')}},  {{$time->y}} Tahun, {{$time->m}} Bulan, {{$time->d}} Hari</td>  
-                </tr>   
-                <tr class="noborder"> 
-                <td class="noborder" width="50%"><b>Jabatan </b> : {{$show->karyawan_jabatan}}</td>  
-                <td class="noborder" width="50%"><b>Nomor Induk Karyawan </b> : {{$show->karyawan_noinduk}}</td>  
-            </tr>   
+                <td class="noborder" width="50%"><b>Lama Bekerja </b> : Sejak {{\Carbon\Carbon::parse($show->karyawan_tanggalbekerja)->format('d M Y')}},  {{$time->y}} Tahun, {{$time->m}} Bulan, {{$time->d}} Hari</td>
+                </tr>
+                <tr class="noborder">
+                <td class="noborder" width="50%"><b>Jabatan </b> : {{$show->karyawan_jabatan}}</td>
+                <td class="noborder" width="50%"><b>Nomor Induk Karyawan </b> : {{$show->karyawan_noinduk}}</td>
+            </tr>
     </table>
-         
-    <br> 
+
+    <br>
     <div class="row g-0">
         <div class="col-6" >
             <table style="width: 100%;">
                 <thead>
                     <tr style="border-width: 3px 0px 3px 0px; border-style: double;">
-                        <th><span style="float:left;"><b>PENERIMAAN</b></span></th> 
+                        <th><span style="float:left;"><b>PENERIMAAN</b></span></th>
                     </tr>
                 </thead>
-                <tbody> 
+                <tbody>
                     @php
                     $penerimaan = 0;
                     @endphp
                     @foreach($komponenpenerimaan as $kp)
                     <tr>
                         <td>{{$kp->gaji_komponen}}</td>
-                        <td>Rp @money($kp->gaji_jumlah)</td>    
-                    </tr>  
-                    
+                        <td>Rp @money($kp->gaji_jumlah)</td>
+                    </tr>
+
                     @php
                     $penerimaan = $penerimaan+$kp->gaji_jumlah;
                     @endphp
                     @endforeach
                     <tr style="border-width: 1px 0px 3px 0px; border-style: double;">
                         <td>TOTAL PENERIMAAN</td>
-                        <td>Rp @money($penerimaan)</td>    
-                    </tr> 
+                        <td>Rp @money($penerimaan)</td>
+                    </tr>
                     <tr style="border-width: 1px 0px 3px 0px; border-style: double;">
                         <td>TAKE HOME PAY</td>
-                        <td>Rp @money($show->slipgaji_thp)</td>    
-                    </tr> 
+                        <td>Rp @money($show->slipgaji_thp)</td>
+                    </tr>
                 </tbody>
             </table>
         </div>
-        <div class="col-6"> 
+        <div class="col-6">
             <table style="width: 100%;">
                 <thead >
                     <tr style="border-width: 3px 0px 3px 0px; border-style: double;">
-                        <th><span style="float:left;"><b>POTONGAN</b></span></th> 
+                        <th><span style="float:left;"><b>POTONGAN</b></span></th>
                     </tr>
                 </thead>
-                <tbody> 
+                <tbody>
                     @php
                     $potongan = 0;
                     @endphp
                     @foreach($komponenpotongan as $kp)
                     <tr>
                         <td>{{$kp->gaji_komponen}}</td>
-                        <td>Rp @money($kp->gaji_jumlah)</td>    
-                    </tr>  
-                    
+                        <td>Rp @money($kp->gaji_jumlah)</td>
+                    </tr>
+
                     @php
                     $potongan = $potongan+$kp->gaji_jumlah;
                     @endphp
                     @endforeach
                     <tr style="border-width: 1px 0px 3px 0px; border-style: double;">
                         <td>TOTAL POTONGAN</td>
-                        <td>Rp @money($potongan)</td>    
-                    </tr> 
+                        <td>Rp @money($potongan)</td>
+                    </tr>
                 </tbody>
             </table>
         </div>
     </div>
-  
+
  <div class="row gt-0 mt-5">
-    <div class="col-8">
+    <div class="col-6">
         <p>Ditransfer Ke</p>
         <p>{{$show->karyawan_namabank}}</p>
         <p>Cabang : {{$show->karyawan_cabangbank}}</p>
         <p>Nomor Rekening {{$show->karyawan_norekbank}}</p>
         <p>Atas Nama : {{$show->karyawan_namarekbank}}</p>
     </div>
-    <div class="col-4"> 
-        <p style="float:right;">Bandung, {{\Carbon\Carbon::parse($show->slipgaji_tanggalgaji)->format('d M Y')}}</p>
+    <div class="col-6" style="float:right;">
         <div class="row gt-0 mt-5">
-            <div class="col-6"> 
+            <div class="col-6" style="text-align: center;">
+                &nbsp;
                 <table style="width: 100%;">
                     <thead>
                         <tr>
-                            <th><span><b>Disetujui Oleh</b></span></th> 
+                            <th><span><b>Disetujui Oleh</b></span></th>
                         </tr>
                     </thead>
-                    <tbody> 
+                    <tbody>
                         <tr>
-                            <td><br></td>  
-                        </tr> 
-                        
+                            <td> </td>
+                        </tr>
+
                         <tr>
-                            <td><br></td>  
-                        </tr> 
-                        
+                            <td> <img src="{{asset('assets/capdanttd.png')}}" style="max-width: 255px; z-index: 0;"></td>
+                        </tr>
+
                         <tr>
-                            <td><br></td>  
+                            <td></td>
                         </tr>
                         <tr>
-                            <td>{{$show->slipgaji_ttd}}</td> 
-                        </tr> 
-                       
+                            <td>{{$show->slipgaji_ttd}}</td>
+                        </tr>
+
                     </tbody>
                 </table>
             </div>
-            <div class="col-6"> 
-                
+            <div class="col-6" style="text-align: center;">
+
+                <p >Bandung, {{\Carbon\Carbon::parse($show->slipgaji_tanggalgaji)->format('d M Y')}}</p>
                 <table style="width: 100%;">
                     <thead>
                         <tr>
-                            <th><span><b>Diterima Oleh</b></span></th> 
+                            <th><span><b>Diterima Oleh</b></span></th>
                         </tr>
                     </thead>
-                    <tbody> 
+                    <tbody>
                         <tr>
-                            <td><br></td>  
-                        </tr> 
-                        
+                            <td><br><br><br></td>
+                        </tr>
+
                         <tr>
-                            <td><br></td>  
-                        </tr> 
-                        
+                            <td><br><br><br></td>
+                        </tr>
+
                         <tr>
-                            <td><br></td>  
+                            <td><br><br><br></td>
                         </tr>
                         <tr>
-                            <td>{{$show->karyawan_nama}}</td> 
-                        </tr> 
-                       
+                            <td>{{$show->karyawan_nama}}</td>
+                        </tr>
+
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
  </div>
-    
+
 </div>
 </div>
 </div>
