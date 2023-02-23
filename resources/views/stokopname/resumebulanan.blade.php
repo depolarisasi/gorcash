@@ -108,8 +108,8 @@
 					<td id="stok{{$p->product_sku}}">{{$p->product_stok}}
                         <input type="hidden" id="stokakhir" name="stokakhir[]" value="{{$p->product_stokakhir}}">
                         <input type="hidden"  id="stok" name="stok[]" value="{{$p->product_stok}}"></td>
-                        <td>{{$p->stokterjual}}
-                            <input id="stokterjual" type="hidden" name="stokterjual[]" value="{{$p->stokterjual}}">
+                        <td>{{$p->so_stokterjual}}
+                            <input id="stokterjual" type="hidden" name="stokterjual[]" value="{{$p->so_stokterjual}}">
                         </td>
 
                         <td id="sisatersedia{{$p->product_sku}}">{{(int)$p->product_stokakhir}}
