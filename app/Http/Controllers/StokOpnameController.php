@@ -192,7 +192,7 @@ class StokOpnameController extends Controller
         ->select('stokopname.*','product.product_foto','product.product_id','product.product_hargajual','product.product_nama','product.product_stok','product.product_stokakhir','size.size_nama','product.product_mastersku','product.product_sku','band.band_id','band.band_nama')
         ->where('stokopname.so_pubgroupname',$pubgroup)->get();
         foreach($pubdata as $key => $p){
-            $penjualan = BarangTerjual::where('barangterjual_idproduk',$p->product_productid)->get();
+            $penjualan = BarangTerjual::where('barangterjual_idproduk',$p->product_id)->get();
             $count = 0;
             foreach($penjualan as $pp){
                 $count = $count + (int) $pp->barangterjual_qty;
