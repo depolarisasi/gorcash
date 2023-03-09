@@ -84,8 +84,8 @@
 					<td>{{$p->so_stok}} </td>
                     <td>{{$p->so_stokterjual}}</td>
                     <td>{{(int)$p->so_stok - (int)$p->so_stokterjual}}</td>
+         <td>{{$p->so_stokgudang}}</td>         
 					<td>{{$p->so_stoktoko}}</td>
-					<td>{{$p->so_stokgudang}}</td>
 					<td>{{$p->so_stokakhirreal}}</td>
 					<td>{{$p->so_selisih}}</td>
 					<td>{{$p->so_keterangan}}</td>
