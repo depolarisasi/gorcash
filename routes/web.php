@@ -251,6 +251,7 @@ Route::group(['prefix' => 'size'], function() {
     Route::get('/struk/{id?}',[App\Http\Controllers\BarangTerjualController::class, 'receipt'])->middleware('storeofficer');
     Route::get('/laporan/',[App\Http\Controllers\BarangTerjualController::class, 'laporan'])->middleware('admin');
     Route::get('/laporan/band/',[App\Http\Controllers\BarangTerjualController::class, 'laporanband'])->middleware('admin');
+    Route::get('/laporan/band/sku/{sku}',[App\Http\Controllers\BarangTerjualController::class, 'laporanbandsku'])->middleware('admin');
    });
 
     Route::group(['prefix' => 'stokopname'], function() {

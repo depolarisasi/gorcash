@@ -24,9 +24,10 @@
 <!--begin::Header-->
 <div class="card-header border-0 py-5">
 <h3 class="card-title align-items-start flex-column">
-<span class="card-label font-weight-bolder text-dark">Laporan Best Seller Artikel</span>
+<span class="card-label font-weight-bolder text-dark">Laporan Best Seller Artikel Master SKU {{$sku?$sku:""}}</span>
 </h3>
 <div class="card-toolbar">
+<a href="{{url('barangterjual/laporan/band/?band='.$infoband->band_id)}}" class="btn btn-primary btn-md font-size-sm"><i class="fas fa-arrow-left"></i> Kembali</a>
 </div>
 </div>
 <!--end::Header-->
@@ -36,7 +37,7 @@
     <div class="mb-7">
         <div class="row align-items-center">
             <div class="col-lg-8 col-xl-8">
-                <form method="get" action="{{url('barangterjual/laporan')}}">
+                <form method="get" action="{{url('barangterjual/laporan/band/sku/'.$sku)}}">
                 <div class="row align-items-center">
                     <div class="col-md-4 my-2 my-md-0">
                         <div class="d-flex align-items-center">
@@ -73,9 +74,6 @@
                                 <option value="2028" @if($selected_year == "2028") selected="selected" @endif>2028</option>
                                 <option value="2029" @if($selected_year == "2029") selected="selected" @endif>2029</option>
                                 <option value="2030" @if($selected_year == "2030") selected="selected" @endif>2030</option>
-
-
-
                             </select>
                         </div>
                     </div>
@@ -92,14 +90,12 @@
     </div>
 		<!--begin: Datatable-->
 
-<span class="card-label font-weight-bolder text-dark">Artikel Populer Berdasarkan Penjualan</span>
         <div class="table-responsive">
             <table class="table table-striped table-bordered" id="laporanproduk">
                 <thead>
                     <tr>
                         <th>SKU</th>
                         <th>Artikel</th>
-                        <th>Band</th>
                         <th>Size</th>
                         <th>Qty Terjual</th>
                     </tr>
@@ -108,9 +104,8 @@
 
                     @foreach($laporanproduk as $lp)
                     <tr>
-                        <td><a href="{{url('barangterjual/laporan/band/sku/'.$lp->product_mastersku)}}">{{$lp->product_sku}}</a></td>
+                        <td>{{$lp->product_sku}}</td>
                         <td>{{$lp->product_nama}}</td>
-                        <td><a href="{{url('/barangterjual/laporan/band/?band='.$lp->band_id)}}">{{$lp->band_nama}}</a></td>
                         <td>{{$lp->size_nama}}</td>
                         <td>{{$lp->jumlahterjual}}</td>
                     </tr>
@@ -119,27 +114,6 @@
                 </tbody>
             </table>
 
-<span class="card-label font-weight-bolder text-dark">Best Seller Band</span>
-<div class="table-responsive">
-    <table class="table table-striped table-bordered" id="laporanband">
-        <thead>
-            <tr>
-                <th>Code</th>
-                <th>Band</th>
-                <th>Qty Terjual</th>
-            </tr>
-        </thead>
-        <tbody>
- @foreach($laporanband as $lb)
- <tr>
-    <td>{{$lb->band_code}}</td>
-    <td><a href="{{url('/barangterjual/laporan/band/?band='.$lb->band_id)}}">{{$lb->band_nama}}</a></td>
-    <td>{{$lb->jumlahterjual}}</td>
- </tr>
- @endforeach
-        </tbody>
-    </table>
-        </div>
 
 		<!--end: Datatable-->
 </div>
@@ -169,25 +143,16 @@
 
 
 <script>
-    tabel = $('#laporanproduk').DataTable({
-       dom: 'Blfrtip',
-           buttons: [
-               'excelHtml5',
-           ],
-           "paging":   true,
-           "ordering": false,
-           "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
-       } );
+ tabel = $('#laporanproduk').DataTable({
+    dom: 'Blfrtip',
+        buttons: [
+            'excelHtml5',
+        ],
+        "paging":   true,
+        "ordering": false,
+        "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
+    } );
 
-       tabel2 = $('#laporanband').DataTable({
-       dom: 'Blfrtip',
-           buttons: [
-               'excelHtml5',
-           ],
-           "paging":   true,
-           "ordering": false,
-           "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
-       } );
 </script>
 @endsection
 @endsection

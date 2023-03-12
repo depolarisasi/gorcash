@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title','Penjualan Produk - ')
+@section('title','Laporan Best Seller Artikel Per Band - ')
 @section('css')
 <link href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css">
 <link href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css">
@@ -106,7 +106,7 @@
 
                     @foreach($laporanproduk as $lp)
                     <tr>
-                        <td>{{$lp->product_mastersku}}</td>
+                        <td><a href="{{url('barangterjual/laporan/band/sku/'.$lp->product_mastersku)}}">{{$lp->product_mastersku}}</a></td>
                         <td>{{$lp->product_nama}}</td>
                         <td>{{$lp->band_nama}}</td>
                         <td>{{$lp->jumlahterjual}}</td>
@@ -152,17 +152,7 @@
         ],
         "paging":   true,
         "ordering": false,
-        "lengthMenu": [[20, 50, 100, -1], [20, 50, 100, "All"]],
-    } );
-
-    tabel2 = $('#laporanband').DataTable({
-    dom: 'Blfrtip',
-        buttons: [
-            'excelHtml5',
-        ],
-        "paging":   true,
-        "ordering": false,
-        "lengthMenu": [[20, 50, 100, -1], [20, 50, 100, "All"]],
+        "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
     } );
 
 
