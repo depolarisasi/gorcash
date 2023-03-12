@@ -92,13 +92,13 @@
     </div>
 		<!--begin: Datatable-->
 
-<span class="card-label font-weight-bolder text-dark">Produk Populer Berdasarkan Penjualan</span>
+<span class="card-label font-weight-bolder text-dark">Artikel Populer Berdasarkan Penjualan</span>
         <div class="table-responsive">
             <table class="table table-striped table-bordered" id="laporanproduk">
                 <thead>
                     <tr>
                         <th>SKU</th>
-                        <th>Produk</th>
+                        <th>Artikel</th>
                         <th>Band</th>
                         <th>Size</th>
                         <th>Qty Terjual</th>

@@ -91,15 +91,14 @@
     </div>
 		<!--begin: Datatable-->
 
-<span class="card-label font-weight-bolder text-dark">Produk Populer Berdasarkan Penjualan</span>
+<span class="card-label font-weight-bolder text-dark">Artikel Populer Berdasarkan Penjualan</span>
         <div class="table-responsive">
             <table class="table table-striped table-bordered" id="laporanproduk">
                 <thead>
                     <tr>
                         <th>SKU</th>
-                        <th>Produk</th>
+                        <th>Artikel</th>
                         <th>Band</th>
-                        <th>Size</th>
                         <th>Qty Terjual</th>
                     </tr>
                 </thead>
@@ -107,10 +106,9 @@
 
                     @foreach($laporanproduk as $lp)
                     <tr>
-                        <td>{{$lp->product_sku}}</td>
+                        <td>{{$lp->product_mastersku}}</td>
                         <td>{{$lp->product_nama}}</td>
                         <td>{{$lp->band_nama}}</td>
-                        <td>{{$lp->size_nama}}</td>
                         <td>{{$lp->jumlahterjual}}</td>
                     </tr>
                     @endforeach

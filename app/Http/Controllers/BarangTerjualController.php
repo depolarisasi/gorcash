@@ -124,9 +124,8 @@ class BarangTerjualController extends Controller
         $selected_year =  $tahun == "Now"? Carbon::now()->format('Y'):$tahun;
 
         $laporanproduk = BarangTerjual::join('product','product.product_id','=','barangterjual.barangterjual_idproduk')
-        ->join('size','size.size_id','=','product.product_idsize')
         ->join('band','band.band_id','=','product.product_idband')
-        ->select('product.product_nama', 'size.size_nama','band.band_nama',
+        ->select('product.product_nama', 'product.product_mastersku','band.band_nama',
         DB::Raw('SUM(barangterjual.barangterjual_qty) as jumlahterjual'), 'product.product_sku')
         ->where('product.product_idband', '!=', '627')
         ->where('product.product_idband', '!=', '628')
@@ -137,7 +136,7 @@ class BarangTerjualController extends Controller
         if($selected_year && $selected_year != "All"){
             $laporanproduk->whereRaw('YEAR(barangterjual.created_at) = '.$selected_year);
         }
-        $laporanproduk->groupBy('barangterjual.barangterjual_idproduk');
+        $laporanproduk->groupBy('product.product_mastersku');
         $laporanproduk->orderBy('jumlahterjual','DESC');
         $laporanproduk->limit(100);
         $laporanproduk = $laporanproduk->get();
