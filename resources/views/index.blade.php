@@ -56,7 +56,7 @@ Dashboard Gorilla Coach </h5>
     <span class="text-muted font-weight-bold mt-2">Pendapatan Minggu Ini</span>
     </div>
     </div>
-    <div id="weekpenchart" class="card-rounded-bottom" data-color="primary" style="height: 150px"></div>
+    <div id="weekpenchart" style="height: 350px"></div>
     </div>
     <!--end::Body-->
     </div>
