@@ -38,7 +38,7 @@ Dashboard Gorilla Coach </h5>
             <!--begin::Header-->
             <div class="card-header border-0 pt-6 mb-2">
                 <h3 class="card-title align-items-start flex-column">
-                    <span class="card-label font-weight-bold font-size-h4 text-dark-75 mb-3">Penjualan Terakhir</span>
+                    <span class="card-label font-weight-bold font-size-h4 text-dark-75 mb-3">Pendapatan Mingguan</span>
                 </h3>
             </div>
             <!--end::Header-->
@@ -51,96 +51,61 @@ Dashboard Gorilla Coach </h5>
             <!--end::Body-->
         </div>
             </div>
-
-    <div class="col-md-12">
-        <!--begin::Stats Widget 12-->
-        <div class="card card-custom card-stretch gutter-b">
-        <!--begin::Body-->
-        <div class="card-body p-0">
-        <div class="d-flex align-items-center justify-content-between card-spacer flex-grow-1">
-        <span class="symbol  symbol-50 symbol-light-primary mr-2">
-        <span class="symbol-label">
-            <span class="svg-icon svg-icon-primary svg-icon-xl"><!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo5/dist/../src/media/svg/icons/Shopping/Chart-bar2.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                    <rect x="0" y="0" width="24" height="24"/>
-                    <rect fill="#000000" opacity="0.3" x="17" y="4" width="3" height="13" rx="1.5"/>
-                    <rect fill="#000000" opacity="0.3" x="12" y="9" width="3" height="8" rx="1.5"/>
-                    <path d="M5,19 L20,19 C20.5522847,19 21,19.4477153 21,20 C21,20.5522847 20.5522847,21 20,21 L4,21 C3.44771525,21 3,20.5522847 3,20 L3,4 C3,3.44771525 3.44771525,3 4,3 C4.55228475,3 5,3.44771525 5,4 L5,19 Z" fill="#000000" fill-rule="nonzero"/>
-                    <rect fill="#000000" opacity="0.3" x="7" y="11" width="3" height="6" rx="1.5"/>
-                </g>
-            </svg><!--end::Svg Icon--></span>              </span>
-        </span>
-        <div class="d-flex flex-column text-right">
-        <span class="text-dark-75 font-weight-bolder font-size-h3">@money($totalmonthly)</span>
-        <span class="text-muted font-weight-bold mt-2">Pendapatan Bulan Ini</span>
-        </div>
-        </div>
-        <div id="monthpenchart" class="card-rounded-bottom" data-color="warning" style="height: 150px"></div>
-        </div>
-        <!--end::Body-->
-        </div>
-        <!--end::Stats Widget 12-->
-        </div>
-
             <div class="col-md-12">
-
-            <!--begin::Stats Widget 12-->
-            <div class="card card-custom card-stretch gutter-b">
-            <!--begin::Body-->
-            <div class="card-body p-0">
-            <div class="d-flex align-items-center justify-content-between card-spacer flex-grow-1">
-            <span class="symbol  symbol-50 symbol-light-primary mr-2">
-            <span class="symbol-label">
-                <span class="svg-icon svg-icon-primary svg-icon-xl"><!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo5/dist/../src/media/svg/icons/Shopping/Chart-bar2.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                        <rect x="0" y="0" width="24" height="24"/>
-                        <rect fill="#000000" opacity="0.3" x="17" y="4" width="3" height="13" rx="1.5"/>
-                        <rect fill="#000000" opacity="0.3" x="12" y="9" width="3" height="8" rx="1.5"/>
-                        <path d="M5,19 L20,19 C20.5522847,19 21,19.4477153 21,20 C21,20.5522847 20.5522847,21 20,21 L4,21 C3.44771525,21 3,20.5522847 3,20 L3,4 C3,3.44771525 3.44771525,3 4,3 C4.55228475,3 5,3.44771525 5,4 L5,19 Z" fill="#000000" fill-rule="nonzero"/>
-                        <rect fill="#000000" opacity="0.3" x="7" y="11" width="3" height="6" rx="1.5"/>
-                    </g>
-                </svg><!--end::Svg Icon--></span>              </span>
-            </span>
-            <div class="d-flex flex-column text-right">
-            <span class="text-dark-75 font-weight-bolder font-size-h3">{{$totproductweek}}</span>
-            <span class="text-muted font-weight-bold mt-2">Barang Terjual Minggu Ini</span>
-            </div>
-            </div>
-            <div id="weekproductchart" class="card-rounded-bottom" data-color="primary" style="height: 150px"></div>
-            </div>
-            <!--end::Body-->
-            </div>
-            <!--end::Stats Widget 12-->
-            </div>
-            <div class="col-md-12">
-                <!--begin::Stats Widget 12-->
                 <div class="card card-custom card-stretch gutter-b">
-                <!--begin::Body-->
-                <div class="card-body p-0">
-                <div class="d-flex align-items-center justify-content-between card-spacer flex-grow-1">
-                <span class="symbol  symbol-50 symbol-light-primary mr-2">
-                <span class="symbol-label">
-                    <span class="svg-icon svg-icon-primary svg-icon-xl"><!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo5/dist/../src/media/svg/icons/Shopping/Chart-bar2.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                            <rect x="0" y="0" width="24" height="24"/>
-                            <rect fill="#000000" opacity="0.3" x="17" y="4" width="3" height="13" rx="1.5"/>
-                            <rect fill="#000000" opacity="0.3" x="12" y="9" width="3" height="8" rx="1.5"/>
-                            <path d="M5,19 L20,19 C20.5522847,19 21,19.4477153 21,20 C21,20.5522847 20.5522847,21 20,21 L4,21 C3.44771525,21 3,20.5522847 3,20 L3,4 C3,3.44771525 3.44771525,3 4,3 C4.55228475,3 5,3.44771525 5,4 L5,19 Z" fill="#000000" fill-rule="nonzero"/>
-                            <rect fill="#000000" opacity="0.3" x="7" y="11" width="3" height="6" rx="1.5"/>
-                        </g>
-                    </svg><!--end::Svg Icon--></span>              </span>
-                </span>
-                <div class="d-flex flex-column text-right">
-                <span class="text-dark-75 font-weight-bolder font-size-h3">{{$totproductmonth}}</span>
-                <span class="text-muted font-weight-bold mt-2">Barang Terjual Bulan Ini</span>
+                    <!--begin::Header-->
+                    <div class="card-header border-0 pt-6 mb-2">
+                        <h3 class="card-title align-items-start flex-column">
+                            <span class="card-label font-weight-bold font-size-h4 text-dark-75 mb-3">Pendapatan Bulanan</span>
+                        </h3>
+                    </div>
+                    <!--end::Header-->
+                    <!--begin::Body-->
+                    <div class="card-body pt-2">
+                        <!--begin::Table-->
+                        <div id="monthpenchart" style="height: 350px"></div>
+                        <!--end::Table-->
+                    </div>
+                    <!--end::Body-->
                 </div>
-                </div>
-                <div id="monthproductchart" class="card-rounded-bottom" data-color="warning" style="height: 150px"></div>
-                </div>
-                <!--end::Body-->
-                </div>
-                <!--end::Stats Widget 12-->
-                </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="card card-custom card-stretch gutter-b">
+                            <!--begin::Header-->
+                            <div class="card-header border-0 pt-6 mb-2">
+                                <h3 class="card-title align-items-start flex-column">
+                                    <span class="card-label font-weight-bold font-size-h4 text-dark-75 mb-3">Barang Terjual Mingguan</span>
+                                </h3>
+                            </div>
+                            <!--end::Header-->
+                            <!--begin::Body-->
+                            <div class="card-body pt-2">
+                                <!--begin::Table-->
+                                <div id="weekproductchart" style="height: 350px"></div>
+                                <!--end::Table-->
+                            </div>
+                            <!--end::Body-->
+                        </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="card card-custom card-stretch gutter-b">
+                                    <!--begin::Header-->
+                                    <div class="card-header border-0 pt-6 mb-2">
+                                        <h3 class="card-title align-items-start flex-column">
+                                            <span class="card-label font-weight-bold font-size-h4 text-dark-75 mb-3">Barang Terjual Bulanan</span>
+                                        </h3>
+                                    </div>
+                                    <!--end::Header-->
+                                    <!--begin::Body-->
+                                    <div class="card-body pt-2">
+                                        <!--begin::Table-->
+                                        <div id="monthproductchart" style="height: 350px"></div>
+                                        <!--end::Table-->
+                                    </div>
+                                    <!--end::Body-->
+                                </div>
+                                    </div>
+
     </div>
     @else
     <div class="col-md-12 p-0">
