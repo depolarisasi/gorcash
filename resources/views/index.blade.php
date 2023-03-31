@@ -361,86 +361,50 @@ const danger = '#F64E60';
         var height = parseInt(KTUtil.css(element, 'height'));
         var color = KTUtil.hasAttr(element, 'data-color') ? KTUtil.attr(element, 'data-color') : 'success';
 
+
         var options = {
           series: [{
           name: 'Pendapatan Mingguan',
           data: {!! $salesweekly !!}
         }],
           chart: {
-          height: 350,
           type: 'bar',
+          height: height
         },
         plotOptions: {
           bar: {
-            borderRadius: 10,
-            dataLabels: {
-              position: 'bottom', // top, center, bottom
-            },
-          }
+            horizontal: false,
+            columnWidth: '55%',
+            endingShape: 'rounded'
+          },
         },
         dataLabels: {
-          enabled: true,
-          formatter: function (val) {
-            return "Rp " + (val/1000000);
-          },
-          offsetY: -20,
-          style: {
-            fontSize: '12px',
-            colors: ["#304758"]
-          }
+          enabled: false
         },
-
+        stroke: {
+          show: true,
+          width: 2,
+          colors: ['transparent']
+        },
         xaxis: {
           categories: {!! $weeklydate !!},
-          position: 'top',
-          axisBorder: {
-            show: false
-          },
-          axisTicks: {
-            show: false
-          },
-          crosshairs: {
-            fill: {
-              type: 'gradient',
-              gradient: {
-                colorFrom: '#D8E3F0',
-                colorTo: '#BED1E6',
-                stops: [0, 100],
-                opacityFrom: 0.4,
-                opacityTo: 0.5,
-              }
-            }
-          },
-          tooltip: {
-            enabled: true,
-          }
         },
         yaxis: {
-          axisBorder: {
-            show: false
-          },
-          axisTicks: {
-            show: false,
-          },
-          labels: {
-            show: false,
-            formatter: function (val) {
-              return "Rp " + val;
-            }
+          title: {
+            text: 'Pendapatan Mingguan'
           }
-
         },
-        title: {
-          text: 'Pendapatan Mingguan',
-          floating: true,
-          offsetY: 330,
-          align: 'center',
-          style: {
-            color: '#444'
+        fill: {
+          opacity: 1
+        },
+        tooltip: {
+          y: {
+            formatter: function (val) {
+              return "Rp " + val
+            }
           }
         }
         };
-
 
         var chart = new ApexCharts(document.querySelector("#weekpenchart"), options);
         chart.render();
@@ -454,124 +418,47 @@ const danger = '#F64E60';
         var monthcolor = KTUtil.hasAttr(monthelement, 'data-color') ? KTUtil.attr(monthelement, 'data-color') : 'primary';
 
         var monthoptions = {
-            series: [{
-                name: 'Pendapatan Monthly',
-                data: {!! $salesmonthly !!}
-            }],
-            chart: {
-                type: 'area',
-                height: 150,
-                toolbar: {
-                    show: false
-                },
-                zoom: {
-                    enabled: false
-                },
-                sparkline: {
-                    enabled: true
-                }
-            },
-            plotOptions: {},
-            legend: {
-                show: false
-            },
-            dataLabels: {
-                enabled: false
-            },
-            fill: {
-                type: 'solid',
-                opacity: 1
-            },
-            stroke: {
-                curve: 'smooth',
-                show: true,
-                width: 3,
-                colors: [KTAppSettings['colors']['theme']['base']['primary']]
-            },
-            xaxis: {
-                categories: {!! $monthlydate !!},
-                axisBorder: {
-                    show: false,
-                },
-                axisTicks: {
-                    show: false
-                },
-                labels: {
-                    show: false,
-                    style: {
-                        colors: KTAppSettings['colors']['gray']['gray-500'],
-                        fontSize: '12px',
-                        fontFamily: KTAppSettings['font-family']
-                    }
-                },
-                crosshairs: {
-                    show: false,
-                    position: 'front',
-                    stroke: {
-                        color: KTAppSettings['colors']['gray']['gray-300'],
-                        width: 1,
-                        dashArray: 3
-                    }
-                },
-                tooltip: {
-                    enabled: true,
-                    formatter: undefined,
-                    offsetY: 0,
-                    style: {
-                        fontSize: '12px',
-                        fontFamily: KTAppSettings['font-family']
-                    }
-                }
-            },
-            yaxis: {
-                min: 0,
-                labels: {
-                    show: false,
-                    style: {
-                        colors: KTAppSettings['colors']['gray']['gray-500'],
-                        fontSize: '12px',
-                        fontFamily: KTAppSettings['font-family']
-                    }
-                }
-            },
-            states: {
-                normal: {
-                    filter: {
-                        type: 'none',
-                        value: 0
-                    }
-                },
-                hover: {
-                    filter: {
-                        type: 'none',
-                        value: 0
-                    }
-                },
-                active: {
-                    allowMultipleDataPointsSelection: false,
-                    filter: {
-                        type: 'none',
-                        value: 0
-                    }
-                }
-            },
-            tooltip: {
-                style: {
-                    fontSize: '12px',
-                    fontFamily: KTAppSettings['font-family']
-                },
-                y: {
-                    formatter: function (val) {
-                        return "Rp" + val;
-                    }
-                }
-            },
-            colors: [KTAppSettings['colors']['theme']['light']['primary']],
-            markers: {
-                colors: [KTAppSettings['colors']['theme']['light']['primary']],
-                strokeColor: [KTAppSettings['colors']['theme']['base']['primary']],
-                strokeWidth: 3
+          series: [{
+          name: 'Pendapatan Bulanan',
+          data: {!! $salesmonthly !!}
+        }],
+          chart: {
+          type: 'bar',
+          height: height
+        },
+        plotOptions: {
+          bar: {
+            horizontal: false,
+            columnWidth: '55%',
+            endingShape: 'rounded'
+          },
+        },
+        dataLabels: {
+          enabled: false
+        },
+        stroke: {
+          show: true,
+          width: 2,
+          colors: ['transparent']
+        },
+        xaxis: {
+          categories: {!! $monthlydate !!},
+        },
+        yaxis: {
+          title: {
+            text: 'Pendapatan Bulanan'
+          }
+        },
+        fill: {
+          opacity: 1
+        },
+        tooltip: {
+          y: {
+            formatter: function (val) {
+              return "Rp " + val
             }
+          }
+        }
         };
 
         var chart3 = new ApexCharts(monthelement, monthoptions);
@@ -583,124 +470,47 @@ const danger = '#F64E60';
         var productcolor = KTUtil.hasAttr(element, 'data-color') ? KTUtil.attr(element, 'data-color') : 'warning';
 
         var productoptions = {
-            series: [{
-                name: 'Product Weekly Sales',
-                data: {!! $productweekly !!}
-            }],
-            chart: {
-                type: 'area',
-                height: 150,
-                toolbar: {
-                    show: false
-                },
-                zoom: {
-                    enabled: false
-                },
-                sparkline: {
-                    enabled: true
-                }
-            },
-            plotOptions: {},
-            legend: {
-                show: false
-            },
-            dataLabels: {
-                enabled: false
-            },
-            fill: {
-                type: 'solid',
-                opacity: 1
-            },
-            stroke: {
-                curve: 'smooth',
-                show: true,
-                width: 3,
-                colors: [KTAppSettings['colors']['theme']['base']['primary']]
-            },
-            xaxis: {
-                categories: {!! $weeklydate !!},
-                axisBorder: {
-                    show: false,
-                },
-                axisTicks: {
-                    show: false
-                },
-                labels: {
-                    show: false,
-                    style: {
-                        colors: KTAppSettings['colors']['gray']['gray-500'],
-                        fontSize: '12px',
-                        fontFamily: KTAppSettings['font-family']
-                    }
-                },
-                crosshairs: {
-                    show: false,
-                    position: 'front',
-                    stroke: {
-                        color: KTAppSettings['colors']['gray']['gray-300'],
-                        width: 1,
-                        dashArray: 3
-                    }
-                },
-                tooltip: {
-                    enabled: true,
-                    formatter: undefined,
-                    offsetY: 0,
-                    style: {
-                        fontSize: '12px',
-                        fontFamily: KTAppSettings['font-family']
-                    }
-                }
-            },
-            yaxis: {
-                min: 0,
-                labels: {
-                    show: false,
-                    style: {
-                        colors: KTAppSettings['colors']['gray']['gray-500'],
-                        fontSize: '12px',
-                        fontFamily: KTAppSettings['font-family']
-                    }
-                }
-            },
-            states: {
-                normal: {
-                    filter: {
-                        type: 'none',
-                        value: 0
-                    }
-                },
-                hover: {
-                    filter: {
-                        type: 'none',
-                        value: 0
-                    }
-                },
-                active: {
-                    allowMultipleDataPointsSelection: false,
-                    filter: {
-                        type: 'none',
-                        value: 0
-                    }
-                }
-            },
-            tooltip: {
-                style: {
-                    fontSize: '12px',
-                    fontFamily: KTAppSettings['font-family']
-                },
-                y: {
-                    formatter: function (val) {
-                        return val;
-                    }
-                }
-            },
-            colors: [KTAppSettings['colors']['theme']['light']['primary']],
-            markers: {
-                colors: [KTAppSettings['colors']['theme']['light']['primary']],
-                strokeColor: [KTAppSettings['colors']['theme']['base']['primary']],
-                strokeWidth: 3
+          series: [{
+          name: 'Penjualan Produk Mingguan',
+          data: {!! $productweekly !!}
+        }],
+          chart: {
+          type: 'bar',
+          height: height
+        },
+        plotOptions: {
+          bar: {
+            horizontal: false,
+            columnWidth: '55%',
+            endingShape: 'rounded'
+          },
+        },
+        dataLabels: {
+          enabled: false
+        },
+        stroke: {
+          show: true,
+          width: 2,
+          colors: ['transparent']
+        },
+        xaxis: {
+          categories: {!! $weeklydate !!},
+        },
+        yaxis: {
+          title: {
+            text: 'Penjualan Produk Mingguan'
+          }
+        },
+        fill: {
+          opacity: 1
+        },
+        tooltip: {
+          y: {
+            formatter: function (val) {
+              return "Rp " + val
             }
+          }
+        }
         };
 
         var chart6 = new ApexCharts(productelement, productoptions);
@@ -712,158 +522,51 @@ const danger = '#F64E60';
         var productmonthcolor = KTUtil.hasAttr(element, 'data-color') ? KTUtil.attr(element, 'data-color') : 'warning';
 
         var productmonthoptions = {
-            series: [{
-                name: 'Product Monthly Sales',
-                data: {!! $productmonthly !!}
-            }],
-            chart: {
-                type: 'area',
-                height: 150,
-                toolbar: {
-                    show: false
-                },
-                zoom: {
-                    enabled: false
-                },
-                sparkline: {
-                    enabled: true
-                }
-            },
-            plotOptions: {},
-            legend: {
-                show: false
-            },
-            dataLabels: {
-                enabled: false
-            },
-            fill: {
-                type: 'solid',
-                opacity: 1
-            },
-            stroke: {
-                curve: 'smooth',
-                show: true,
-                width: 3,
-                colors: [KTAppSettings['colors']['theme']['base']['primary']]
-            },
-            xaxis: {
-                categories: {!! $monthlydate !!},
-                axisBorder: {
-                    show: false,
-                },
-                axisTicks: {
-                    show: false
-                },
-                labels: {
-                    show: false,
-                    style: {
-                        colors: KTAppSettings['colors']['gray']['gray-500'],
-                        fontSize: '12px',
-                        fontFamily: KTAppSettings['font-family']
-                    }
-                },
-                crosshairs: {
-                    show: false,
-                    position: 'front',
-                    stroke: {
-                        color: KTAppSettings['colors']['gray']['gray-300'],
-                        width: 1,
-                        dashArray: 3
-                    }
-                },
-                tooltip: {
-                    enabled: true,
-                    formatter: undefined,
-                    offsetY: 0,
-                    style: {
-                        fontSize: '12px',
-                        fontFamily: KTAppSettings['font-family']
-                    }
-                }
-            },
-            yaxis: {
-                min: 0,
-                labels: {
-                    show: false,
-                    style: {
-                        colors: KTAppSettings['colors']['gray']['gray-500'],
-                        fontSize: '12px',
-                        fontFamily: KTAppSettings['font-family']
-                    }
-                }
-            },
-            states: {
-                normal: {
-                    filter: {
-                        type: 'none',
-                        value: 0
-                    }
-                },
-                hover: {
-                    filter: {
-                        type: 'none',
-                        value: 0
-                    }
-                },
-                active: {
-                    allowMultipleDataPointsSelection: false,
-                    filter: {
-                        type: 'none',
-                        value: 0
-                    }
-                }
-            },
-            tooltip: {
-                style: {
-                    fontSize: '12px',
-                    fontFamily: KTAppSettings['font-family']
-                },
-                y: {
-                    formatter: function (val) {
-                        return val;
-                    }
-                }
-            },
-            colors: [KTAppSettings['colors']['theme']['light']['primary']],
-            markers: {
-                colors: [KTAppSettings['colors']['theme']['light']['primary']],
-                strokeColor: [KTAppSettings['colors']['theme']['base']['primary']],
-                strokeWidth: 3
+          series: [{
+          name: 'Penjualan Produk Bulanan',
+          data: {!! $productmonthly !!}
+        }],
+          chart: {
+          type: 'bar',
+          height: height
+        },
+        plotOptions: {
+          bar: {
+            horizontal: false,
+            columnWidth: '55%',
+            endingShape: 'rounded'
+          },
+        },
+        dataLabels: {
+          enabled: false
+        },
+        stroke: {
+          show: true,
+          width: 2,
+          colors: ['transparent']
+        },
+        xaxis: {
+          categories: {!! $monthlydate !!},
+        },
+        yaxis: {
+          title: {
+            text: 'Penjualan Produk Bulanan'
+          }
+        },
+        fill: {
+          opacity: 1
+        },
+        tooltip: {
+          y: {
+            formatter: function (val) {
+              return "Rp " + val
             }
+          }
+        }
         };
 
         var chart5 = new ApexCharts(productmonthelement, productmonthoptions);
         chart5.render();
-
-
-        const chartdonut = "#chartdonut";
-		var options4 = {
-			series: {!! $dataproporsi !!},
-			chart: {
-				width: 480,
-				type: 'pie',
-			},
-			labels: ['Penjualan', 'Potongan / Diskon Total', 'Diskon Individu'],
-			responsive: [{
-				breakpoint: 480,
-				options: {
-					chart: {
-						width: 240
-					},
-					legend: {
-						position: 'bottom'
-					}
-				}
-			}],
-			colors: [success, warning, danger,]
-		};
-
-		var chart4 = new ApexCharts(document.querySelector(chartdonut), options4);
-		chart4.render();
-
-
-
-
 
 </script>
 
