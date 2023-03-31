@@ -472,7 +472,7 @@ const danger = '#F64E60';
         tooltip: {
           y: {
             formatter: function (val) {
-              return "Rp " + val
+              return val + " Pcs"
             }
           }
         }
@@ -524,7 +524,7 @@ const danger = '#F64E60';
         tooltip: {
           y: {
             formatter: function (val) {
-              return "Rp " + val
+              return val + " Pcs"
             }
           }
         }
