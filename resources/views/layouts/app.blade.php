@@ -592,7 +592,7 @@ background-color: #fff !important;
 							</div>
 			<!--end::Wrapper-->
 
-        <x:notify-messages />
+            @include('notify::components.notify')
 		</div>
 		<!--end::Page-->
 	</div>
