@@ -374,7 +374,7 @@ const danger = '#F64E60';
 
 var options = {
     series: [{
-        name: 'Net Profit',
+        name: 'Pendapatan Mingguan',
         data: {!! $salesweekly !!}
     }],
     chart: {
@@ -413,7 +413,7 @@ var options = {
         },
         labels: {
             style: {
-                colors: [KTAppSettings['colors']['theme']['base'][color]],
+                colors: KTAppSettings['colors']['theme']['base'][color],
                 fontSize: '12px'
             }
         }
@@ -421,7 +421,7 @@ var options = {
     yaxis: {
         labels: {
             style: {
-                colors: [KTAppSettings['colors']['theme']['base'][color]],
+                colors: KTAppSettings['colors']['theme']['base'][color],
                 fontSize: '12px'
             }
         }
