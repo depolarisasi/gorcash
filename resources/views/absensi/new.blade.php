@@ -193,7 +193,7 @@ var durasijam = jampulang.diff(jammasuk).shiftTo('hours','minutes').toObject();
 document.getElementById('textlamakerja'+id).innerHTML = durasijam.hours+" Jam, " +durasijam.minutes+" Menit";
 $('#lamakerja'+id).val(jampulang.diff(jammasuk).as('minutes'));
 if(durasijam.hours > 8){
-var jamlembur = durasijam.hours-8;
+var jamlembur = (durasijam.hours)-9;
 var menitlembur = durasijam.minutes;
 }else {
 var jamlembur = 0
@@ -213,7 +213,7 @@ var durasijam = jampulang.diff(jammasuk).shiftTo('hours','minutes').toObject();
 document.getElementById('textlamakerja'+id).innerHTML = durasijam.hours+" Jam, " +durasijam.minutes+" Menit";
 $('#lamakerja'+id).val(jampulang.diff(jammasuk).as('minutes'));
 if(durasijam.hours > 8){
-var jamlembur = durasijam.hours-8;
+var jamlembur = (durasijam.hours)-9;
 var menitlembur = durasijam.minutes;
 }else {
 var jamlembur = 0
