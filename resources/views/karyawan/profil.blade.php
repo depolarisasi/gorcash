@@ -32,9 +32,9 @@
     <div class="col-md-6">
         @if(!is_null($show))
         @if(!is_null($show->karyawan_foto))
-<img src="{{asset($show->karyawan_foto)}}" class="img-fluid">
+<img src="{{asset($show->karyawan_foto)}}" class="img-fluid" style="width: 150px; height: 150px;">
 @else
-<img src="{{asset('/foto/no-profile.png')}}" class="img-fluid">
+<img src="{{asset('/foto/no-profile.png')}}" class="img-fluid" style="width: 150px; height: 150px;">
 @endif
 @endif
     </div>

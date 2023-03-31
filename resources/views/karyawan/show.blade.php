@@ -31,7 +31,7 @@
 <div class="tab-content">
 <div class="row">
     <div class="col-md-6">
-<img src="{{asset($show->karyawan_foto)}}" class="img-fluid">
+<img src="{{asset($show->karyawan_foto)}}" class="img-fluid" style="width: 150px; height: 150px;">
     </div>
     <div class="col-md-6">
         <p><b>Nama : </b> {{$show->karyawan_nama}}</p>

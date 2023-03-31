@@ -283,24 +283,7 @@ Dashboard Gorilla Coach </h5>
         </div>
             </div>
             <div class="col-md-6">
-                @if(Auth::user()->role == 1)
-                <div class="card card-custom gutter-b">
-                    <!--begin::Header-->
-                    <div class="card-header border-0 pt-6 mb-2">
-                        <h3 class="card-title align-items-start flex-column">
-                            <span class="card-label font-weight-bold font-size-h4 text-dark-75 mb-3">Proporsi Penjualan & Pengeluaran Bulan Ini</span>
-                        </h3>
-                    </div>
-                    <!--end::Header-->
-                    <!--begin::Body-->
-                    <div class="card-body pt-2">
-                    <!--begin::Chart-->
-                    <div id="chartdonut" class="d-flex justify-content-center"></div>
-                    <!--end::Chart-->
-                    </div>
-                    <!--end::Body-->
-                </div>
-                @endif
+
 
     <!--begin::Mixed Widget 14-->
     <div class="card card-custom gutter-b">
@@ -450,7 +433,7 @@ const danger = '#F64E60';
                 data: {!! $salesweekly !!}
             }],
             chart: {
-                type: 'area',
+                type: 'bar',
                 height: 150,
                 toolbar: {
                     show: false
