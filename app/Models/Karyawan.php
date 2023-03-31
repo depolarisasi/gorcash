@@ -97,6 +97,8 @@ class Karyawan extends Model
     'karyawan_tanggalbekerja',
     'karyawan_userid',
     'karyawan_jammasukkerja',
+    'karyawan_upahharian',
+    'karyawan_upahpokok',
         'created_at',
         'updated_at', ];
 

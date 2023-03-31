@@ -49,6 +49,18 @@
              <input class="form-control" type="time" name="karyawan_jammasukkerja" value="{{$edit->karyawan_jammasukkerja}}">
          </div>
        </div>
+       <div class="form-group row mt-4">
+        <label class="col-md-2">Upah Pokok</label>
+        <div class="col-md-4">
+            <input class="form-control" type="text" name="karyawan_upahpokok" value="{{$edit->karyawan_upahpokok}}">
+        </div>
+      </div>
+      <div class="form-group row mt-4">
+        <label class="col-md-2">Upah Harian</label>
+        <div class="col-md-4">
+            <input class="form-control" type="text" name="karyawan_upahharian" value="{{$edit->karyawan_upahharian}}">
+        </div>
+      </div>
 <div class="form-group row mt-4">
          <label class="col-md-2">Tanggal Pertama Bekerja</label>
          <div class="col-md-4">

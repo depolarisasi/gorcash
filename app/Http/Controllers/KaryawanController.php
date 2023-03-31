@@ -74,6 +74,7 @@ class KaryawanController extends Controller
     {
         $karyawan = Karyawan::join('users','users.id','=','karyawan.karyawan_userid')
         ->select('karyawan.*','users.name','users.email')
+        ->orderBy('karyawan_tanggalbekerja','ASC')
         ->get();
         return view('karyawan.index')->with(compact('karyawan'));
     }

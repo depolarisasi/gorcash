@@ -35,8 +35,8 @@
 <thead>
 <tr class="text-left">
 <th style="min-width: 50px"><span class="text-dark-75">Nama</span></th>
-<th style="min-width: 100px">Jabatan</th> 
-<th style="min-width: 100px">User Sistem</th> 
+<th style="min-width: 100px">Jabatan</th>
+<th style="min-width: 100px">User Sistem</th>
 <th style="min-width: 80px">Action</th>
 </tr>
 </thead>
@@ -52,7 +52,7 @@
 <span class="text-dark-75 d-block">
 {{$k->karyawan_jabatan}}
 </span>
-</td> 
+</td>
 <td class="pl-3 py-3">
 <div class="d-flex align-items-center">
   {{$k->name}} ({{$k->email}})

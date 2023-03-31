@@ -17,7 +17,8 @@
         "maatwebsite/excel": "^3.1",
         "mckenziearts/laravel-notify": "^2.2",
         "nesbot/carbon": "^2.53",
-        "realrashid/sweet-alert": "^4.0"
+        "realrashid/sweet-alert": "^4.0",
+        "unisharp/laravel-filemanager": "^2.6"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
