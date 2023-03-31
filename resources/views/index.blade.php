@@ -364,46 +364,83 @@ const danger = '#F64E60';
         var options = {
           series: [{
           name: 'Pendapatan Mingguan',
-          data: {!! $salesmonthly !!}
+          data: {!! $salesweekly !!}
         }],
           chart: {
+          height: 350,
           type: 'bar',
-          height: height
         },
         plotOptions: {
           bar: {
-            horizontal: false,
-            columnWidth: '55%',
-            endingShape: 'rounded'
-          },
-        },
-        dataLabels: {
-          enabled: false
-        },
-        stroke: {
-          show: true,
-          width: 2,
-          colors: ['transparent']
-        },
-        xaxis: {
-          categories: {!! $monthlydate !!},
-        },
-        yaxis: {
-          title: {
-            text: 'Rp'
+            borderRadius: 10,
+            dataLabels: {
+              position: 'bottom', // top, center, bottom
+            },
           }
         },
-        fill: {
-          opacity: 1
+        dataLabels: {
+          enabled: true,
+          formatter: function (val) {
+            return "Rp " + (val/1000000);
+          },
+          offsetY: -20,
+          style: {
+            fontSize: '12px',
+            colors: ["#304758"]
+          }
         },
-        tooltip: {
-          y: {
-            formatter: function (val) {
-              return "$ " + val
+
+        xaxis: {
+          categories: {!! $weeklydate !!},
+          position: 'top',
+          axisBorder: {
+            show: false
+          },
+          axisTicks: {
+            show: false
+          },
+          crosshairs: {
+            fill: {
+              type: 'gradient',
+              gradient: {
+                colorFrom: '#D8E3F0',
+                colorTo: '#BED1E6',
+                stops: [0, 100],
+                opacityFrom: 0.4,
+                opacityTo: 0.5,
+              }
             }
+          },
+          tooltip: {
+            enabled: true,
+          }
+        },
+        yaxis: {
+          axisBorder: {
+            show: false
+          },
+          axisTicks: {
+            show: false,
+          },
+          labels: {
+            show: false,
+            formatter: function (val) {
+              return "Rp " + val;
+            }
+          }
+
+        },
+        title: {
+          text: 'Pendapatan Mingguan',
+          floating: true,
+          offsetY: 330,
+          align: 'center',
+          style: {
+            color: '#444'
           }
         }
         };
+
 
         var chart = new ApexCharts(document.querySelector("#weekpenchart"), options);
         chart.render();
