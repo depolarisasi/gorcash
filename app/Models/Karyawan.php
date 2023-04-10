@@ -73,8 +73,6 @@ class Karyawan extends Model
     'karyawan_employmentperiode2',
     'karyawan_employmentjabatan2',
     'karyawan_employmentgaji2',
-    'karyawan_cacat',
-    'karyawan_merokok',
     'karyawan_namaayah',
     'karyawan_telpayah',
     'karyawan_alamatayah',

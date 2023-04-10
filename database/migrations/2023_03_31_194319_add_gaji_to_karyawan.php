@@ -14,8 +14,8 @@ class AddGajiToKaryawan extends Migration
     public function up()
     {
         Schema::table('karyawan', function (Blueprint $table) {
-            $table->string('karyawan_upahpokok')->nullable();
-            $table->string('karyawan_upahharian')->nullable();
+            $table->string('karyawan_upahpokok',10)->nullable();
+            $table->string('karyawan_upahharian',10)->nullable();
         });
     }
 

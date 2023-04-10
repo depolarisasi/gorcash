@@ -324,21 +324,6 @@
 </br>
 <h2>Informasi Lain</h2>
 <div class="row">
-    <div class="col-md-2">
-        <p><b>Cacat</b></p>
-    </div>
-    <div class="col-md-10">
-
-<p>{{$show->karyawan_cacat}}</p>
-    </div>
-
-    <div class="col-md-2">
-        <p><b>Merokok </b></p>
-    </div>
-    <div class="col-md-10">
-
-<p>{{$show->karyawan_merokok}}</p>
-    </div>
 
     <div class="col-md-2">
         <p><b>Tidak Bisa Bekerja Di Hari </b></p>
@@ -364,13 +349,6 @@
 <p>{{$show->karyawan_berlakusim}}</p>
     </div>
 
-    <div class="col-md-2">
-        <p><b>Pernah Diberhentikan </b></p>
-    </div>
-    <div class="col-md-10">
-
-<p>{{$show->karyawan_pernahdiberhentikan}}</p>
-    </div>
 
     <div class="col-md-2">
         <p><b>Pernah Dihukum </b></p>

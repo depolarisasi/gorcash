@@ -430,12 +430,7 @@
              </div>
            </div>
 
-           <div class="form-group row mt-4">
-            <label class="col-md-2">Penyakit / Cacat yang menggangu bekerja</label>
-            <div class="col-md-4">
-            <input id="name" type="text" class="form-control" name="karyawan_cacat">
-            </div>
-           </div>
+
 
 
            <div class="form-group row mt-4">
@@ -445,19 +440,9 @@
             </div>
            </div>
 
-           <div class="form-group row mt-4">
-            <label class="col-md-2">Perokok / Tidak</label>
-            <div class="col-md-4">
-            <input id="name" type="text" class="form-control" name="karyawan_merokok">
-            </div>
-           </div>
 
-           <div class="form-group row mt-4">
-            <label class="col-md-2">Pernah Dihukum / Ditahan</label>
-            <div class="col-md-4">
-            <input id="name" type="text" class="form-control" name="karyawan_pernahdihukum">
-            </div>
-           </div>
+
+
            <div class="form-group row mt-4">
             <label class="col-md-2">Pernah Diberhentikan / PHK </label>
             <div class="col-md-4">

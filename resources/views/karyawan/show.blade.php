@@ -41,6 +41,8 @@
         <p><b>Tanggal Pertama Bekerja : </b> {{$show->karyawan_tanggalbekerja}},  {{$time->y}} Tahun, {{$time->m}} Bulan, {{$time->d}} Hari</p>
         <p><b>Jabatan : </b> {{$show->karyawan_jabatan}}</p>
         <p><b>Nomor Induk Karyawan : </b> {{$show->karyawan_noinduk}}</p>
+        <p><b>Upah Pokok : </b> {{$show->karyawan_upahpokok}}</p>
+        <p><b>Upah Harian: </b> {{$show->karyawan_upahharian}}</p>
     </div>
 </div>
 </br>
@@ -320,22 +322,6 @@
 <h2>Informasi Lain</h2>
 <div class="row">
     <div class="col-md-2">
-        <p><b>Cacat</b></p>
-    </div>
-    <div class="col-md-10">
-
-<p>{{$show->karyawan_cacat}}</p>
-    </div>
-
-    <div class="col-md-2">
-        <p><b>Merokok </b></p>
-    </div>
-    <div class="col-md-10">
-
-<p>{{$show->karyawan_merokok}}</p>
-    </div>
-
-    <div class="col-md-2">
         <p><b>Tidak Bisa Bekerja Di Hari </b></p>
     </div>
     <div class="col-md-10">
@@ -367,13 +353,7 @@
 <p>{{$show->karyawan_pernahdiberhentikan}}</p>
     </div>
 
-    <div class="col-md-2">
-        <p><b>Pernah Dihukum </b></p>
-    </div>
-    <div class="col-md-10">
 
-<p>{{$show->karyawan_pernahdihukum}}</p>
-    </div>
 
     <div class="col-md-2">
         <p><b>Nama Ayah </b></p>
