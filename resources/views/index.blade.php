@@ -33,25 +33,43 @@ Dashboard Gorilla Coach </h5>
 
 @if(Auth::user()->role == 1 )
 <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-6">
         <div class="card card-custom card-stretch gutter-b">
             <!--begin::Header-->
             <div class="card-header border-0 pt-6 mb-2">
                 <h3 class="card-title align-items-start flex-column">
-                    <span class="card-label font-weight-bold font-size-h4 text-dark-75 mb-3">Pendapatan Mingguan</span>
+                    <span class="card-label font-weight-bold font-size-h4 text-dark-75 mb-3">Pendapatan Minggu Ini</span>
                 </h3>
             </div>
             <!--end::Header-->
             <!--begin::Body-->
             <div class="card-body pt-2">
                 <!--begin::Table-->
-                <div id="weekpenchart" style="height: 350px"></div>
+                <div id="chartpendapatanmingguan" style="height: 350px"></div>
                 <!--end::Table-->
             </div>
             <!--end::Body-->
         </div>
             </div>
-            <div class="col-md-12">
+            <div class="col-md-6">
+                <div class="card card-custom card-stretch gutter-b">
+                    <!--begin::Header-->
+                    <div class="card-header border-0 pt-6 mb-2">
+                        <h3 class="card-title align-items-start flex-column">
+                            <span class="card-label font-weight-bold font-size-h4 text-dark-75 mb-3">Pendapatan Bulan Ini</span>
+                        </h3>
+                    </div>
+                    <!--end::Header-->
+                    <!--begin::Body-->
+                    <div class="card-body pt-2">
+                        <!--begin::Table-->
+                        <div id="chartpendapatanbulanan" style="height: 350px"></div>
+                        <!--end::Table-->
+                    </div>
+                    <!--end::Body-->
+                </div>
+                    </div>
+                       <div class="col-md-12">
                 <div class="card card-custom card-stretch gutter-b">
                     <!--begin::Header-->
                     <div class="card-header border-0 pt-6 mb-2">
@@ -74,6 +92,43 @@ Dashboard Gorilla Coach </h5>
                             <!--begin::Header-->
                             <div class="card-header border-0 pt-6 mb-2">
                                 <h3 class="card-title align-items-start flex-column">
+                                    <span class="card-label font-weight-bold font-size-h4 text-dark-75 mb-3">Barang Terjual Bulanan</span>
+                                </h3>
+                            </div>
+                            <!--end::Header-->
+                            <!--begin::Body-->
+                            <div class="card-body pt-2">
+                                <!--begin::Table-->
+                                <div id="monthproductchart" style="height: 350px"></div>
+                                <!--end::Table-->
+                            </div>
+                            <!--end::Body-->
+                        </div>
+                            </div>
+    <div class="col-md-12">
+        <div class="card card-custom card-stretch gutter-b">
+            <!--begin::Header-->
+            <div class="card-header border-0 pt-6 mb-2">
+                <h3 class="card-title align-items-start flex-column">
+                    <span class="card-label font-weight-bold font-size-h4 text-dark-75 mb-3">Pendapatan Mingguan</span>
+                </h3>
+            </div>
+            <!--end::Header-->
+            <!--begin::Body-->
+            <div class="card-body pt-2">
+                <!--begin::Table-->
+                <div id="weekpenchart" style="height: 350px"></div>
+                <!--end::Table-->
+            </div>
+            <!--end::Body-->
+        </div>
+            </div>
+
+                    <div class="col-md-12">
+                        <div class="card card-custom card-stretch gutter-b">
+                            <!--begin::Header-->
+                            <div class="card-header border-0 pt-6 mb-2">
+                                <h3 class="card-title align-items-start flex-column">
                                     <span class="card-label font-weight-bold font-size-h4 text-dark-75 mb-3">Barang Terjual Mingguan</span>
                                 </h3>
                             </div>
@@ -87,24 +142,7 @@ Dashboard Gorilla Coach </h5>
                             <!--end::Body-->
                         </div>
                             </div>
-                            <div class="col-md-12">
-                                <div class="card card-custom card-stretch gutter-b">
-                                    <!--begin::Header-->
-                                    <div class="card-header border-0 pt-6 mb-2">
-                                        <h3 class="card-title align-items-start flex-column">
-                                            <span class="card-label font-weight-bold font-size-h4 text-dark-75 mb-3">Barang Terjual Bulanan</span>
-                                        </h3>
-                                    </div>
-                                    <!--end::Header-->
-                                    <!--begin::Body-->
-                                    <div class="card-body pt-2">
-                                        <!--begin::Table-->
-                                        <div id="monthproductchart" style="height: 350px"></div>
-                                        <!--end::Table-->
-                                    </div>
-                                    <!--end::Body-->
-                                </div>
-                                    </div>
+
 
     </div>
     @else
@@ -320,6 +358,264 @@ const success = '#1BC5BD';
 const info = '#8950FC';
 const warning = '#FFA800';
 const danger = '#F64E60';
+var chartpendapatanbulanane = document.getElementById("chartpendapatanbulanan");
+
+        var monthheight = parseInt(KTUtil.css(element, 'height'));
+        var monthcolor = KTUtil.hasAttr(element, 'data-color') ? KTUtil.attr(element, 'data-color') : 'primary';
+
+        var chartpendapatanbulanano = {
+            series: [{
+                name: 'Pendapatan Monthly',
+                data: {!! $salesmonthly !!}
+            }],
+            chart: {
+                type: 'area',
+                height: 150,
+                toolbar: {
+                    show: false
+                },
+                zoom: {
+                    enabled: false
+                },
+                sparkline: {
+                    enabled: true
+                }
+            },
+            plotOptions: {},
+            legend: {
+                show: false
+            },
+            dataLabels: {
+                enabled: false
+            },
+            fill: {
+                type: 'solid',
+                opacity: 1
+            },
+            stroke: {
+                curve: 'smooth',
+                show: true,
+                width: 3,
+                colors: [KTAppSettings['colors']['theme']['base']['primary']]
+            },
+            xaxis: {
+                categories: {!! $monthlydate !!},
+                axisBorder: {
+                    show: false,
+                },
+                axisTicks: {
+                    show: false
+                },
+                labels: {
+                    show: false,
+                    style: {
+                        colors: KTAppSettings['colors']['gray']['gray-500'],
+                        fontSize: '12px',
+                        fontFamily: KTAppSettings['font-family']
+                    }
+                },
+                crosshairs: {
+                    show: false,
+                    position: 'front',
+                    stroke: {
+                        color: KTAppSettings['colors']['gray']['gray-300'],
+                        width: 1,
+                        dashArray: 3
+                    }
+                },
+                tooltip: {
+                    enabled: true,
+                    formatter: undefined,
+                    offsetY: 0,
+                    style: {
+                        fontSize: '12px',
+                        fontFamily: KTAppSettings['font-family']
+                    }
+                }
+            },
+            yaxis: {
+                min: 0,
+                labels: {
+                    show: false,
+                    style: {
+                        colors: KTAppSettings['colors']['gray']['gray-500'],
+                        fontSize: '12px',
+                        fontFamily: KTAppSettings['font-family']
+                    }
+                }
+            },
+            states: {
+                normal: {
+                    filter: {
+                        type: 'none',
+                        value: 0
+                    }
+                },
+                hover: {
+                    filter: {
+                        type: 'none',
+                        value: 0
+                    }
+                },
+                active: {
+                    allowMultipleDataPointsSelection: false,
+                    filter: {
+                        type: 'none',
+                        value: 0
+                    }
+                }
+            },
+            tooltip: {
+                style: {
+                    fontSize: '12px',
+                    fontFamily: KTAppSettings['font-family']
+                },
+                y: {
+                    formatter: function (val) {
+                        return "Rp" + val;
+                    }
+                }
+            },
+            colors: [KTAppSettings['colors']['theme']['light']['primary']],
+            markers: {
+                colors: [KTAppSettings['colors']['theme']['light']['primary']],
+                strokeColor: [KTAppSettings['colors']['theme']['base']['primary']],
+                strokeWidth: 3
+            }
+        };
+
+        var chartbaru = new ApexCharts(chartpendapatanbulanane, chartpendapatanbulanano);
+        chartbaru.render();
+
+        var chartpendapatanmingguane = document.getElementById("chartpendapatanmingguan");
+
+        var monthheight = parseInt(KTUtil.css(element, 'height'));
+        var monthcolor = KTUtil.hasAttr(element, 'data-color') ? KTUtil.attr(element, 'data-color') : 'primary';
+
+        var chartpendapatanmingguano = {
+            series: [{
+                name: 'Pendapatan Monthly',
+                data: {!! $salesmonthly !!}
+            }],
+            chart: {
+                type: 'area',
+                height: 150,
+                toolbar: {
+                    show: false
+                },
+                zoom: {
+                    enabled: false
+                },
+                sparkline: {
+                    enabled: true
+                }
+            },
+            plotOptions: {},
+            legend: {
+                show: false
+            },
+            dataLabels: {
+                enabled: false
+            },
+            fill: {
+                type: 'solid',
+                opacity: 1
+            },
+            stroke: {
+                curve: 'smooth',
+                show: true,
+                width: 3,
+                colors: [KTAppSettings['colors']['theme']['base']['primary']]
+            },
+            xaxis: {
+                categories: {!! $monthlydate !!},
+                axisBorder: {
+                    show: false,
+                },
+                axisTicks: {
+                    show: false
+                },
+                labels: {
+                    show: false,
+                    style: {
+                        colors: KTAppSettings['colors']['gray']['gray-500'],
+                        fontSize: '12px',
+                        fontFamily: KTAppSettings['font-family']
+                    }
+                },
+                crosshairs: {
+                    show: false,
+                    position: 'front',
+                    stroke: {
+                        color: KTAppSettings['colors']['gray']['gray-300'],
+                        width: 1,
+                        dashArray: 3
+                    }
+                },
+                tooltip: {
+                    enabled: true,
+                    formatter: undefined,
+                    offsetY: 0,
+                    style: {
+                        fontSize: '12px',
+                        fontFamily: KTAppSettings['font-family']
+                    }
+                }
+            },
+            yaxis: {
+                min: 0,
+                labels: {
+                    show: false,
+                    style: {
+                        colors: KTAppSettings['colors']['gray']['gray-500'],
+                        fontSize: '12px',
+                        fontFamily: KTAppSettings['font-family']
+                    }
+                }
+            },
+            states: {
+                normal: {
+                    filter: {
+                        type: 'none',
+                        value: 0
+                    }
+                },
+                hover: {
+                    filter: {
+                        type: 'none',
+                        value: 0
+                    }
+                },
+                active: {
+                    allowMultipleDataPointsSelection: false,
+                    filter: {
+                        type: 'none',
+                        value: 0
+                    }
+                }
+            },
+            tooltip: {
+                style: {
+                    fontSize: '12px',
+                    fontFamily: KTAppSettings['font-family']
+                },
+                y: {
+                    formatter: function (val) {
+                        return "Rp" + val;
+                    }
+                }
+            },
+            colors: [KTAppSettings['colors']['theme']['light']['primary']],
+            markers: {
+                colors: [KTAppSettings['colors']['theme']['light']['primary']],
+                strokeColor: [KTAppSettings['colors']['theme']['base']['primary']],
+                strokeWidth: 3
+            }
+        };
+
+        var chartbaru2 = new ApexCharts(chartpendapatanmingguane, chartpendapatanmingguano);
+        chartbaru2.render();
+
 
         var element = document.getElementById("weekpenchart");
 
