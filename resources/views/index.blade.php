@@ -38,6 +38,7 @@ Dashboard Gorilla Coach </h5>
             <!--begin::Header-->
             <div class="card-header border-0 pt-6 mb-2">
                 <h3 class="card-title align-items-start flex-column">
+                    <span class="text-dark-75 font-weight-bolder font-size-h3">@money($totalweekly)</span>
                     <span class="card-label font-weight-bold font-size-h4 text-dark-75 mb-3">Pendapatan Minggu Ini</span>
                 </h3>
             </div>
@@ -56,6 +57,7 @@ Dashboard Gorilla Coach </h5>
                     <!--begin::Header-->
                     <div class="card-header border-0 pt-6 mb-2">
                         <h3 class="card-title align-items-start flex-column">
+                            <span class="text-dark-75 font-weight-bolder font-size-h3">@money($totalmonthly)</span>
                             <span class="card-label font-weight-bold font-size-h4 text-dark-75 mb-3">Pendapatan Bulan Ini</span>
                         </h3>
                     </div>
@@ -370,7 +372,7 @@ var chartpendapatanbulanane = document.getElementById("chartpendapatanbulanan");
             }],
             chart: {
                 type: 'area',
-                height: 150,
+                height: 350,
                 toolbar: {
                     show: false
                 },
@@ -499,7 +501,7 @@ var chartpendapatanbulanane = document.getElementById("chartpendapatanbulanan");
             }],
             chart: {
                 type: 'area',
-                height: 150,
+                height: 350,
                 toolbar: {
                     show: false
                 },
