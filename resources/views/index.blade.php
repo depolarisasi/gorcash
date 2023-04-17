@@ -35,40 +35,23 @@ Dashboard Gorilla Coach </h5>
 <div class="row">
     <div class="col-md-6">
         <div class="card card-custom card-stretch gutter-b">
+            <div class="card-body">
+                <div class="text-dark font-weight-bolder font-size-h2 mt-3">@money($totalweekly)</div>
+
+                <a href="#" class="text-muted text-hover-primary font-weight-bold font-size-lg mt-1">Pendapatan Minggu Ini</a>
+            </div>
             <!--begin::Header-->
-            <div class="card-header border-0 pt-6 mb-2">
-                <h3 class="card-title align-items-start flex-column">
-                    <span class="text-dark-75 font-weight-bolder font-size-h3">@money($totalweekly)</span>
-                    <span class="card-label font-weight-bold font-size-h4 text-dark-75 mb-3">Pendapatan Minggu Ini</span>
-                </h3>
-            </div>
-            <!--end::Header-->
-            <!--begin::Body-->
-            <div class="card-body pt-2">
-                <!--begin::Table-->
-                <div id="chartpendapatanmingguan" style="height: 350px"></div>
-                <!--end::Table-->
-            </div>
-            <!--end::Body-->
+
         </div>
             </div>
             <div class="col-md-6">
                 <div class="card card-custom card-stretch gutter-b">
                     <!--begin::Header-->
-                    <div class="card-header border-0 pt-6 mb-2">
-                        <h3 class="card-title align-items-start flex-column">
-                            <span class="text-dark-75 font-weight-bolder font-size-h3">@money($totalmonthly)</span>
-                            <span class="card-label font-weight-bold font-size-h4 text-dark-75 mb-3">Pendapatan Bulan Ini</span>
-                        </h3>
+                    <div class="card-body">
+                        <div class="text-dark font-weight-bolder font-size-h2 mt-3">@money($totalmonthly)</div>
+
+                        <a href="#" class="text-muted text-hover-primary font-weight-bold font-size-lg mt-1">Pendapatan Bulan Ini</a>
                     </div>
-                    <!--end::Header-->
-                    <!--begin::Body-->
-                    <div class="card-body pt-2">
-                        <!--begin::Table-->
-                        <div id="chartpendapatanbulanan" style="height: 350px"></div>
-                        <!--end::Table-->
-                    </div>
-                    <!--end::Body-->
                 </div>
                     </div>
                        <div class="col-md-12">
