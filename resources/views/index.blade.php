@@ -90,45 +90,6 @@ Dashboard Gorilla Coach </h5>
                             <!--end::Body-->
                         </div>
                             </div>
-    <div class="col-md-12">
-        <div class="card card-custom card-stretch gutter-b">
-            <!--begin::Header-->
-            <div class="card-header border-0 pt-6 mb-2">
-                <h3 class="card-title align-items-start flex-column">
-                    <span class="card-label font-weight-bold font-size-h4 text-dark-75 mb-3">Pendapatan Mingguan</span>
-                </h3>
-            </div>
-            <!--end::Header-->
-            <!--begin::Body-->
-            <div class="card-body pt-2">
-                <!--begin::Table-->
-                <div id="weekpenchart" style="height: 350px"></div>
-                <!--end::Table-->
-            </div>
-            <!--end::Body-->
-        </div>
-            </div>
-
-                    <div class="col-md-12">
-                        <div class="card card-custom card-stretch gutter-b">
-                            <!--begin::Header-->
-                            <div class="card-header border-0 pt-6 mb-2">
-                                <h3 class="card-title align-items-start flex-column">
-                                    <span class="card-label font-weight-bold font-size-h4 text-dark-75 mb-3">Barang Terjual Mingguan</span>
-                                </h3>
-                            </div>
-                            <!--end::Header-->
-                            <!--begin::Body-->
-                            <div class="card-body pt-2">
-                                <!--begin::Table-->
-                                <div id="weekproductchart" style="height: 350px"></div>
-                                <!--end::Table-->
-                            </div>
-                            <!--end::Body-->
-                        </div>
-                            </div>
-
-
     </div>
     @else
     <div class="col-md-12 p-0">
