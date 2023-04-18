@@ -317,7 +317,7 @@ const danger = '#F64E60';
         }],
           chart: {
           type: 'bar',
-          height: height
+          height: 350
         },
         plotOptions: {
           bar: {
@@ -371,7 +371,7 @@ const danger = '#F64E60';
         }],
           chart: {
           type: 'bar',
-          height: height
+          height: 350
         },
         plotOptions: {
           bar: {
