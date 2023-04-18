@@ -307,7 +307,7 @@ const danger = '#F64E60';
 
         var monthelement = document.getElementById("monthpenchart");
 
-        var monthcolor = KTUtil.hasAttr(monthelement, 'data-color') ? KTUtil.attr(monthelement, 'data-color') : 'primary';
+
 
         var monthoptions = {
           series: [{
@@ -360,7 +360,6 @@ const danger = '#F64E60';
 
         var productmonthelement = document.getElementById("monthproductchart");
 
-        var productmonthcolor = KTUtil.hasAttr(element, 'data-color') ? KTUtil.attr(element, 'data-color') : 'warning';
 
         var productmonthoptions = {
           series: [{
