@@ -65,6 +65,26 @@ class ExportSKUController extends Controller
     ]);
     }
 
+    public function exportskusingle(Request $request){
+        $ids = $request->ids;
+        $rand = mt_rand(1,9999).$this->generateRandomString(5);
+        $dateinput = Carbon::now()->format('Y-m-d');
+        $product = Product::whereIn('product_sku', $request->ids)->get();
+        foreach($product as $p){
+            $export = new ExportSKU;
+            $export->exportsku_productsku = $p->product_sku;
+            $export->exportsku_tanggal = $dateinput;
+            $export->exportsku_groupid = $rand;
+            $export->save();
+
+            }
+
+        return response()->json([
+        'success'=>"Successfully Published.",
+        'groupname' => $rand
+    ]);
+    }
+
     public function show($id)
     {
         $export = ExportSKU::join('product','product.product_sku','exportsku.exportsku_productsku')

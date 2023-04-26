@@ -1,9 +1,7 @@
 @extends('layouts.app')
-@section('title','Export SKU Barcode - ')
+@section('title','Import Produk - ')
 @section('css')
 <link href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css">
-<link href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css">
-<link href="https://cdn.datatables.net/buttons/2.0.1/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css">
 @endsection
 @section('content')
 	<!--begin::Content-->
@@ -23,43 +21,41 @@
 <!--begin::Header-->
 <div class="card-header border-0 py-5">
 <h3 class="card-title align-items-start flex-column">
-<span class="card-label font-weight-bolder text-dark">Export SKU Barcode</span>
+<span class="card-label font-weight-bolder text-dark">Import Produk</span>
 </h3>
+<div class="card-toolbar">
+<a href="{{url('produk')}}" class="btn btn-primary btn-md font-size-sm"><i class="fas fa-arrow-left"></i> Kembali</a>
+</div>
 </div>
 <!--end::Header-->
 
 <!--begin::Body-->
 <div class="card-body pt-0 pb-3">
 
-		<!--begin: Datatable-->
-        <div class="table-responsive">
-		<table class="table table-striped table-bordered mt-5" id="product">
-			<thead>
-				<tr>
-					<th>Tanggal</th>
-					<th>Nama Export</th>
-					<th>Jumlah Produk</th>
-					<th>Action</th>
-				</tr>
-			</thead>
-			<tbody>
+<p>Import produk banyak sekaligus menggunakan file Excel, gunakan <a href="{{url('asset/contoh_import.xlsx')}}">format ini</a> untuk mengimport data.</p>
+<form method="POST" action="{{url('produk/importing')}}" enctype="multipart/form-data">
+    @csrf
+    <div class="row ml-1">
+                <div class="form-group row mt-5">
+                  <label class="col-md-4">File Excel</label>
+                  <div class="col-md-8">
+                        <input  class="custom-file-input" name="product" id="fotoproduk" type="file"/>
+                        <label class="custom-file-label" for="fotoproduk">Choose file</label>
+                  </div>
+                </div>
 
-                @foreach($exportsku as $p)
-				<tr>
-					<td>{{$p->exportsku_tanggal}}</td>
-					<td>{{$p->exportsku_name}}</td>
-					<td>{{$p->count}}</td>
-					<td> <a href="{{url('/export-barcode/detail/'.$p->exportsku_groupid)}}" class="btn btn-icon btn-xs btn-primary"><i class="fas fa-info-circle nopadding"></i></a>
-                        <a href="{{url('/export-barcode/edit/'.$p->exportsku_groupid)}}" class="btn btn-icon btn-xs btn-warning"><i class="fas fa-edit nopadding"></i></a>
-                        <button type="button" href="{{url('/export-barcode/delete-export/'.$p->exportsku_groupid)}}" class="deletebtn btn btn-icon btn-xs btn-danger"><i class="fas fa-trash nopadding"></i></button>
-                    </td>
-				</tr>
-                @endforeach
-
-			</tbody>
-		</table>
     </div>
-		<!--end: Datatable-->
+
+
+
+  <div class="form-group row mt-4">
+    <div class="col-md-6">
+<button class="btn btn-md btn-primary" type="submit">Tambah Produk</button>
+    </div>
+</div>
+
+  </form>
+
 </div>
 <!--end::Body-->
 </div>
@@ -77,37 +73,37 @@
 @section('js')
 <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap4.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/2.0.1/js/dataTables.buttons.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
-<script src="https://cdn.datatables.net/buttons/2.0.1/js/buttons.html5.min.js"></script>
-
 
 <script>
- tabel = $('#product').DataTable({
-    dom: 'Bfrtip',
-        buttons: [
-            'copyHtml5',
-            'excelHtml5',
-            'csvHtml5',
-        ],
+ $('#product').DataTable({
+        select: {
+            style: 'multi'
+        },
         search: {
-				input: $('#kt_datatable_search_tanggal'),
+				input: $('#kt_datatable_search_query'),
 				key: 'generalSearch'
 			},
         "paging":   true,
         columnDefs: [
-    { orderable: true, targets: 0 }
+    { orderable: false, targets: 0 }
   ],
         "ordering": true,
     } );
 
 
-        $('#kt_datatable_search_tanggal').on('change', function() {
-            tabel.search($(this).val().toLowerCase());
+        $('#kt_datatable_search_size').on('change', function() {
+            datatable.search($(this).val().toLowerCase(), 'Size');
         });
-        $('#kt_datatable_search_tanggal').selectpicker();
+
+        $('#kt_datatable_search_band').on('change', function() {
+            datatable.search($(this).val().toLowerCase(), 'Band');
+        });
+
+        $('#kt_datatable_search_vendor').on('change', function() {
+            datatable.search($(this).val().toLowerCase(), 'Vendor');
+        });
+
+        $('#kt_datatable_search_size, #kt_datatable_search_band,#kt_datatable_search_vendor').selectpicker();
 
 </script>
 <script>
@@ -157,53 +153,6 @@ $('.delete_all').on('click', function(e) {
               $('table tr').filter("[data-row-id='" + value + "']").remove();
 
           });
-
-        }
-
-    }
-
-});
-
-$('.publish_all').on('click', function(e) {
-    var pub = [];
-    $(".selectproduct:checked").each(function() {
-        pub.push($(this).attr('data-id'));
-    });
-
-    if(pub.length <=0)
-    {
-        Swal.fire(
-       'Error',
-       'Silahkan Pilih Data Yang Ingin Dipublish',
-       'error'
-     )
-    }  else {
-        var check = confirm("Publish produk ini?");
-        if(check == true){
-            var join_selected_values = pub.join(",");
-            $("#kt_datatable_publish_all_2").addClass("spinner spinner-right spinner-white pr-15");
-            $.ajax({
-                url: $(this).data('url'),
-                type: 'POST',
-                data: {
-                    _token : "{{csrf_token()}}",
-                    'ids' : join_selected_values},
-                success: function (data) {
-                    if (data['success']) {
-                        window.location = "/publish/"+data['groupname'];
-                        $("#kt_datatable_publish_all_2").removeClass("spinner spinner-right spinner-white pr-15")
-                        alert(data['success']);
-                    } else if (data['error']) {
-                        alert(data['error']);
-                    } else {
-                      console.log(data);
-                    }
-                },
-                error: function (data) {
-                    console.log(data.responseText);
-                }
-            });
-
 
         }
 

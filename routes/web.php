@@ -184,13 +184,31 @@ Route::group(['prefix' => 'size'], function() {
 
    });
 
+   Route::group(['prefix' => 'produksku'], function() {
+    Route::get('/',[App\Http\Controllers\ProductController::class, 'indexsku'])->middleware('auth');
+    Route::get('/outofstock',[App\Http\Controllers\ProductController::class, 'outofstock'])->middleware('auth');
+    Route::get('/detail/{id}',[App\Http\Controllers\ProductController::class, 'show'])->middleware('auth');
+    Route::get('/new',[App\Http\Controllers\ProductController::class, 'create'])->middleware('auth');
+    Route::post('/store',[App\Http\Controllers\ProductController::class, 'store'])->middleware('auth');
+    Route::get('/select/{mastersku}',[App\Http\Controllers\ProductController::class, 'editselect'])->middleware('auth');
+    Route::get('/edit/{id}',[App\Http\Controllers\ProductController::class, 'edit'])->middleware('auth');
+    Route::post('/update',[App\Http\Controllers\ProductController::class, 'update'])->middleware('auth');
+    Route::get('/delete/{id}',[App\Http\Controllers\ProductController::class, 'delete'])->middleware('auth');
+    Route::get('/deletesingle/{id}',[App\Http\Controllers\ProductController::class, 'deletesingle'])->middleware('auth');
+    Route::get('/import',[App\Http\Controllers\ProductController::class, 'importdata'])->middleware('auth');
+    Route::post('/importing',[App\Http\Controllers\ProductController::class, 'importing'])->middleware('auth');
+
+   });
+
    Route::group(['prefix' => 'api'], function() {
     Route::post('/massdelete',[App\Http\Controllers\ProductController::class, 'apimassdelete'])->middleware('auth');
+    Route::post('/massdeletesku',[App\Http\Controllers\ProductController::class, 'apimassdeletesku'])->middleware('auth');
     Route::post('/exportmassdelete',[App\Http\Controllers\ExportSKUController::class, 'apimassdelete'])->middleware('auth');
     Route::post('/deletesku',[App\Http\Controllers\ProductController::class, 'apideletesku'])->middleware('auth');
     Route::post('/publish',[App\Http\Controllers\PublishController::class, 'apimasspublish'])->middleware('auth');
     Route::post('/unpublish',[App\Http\Controllers\PublishController::class, 'apimassunpublish'])->middleware('auth');
     Route::post('/exportsku',[App\Http\Controllers\ExportSKUController::class, 'exportskuapi'])->middleware('auth');
+    Route::post('/exportsinglesku',[App\Http\Controllers\ExportSKUController::class, 'exportskusingle'])->middleware('auth');
     Route::get('/getproductmastersku',[App\Http\Controllers\BarcodeDBController::class, 'getproductmastersku'])->middleware('auth');
     Route::post('/getso',[App\Http\Controllers\StokOpnameController::class, 'getso'])->middleware('auth');
     Route::post('/turunbarang',[App\Http\Controllers\TurunBarangController::class, 'apiturunbarang'])->middleware('auth');

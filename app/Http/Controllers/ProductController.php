@@ -603,6 +603,27 @@ class ProductController extends Controller
         return redirect('produk');
     }
 
+    public function deletesingle($id)
+    {
+        $produk = Product::where('product_sku', $id)->get();
+        $productnama = Product::where('product_sku', $id)->first();
+        $nama = $productnama->product_nama;
+
+        try {
+            foreach($produk as $p){
+                $p->delete();
+            }
+        } catch (QE $e) {
+        toast('Database error','error');
+        return redirect('produk');
+        } //show db error message
+
+        toast('Berhasil Menghapus Produk','success');
+        Logs::create(['log_name' => 'Delete', 'log_msg' => "Produk ".$nama. "SKU ".$produknama->product_sku." di hapus via Master Product", 'log_userid' => Auth::user()->id, 'log_tanggal' => Carbon::now()->setTimezone('Asia/Jakarta')->setTimezone('Asia/Jakarta')->format('Y-m-d H:i:s')]);
+
+        return redirect('produk');
+    }
+
     public function getproduct(Request $request){
         $produk = Product::join('size','size.size_id','=','product.product_idsize')
         ->join('band','band.band_id','=','product.product_idband')
@@ -619,10 +640,29 @@ class ProductController extends Controller
             $productname =   Product::whereIn('product_mastersku',explode(",",$ids))->first();
             $nama = $productname->product_nama;
             return response()->json(['success'=>"Products Deleted successfully."]);
-            Logs::create(['log_name' => 'Delete', 'log_msg' => "Produk ".$ama."  di hapus via Mass Delete", 'log_userid' => Auth::user()->id, 'log_tanggal' => Carbon::now()->setTimezone('Asia/Jakarta')->setTimezone('Asia/Jakarta')->format('Y-m-d H:i:s')]);
+            Logs::create(['log_name' => 'Delete', 'log_msg' => "Produk ".$nama."  di hapus via Mass Delete", 'log_userid' => Auth::user()->id, 'log_tanggal' => Carbon::now()->setTimezone('Asia/Jakarta')->setTimezone('Asia/Jakarta')->format('Y-m-d H:i:s')]);
 
 
     }
+
+    public function apimassdeletesku(Request $request){
+
+        $ids = $request->ids;
+        foreach($ids as $key => $value){
+        $product =   Product::where('product_sku',$value)->first();
+        $nama = $product->product_nama;
+        Logs::create(['log_name' => 'Delete', 'log_msg' => "Produk ".$nama."  di hapus via Mass Delete", 'log_userid' => Auth::user()->id, 'log_tanggal' => Carbon::now()->setTimezone('Asia/Jakarta')->setTimezone('Asia/Jakarta')->format('Y-m-d H:i:s')]);
+        $product->delete();
+        }
+
+        return response()->json(['success'=>"Products Deleted successfully."]);
+        // Product::whereIn('product_sku',$ids)->delete();
+        // $productname =   Product::whereIn('product_sku',$ids)->first();
+        // $nama = $productname->product_nama;
+        // return response()->json(['success'=>"Products Deleted successfully."]);
+        // Logs::create(['log_name' => 'Delete', 'log_msg' => "Produk ".$ama."  di hapus via Mass Delete", 'log_userid' => Auth::user()->id, 'log_tanggal' => Carbon::now()->setTimezone('Asia/Jakarta')->setTimezone('Asia/Jakarta')->format('Y-m-d H:i:s')]);
+
+}
 
     public function apideletesku(Request $request){
 
@@ -650,5 +690,47 @@ class ProductController extends Controller
         Logs::create(['log_name' => 'Import', 'log_msg' => "Import Product Berhasil", 'log_userid' => Auth::user()->id, 'log_tanggal' => Carbon::now()->setTimezone('Asia/Jakarta')->setTimezone('Asia/Jakarta')->format('Y-m-d H:i:s')]);
 
         return redirect('/produk');
+    }
+
+
+    public function indexsku()
+    {
+        $produk = Product::join('band','band.band_id','=','product.product_idband')
+        ->join('vendor','vendor.vendor_id','=','product.product_vendor')
+        ->join('size','size.size_id','=','product.product_idsize')
+        ->join('type','type.type_id','=','product.product_typeid')
+        ->selectRaw("product.*,
+        band.band_id,
+        band.band_nama,
+        size.size_nama,
+        vendor.vendor_nama,
+        type.type_name")
+        ->where('product.product_stokakhir','>',0)
+        ->Orwhere('product.product_stok','=',0)
+        ->orderBy('product.product_id', 'DESC')
+        ->get();
+
+        // foreach($produk as $key => $p){
+        //     $variant = Product::join('size','size.size_id','=','product.product_idsize')
+        //     ->select('product.*','size.size_id','size.size_nama')
+        //     ->where('product.product_mastersku',$p->product_mastersku)->get();
+
+        //     if(is_null($p->product_foto) || $p->product_foto == ''){
+        //         $checkfoto = Product::where('product_mastersku', $p->product_mastersku)->whereNotNull('product_foto')->first();
+        //         if($checkfoto){
+        //             $produk[$key]['product_foto'] = $checkfoto->product_foto;
+        //         }else {
+        //             $produk[$key]['product_foto'] = "/assets/nopicture.png";
+        //         }
+        //     }
+
+        // }
+
+        $vendor = Vendor::get();
+        $band = Band::orderBy('band_nama','ASC')->get();
+        $size = Size::get();
+        $type = TypeProduct::get();
+        return view('produksku.index')->with(compact('produk','vendor','band','size','type'));
+        // return $produk;
     }
 }

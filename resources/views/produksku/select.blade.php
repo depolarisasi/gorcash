@@ -1,9 +1,7 @@
 @extends('layouts.app')
-@section('title','Export SKU Barcode - ')
+@section('title','Produk - ')
 @section('css')
 <link href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css">
-<link href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css">
-<link href="https://cdn.datatables.net/buttons/2.0.1/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css">
 @endsection
 @section('content')
 	<!--begin::Content-->
@@ -23,35 +21,80 @@
 <!--begin::Header-->
 <div class="card-header border-0 py-5">
 <h3 class="card-title align-items-start flex-column">
-<span class="card-label font-weight-bolder text-dark">Export SKU Barcode</span>
+<span class="card-label font-weight-bolder text-dark">Ubah Variasi dalam Produk</span>
 </h3>
+<div class="card-toolbar">
+<a href="{{url('produk/')}}" class="btn btn-primary btn-md font-size-sm"><i class="fas fa-arrow-left"></i> Kembali</a>
+</div>
 </div>
 <!--end::Header-->
 
 <!--begin::Body-->
 <div class="card-body pt-0 pb-3">
+    <div class="mt-10 mb-5" >
+        <div class="mt-10 mb-5 collapse" id="kt_datatable_group_action_form_2">
+            <div class="d-flex align-items-center">
+                <div class="font-weight-bold text-danger mr-3">
+                    Selected <span id="kt_datatable_selected_records_2">0</span> records:
+                </div>
 
+                <button class="btn btn-sm btn-danger mr-2 delete_all" type="button" data-url="{{ url('api/deletesku') }}" id="kt_datatable_delete_all_2">
+                    Delete All
+                </button>
+
+            </div>
+        </div>
+    </div>
 		<!--begin: Datatable-->
         <div class="table-responsive">
 		<table class="table table-striped table-bordered mt-5" id="product">
 			<thead>
 				<tr>
-					<th>Tanggal</th>
-					<th>Nama Export</th>
-					<th>Jumlah Produk</th>
+					<th width="5%">Select</th>
+					<th>Foto</th>
+					<th>Master SKU</th>
+                    <th>SKU</th>
+					<th>Nama Produk</th>
+					<th>Size</th>
+					<th>Vendor</th>
+					<th>Band</th>
+                    @if(Auth::user()->role == 1 || Auth::user()->role == 6 )<th>Harga Beli</th>@endif
+					<th>Harga Jual</th>
+                    @if(Auth::user()->role == 1 || Auth::user()->role == 6 )<th>Keuntungan</th>@endif
+					<th>Stok Awal</th>
+					<th>Stok Akhir</th>
 					<th>Action</th>
 				</tr>
 			</thead>
 			<tbody>
 
-                @foreach($exportsku as $p)
+                @foreach($produk as $p)
 				<tr>
-					<td>{{$p->exportsku_tanggal}}</td>
-					<td>{{$p->exportsku_name}}</td>
-					<td>{{$p->count}}</td>
-					<td> <a href="{{url('/export-barcode/detail/'.$p->exportsku_groupid)}}" class="btn btn-icon btn-xs btn-primary"><i class="fas fa-info-circle nopadding"></i></a>
-                        <a href="{{url('/export-barcode/edit/'.$p->exportsku_groupid)}}" class="btn btn-icon btn-xs btn-warning"><i class="fas fa-edit nopadding"></i></a>
-                        <button type="button" href="{{url('/export-barcode/delete-export/'.$p->exportsku_groupid)}}" class="deletebtn btn btn-icon btn-xs btn-danger"><i class="fas fa-trash nopadding"></i></button>
+                    <td><input type="checkbox" class="selectproduct" name="selected_product" data-id="{{$p->product_sku}}" value="{{$p->product_sku}}" ></td>
+                    <td class="text-center">
+                        <a href="{{asset($p->product_foto?$p->product_foto:"/assets/nopicture.png")}}" data-type="image" data-fslightbox="galleryproduk">
+                            <img src="{{asset($p->product_foto?$p->product_foto:"/assets/nopicture.png")}}" data-type="image" class="img-fluid" style="width: 50px !important; height: 50px !important;"></a>
+                     </td>
+					<td>{{$p->product_mastersku}}</td>
+                    <td>{{$p->product_sku}}</td>
+					<td>{{$p->product_nama}}</td>
+					<td>{{$p->size_nama}}</td>
+
+					<td>{{$p->product_vendor}}</td>
+                    <td>{{$p->band_nama}}</td>
+                    @if(Auth::user()->role == 1 || Auth::user()->role == 6) <td>@money($p->product_hargabeli)</td>@endif
+                    <td>@money($p->product_hargajual)</td>
+                    @if(Auth::user()->role == 1 || Auth::user()->role == 6) <td>@money($p->product_hargajual - $p->product_hargabeli)</td>@endif
+                        <td>{{$p->product_stok}}</td>
+                        <td>{{$p->product_stokakhir}}</td>
+					<td>
+                        <a href="{{url('/produk/detail/'.$p->product_id)}}" class="btn btn-icon btn-xs btn-primary"><i class="fas fa-info-circle nopadding"></i></a>
+                        @if(Auth::user()->role == 1 || Auth::user()->role == 6 || Auth::user()->role == 4)
+                        <a href="{{url('/produk/edit/'.$p->product_id)}}" class="btn btn-icon btn-xs btn-warning"><i class="fas fa-edit nopadding"></i></a>
+                        @if(Auth::user()->role == 1 || Auth::user()->role == 6)
+                        <button type="button" href="{{url('/produk/delete/'.$p->product_sku)}}" class="deletebtn btn btn-icon btn-xs btn-danger"><i class="fas fa-trash nopadding"></i></button>
+                        @endif
+                        @endif 
                     </td>
 				</tr>
                 @endforeach
@@ -77,37 +120,37 @@
 @section('js')
 <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap4.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/2.0.1/js/dataTables.buttons.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
-<script src="https://cdn.datatables.net/buttons/2.0.1/js/buttons.html5.min.js"></script>
-
-
+<script src="{{asset('js/fslightbox.js')}}"></script>
 <script>
- tabel = $('#product').DataTable({
-    dom: 'Bfrtip',
-        buttons: [
-            'copyHtml5',
-            'excelHtml5',
-            'csvHtml5',
-        ],
+ $('#product').DataTable({
+        select: {
+            style: 'multi'
+        },
         search: {
-				input: $('#kt_datatable_search_tanggal'),
+				input: $('#kt_datatable_search_query'),
 				key: 'generalSearch'
 			},
         "paging":   true,
         columnDefs: [
-    { orderable: true, targets: 0 }
+    { orderable: false, targets: 0 }
   ],
         "ordering": true,
     } );
 
 
-        $('#kt_datatable_search_tanggal').on('change', function() {
-            tabel.search($(this).val().toLowerCase());
+        $('#kt_datatable_search_size').on('change', function() {
+            datatable.search($(this).val().toLowerCase(), 'Size');
         });
-        $('#kt_datatable_search_tanggal').selectpicker();
+
+        $('#kt_datatable_search_band').on('change', function() {
+            datatable.search($(this).val().toLowerCase(), 'Band');
+        });
+
+        $('#kt_datatable_search_vendor').on('change', function() {
+            datatable.search($(this).val().toLowerCase(), 'Vendor');
+        });
+
+        $('#kt_datatable_search_size, #kt_datatable_search_band,#kt_datatable_search_vendor').selectpicker();
 
 </script>
 <script>
@@ -157,53 +200,6 @@ $('.delete_all').on('click', function(e) {
               $('table tr').filter("[data-row-id='" + value + "']").remove();
 
           });
-
-        }
-
-    }
-
-});
-
-$('.publish_all').on('click', function(e) {
-    var pub = [];
-    $(".selectproduct:checked").each(function() {
-        pub.push($(this).attr('data-id'));
-    });
-
-    if(pub.length <=0)
-    {
-        Swal.fire(
-       'Error',
-       'Silahkan Pilih Data Yang Ingin Dipublish',
-       'error'
-     )
-    }  else {
-        var check = confirm("Publish produk ini?");
-        if(check == true){
-            var join_selected_values = pub.join(",");
-            $("#kt_datatable_publish_all_2").addClass("spinner spinner-right spinner-white pr-15");
-            $.ajax({
-                url: $(this).data('url'),
-                type: 'POST',
-                data: {
-                    _token : "{{csrf_token()}}",
-                    'ids' : join_selected_values},
-                success: function (data) {
-                    if (data['success']) {
-                        window.location = "/publish/"+data['groupname'];
-                        $("#kt_datatable_publish_all_2").removeClass("spinner spinner-right spinner-white pr-15")
-                        alert(data['success']);
-                    } else if (data['error']) {
-                        alert(data['error']);
-                    } else {
-                      console.log(data);
-                    }
-                },
-                error: function (data) {
-                    console.log(data.responseText);
-                }
-            });
-
 
         }
 
