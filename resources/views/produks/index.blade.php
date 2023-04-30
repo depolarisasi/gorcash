@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title','Database Artikel - ')
+@section('title','Database Master SKU - ')
 @section('css')
 <link href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css">
 <link href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css">
@@ -32,7 +32,7 @@
 <!--begin::Header-->
 <div class="card-header border-0 py-5">
 <h3 class="card-title align-items-start flex-column">
-<span class="card-label font-weight-bolder text-dark">Database Artikel</span>
+<span class="card-label font-weight-bolder text-dark">Database Master SKU</span>
 </h3>
 <div class="card-toolbar">
 <a href="{{url('produk/new')}}" class="btn btn-primary btn-md font-size-sm"><i class="fas fa-plus"></i> Tambah</a>
