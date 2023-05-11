@@ -12,7 +12,7 @@ class KirimPaket extends Model
 
     /**
      * The database primary key value.
-     * 
+     *
      * @var string
      */
     protected $primaryKey = 'kirimpaket_id';
@@ -26,6 +26,9 @@ class KirimPaket extends Model
         'kirimpaket_tanggal',
         'kirimpaket_waktupengiriman',
         'kirimpaket_jumlahpaket',
+        'kirimpaket_kegiatan',
+        'kirimpaket_keterangan',
+        'kirimpaket_kendaraan',
         'created_at',
         'updated_at', ];
 }

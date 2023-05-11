@@ -24,7 +24,6 @@ class HomeController extends Controller
         $agenda = Agenda::limit(9)->get();
         $today = Carbon::now()->setTimezone('Asia/Jakarta')->isoFormat('dddd');
         $todaydate = Carbon::now()->setTimezone('Asia/Jakarta');
-       $today = "Saturday";
         if($today == "Sunday"){
          $workflow = Notes::where('note_judul','LIKE','%Workflow Minggu%')->first();
         }elseif($today == "Monday"){
@@ -113,49 +112,49 @@ class HomeController extends Controller
 
     public function salesreport(){
 
+        $note = Notes::where('note_judul','NOT LIKE','%Workflow%')->limit(9)->get();
+        $agenda = Agenda::limit(9)->get();
+        $today = Carbon::now()->setTimezone('Asia/Jakarta')->isoFormat('dddd');
         $todaydate = Carbon::now()->setTimezone('Asia/Jakarta');
-        $periodweek = CarbonPeriod::create(Carbon::now()->startOfWeek()->format('Y-m-d'), Carbon::now()->format('Y-m-d'));
+        if($today == "Sunday"){
+         $workflow = Notes::where('note_judul','LIKE','%Workflow Minggu%')->first();
+        }elseif($today == "Monday"){
+         $workflow = Notes::where('note_judul','LIKE','%Workflow Senin%')->first();
+        }elseif($today == "Tuesday"){
+         $workflow = Notes::where('note_judul','LIKE','%Workflow Selasa%')->first();
+        }elseif($today == "Wednesday"){
+         $workflow = Notes::where('note_judul','LIKE','%Workflow Rabu%')->first();
+        }elseif($today == "Thursday"){
+         $workflow = Notes::where('note_judul','LIKE','%Workflow Kamis%')->first();
+        }elseif($today == "Friday"){
+         $workflow = Notes::where('note_judul','LIKE','%Workflow Jumat%')->first();
+        }elseif($today == "Saturday"){
+         $workflow = Notes::where('note_judul','LIKE','%Workflow Sabtu%')->first();
+        }
+
+
+        $tahun = Penjualan::selectRaw('YEAR(penjualan_tanggalpenjualan) as year')->groupBy('year')->get();
+
         $periodmonth = CarbonPeriod::create(Carbon::now()->startOfMonth()->format('Y-m-d'), Carbon::now()->format('Y-m-d'));
         $weeklydates = [];
         $monthlydates = [];
-        $dateweek = [];
         $datemonth = [];
-        foreach($periodweek as $p){
-            array_push($weeklydates, $p->format('d M Y'));
-            array_push($dateweek, $p->format('Y-m-d'));
-        }
         foreach($periodmonth as $pm){
-
-            array_push($monthlydates, $pm->format('d M Y'));
             array_push($datemonth, $pm->format('Y-m-d'));
         }
 
-        $weeklydate = json_encode($weeklydates);
         $monthlydate = json_encode($monthlydates);
 
-        $weeklysales = [];
         $monthlysales = [];
-        $weeklyproductsales = BarangTerjual::whereIn(DB::raw("DATE(barangterjual_tanggalwaktubarangterjual)"),$dateweek)->sum('barangterjual_qty');
-        $weeklyproduct = [];
+
         $monthlyproduct = [];
         $totaltoday = Penjualan::whereDate('penjualan_tanggalwaktupenjualan', $todaydate)->sum('penjualan_paymenttotal');
-        $totalweekly = Penjualan::whereBetween(DB::raw('DATE(penjualan_tanggalwaktupenjualan)'),[Carbon::now()->setTimezone('Asia/Jakarta')->startOfWeek()->format('Y-m-d'),Carbon::now()->setTimezone('Asia/Jakarta')->format('Y-m-d')])->sum('penjualan_totalpendapatan');
         $totalmonthly = Penjualan::whereBetween(DB::raw('DATE(penjualan_tanggalwaktupenjualan)'),[Carbon::now()->setTimezone('Asia/Jakarta')->startOfMonth()->format('Y-m-d'),Carbon::now()->setTimezone('Asia/Jakarta')->format('Y-m-d')])->sum('penjualan_totalpendapatan');
-        $weeklypendapatan = 0;
         $monthlypendapatan = 0;
         $producttoday = BarangTerjual::whereDate('barangterjual_tanggalwaktubarangterjual', $todaydate)->sum('barangterjual_qty');
-        $totproductweek = BarangTerjual::whereBetween(DB::raw('DATE(barangterjual_tanggalwaktubarangterjual)'),[Carbon::now()->setTimezone('Asia/Jakarta')->startOfWeek()->format('Y-m-d'),Carbon::now()->setTimezone('Asia/Jakarta')->format('Y-m-d')])->sum('barangterjual_qty');
         $totproductmonth = BarangTerjual::whereBetween(DB::raw('DATE(barangterjual_tanggalwaktubarangterjual)'),[Carbon::now()->setTimezone('Asia/Jakarta')->startOfMonth()->format('Y-m-d'),Carbon::now()->setTimezone('Asia/Jakarta')->format('Y-m-d')])->sum('barangterjual_qty');
 
-
-        $productweek = 0;
         $productmonth = 0;
-        foreach($dateweek as $dw){
-            $sales = Penjualan::whereDate('penjualan_tanggalwaktupenjualan',$dw)->get();
-            $products = BarangTerjual::whereDate('barangterjual_tanggalwaktubarangterjual',$dw)->get();
-            array_push($weeklysales, $sales?$sales->sum('penjualan_totalpendapatan'):0);
-            array_push($weeklyproduct, $products?$products->sum('barangterjual_qty'):0);
-        }
         foreach($datemonth as $dw){
             $sales = Penjualan::whereDate('penjualan_tanggalwaktupenjualan',$dw)->get();
             $products = BarangTerjual::whereDate('barangterjual_tanggalwaktubarangterjual',$dw)->get();
@@ -163,8 +162,6 @@ class HomeController extends Controller
             array_push($monthlyproduct, $products?$products->sum('barangterjual_qty'):0);
         }
 
-        $salesweekly = json_encode($weeklysales);
-        $productweekly = json_encode($weeklyproduct);
         $productmonthly = json_encode($monthlyproduct);
         $salesmonthly= json_encode($monthlysales);
 
@@ -177,8 +174,7 @@ class HomeController extends Controller
         $potonganthismonth = Penjualan::whereMonth('penjualan_tanggalwaktupenjualan',Carbon::now()->setTimezone('Asia/Jakarta')->format('m'))->sum('penjualan_totalpotongan');
         $dataproporsi = json_encode([$pendapatanthismonth, $diskonthismonth, $potonganthismonth]);
 
-
-        return view('laporan')->with(compact('totaltoday','totproductweek','totproductmonth','producttoday','weeklyproduct','productmonthly','productweek','monthlyproduct','dataproporsi','weeklydate','salesweekly','totalweekly','monthlydate','salesmonthly','totalmonthly','recentsales','productweekly','weeklyproductsales','recentsales'));
+        return view('laporan')->with(compact('tahun','totaltoday','totproductmonth','producttoday','productmonthly','monthlyproduct','dataproporsi','monthlydate','salesmonthly','totalmonthly','recentsales','recentsales'));
         // return $weeklyproduct;
     }
 }

@@ -358,7 +358,7 @@ Route::group(['prefix' => 'size'], function() {
 
    });
 
-   Route::group(['prefix' => 'kirimpaket'], function() {
+   Route::group(['prefix' => 'transport'], function() {
     Route::get('/',[App\Http\Controllers\KirimPaketController::class, 'index'])->middleware('auth');
     Route::post('/kirim',[App\Http\Controllers\KirimPaketController::class, 'store'])->middleware('auth');
     Route::get('/edit/{id}',[App\Http\Controllers\KirimPaketController::class, 'edit'])->middleware('admin');

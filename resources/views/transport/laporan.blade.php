@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title','Laporan Kirim Paket - ')
+@section('title','Laporan Transport - ')
 @section('css')
 <link rel="stylesheet" type="text/css" id="mce-u0" href="{{asset('assets/js/tinymce/skins/ui/oxide/skin.min.css')}}">
 @endsection
@@ -21,10 +21,10 @@
 <!--begin::Header-->
 <div class="card-header border-0 py-5">
 <h3 class="card-title align-items-start flex-column">
-<span class="card-label font-weight-bolder text-dark">Laporan Kirim Paket Bulan </span>
+<span class="card-label font-weight-bolder text-dark">Laporan Transport Bulan </span>
 </h3>
 <div class="card-toolbar">
-<a href="{{url('kirimpaket/')}}" class="btn btn-primary btn-md font-size-sm"><i class="fas fa-arrow-left"></i> Kembali</a>
+<a href="{{url('transport/')}}" class="btn btn-primary btn-md font-size-sm"><i class="fas fa-arrow-left"></i> Kembali</a>
 </div>
 </div>
 <!--end::Header-->
@@ -34,7 +34,7 @@
 <div class="mb-7">
 	<div class="row align-items-center">
 		<div class="col-lg-8 col-xl-8">
-            <form method="get" action="{{url('kirimpaket/laporan')}}">
+            <form method="get" action="{{url('transport/laporan')}}">
 			<div class="row align-items-center">
                 <div class="col-md-4 my-2 my-md-0">
 					<div class="d-flex align-items-center">

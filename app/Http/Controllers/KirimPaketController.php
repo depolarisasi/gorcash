@@ -17,7 +17,7 @@ class KirimPaketController extends Controller
         $kirimpaket = KirimPaket::join('users','id','=','kirimpaket_user')
         ->select('users.name','kirimpaket.*')
         ->get();
-        return view('kirimpaket.index')->with(compact('kirimpaket'));
+        return view('transport.index')->with(compact('kirimpaket'));
     }
 
 
@@ -50,7 +50,7 @@ class KirimPaketController extends Controller
         }
 
         toast('Berhasil Membuat Riwayat Kirim Paket','success');
-        return redirect('kirimpaket');
+        return redirect('transport');
 
     }
 
@@ -60,7 +60,7 @@ class KirimPaketController extends Controller
         $edit = KirimPaket::where('kirimpaket_id', $id)->first();
         $user = User::get();
 
-        return view('kirimpaket.edit')->with(compact('edit','user'));
+        return view('transport.edit')->with(compact('edit','user'));
     }
 
     public function update(Request $request)
@@ -75,7 +75,7 @@ class KirimPaketController extends Controller
         }
 
         toast('Pengubahan Status Kirim Paket Berhasil','success');
-        return redirect('kirimpaket');
+        return redirect('transport');
     }
 
 
@@ -91,7 +91,7 @@ class KirimPaketController extends Controller
 
         toast('Status Kirim Paket Berhasil Dihapus!','success');
 
-        return redirect('kirimpaket');
+        return redirect('transport');
     }
 
     public function laporan(Request $request){
@@ -112,11 +112,13 @@ class KirimPaketController extends Controller
 
         $data = KirimPaket::join('users','id','=','kirimpaket_user')
         ->select(array('kirimpaket.kirimpaket_user','kirimpaket.created_at','users.name', DB::Raw('COUNT(*) as totalpengiriman')))
-        ->whereRaw('MONTH(kirimpaket.created_at) = '. $selected_month.' AND YEAR(kirimpaket.created_at) = '. $selected_year )
+        ->where('kirimpaket_kegiatan', 1)
+        ->orWhere('kirimpaket_kegiatan', NULL)
+        ->whereRaw('MONTH(kirimpaket.created_at) = '. $selected_month.' AND YEAR(kirimpaket.created_at) = '. $selected_year)
         ->groupBy('kirimpaket.kirimpaket_user')
         ->get();
         $tahun = KirimPaket::select(DB::Raw('YEAR(kirimpaket_tanggal) as year'))->groupBy('year')->get();
-        return view('kirimpaket.laporan')->with(compact('data', 'tahun'));
+        return view('transport.laporan')->with(compact('data', 'tahun'));
     }
 
 }

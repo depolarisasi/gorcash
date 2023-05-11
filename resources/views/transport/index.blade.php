@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title','Kirim Paket - ')
+@section('title','Transport - ')
 @section('css')
 <link href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css">
 <link href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css">
@@ -22,14 +22,14 @@
 <!--begin::Header-->
 <div class="card-header border-0 py-5">
 <h3 class="card-title align-items-start flex-column">
-<span class="card-label font-weight-bolder text-dark">Daftar Kirim Paket</span>
+<span class="card-label font-weight-bolder text-dark">Daftar Transport</span>
 </h3>
 <div class="card-toolbar">
 
 <button type="button" class="btn btn-primary mr-3" data-toggle="modal" data-target="#kirpaket">
-   Tambah Kirim Paket
+   Tambah Transport
 </button>
-<a href="{{url('kirimpaket/laporan')}}" class="btn btn-secondary">Laporan Kirim Paket</a>
+<a href="{{url('transport/laporan')}}" class="btn btn-secondary">Laporan Transport</a>
 </div>
 </div>
 <!--end::Header-->
@@ -47,36 +47,39 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="kirpaketLabel">Kirim Paket</h5>
+                <h5 class="modal-title" id="kirpaketLabel">Transport</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <i aria-hidden="true" class="ki ki-close"></i>
                 </button>
             </div>
             <div class="modal-body">
-            <form method="POST" action="{{url('kirimpaket/kirim')}}">
+            <form method="POST" action="{{url('transport/kirim')}}">
         @csrf
+        <input type="hidden" class="form-control" name="kirimpaket_user" value="{{Auth::user()->id}}">
         <div class="form-group row mt-4">
+            <label class="col-md-4">Kegiatan</label>
+            <div class="col-md-6">
+            <select class="form-control" id="kegiatanselector" name="kirimpaket_kegiatan">
+             <option value="1">Kirim Paket</option>
+             <option value="2">Transport</option>
+              </select>
+            </div>
+          </div>
+        <div class="form-group row mt-4" id="jumlahbarang">
             <label class="col-md-4">Jumlah Barang</label>
             <div class="col-md-6">
-            <input type="text" class="form-control" name="kirimpaket_jumlahpaket" required>
+            <input type="number" class="form-control" name="kirimpaket_jumlahpaket" required>
             </div>
           </div>
-          <div class="form-group row mt-4">
-            <label class="col-md-4">Nama Petugas</label>
-            <div class="col-md-6">
-            <p>{{Auth::user()->name}}</p>
-            <input type="hidden" class="form-control" name="kirimpaket_user" value="{{Auth::user()->id}}">
-            </div>
-          </div>
-          <div class="form-group row mt-4">
-            <label class="col-md-4">Tanggal Kirim</label>
+          <div class="form-group row mt-4" id="tanggal">
+            <label class="col-md-4">Tanggal</label>
             <div class="col-md-6">
                 <p>{{\Carbon\Carbon::now()->format('d M Y')}}</p>
             <input type="hidden" class="form-control" name="kirimpaket_tanggal" value="{{\Carbon\Carbon::now()->format('Y-m-d')}}}">
 
             </div>
           </div>
-          <div class="form-group row mt-4">
+          <div class="form-group row mt-4" id="waktupengiriman">
             <label class="col-md-4">Waktu Pengiriman</label>
             <div class="col-md-6">
             <select class="form-control" id="waktu" name="kirimpaket_waktupengiriman">
@@ -84,6 +87,12 @@
              <option value="Sore">Sore</option>
              <option value="Malam">Malam</option>
               </select>
+            </div>
+          </div>
+          <div class="form-group row mt-4">
+            <label class="col-md-4">Keterangan</label>
+            <div class="col-md-6">
+          <textarea class="form-control" name="kirimpaket_keterangan"></textarea>
             </div>
           </div>
 
@@ -107,8 +116,8 @@
 <tr class="text-left">
 <th style="min-width: 10px"><span class="text-dark-75">Tanggal</span></th>
 <th style="min-width: 50px"><span class="text-dark-75">Petugas</span></th>
-<th style="min-width: 50px"><span class="text-dark-75">Jumlah Paket</span></th>
-<th style="min-width: 50px"><span class="text-dark-75">Waktu Pengiriman</span></th>
+<th style="min-width: 50px"><span class="text-dark-75">Kegiatan</span></th>
+<th style="min-width: 50px"><span class="text-dark-75">Keterangan</span></th>
 @if(Auth::user()->role == 1 || Auth::user()->role == 6)
 <th style="min-width: 80px">Action</th>
 @endif
@@ -129,19 +138,24 @@
 </td>
 <td>
     <div class="d-flex align-items-center">
-    {{$kirimpaket->kirimpaket_jumlahpaket}}
+    {{$kirimpaket->kirimpaket_kegiatan == 1 || $kirimpaket->kirimpaket_kegiatan == NULL ?"Kirim Paket":"Transport"}}
     </div>
     </td>
 
 <td>
     <div class="d-flex align-items-center">
-    {{$kirimpaket->kirimpaket_waktupengiriman}}
+        @if($kirimpaket->kirimpaket_kegiatan == 1 || $kirimpaket->kirimpaket_kegiatan == NULL)
+
+   <p>Jumlah Paket: {{$kirimpaket->kirimpaket_jumlahpaket}} <br> Waktu Pengiriman: {{$kirimpaket->kirimpaket_waktupengiriman}} </p>
+   &nbsp;
+   @endif
+   {{$kirimpaket->kirimpaket_keterangan}}
     </div>
     </td>
 @if(Auth::user()->role == 1 || Auth::user()->role == 6)
 <td>
-    <a href="{{url('/kirimpaket/edit/'.$kirimpaket->kirimpaket_id)}}" class="btn btn-xs btn-icon btn-warning"><i class="fas fa-edit nopadding"></i></a>
-    <button type="button" href="{{url('/kirimpaket/delete/'.$kirimpaket->kirimpaket_id)}}" class="deletebtn btn btn-xs btn-icon btn-danger"><i class="fas fa-trash nopadding"></i></button></td>
+    <a href="{{url('/transport/edit/'.$kirimpaket->kirimpaket_id)}}" class="btn btn-xs btn-icon btn-warning"><i class="fas fa-edit nopadding"></i></a>
+    <button type="button" href="{{url('/transport/delete/'.$kirimpaket->kirimpaket_id)}}" class="deletebtn btn btn-xs btn-icon btn-danger"><i class="fas fa-trash nopadding"></i></button></td>
 </td>
 @endif
 </tr>
@@ -173,7 +187,18 @@
 
 
     $(document).ready(function(){
-
+        $('#kegiatanselector').on('change', function() {
+          if ( this.value == '1')
+          {
+            $("#jumlahbarang").show();
+            $("#waktupengiriman").show();
+          }
+          else
+          {
+            $("#jumlahbarang").hide();
+            $("#waktupengiriman").hide();
+          }
+        });
         $('#datepicker1').datepicker({
         format: "yyyy-mm-dd",
     });
@@ -203,46 +228,7 @@
     minimumInputLength: 2,
   });
 
-  $('#productlist').on('select2:select', function (e) {
-    e.preventDefault();
-    var select_val = $(e.currentTarget).val();
-var tanggal_val = $('#datepicker1').val();
-var namapetugas = $('#namapetugas').val();
-    $.ajax({
-                url: '/api/turunbarang',
-                type: 'POST',
-                data: {
-                    _token : "{{csrf_token()}}",
-                    'sku' : select_val,
-            'petugas' : namapetugas,
-            'tanggal' : tanggal_val,
-                },
-                success: function (data) {
-                    if (data['success']) {
-                        table.row.add( [
-            data['id'],
-            data['sku']+' : '+data['namaproduk']+' ('+data['size']+')',
-            data['namapetugas'],
-            data['tanggalambil'],
-            '<a href="/turunbarang/kembali/'+data['id']+'" class="btn btn-xs btn-icon btn-warning"><i class="fas fa-edit nopadding"></i></a><button type="button" href="/turunbarang/kembali/'+data['id']+'" class="deletebtn btn btn-xs btn-icon btn-danger"><i class="fas fa-trash nopadding"></i></button></td>'
-        ] ).draw( false );
-                    } else if (data['error']) {
-                         Swal.fire(
-                         'Error',
-                         'SKU tersebut tidak ada dalam daftar publish ini',
-                         'error'
-                         )
-                    } else {
-                        alert(data.responseText);
-                    }
-                },
-                error: function (data) {
-                    alert(data.responseText);
-                }
-            });
-});
 
-$('#productlist').val('');
 
         $(document).on('click', '.deletebtn', function(e) {
            var href = $(this).attr('href');

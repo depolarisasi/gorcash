@@ -477,7 +477,7 @@ background-color: #fff !important;
                 </li>
             @endif
                 <li class="menu-item menu-item">
-                <a href="{{url('kirimpaket')}}" class="menu-link ">
+                <a href="{{url('transport')}}" class="menu-link ">
                         <span class="svg-icon svg-icon-white menu-icon"><!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo2/dist/../src/media/svg/icons/Shopping/Box3.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                             <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                 <rect x="0" y="0" width="24" height="24"/>
@@ -485,7 +485,7 @@ background-color: #fff !important;
                                 <polygon fill="#000000" points="14.9671522 4.22441676 7.5999999 8.31727912 7.5999999 12.9056825 9.5999999 13.9056825 9.5999999 9.49408582 17.25507 5.24126912"/>
                             </g>
                         </svg><!--end::Svg Icon--></span>
-                        <span class="menu-text">Paket</span></a>
+                        <span class="menu-text">Transport</span></a>
                 </li>
                         </ul>
                     </div>
