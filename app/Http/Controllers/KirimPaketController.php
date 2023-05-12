@@ -117,8 +117,16 @@ class KirimPaketController extends Controller
         ->whereRaw('MONTH(kirimpaket.created_at) = '. $selected_month.' AND YEAR(kirimpaket.created_at) = '. $selected_year)
         ->groupBy('kirimpaket.kirimpaket_user')
         ->get();
+
+        $transport = KirimPaket::join('users','id','=','kirimpaket_user')
+        ->select(array('kirimpaket.kirimpaket_user', 'kirimpaket.kirimpaket_keterangan','kirimpaket.created_at','users.name', DB::Raw('COUNT(*) as totalpengiriman')))
+        ->where('kirimpaket_kegiatan', 2)
+        ->orWhere('kirimpaket_kegiatan', NULL)
+        ->whereRaw('MONTH(kirimpaket.created_at) = '. $selected_month.' AND YEAR(kirimpaket.created_at) = '. $selected_year)
+        ->groupBy('kirimpaket.kirimpaket_user')
+        ->get();
         $tahun = KirimPaket::select(DB::Raw('YEAR(kirimpaket_tanggal) as year'))->groupBy('year')->get();
-        return view('transport.laporan')->with(compact('data', 'tahun'));
+        return view('transport.laporan')->with(compact('data', 'tahun', 'transport'));
     }
 
 }

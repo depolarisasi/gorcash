@@ -61,6 +61,27 @@
             <input type="text" class="form-control" name="kirimpaket_jumlahpaket" value="{{$edit->kirimpaket_jumlahpaket}}">
             </div>
           </div>
+          <div class="form-group row mt-4" id="ekspedisi">
+            <label class="col-md-4">Ekspedisi</label>
+            <div class="col-md-6">
+            <select class="form-control" id="waktu" name="kirimpaket_ekspedisi">
+             <option value="JNE" @if($edit->kirimpaket_ekspedisi == "JNT") selected='selected' @endif>JNE</option>
+             <option value="J&T" @if($edit->kirimpaket_ekspedisi == "J&T") selected='selected' @endif>J&T</option>
+             <option value="SiCepat" @if($edit->kirimpaket_ekspedisi == "SiCepat") selected='selected' @endif>SiCepat</option>
+             <option value="Lainnya" @if($edit->kirimpaket_ekspedisi == "Lainnya") selected='selected' @endif>Lainnya</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group row mt-4" id="kendaraan">
+            <label class="col-md-4">Kendaraan</label>
+            <div class="col-md-6">
+            <select class="form-control" id="waktu" name="kirimpaket_kendaraan">
+             <option value="Sepeda" @if($edit->kirimpaket_kendaraan == "Sepeda") selected='selected' @endif>Sepeda</option>
+             <option value="Kendaraan Pribadi" @if($edit->kirimpaket_kendaraan == "Kendaraan Pribadi") selected='selected' @endif>Kendaraan Pribadi</option>
+             <option value="Lainnya" @if($edit->kirimpaket_kendaraan == "Lainnya") selected='selected' @endif>Lainnya</option>
+              </select>
+            </div>
+          </div>
           <div class="form-group row mt-4">
             <label class="col-md-4">Tanggal Kirim</label>
             <div class="col-md-6">
@@ -127,11 +148,15 @@
           {
             $("#jumlahbarang").show();
             $("#waktupengiriman").show();
+            $("#kendaraan").show();
+            $("#ekspedisi").show();
           }
           else
           {
             $("#jumlahbarang").hide();
             $("#waktupengiriman").hide();
+            $("#kendaraan").hide();
+            $("#ekspedisi").hide();
           }
         });
 

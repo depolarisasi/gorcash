@@ -81,6 +81,7 @@
 
 	</div>
 </div>
+<h2 class="card-label font-weight-bolder text-dark">Kirim Paket</h2>
 <div class="tab-content">
 
 <div class="table-responsive">
@@ -110,6 +111,34 @@
     Rp. @money($d->totalpengiriman*8000)
     </div>
     </td>
+</tr>
+@endforeach
+</tbody>
+</table>
+</div>
+
+<h2 class="card-label font-weight-bolder text-dark">Transport</h2>
+<div class="table-responsive">
+    <table id="table" class="table table-striped table-bordered mt-5" style="width:100%">
+<thead>
+<tr class="text-left">
+<th style="min-width: 50px"><span class="text-dark-75">Petugas</span></th>
+<th style="min-width: 50px"><span class="text-dark-75">Jumlah Transport</span></th>
+</tr>
+</thead>
+<tbody>
+    @foreach($transport as $t)
+<tr>
+<td>
+<div class="d-flex align-items-center">
+{{$t->name}}
+</div>
+</td>
+<td>
+<div class="d-flex align-items-center">
+{{$t->totalpengiriman}}
+</div>
+</td>
 </tr>
 @endforeach
 </tbody>

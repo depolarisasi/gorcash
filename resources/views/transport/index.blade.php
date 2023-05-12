@@ -79,6 +79,27 @@
 
             </div>
           </div>
+          <div class="form-group row mt-4" id="ekspedisi">
+            <label class="col-md-4">Ekspedisi</label>
+            <div class="col-md-6">
+            <select class="form-control" id="waktu" name="kirimpaket_ekspedisi">
+             <option value="JNE">JNE</option>
+             <option value="J&T">J&T</option>
+             <option value="SiCepat">SiCepat</option>
+             <option value="Lainnya">Lainnya</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group row mt-4" id="kendaraan">
+            <label class="col-md-4">Kendaraan</label>
+            <div class="col-md-6">
+            <select class="form-control" id="waktu" name="kirimpaket_kendaraan">
+             <option value="Sepeda">Sepeda</option>
+             <option value="Kendaraan Pribadi">Kendaraan Pribadi</option>
+             <option value="Lainnya">Lainnya</option>
+              </select>
+            </div>
+          </div>
           <div class="form-group row mt-4" id="waktupengiriman">
             <label class="col-md-4">Waktu Pengiriman</label>
             <div class="col-md-6">
@@ -192,11 +213,15 @@
           {
             $("#jumlahbarang").show();
             $("#waktupengiriman").show();
+            $("#kendaraan").show();
+            $("#ekspedisi").show();
           }
           else
           {
             $("#jumlahbarang").hide();
             $("#waktupengiriman").hide();
+            $("#kendaraan").hide();
+            $("#ekspedisi").hide();
           }
         });
         $('#datepicker1').datepicker({
