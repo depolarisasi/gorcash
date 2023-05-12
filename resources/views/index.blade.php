@@ -31,7 +31,11 @@ Dashboard Gorilla Coach </h5>
 <!--begin::Dashboard-->
 <!--begin::Row-->
 
+
 @if(Auth::user()->role == 1 )
+<div class="card-toolbar mb-3 ">
+    <a href="{{url('laporan/')}}" class="btn btn-primary btn-md font-size-sm"> Laporan Bulanan</a>
+    </div>
 <div class="row">
     <div class="col-md-6">
         <div class="card card-custom card-stretch gutter-b">
@@ -298,117 +302,186 @@ Dashboard Gorilla Coach </h5>
 <script src="{{asset('js/fslightbox.js')}}"></script>
 <script>
 
-// Shared Colors Definition
-const primary = '#6993FF';
-const success = '#1BC5BD';
-const info = '#8950FC';
-const warning = '#FFA800';
-const danger = '#F64E60';
+    // Shared Colors Definition
+    const primary = '#6993FF';
+    const success = '#1BC5BD';
+    const info = '#8950FC';
+    const warning = '#FFA800';
+    const danger = '#F64E60';
 
-        var monthelement = document.getElementById("monthpenchart");
+            var monthelement = document.getElementById("monthpenchart");
 
 
 
-        var monthoptions = {
-          series: [{
-          name: 'Pendapatan Bulanan',
-          data: {!! $salesmonthly !!}
-        }],
-          chart: {
-          type: 'bar',
-          height: 350
-        },
-        plotOptions: {
-          bar: {
-            horizontal: false,
-            columnWidth: '55%',
-            endingShape: 'rounded'
-          },
-        },
-        dataLabels: {
-          enabled: false
-        },
-        stroke: {
-          show: true,
-          width: 2,
-          colors: ['transparent']
-        },
-        xaxis: {
-          categories: {!! $monthlydate !!},
-        },
-        yaxis: {
-          title: {
-            text: 'Pendapatan Bulanan'
-          }
-        },
-        fill: {
-          opacity: 1
-        },
-        tooltip: {
-          y: {
-            formatter: function (val) {
-              return "Rp " + val
-            }
-          }
-        }
+            var monthoptions = {
+
+                series: [{
+              name: 'Pendapatan Bulanan',
+              data: {!! $salesmonthly !!}
+            }],
+              chart: {
+              height: 450,
+              type: 'bar',
+            },
+            plotOptions: {
+              bar: {
+                dataLabels: {
+                  position: 'top', // top, center, bottom
+                },
+              }
+            },
+            dataLabels: {
+              enabled: true,
+              formatter: function (val) {
+                var	reverse = val.toString().split('').reverse().join(''),
+                ribuan 	= reverse.match(/\d{1,3}/g);
+                ribuan	= ribuan.join('.').split('').reverse().join('');
+                return ribuan
+              },
+              offsetY: -20,
+              style: {
+                fontSize: '10px',
+                colors: ["#000"]
+              }
+            },
+
+            xaxis: {
+              categories: {!! $monthlydate !!},
+              position: 'bottom',
+              axisBorder: {
+                show: true
+              },
+              axisTicks: {
+                show: false
+              },
+              crosshairs: {
+                fill: {
+                  type: 'gradient',
+                  gradient: {
+                    colorFrom: '#D8E3F0',
+                    colorTo: '#BED1E6',
+                    stops: [0, 100],
+                    opacityFrom: 0.4,
+                    opacityTo: 0.5,
+                  }
+                }
+              },
+            },
+            yaxis: {
+              axisBorder: {
+                show: true
+              },
+              axisTicks: {
+                show: true,
+              },
+              labels: {
+                show: true,
+                formatter: function (val) {
+                    var	reverse = val.toString().split('').reverse().join(''),
+                ribuan 	= reverse.match(/\d{1,3}/g);
+                ribuan	= ribuan.join('.').split('').reverse().join('');
+                return "Rp" + ribuan
+                }
+              }
+
+            },
+            tooltip: {
+              y: {
+                formatter: function (val) {
+                    var	reverse = val.toString().split('').reverse().join(''),
+                ribuan 	= reverse.match(/\d{1,3}/g);
+                ribuan	= ribuan.join('.').split('').reverse().join('');
+                return "Rp" + ribuan
+                }
+              }
+            },
         };
 
-        var chart3 = new ApexCharts(monthelement, monthoptions);
-        chart3.render();
+
+            var chart3 = new ApexCharts(monthelement, monthoptions);
+            chart3.render();
 
 
 
-        var productmonthelement = document.getElementById("monthproductchart");
+            var productmonthelement = document.getElementById("monthproductchart");
 
 
-        var productmonthoptions = {
-          series: [{
-          name: 'Penjualan Produk Bulanan',
-          data: {!! $productmonthly !!}
-        }],
-          chart: {
-          type: 'bar',
-          height: 350
-        },
-        plotOptions: {
-          bar: {
-            horizontal: false,
-            columnWidth: '55%',
-            endingShape: 'rounded'
-          },
-        },
-        dataLabels: {
-          enabled: false
-        },
-        stroke: {
-          show: true,
-          width: 2,
-          colors: ['transparent']
-        },
-        xaxis: {
-          categories: {!! $monthlydate !!},
-        },
-        yaxis: {
-          title: {
-            text: 'Penjualan Produk Bulanan'
-          }
-        },
-        fill: {
-          opacity: 1
-        },
-        tooltip: {
-          y: {
-            formatter: function (val) {
-              return val + " Pcs"
-            }
-          }
-        }
+            var productmonthoptions = {
+              series: [{
+              name: 'Penjualan Produk Bulanan',
+              data: {!! $productmonthly !!}
+            }],
+              chart: {
+              height: 450,
+              type: 'bar',
+            },
+            plotOptions: {
+              bar: {
+                dataLabels: {
+                  position: 'top', // top, center, bottom
+                },
+              }
+            },
+            dataLabels: {
+              enabled: true,
+              formatter: function (val) {
+                return val +  " Pcs"
+              },
+              offsetY: -20,
+              style: {
+                fontSize: '10px',
+                colors: ["#000"]
+              }
+            },
+            xaxis: {
+              categories: {!! $monthlydate !!},
+              position: 'bottom',
+              axisBorder: {
+                show: true
+              },
+              axisTicks: {
+                show: false
+              },
+              crosshairs: {
+                fill: {
+                  type: 'gradient',
+                  gradient: {
+                    colorFrom: '#D8E3F0',
+                    colorTo: '#BED1E6',
+                    stops: [0, 100],
+                    opacityFrom: 0.4,
+                    opacityTo: 0.5,
+                  }
+                }
+              },
+            },
+            yaxis: {
+              axisBorder: {
+                show: true
+              },
+              axisTicks: {
+                show: true,
+              },
+              labels: {
+                show: true,
+                formatter: function (val) {
+                    return val +  " Pcs"
+                }
+              }
+
+            },
+            tooltip: {
+              y: {
+                formatter: function (val) {
+                return val +  " Pcs"
+                }
+              }
+            },
         };
+            var chart5 = new ApexCharts(productmonthelement, productmonthoptions);
+            chart5.render();
 
-        var chart5 = new ApexCharts(productmonthelement, productmonthoptions);
-        chart5.render();
-
-</script>
+    </script>
 
 @endsection
 @endsection
