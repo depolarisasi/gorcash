@@ -57,7 +57,7 @@ background-color: #000 !important;
 <div id="kt_header_mobile" class="header-mobile align-items-center header-mobile-fixed"style="background-color: #adc178;">
 	<!--begin::Logo-->
 	<a href="{{url('/')}}">
-		<img alt="Logo" class="img-fluid" style="width: 60%; padding: 10px !important;" src="https://gorillacoachid.com/wp-content/uploads/2023/02/logo-gorilla-baru.png"/>
+		<img alt="Logo" class="img-fluid" style="width: 60%; padding: 10px !important;" src="https://gorillacoachid.com/wp-content/uploads/2023/03/logo-hitam.png"/>
 	</a>
 	<!--end::Logo-->
 
@@ -95,7 +95,7 @@ background-color: #000 !important;
 	<div class="brand flex-column-auto " id="kt_brand" style="background-color: #adc178;">
 		<!--begin::Logo-->
 		<a href="{{url('/')}}" class="brand-logo">
-			<img alt="Logo" class="img-fluid" style="padding: 10px !important;" src="https://gorillacoachid.com/wp-content/uploads/2023/02/logo-gorilla-baru.png"/>
+			<img alt="Logo" class="img-fluid" style="padding: 10px !important;" src="https://gorillacoachid.com/wp-content/uploads/2023/03/logo-hitam.png"/>
 		</a>
 		<!--end::Logo-->
 

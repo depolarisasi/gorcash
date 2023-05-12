@@ -156,8 +156,9 @@ const danger = '#F64E60';
 
             series: [{
           name: 'Pendapatan Bulanan',
-          data: {!! $salesmonthly !!}
+          data: {!! $salesmonthly !!},
         }],
+        colors:'#adc178',
           chart: {
           height: 450,
           type: 'bar',
@@ -213,6 +214,8 @@ const danger = '#F64E60';
           axisTicks: {
             show: true,
           },
+
+
           labels: {
             show: true,
             formatter: function (val) {
@@ -250,6 +253,7 @@ const danger = '#F64E60';
           name: 'Penjualan Produk Bulanan',
           data: {!! $productmonthly !!}
         }],
+        colors:'#adc178',
           chart: {
           height: 450,
           type: 'bar',
@@ -301,6 +305,7 @@ const danger = '#F64E60';
           axisTicks: {
             show: true,
           },
+
           labels: {
             show: true,
             formatter: function (val) {
