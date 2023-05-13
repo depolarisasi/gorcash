@@ -85,6 +85,7 @@
                     <td>@if($e->absensi_type == 1)
                         Masuk @if ($e->absensi_jammasuk >= $e->karyawan_jammasukkerja)
                         , <span class="badge badge-danger">Terlambat</span>
+                        {{$e->absensi_jammasuk}} dan {{$e->karyawan_jammasukkerja}}
                         @else
                         , <span class="badge badge-success"> Tepat Waktu</span>
                     @endif
