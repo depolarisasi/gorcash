@@ -133,11 +133,8 @@
 @section('js')
 <script src="https://cdn.jsdelivr.net/npm/luxon@3.1.0/build/global/luxon.min.js"></script>
 <script>
-
-
      var DateTime = luxon.DateTime;
 $(document).ready(function(){
-
   $(".lamakerja").each(function(){
      var select_val = $(this).attr('data-tgl');
     var jammasuk = DateTime.fromISO(document.getElementById("jammasuk"+select_val).value != null?document.getElementById("jammasuk"+select_val).value:0);
@@ -145,7 +142,7 @@ $(document).ready(function(){
     var durasijam = jampulang.diff(jammasuk).shiftTo('hours','minutes').toObject();
     document.getElementById('textlamakerja'+select_val).innerHTML = durasijam.hours+" Jam, " +durasijam.minutes+" Menit";
         if(durasijam.hours > 8){
-        var jamlembur = durasijam.hours-9;
+        var jamlembur = (durasijam.hours)-9;
         var menitlembur = durasijam.minutes;
         }else {
         var jamlembur = 0
@@ -164,7 +161,7 @@ var durasijam = jampulang.diff(jammasuk).shiftTo('hours','minutes').toObject();
 document.getElementById('textlamakerja'+id).innerHTML = durasijam.hours+" Jam, " +durasijam.minutes+" Menit";
 $('#lamakerja'+id).val(jampulang.diff(jammasuk).as('minutes'));
 if(durasijam.hours > 8){
-var jamlembur = durasijam.hours-9;
+var jamlembur = (durasijam.hours)-9;
 var menitlembur = durasijam.minutes;
 }else {
 var jamlembur = 0
@@ -184,7 +181,7 @@ var durasijam = jampulang.diff(jammasuk).shiftTo('hours','minutes').toObject();
 document.getElementById('textlamakerja'+id).innerHTML = durasijam.hours+" Jam, " +durasijam.minutes+" Menit";
 $('#lamakerja'+id).val(jampulang.diff(jammasuk).as('minutes'));
 if(durasijam.hours > 8){
-var jamlembur = durasijam.hours-9;
+var jamlembur = (durasijam.hours)-9;
 var menitlembur = durasijam.minutes;
 }else {
 var jamlembur = 0
