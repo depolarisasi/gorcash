@@ -79,17 +79,6 @@
 
             </div>
           </div>
-          <div class="form-group row mt-4" id="ekspedisi">
-            <label class="col-md-4">Ekspedisi</label>
-            <div class="col-md-6">
-            <select class="form-control" id="waktu" name="kirimpaket_ekspedisi">
-             <option value="JNE">JNE</option>
-             <option value="J&T">J&T</option>
-             <option value="SiCepat">SiCepat</option>
-             <option value="Lainnya">Lainnya</option>
-              </select>
-            </div>
-          </div>
           <div class="form-group row mt-4" id="kendaraan">
             <label class="col-md-4">Kendaraan</label>
             <div class="col-md-6">

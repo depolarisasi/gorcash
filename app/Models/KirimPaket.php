@@ -28,6 +28,7 @@ class KirimPaket extends Model
         'kirimpaket_jumlahpaket',
         'kirimpaket_kegiatan',
         'kirimpaket_keterangan',
+        'kirimpaket_ekspedisi',
         'kirimpaket_kendaraan',
         'created_at',
         'updated_at', ];
