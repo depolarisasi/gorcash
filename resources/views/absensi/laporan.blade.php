@@ -96,14 +96,14 @@
 <thead>
 <tr>
 <th><span class="text-dark-75">Nama Karyawan</span></th>
-<th><span class="text-dark-75">Kehadiran</span></th>
+<th><span class="text-dark-75">Masuk</span></th>
 <th><span class="text-dark-75">Libur</span></th>
 <th><span class="text-dark-75">Cuti</span></th>
-<th><span class="text-dark-75">Izin Sakit</span></th>
+<th><span class="text-dark-75">Izin </span></th>
 <th><span class="text-dark-75">Tanpa Keterangan</span></th>
 <th><span class="text-dark-75">Tidak Hadir</span></th>
 <th><span class="text-dark-75">Terlambat</span></th>
-<th><span class="text-dark-75">Jam Lembur</span></th>
+<th><span class="text-dark-75">Lembur</span></th>
 </tr>
 </thead>
 <tbody>

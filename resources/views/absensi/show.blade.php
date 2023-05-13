@@ -65,7 +65,7 @@
 					<th width="10%">JAM PULANG</th>
 					<th width="5%">LAMA KERJA</th>
 					<th width="5%">LAMA LEMBUR</th>
-					<th width="10%">TIPE KEHADIRAN</th>
+					<th width="10%">KEHADIRAN</th>
 					<th width="10%">KETERANGAN</th>
 				</tr>
 			</thead>
