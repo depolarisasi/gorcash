@@ -27,23 +27,23 @@
         @yield('css')
         <style>
             .menu-text{
-                color : #000 !important    ;
+                color : #fff !important    ;
             }
             .menu-arrow{
-                color : #000 !important    ;
+                color : #fff !important    ;
             }
             .svg-icon-white{
-                color : #000 !important    ;
+                color : #fff !important    ;
             }
             .svg-icon.svg-icon-white svg g [fill] {
-  fill: #000 !important;
+  fill: #fff !important;
 }
 
 .header-mobile .burger-icon span {
-background-color: #000 !important;
+background-color: #fff !important;
 }
 .header-mobile .burger-icon span::before, .header-mobile .burger-icon span::after {
-background-color: #000 !important;
+background-color: #fff !important;
 }
             </style>
             </head>
@@ -54,7 +54,7 @@ background-color: #000 !important;
     	<!--begin::Main-->
 
 	<!--begin::Header Mobile-->
-<div id="kt_header_mobile" class="header-mobile align-items-center header-mobile-fixed"style="background-color: #adc178;">
+<div id="kt_header_mobile" class="header-mobile align-items-center header-mobile-fixed"style="background-color: #d14d72;">
 	<!--begin::Logo-->
 	<a href="{{url('/')}}">
 		<img alt="Logo" class="img-fluid" style="width: 60%; padding: 10px !important;" src="https://gorillacoachid.com/wp-content/uploads/2023/03/logo-hitam.png"/>
@@ -64,8 +64,8 @@ background-color: #000 !important;
 	<!--begin::Toolbar-->
 	<div class="d-flex align-items-center">
 					<!--begin::Aside Mobile Toggle-->
-			<button class="btn p-0 burger-icon burger-icon-left menu-text" id="kt_aside_mobile_toggle" style="color: #000 !important;">
-				<span style="color: #000 !important;"></span>
+			<button class="btn p-0 burger-icon burger-icon-left menu-text" id="kt_aside_mobile_toggle" style="color: #fff !important;">
+				<span style="color: #fff !important;"></span>
 			</button>
 			<!--end::Aside Mobile Toggle-->
 
@@ -92,7 +92,7 @@ background-color: #000 !important;
 <!--begin::Aside-->
 <div class="aside aside-left  aside-fixed  d-flex flex-column flex-row-auto"  id="kt_aside">
 	<!--begin::Brand-->
-	<div class="brand flex-column-auto " id="kt_brand" style="background-color: #adc178;">
+	<div class="brand flex-column-auto " id="kt_brand" style="background-color: #d14d72;">
 		<!--begin::Logo-->
 		<a href="{{url('/')}}" class="brand-logo">
 			<img alt="Logo" class="img-fluid" style="padding: 10px !important;" src="https://gorillacoachid.com/wp-content/uploads/2023/03/logo-hitam.png"/>
@@ -100,7 +100,7 @@ background-color: #000 !important;
 		<!--end::Logo-->
 
 					<!--begin::Toggle-->
-			<button class="brand-toggle menu-text btn btn-sm px-0" id="kt_aside_toggle" style="color: #000 !important;">
+			<button class="brand-toggle menu-text btn btn-sm px-0" id="kt_aside_toggle" style="color: #fff !important;">
 				<span class="svg-icon menu-text svg-icon-white svg-icon-xl"><!--begin::Svg Icon | path:assets/media/svg/icons/Navigation/Angle-double-left.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
     <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
         <polygon points="0 0 24 0 24 24 0 24"/>
@@ -117,7 +117,7 @@ background-color: #000 !important;
 	<div class="aside-menu-wrapper flex-column-fluid" id="kt_aside_menu_wrapper">
 
 		<!--begin::Menu Container-->
-		<div id="kt_aside_menu" class="aside-menu" data-menu-vertical="1" data-menu-scroll="1" data-menu-dropdown-timeout="500" style="background-color: #adc178;">
+		<div id="kt_aside_menu" class="aside-menu" data-menu-vertical="1" data-menu-scroll="1" data-menu-dropdown-timeout="500" style="background-color: #d14d72;">
 			<!--begin::Menu Nav-->
 			<ul class="menu-nav ">
 				<li class="menu-item menu-item">

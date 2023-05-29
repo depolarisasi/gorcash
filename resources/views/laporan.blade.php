@@ -158,7 +158,7 @@ const danger = '#F64E60';
           name: 'Pendapatan Bulanan',
           data: {!! $salesmonthly !!},
         }],
-        colors:'#adc178',
+        colors:'#d14d72',
           chart: {
           height: 450,
           type: 'bar',
@@ -253,7 +253,7 @@ const danger = '#F64E60';
           name: 'Penjualan Produk Bulanan',
           data: {!! $productmonthly !!}
         }],
-        colors:'#adc178',
+        colors:'#d14d72',
           chart: {
           height: 450,
           type: 'bar',

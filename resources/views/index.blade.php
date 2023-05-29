@@ -319,7 +319,7 @@ Dashboard Gorilla Coach </h5>
               name: 'Pendapatan Bulanan',
               data: {!! $salesmonthly !!}
             }],
-        colors:'#adc178',
+        colors:'#d14d72',
               chart: {
               height: 450,
               type: 'bar',
@@ -412,7 +412,7 @@ Dashboard Gorilla Coach </h5>
               name: 'Penjualan Produk Bulanan',
               data: {!! $productmonthly !!}
             }],
-        colors:'#adc178',
+        colors:'#d14d72',
               chart: {
               height: 450,
               type: 'bar',
