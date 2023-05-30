@@ -35,8 +35,8 @@
 <span class="card-label font-weight-bolder text-dark">Database SKU</span>
 </h3>
 <div class="card-toolbar">
-<a href="{{url('produksku/new')}}" class="btn btn-primary btn-md font-size-sm"><i class="fas fa-plus"></i> Tambah</a>
-<a href="{{url('produksku/import')}}" class="btn btn-primary btn-md font-size-sm ml-2"><i class="fas fa-plus"></i> Import</a>
+<a href="{{url('produk/new')}}" class="btn btn-primary btn-md font-size-sm"><i class="fas fa-plus"></i> Tambah</a>
+<a href="{{url('produk/import')}}" class="btn btn-primary btn-md font-size-sm ml-2"><i class="fas fa-plus"></i> Import</a>
 </div>
 </div>
 <!--end::Header-->
@@ -145,11 +145,11 @@
 					<td>{{$p->product_stok}}</td>
                     <td>{{$p->product_stokakhir}}</td>
 					<td>
-                        <a href="{{url('/produksku/detail/'.$p->product_id)}}" class="btn btn-icon btn-xs btn-primary"><i class="fas fa-info-circle nopadding"></i></a>
+                        <a href="{{url('/produk/detail/'.$p->product_id)}}" class="btn btn-icon btn-xs btn-primary"><i class="fas fa-info-circle nopadding"></i></a>
                         @if(Auth::user()->role == 1 || Auth::user()->role == 6 || Auth::user()->role == 4)
-                        <a href="{{url('/produksku/detail/'.$p->product_id)}}" class="btn btn-icon btn-xs btn-warning"><i class="fas fa-edit nopadding"></i></a>
+                        <a href="{{url('/produk/edit/'.$p->product_id)}}" class="btn btn-icon btn-xs btn-warning"><i class="fas fa-edit nopadding"></i></a>
                         @if(Auth::user()->role == 1 || Auth::user()->role == 6)
-                        <button type="button" href="{{url('/produksku/deletesingle/'.$p->product_sku)}}" class="deletebtn btn btn-icon btn-xs btn-danger"><i class="fas fa-trash nopadding"></i></button>
+                        <button type="button" href="{{url('/produk/deletesingle/'.$p->product_sku)}}" class="deletebtn btn btn-icon btn-xs btn-danger"><i class="fas fa-trash nopadding"></i></button>
                         @endif
                         @endif
                     </td>
