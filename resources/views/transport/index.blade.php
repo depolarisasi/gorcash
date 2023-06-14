@@ -127,6 +127,7 @@
 <th style="min-width: 10px"><span class="text-dark-75">Tanggal</span></th>
 <th style="min-width: 50px"><span class="text-dark-75">Petugas</span></th>
 <th style="min-width: 50px"><span class="text-dark-75">Kegiatan</span></th>
+<th style="min-width: 50px"><span class="text-dark-75">Kendaraan</span></th>
 <th style="min-width: 50px"><span class="text-dark-75">Keterangan</span></th>
 @if(Auth::user()->role == 1 || Auth::user()->role == 6)
 <th style="min-width: 80px">Action</th>
@@ -152,6 +153,11 @@
     </div>
     </td>
 
+    <td>
+        <div class="d-flex align-items-center">
+        {{$kirimpaket->kirimpaket_kendaraan}}
+        </div>
+        </td>
 <td>
     <div class="d-flex align-items-center">
         @if($kirimpaket->kirimpaket_kegiatan == 1 || $kirimpaket->kirimpaket_kegiatan == NULL)

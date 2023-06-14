@@ -89,8 +89,9 @@
 <thead>
 <tr class="text-left">
 <th style="min-width: 50px"><span class="text-dark-75">Petugas</span></th>
-<th style="min-width: 50px"><span class="text-dark-75">Jumlah Paket</span></th>
-<th style="min-width: 50px"><span class="text-dark-75">Jumlah Komisi</span></th>
+<th style="min-width: 50px"><span class="text-dark-75">Paket Dengan Transport</span></th>
+<th style="min-width: 50px"><span class="text-dark-75">Paket Tanpa Transport</span></th>
+<th style="min-width: 50px"><span class="text-dark-75">Komisi</span></th>
 </tr>
 </thead>
 <tbody>
@@ -103,8 +104,11 @@
 </td>
 <td>
 <div class="d-flex align-items-center">
-{{$d->totalpengiriman}}
+{{$d->pengirimantransport}}
 </div>
+<div class="d-flex align-items-center">
+    {{$d->pengirimannontransport}}
+    </div>
 </td>
 <td>
     <div class="d-flex align-items-center">
