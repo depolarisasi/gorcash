@@ -118,7 +118,7 @@
 <td class="pl-3 py-3">{{(int) $laporan->tanpaketerangan}} Hari</td>
 <td class="pl-3 py-3">{{(int) $laporan->tidakhadir}} Hari</td>
 <td class="pl-3 py-3">{{(int) $laporan->terlambat}} Hari</td>
-<td class="pl-3 py-3">{{number_format((float)$laporan->lamalembur/60, 0, '.', '')}} Jam</td>
+<td class="pl-3 py-3">{{ intdiv($laporan->lamalembur, 60).' Jam '. ($laporan->lamalembur % 60)}} Menit</td>
 
 </tr>
 @endforeach
