@@ -29,6 +29,7 @@ class Absensi extends Model
     'absensi_type',
     'absensi_lamakerja',
     'absensi_keterangan',
+    'absensi_keterlambatan',
         'created_at',
         'updated_at', ];
 }

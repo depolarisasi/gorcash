@@ -99,6 +99,10 @@
                                 <option value="4" @if($e->absensi_type == 4) selected="selected" @endif>Izin Sakit</option>
                                 <option value="6" @if($e->absensi_type == 6) selected="selected" @endif>Tanpa Keterangan</option>
                                 <option value="7" @if($e->absensi_type == 7) selected="selected" @endif>Libur</option>
+                            </select>
+                            <select class="form-control" id="keterlambatan{{$i}}" name="absensi_keterlambatan[]">
+                                <option value="1" @if($e->absensi_keterlambatan == 1) selected="selected" @endif>Tepat Waktu</option>
+                                <option value="2" @if($e->absensi_keterlambatan == 2) selected="selected" @endif>Terlambat</option>
                             </select></td>
                     <td><input type="text" id="keterangan{{$i}}" class="form-control" name="absensi_keterangan[]" value="{{$e->absensi_keterangan}}"></td>
 				</tr>

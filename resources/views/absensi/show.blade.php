@@ -96,7 +96,7 @@
                         @elseif($e->absensi_type == 4)
                         Izin Sakit
                         @elseif($e->absensi_type == 5)
-                        Izin Telat @if ($e->absensi_jammasuk >= $e->karyawan_jammasukkerja)
+                        Izin Telat @if ($e->absensi_keterlambatan == 2 )
                         , <span class="badge badge-danger">Terlambat</span>
                         @else
                         , <span class="badge badge-success"> Tepat Waktu</span>
