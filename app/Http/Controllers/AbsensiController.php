@@ -176,7 +176,7 @@ foreach($absensi as $abs){
             $tahun = "All";
         }
 
-        $selected_month =  $bulan == "All"? Carbon::now()->format('m'):$bulan;
+        $selected_month =  $bulan == "All"? "All":$bulan;
         $selected_year =  $tahun == "All"? Carbon::now()->format('Y'):$tahun;
 
 
@@ -193,7 +193,7 @@ foreach($absensi as $abs){
         DB::raw('SUM(absensi.absensi_lembur) lamalembur'),
         DB::raw('MONTH(absensi.absensi_tanggal) as month'),
         DB::raw('YEAR(absensi.absensi_tanggal) as year')));
-        if($selected_month){
+        if($selected_month != "All"){
             $laporan->whereRaw('MONTH(absensi.absensi_tanggal) = '.$selected_month);
         }
         if($selected_year){
