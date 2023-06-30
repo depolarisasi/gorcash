@@ -245,6 +245,12 @@ Route::group(['prefix' => 'size'], function() {
     Route::post('/apideletebarangkasir',[App\Http\Controllers\PenjualanController::class, 'apidelbarang']);
    });
 
+   Route::group(['prefix' => 'gajiapi'], function() {
+    Route::post('/apideletepot',[App\Http\Controllers\SlipGajiController::class, 'apiaddbarang']);
+    Route::post('/apideletepen',[App\Http\Controllers\SlipGajiController::class, 'apiaddqtybarang']);
+   });
+
+
    Route::group(['prefix' => 'penjualan'], function() {
     Route::get('/',[App\Http\Controllers\PenjualanController::class, 'index'])->middleware('storeofficer');
     Route::get('/detail/{id}',[App\Http\Controllers\PenjualanController::class, 'show'])->middleware('storeofficer');

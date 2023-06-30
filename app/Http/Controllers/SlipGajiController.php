@@ -157,6 +157,24 @@ class SlipGajiController extends Controller
         return view('slipgaji.show')->with(compact('show','komponenpenerimaan','komponenpotongan'));
         // return $komponenpenerimaan;
     }
+
+    public function edit($id)
+    {
+        $edit = SlipGaji::join('karyawan','karyawan_id','=','slipgaji_karyawanid')
+        ->join('users','id','=','slipgaji_userid')
+        ->select('slipgaji.*','karyawan.*','users.name','users.id','users.email')
+        ->where('slipgaji_id', $id)->first();
+        $komponenpenerimaan = KomponenGaji::where('gaji_slipid', $edit->slipgaji_id)
+        ->where('gaji_typekomponen',1)->get();
+        $komponenpotongan = KomponenGaji::where('gaji_slipid', $edit->slipgaji_id)
+        ->where('gaji_typekomponen',2)->get();
+
+        $c_pot = count($komponenpotongan);
+        $c_pen = count($komponenpenerimaan);
+
+        return view('slipgaji.edit')->with(compact('edit','komponenpenerimaan','komponenpotongan','c_pot','c_pen'));
+        // return $c_pot;
+    }
     public function print($id)
     {
         $show = SlipGaji::join('karyawan','karyawan_id','=','slipgaji_karyawanid')
@@ -168,16 +186,12 @@ class SlipGajiController extends Controller
         $komponenpotongan = KomponenGaji::where('gaji_slipid', $show->slipgaji_id)
         ->where('gaji_typekomponen',2)->get();
 
+
         return view('slipgaji.print')->with(compact('show','komponenpenerimaan','komponenpotongan'));
         // return $komponenpenerimaan;
     }
 
-    public function edit($id)
-    {
-        $edit = SlipGaji::where('id', $id)->first();
 
-        return view('slipgaji.edit')->with(compact('edit'));
-    }
 
     public function update(Request $request)
     {
@@ -271,4 +285,29 @@ class SlipGajiController extends Controller
         return $pdf->download('slipgaji-'.$show->karyawan_nama.$show->slipgaji_bulan.$show->slipgaji_tahun.'.pdf');
     }
 
+    public function apideletepot(Request $request){
+        try {
+            $komponenpotongan = KomponenGaji::where('gaji_slipid', $request->slipid)
+            ->where('gaji_id',$request->id)
+            ->where('gaji_typekomponen',2)->first();
+            $komponenpotongan->delete();
+         } catch (QE $e) {
+            return response()->json(['error'=>"Error occured when deleting product."]);
+         } //show db error message
+            return response()->json(['success'=>"Products Deleted Successfully."]);
+
+    }
+
+    public function apideletepen(Request $request){
+        try {
+            $komponenpotongan = KomponenGaji::where('gaji_slipid', $request->slipid)
+            ->where('gaji_id',$request->id)
+            ->where('gaji_typekomponen',1)->first();
+            $komponenpotongan->delete();
+         } catch (QE $e) {
+            return response()->json(['error'=>"Error occured when deleting product."]);
+         } //show db error message
+            return response()->json(['success'=>"Products Deleted Successfully."]);
+
+    }
 }
