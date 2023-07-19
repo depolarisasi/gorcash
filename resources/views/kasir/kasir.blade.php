@@ -69,19 +69,15 @@
 
                         @if(Auth::user()->role == 4 || Auth::user()->role == 1 || Auth::user()->role == 6)
                         <option value="Tokopedia">Tokopedia</option>
-                        <option value="Website">Website</option>
-                        <option value="Shopee">Shopee</option>
                         <option value="Blibli">Blibli</option>
                         <option value="BukaLapak">BukaLapak</option>
-                        <option value="WhatsApp">WhatsApp</option>
                         <option value="Instagram">Instagram</option>
+                        <option value="Shopee">Shopee</option>
                         <option value="Tiktok">Tiktok</option>
                         <option value="Toko">Toko</option>
-
+                        <option value="WhatsApp">WhatsApp</option>
+                        <option value="Website">Website</option>
                         @endif
-                    @if(Auth::user()->role == 5 || Auth::user()->role == 4 || Auth::user()->role == 1 || Auth::user()->role == 6)
-                    <option value="Toko">Toko</option>
-                    @endif
                       </select>
                     </div>
                   </div>
@@ -302,16 +298,11 @@
                 <select class="multisteps-form__input form-control" name="penjualan_paymentype" required>
                     <option value="Debit" selected>Debit</option>
                     <option value="Cash">Cash</option>
-                    <option value="GoPay">GoPay</option>
-                    <option value="ShopeePay">ShopeePay</option>
-                    <option value="OVO">OVO</option>
                     <option value="QRIS">QRIS</option>
                     <option value="Kartu Kredit">Kartu Kredit</option>
                     <option value="Split Bill">Split Bill</option>
                     <option value="Marketplace">Marketplace</option>
                     <option value="Transfer Bank BCA">Transfer Bank BCA</option>
-                    <option value="Transfer Bank BNI">Transfer Bank BNI</option>
-                    <option value="Transfer Bank Mandiri">Transfer Bank Mandiri</option>
                     <option value="Xendit">Xendit</option>
                   </select>
           </div>

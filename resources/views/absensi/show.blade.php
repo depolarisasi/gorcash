@@ -98,8 +98,10 @@
                         @elseif($e->absensi_type == 5)
                         Izin Telat @if ($e->absensi_keterlambatan == 2 )
                         , <span class="badge badge-danger">Terlambat</span>
-                        @else
+                        @elseif ($e->absensi_keterlambatan == 1)
                         , <span class="badge badge-success"> Tepat Waktu</span>
+                        @else
+
                     @endif
                         @elseif($e->absensi_type == 6)
                         Tanpa Keterangan
