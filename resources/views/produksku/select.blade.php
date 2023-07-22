@@ -56,7 +56,10 @@
                     <th>SKU</th>
 					<th>Nama Produk</th>
 					<th>Size</th>
+
+                    @if(Auth::user()->role ==  1)
 					<th>Vendor</th>
+                    @endif
 					<th>Band</th>
                     @if(Auth::user()->role == 1 || Auth::user()->role == 6 )<th>Harga Beli</th>@endif
 					<th>Harga Jual</th>
@@ -80,7 +83,9 @@
 					<td>{{$p->product_nama}}</td>
 					<td>{{$p->size_nama}}</td>
 
+                    @if(Auth::user()->role ==  1)
 					<td>{{$p->product_vendor}}</td>
+                    @endif
                     <td>{{$p->band_nama}}</td>
                     @if(Auth::user()->role == 1 || Auth::user()->role == 6) <td>@money($p->product_hargabeli)</td>@endif
                     <td>@money($p->product_hargajual)</td>
@@ -94,7 +99,7 @@
                         @if(Auth::user()->role == 1 || Auth::user()->role == 6)
                         <button type="button" href="{{url('/produk/delete/'.$p->product_sku)}}" class="deletebtn btn btn-icon btn-xs btn-danger"><i class="fas fa-trash nopadding"></i></button>
                         @endif
-                        @endif 
+                        @endif
                     </td>
 				</tr>
                 @endforeach

@@ -69,10 +69,13 @@
                     <span class="text-dark-50 flex-root font-weight-bold">Band</span>
                     <span class="text-dark flex-root font-weight-bold">{{$show->band_nama}}</span>
                 </div>
+
+                @if(Auth::user()->role ==  1)
                 <div class="d-flex mb-3">
                     <span class="text-dark-50 flex-root font-weight-bold">Vendor</span>
                     <span class="text-dark flex-root font-weight-bold">{{$show->product_vendor}}</span>
                 </div>
+                @endif
                 <div class="d-flex mb-3">
                     <span class="text-dark-50 flex-root font-weight-bold">Stok Awal</span>
                     <span class="text-dark flex-root font-weight-bold">{{$show->product_stok}}</span>

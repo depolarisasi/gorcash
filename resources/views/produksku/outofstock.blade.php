@@ -114,7 +114,9 @@
 					<th>Nama Produk</th>
 					<th>Size</th>
 					<th>Tipe</th>
+                    @if(Auth::user()->role ==  1)
 					<th>Vendor</th>
+                    @endif
 					<th>Band</th>
 					@if(Auth::user()->role == 1 || Auth::user()->role == 6 )<th>Harga Beli</th>@endif
 					<th>Harga Jual</th>
@@ -135,7 +137,10 @@
                     @endif</td>
 					<td>{{$p->size_nama}}</td>
 					<td>{{$p->type_name}}</td>
+
+                    @if(Auth::user()->role ==  1)
 					<td>{{$p->vendor_nama}}</td>
+                    @endif
 					<td>{{$p->band_nama}}</td>
                     @if(Auth::user()->role == 1 || Auth::user()->role == 6 ) <td>@money($p->product_hargabeli)</td>@endif
                     <td>@money($p->product_hargajual)</td>
