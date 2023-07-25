@@ -152,6 +152,7 @@ class KirimPaketController extends Controller
         {
             $ongkir->whereRaw('MONTH(penjualan_tanggalwaktupenjualan) = '. $selected_month);
         }
+        $ongkir->orderBy('penjualan_tanggalwaktupenjualan','DESC');
         $ongkir = $ongkir->get();
 
         $tahun = Penjualan::select(DB::Raw('YEAR(penjualan_tanggalwaktupenjualan) as year'))->groupBy('year')->get();
