@@ -99,8 +99,7 @@
 
                     @foreach($penjualan as $key => $p)
                     <tr>
-                        <td>
-                            <span style="display:none;">{{\Carbon\Carbon::parse($p->penjualan_tanggalwaktupenjualan)->format('Ymd')}}</span>{{\Carbon\Carbon::parse($p->penjualan_tanggalwaktupenjualan)->format('d-m-Y')}}</td>
+                        <td>{{\Carbon\Carbon::parse($p->penjualan_tanggalwaktupenjualan)->format('Y-m-d')}}</td>
                         <td>{{\Carbon\Carbon::parse($p->penjualan_tanggalwaktupenjualan)->format('H:i')}}</td>
                         <td>{{$p->penjualan_channel}}</td>
                         <td>{{$p->penjualan_invoice}}</td>

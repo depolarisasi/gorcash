@@ -94,9 +94,7 @@
 
                     @foreach($barangterjual as $key => $b)
                     <tr>
-                        <td>
-
-<span style="display:none;">{{\Carbon\Carbon::parse($b->barangterjual_tanggalwaktubarangterjual)->format('Ymd')}}</span>{{\Carbon\Carbon::parse($b->barangterjual_tanggalwaktubarangterjual)->format('d-m-Y')}}</td>
+                        <td>{{\Carbon\Carbon::parse($b->barangterjual_tanggalwaktubarangterjual)->format('Y-m-d')}}</td>
                         <td>{{\Carbon\Carbon::parse($b->barangterjual_tanggalwaktubarangterjual)->format('H:i')}}</td>
                         <td>{{$b->penjualan_channel}}</td>
                         <td>{{$b->product_sku}}</td>
