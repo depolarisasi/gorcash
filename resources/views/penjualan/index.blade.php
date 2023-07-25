@@ -130,6 +130,8 @@
                         <td>
                             <a href="{{url('/penjualan/detail/'.$p->penjualan_id)}}" class="btn btn-icon btn-xs btn-primary"><i class="fas fa-info-circle nopadding"></i></a>
                             @if($p->penjualan_receipt != NULL)<a href="{{url('/penjualan/struk/'.$p->penjualan_id)}}" class="btn btn-icon btn-xs btn-info"><i class="fas fa-print nopadding"></i></a>@endif
+                           <a href="{{url('/ongkir/tambahresi/'.$p->penjualan_id)}}" class="btn btn-icon btn-xs btn-info"><i class="fas fa-receipt nopadding"></i></a>
+
                             <button type="button" href="{{url('/penjualan/delete/'.$p->penjualan_id)}}" class="deletebtn btn btn-icon btn-xs btn-danger"><i class="fas fa-trash nopadding"></i></button>
                         </td>
                     </tr>

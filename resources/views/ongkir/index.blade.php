@@ -94,6 +94,7 @@
 <th style="min-width: 50px"><span class="text-dark-75">No Resi</span></th>
 <th style="min-width: 50px"><span class="text-dark-75">Expedisi</span></th>
 <th style="min-width: 50px"><span class="text-dark-75">Keterangan</span></th>
+<th style="min-width: 50px"><span class="text-dark-75">Action</span></th>
 </tr>
 </thead>
 <tbody>
@@ -146,6 +147,8 @@
         <div class="d-flex align-items-center">
         {{$t->penjualan_notes}}
         </div>
+        </td>
+        <td><a href="{{url('/ongkir/tambahresi/'.$t->penjualan_id)}}" class="btn btn-icon btn-xs btn-info"><i class="fas fa-receipt nopadding"></i></a>
         </td>
 </tr>
 @endforeach

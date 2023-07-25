@@ -264,7 +264,9 @@ Route::group(['prefix' => 'size'], function() {
    });
 
    Route::group(['prefix' => 'ongkir'], function() {
-    Route::get('/',[App\Http\Controllers\KirimPaketController::class, 'ongkir'])->middleware('admin');
+    Route::get('/',[App\Http\Controllers\KirimPaketController::class, 'ongkir'])->middleware('storeofficer');
+    Route::get('tambahresi/{id}',[App\Http\Controllers\KirimPaketController::class, 'tambahresi'])->middleware('storeofficer');
+    Route::post('tambahresi',[App\Http\Controllers\KirimPaketController::class, 'updateresi'])->middleware('storeofficer');
 
    });
 
