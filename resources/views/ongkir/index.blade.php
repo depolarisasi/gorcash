@@ -101,7 +101,7 @@
 <tr>
 <td>
 <div class="d-flex align-items-center">
-{{\Carbon\Carbon::parse($t->penjualan_tanggalwaktupenjualan)->format('d-m-Y')}}
+<span style="display:none;">{{\Carbon\Carbon::parse($t->penjualan_tanggalwaktupenjualan)->format('Ymd')}}</span>{{\Carbon\Carbon::parse($t->penjualan_tanggalwaktupenjualan)->format('d-m-Y')}}
 </div>
 </td>
 <td>
@@ -189,6 +189,7 @@
 				key: 'generalSearch'
 			},
         "paging":   true,
+        "order": [[ 0, 'desc' ]],
         "ordering": true,
         "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]]
 });
