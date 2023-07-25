@@ -159,4 +159,28 @@ class KirimPaketController extends Controller
         return view('ongkir.index')->with(compact('tahun', 'ongkir', 'selectbulan','selecttahun'));
     }
 
+    public function tambahresi($id){
+        $edit = Penjualan::where('penjualan_id',$id)->first();
+        return view('ongkir.tambahresi')->with(compact('edit'));
+    }
+
+    public function updateresi(Request $request){
+
+        $edit = Penjualan::where('penjualan_id',$request->p)->first();
+        $edit->penjualan_resi = $request->penjualan_resi;
+        $edit->penjualan_kurir = $request->penjualan_kurir;
+        $edit->penjualan_ongkoskirim = $request->penjualan_ongkoskirim;
+
+        try {
+            $edit->update();
+        } catch (QE $e) {
+            return $e;
+        } //show db error message
+
+        toast('Resi Berhasil Ditambahkan!','success');
+
+        return redirect('penjualan');
+
+    }
+
 }
