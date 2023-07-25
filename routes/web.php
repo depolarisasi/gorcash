@@ -263,6 +263,12 @@ Route::group(['prefix' => 'size'], function() {
 
    });
 
+   Route::group(['prefix' => 'ongkir'], function() {
+    Route::get('/',[App\Http\Controllers\KirimPaketController::class, 'ongkir'])->middleware('admin');
+
+   });
+
+
 
    Route::group(['prefix' => 'barangterjual'], function() {
     Route::get('/',[App\Http\Controllers\BarangTerjualController::class, 'index'])->middleware('storeofficer');

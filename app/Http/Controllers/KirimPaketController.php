@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\KirimPaket;
 use App\Models\Product;
 use App\Models\User;
+use App\Models\Penjualan;
 use DB;
 use \Carbon\Carbon;
 
@@ -127,6 +128,34 @@ class KirimPaketController extends Controller
         ->get();
         $tahun = KirimPaket::select(DB::Raw('YEAR(kirimpaket_tanggal) as year'))->groupBy('year')->get();
         return view('transport.laporan')->with(compact('data', 'tahun', 'transport'));
+    }
+
+    public function ongkir(Request $request){
+        if($request->get('bulan') != "" | !empty($request->get('bulan'))){
+            $selectbulan = $request->get('bulan');
+        }else {
+            $selectbulan = "All";
+        }
+
+        if($request->get('tahun') != "" | !empty($request->get('tahun'))){
+            $selecttahun = $request->get('tahun');
+        }else {
+            $selecttahun = "All";
+        }
+
+        $selected_month =  $selectbulan == "All"? Carbon::now()->format('m'):$selectbulan;
+        $selected_year =  $selecttahun == "All"? Carbon::now()->format('Y'):$selecttahun;
+        $ongkir = Penjualan::where('penjualan_ongkoskirim', '!=', 0);
+        if($selecttahun != "All"){
+            $ongkir->whereRaw('YEAR(penjualan_tanggalwaktupenjualan) = '.$selected_year);
+        } else if($selectbulan != "All")
+        {
+            $ongkir->whereRaw('MONTH(penjualan_tanggalwaktupenjualan) = '. $selected_month);
+        }
+        $ongkir = $ongkir->get();
+
+        $tahun = Penjualan::select(DB::Raw('YEAR(penjualan_tanggalwaktupenjualan) as year'))->groupBy('year')->get();
+        return view('ongkir.index')->with(compact('tahun', 'ongkir', 'selectbulan','selecttahun'));
     }
 
 }
