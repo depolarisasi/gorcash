@@ -34,7 +34,7 @@
         <div class="form-group row mt-4">
             <label class="col-md-2">Nomor Resi</label>
             <div class="col-md-3">
-            <input type="text" class="form-control" name="vendor_nama" value="{{$edit->penjualan_resi}}" required autofocus>
+            <input type="text" class="form-control" name="penjualan_resi" value="{{$edit->penjualan_resi}}" required autofocus>
             </div>
           </div>
 
