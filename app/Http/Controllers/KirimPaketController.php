@@ -182,7 +182,7 @@ class KirimPaketController extends Controller
 
         toast('Resi Berhasil Ditambahkan!','success');
 
-        return redirect('penjualan');
+        return redirect('ongkir');
 
     }
 
