@@ -148,15 +148,18 @@ class KirimPaketController extends Controller
         $ongkir = Penjualan::where('penjualan_ongkoskirim', '!=', 0);
         if($selecttahun != "All"){
             $ongkir->whereRaw('YEAR(penjualan_tanggalwaktupenjualan) = '.$selected_year);
-        } else if($selectbulan != "All")
+        }
+
+        if($selectbulan != "All")
         {
             $ongkir->whereRaw('MONTH(penjualan_tanggalwaktupenjualan) = '. $selected_month);
         }
         $ongkir->orderBy('penjualan_tanggalwaktupenjualan','DESC');
         $ongkir = $ongkir->get();
 
-        $tahun = Penjualan::select(DB::Raw('YEAR(penjualan_tanggalwaktupenjualan) as year'))->groupBy('year')->get();
+        $tahun = Penjualan::select(DB::Raw('YEAR(penjualan_tanggalwaktupenjualan) as year'))->groupBy('year')->orderBy('year','ASC')->get();
         return view('ongkir.index')->with(compact('tahun', 'ongkir', 'selectbulan','selecttahun'));
+        // return $selecttahun;
     }
 
     public function tambahresi($id){
