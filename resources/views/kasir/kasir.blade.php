@@ -66,8 +66,6 @@
                     <label class="col-md-4">Channel</label>
                     <div class="col-md-8">
                       <select class="multisteps-form__input form-control" name="penjualan_channel" required>
-
-                        @if(Auth::user()->role == 4 || Auth::user()->role == 1 || Auth::user()->role == 6)
                         <option value="Tokopedia">Tokopedia</option>
                         <option value="Blibli">Blibli</option>
                         <option value="BukaLapak">BukaLapak</option>
@@ -77,7 +75,6 @@
                         <option value="Toko">Toko</option>
                         <option value="WhatsApp">WhatsApp</option>
                         <option value="Website">Website</option>
-                        @endif
                       </select>
                     </div>
                   </div>
