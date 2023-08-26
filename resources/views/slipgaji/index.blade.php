@@ -28,7 +28,7 @@
 
 <!--begin::Body-->
 <div class="card-body pt-0 pb-3">
-  
+
 <div class="mb-7">
 	<div class="row align-items-center">
 		<div class="col-lg-8 col-xl-8">
@@ -41,7 +41,7 @@
 							<option value="All" @if(Request::get('bulan') == "All")) selected="selected" @endif>All</option>
               <option value="January" @if(Request::get('bulan') == "January") selected="selected" @endif>January</option>
               <option value="February" @if(Request::get('bulan') == "February") selected="selected" @endif>February</option>
-              <option value="March" @if(Request::get('bulan') == "March") selected="selected" @endif>March</option> 
+              <option value="March" @if(Request::get('bulan') == "March") selected="selected" @endif>March</option>
               <option value="April" @if(Request::get('bulan') == "April") selected="selected" @endif>April</option>
               <option value="May" @if(Request::get('bulan') == "May") selected="selected" @endif>May</option>
               <option value="June" @if(Request::get('bulan') == "June") selected="selected" @endif>June</option>
@@ -50,7 +50,7 @@
               <option value="September" @if(Request::get('bulan') == "September") selected="selected" @endif>September</option>
               <option value="October" @if(Request::get('bulan') == "October") selected="selected" @endif>October</option>
               <option value="November" @if(Request::get('bulan') == "November") selected="selected" @endif>November</option>
-              <option value="December" @if(Request::get('bulan') == "December") selected="selected" @endif>December</option> 
+              <option value="December" @if(Request::get('bulan') == "December") selected="selected" @endif>December</option>
 
 						</select>
 					</div>
@@ -86,9 +86,9 @@
 <thead>
 <tr class="text-left">
 <th style="min-width: 50px"><span class="text-dark-75">Nama</span></th>
-<th style="min-width: 100px">Jabatan</th> 
-<th style="min-width: 100px">Bulan & Tahun</th> 
-<th style="min-width: 100px">Jumlah THP</th> 
+<th style="min-width: 100px">Jabatan</th>
+<th style="min-width: 100px">Bulan & Tahun</th>
+<th style="min-width: 100px">Jumlah THP</th>
 <th style="min-width: 80px">Action</th>
 </tr>
 </thead>
@@ -104,7 +104,7 @@
 <span class="text-dark-75 d-block">
 {{$k->karyawan_jabatan}}
 </span>
-</td> 
+</td>
 <td class="pl-3 py-3">
 <div class="d-flex align-items-center">
   {{$k->slipgaji_bulan}} ({{$k->slipgaji_tahun}})
@@ -143,12 +143,17 @@
 </div>
 <!--end::Content-->
 @section('js')
-<script src="{{asset('assets/libs/datatables/jquery.dataTables.min.js')}}"></script>
-<script src="{{asset('assets/libs/datatables/dataTables.bootstrap4.min.js')}}"></script>
-<script src="{{asset('assets/libs/datatables/dataTables.responsive.min.js')}}"></script>
-<script src="{{asset('assets/libs/datatables/responsive.bootstrap4.min.js')}}"></script>>
-<script src="{{asset('assets/libs/datatables/dataTables.buttons.min.js')}}"></script>
-<script src="{{asset('assets/libs/datatables/buttons.bootstrap4.min.js')}}"></script>
+
+<script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap4.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.0.1/js/dataTables.buttons.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.0.1/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/select/1.3.3/js/dataTables.select.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+<script src="https://cdn.datatables.net/datetime/1.1.1/js/dataTables.dateTime.min.js"></script>
 <script>
     $(document).ready(function(){
 
