@@ -39,9 +39,9 @@
                   </div>
 
                   <div class="form-group row mt-4">
-                    <label class="col-md-4">Invoice Marketplace <small>(kosongkan apabila bukan dari marketplace)</small></label>
+                    <label class="col-md-4">Invoice Marketplace</label>
                     <div class="col-md-8">
-                    <input id="name" type="text" class="form-control" name="penjualan_invoice" >
+                    <input id="name" type="text" class="form-control" name="penjualan_invoice" required>
                     </div>
                   </div>
                   <div class="form-group row mt-4">
