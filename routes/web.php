@@ -232,6 +232,23 @@ Route::group(['prefix' => 'size'], function() {
     Route::get('/delete-export/{id}',[App\Http\Controllers\ExportSKUController::class, 'deleteexport'])->middleware('auth');
    });
 
+   Route::group(['prefix' => 'point'], function() {
+    Route::get('/',[App\Http\Controllers\PointController::class, 'index'])->middleware('auth');
+    Route::get('/edit/{id}',[App\Http\Controllers\PointController::class, 'edit'])->middleware('auth');
+    Route::post('/update',[App\Http\Controllers\PointController::class, 'update'])->middleware('auth');
+    Route::get('/detail/{id}',[App\Http\Controllers\PointController::class, 'show'])->middleware('auth');
+    Route::get('/delete/',[App\Http\Controllers\PointController::class, 'deleteproduct'])->middleware('auth');
+   });
+
+   Route::group(['prefix' => 'customer'], function() {
+    Route::get('/',[App\Http\Controllers\PointController::class, 'customer'])->middleware('auth');
+    Route::get('/edit/{id}',[App\Http\Controllers\PointController::class, 'customeredit'])->middleware('auth');
+    Route::post('/update',[App\Http\Controllers\PointController::class, 'customerupdate'])->middleware('auth');
+    Route::post('/new/',[App\Http\Controllers\PointController::class, 'customeradd'])->middleware('auth');
+    Route::get('/delete/{id}',[App\Http\Controllers\PointController::class, 'deletecustomer'])->middleware('auth');
+    Route::get('/delete-export/{id}',[App\Http\Controllers\PointController::class, 'deleteexport'])->middleware('auth');
+   });
+
    Route::group(['prefix' => 'kasir'], function() {
     Route::get('/',[App\Http\Controllers\PenjualanController::class, 'kasir'])->middleware('auth');
     Route::post('/store',[App\Http\Controllers\PenjualanController::class, 'addpenjualan'])->middleware('auth');
@@ -246,8 +263,8 @@ Route::group(['prefix' => 'size'], function() {
    });
 
    Route::group(['prefix' => 'gajiapi'], function() {
-    Route::post('/apideletepot',[App\Http\Controllers\SlipGajiController::class, 'apiaddbarang']);
-    Route::post('/apideletepen',[App\Http\Controllers\SlipGajiController::class, 'apiaddqtybarang']);
+    Route::post('/apideletepot',[App\Http\Controllers\SlipGajiController::class, 'apideletepot']);
+    Route::post('/apideletepen',[App\Http\Controllers\SlipGajiController::class, 'apideletepen']);
    });
 
 

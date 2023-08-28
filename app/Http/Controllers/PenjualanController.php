@@ -14,6 +14,8 @@ use App\Models\BarangPublish;
 use App\Models\BarangTerjual;
 use App\Models\RiwayatPotongan;
 use App\Models\Logs;
+use App\Models\Customer;
+use App\Models\PointLog;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Database\QueryException as QE;
@@ -178,7 +180,9 @@ class PenjualanController extends Controller
         $vendor = Vendor::get();
         $size = Size::get();
         $band = Band::get();
-        return view('kasir.kasir')->with(compact('product','vendor','size','band','invoice'));
+
+        $customer = Customer::orderBy('customer.created_at','DESC')->get();
+        return view('kasir.kasir')->with(compact('product','vendor','size','band','invoice','customer'));
     }
 
     public function apiaddbarang(Request $request){
