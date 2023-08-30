@@ -1,8 +1,5 @@
 @extends('layouts.app')
 @section('title','Kasir - ')
-@section('css')
-<link href="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/css/tom-select.css" rel="stylesheet">
-@endsection
 @section('content')
 	<!--begin::Content-->
     <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
@@ -50,12 +47,7 @@
                   <div class="form-group row mt-4">
                     <label class="col-md-4">Nama Customer</label>
                     <div class="col-md-8">
-                        <select id="tom-select-it" name="penjualan_customername" autocomplete="false">
-                            <option value="0">Cari / Tambah Member dengan Nama / No HP </option>
-                            @foreach($customer as $c)
-                            <option value="{{$c->customer_id}}">{{$c->customer_nama}} / {{$c->customer_nohp}}</option>
-                            @endforeach
-                        </select>
+                    <input id="name" type="text" class="form-control" name="penjualan_customername">
                     </div>
                   </div>
                   <div class="form-group row mt-4">
@@ -65,8 +57,7 @@
                             @foreach($product as $p)
                             <option value="{{$p->product_id}}">@if($p->product_productlama == 1) {{$p->product_barcodelama}} @endif{{$p->product_sku}} - {{$p->product_nama}} ({{$p->size_nama}})</option>
                             @endforeach
-
-                        </select>
+                           </select>
                     </div>
                   </div>
             </div>
@@ -345,7 +336,6 @@
 </div>
 <!--end::Content-->
 @section('js')
-<script src="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/js/tom-select.complete.min.js"></script>
 <script>
 var max_fields = 100; //maximum input boxes allowed
 var wrapper = $('#tbody'); //Fields wrapper
@@ -413,16 +403,6 @@ $(document).ready(function() {
  $('.select2-search__field').bind("cut copy paste",function(e) {
     return false;
  });
-
- var eventHandler = function(name) {
-	return function() {
-		console.log($('#tom-select-it').val());
-	};
-};
-new TomSelect('#tom-select-it', {
-    create: true,
-	onChange        : eventHandler('onChange'),
-});
 
 $('#productlist').select2({
    placeholder: "Masukan SKU Produk",
