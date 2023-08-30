@@ -76,9 +76,6 @@ img {
 </head>
 <body>
     <div class="ticket">
-        <br>
-        <br>
-        <br>
        <center> <img src="{{asset('assets/media/logos/logo-light.png')}}" style="width: 140px !important; height: 70px; " alt="Logo"></center>
         <p class="centered">GORILLA COACH </br>
             Jl. Guntursari Wetan No. 1 </br>
