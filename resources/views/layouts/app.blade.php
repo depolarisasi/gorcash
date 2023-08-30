@@ -27,23 +27,23 @@
         @yield('css')
         <style>
             .menu-text{
-                color : #fff !important    ;
+                color : #000 !important    ;
             }
             .menu-arrow{
-                color : #fff !important    ;
+                color : #000 !important    ;
             }
             .svg-icon-white{
-                color : #fff !important    ;
+                color : #000 !important    ;
             }
             .svg-icon.svg-icon-white svg g [fill] {
-  fill: #fff !important;
+  fill: #000 !important;
 }
 
 .header-mobile .burger-icon span {
-background-color: #fff !important;
+background-color: #000 !important;
 }
 .header-mobile .burger-icon span::before, .header-mobile .burger-icon span::after {
-background-color: #fff !important;
+background-color: #000 !important;
 }
             </style>
             </head>
@@ -100,7 +100,7 @@ background-color: #fff !important;
 		<!--end::Logo-->
 
 					<!--begin::Toggle-->
-			<button class="brand-toggle menu-text btn btn-sm px-0" id="kt_aside_toggle" style="color: #fff !important;">
+			<button class="brand-toggle menu-text btn btn-sm px-0" id="kt_aside_toggle" style="color: #000 !important;">
 				<span class="svg-icon menu-text svg-icon-white svg-icon-xl"><!--begin::Svg Icon | path:assets/media/svg/icons/Navigation/Angle-double-left.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
     <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
         <polygon points="0 0 24 0 24 24 0 24"/>
