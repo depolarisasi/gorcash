@@ -72,7 +72,6 @@
 						</select>
 					</div>
 				</div>
-                @if(Auth::user()->role == 1)
 				<div class="col-md-3 my-2 my-md-0">
 					<div class="d-flex align-items-center">
 						<label class="mr-3 mb-0 d-none d-md-block">Vendor:</label>
@@ -84,7 +83,6 @@
 						</select>
 					</div>
 				</div>
-                @endif
                 <div class="col-md-3 my-2 my-md-0">
 					<div class="d-flex align-items-center">
 						<label class="mr-3 mb-0 d-none d-md-block">Tipe:</label>
@@ -437,7 +435,7 @@
             tabel.columns(4).search($(this).val().toLowerCase()).draw();
         });
         $('#kt_datatable_search_vendor').on('change', function() {
-            tabel.columns(5).search($(this).val().toLowerCase()).draw();
+            tabel.columns(6).search($(this).val().toLowerCase()).draw();
         });
         }
 
