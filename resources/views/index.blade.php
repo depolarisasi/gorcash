@@ -152,10 +152,12 @@ Dashboard Gorilla Coach </h5>
                                 <td class="font-weight-bold text-muted text-right">
                                     <span class="text-success font-size-h5 font-weight-bolder ml-1">{{$rs->barangterjual_qty}}</span>
                                 </td>
+                                @if(Auth::user()->role == 1)
                                 <td class="text-right align-middle pb-6">
                                     <div class="font-weight-bold text-muted mb-1">Pendapatan (- Diskon)</div>
                                     <div class="font-size-lg font-weight-bolder text-dark-75">@money($rs->barangterjual_totalbarangterjual) (-@money($rs->barangterjual_diskon))</div>
                                 </td>
+                                @endif
                                 <!--end::Content-->
                             </tr>
                             @endforeach

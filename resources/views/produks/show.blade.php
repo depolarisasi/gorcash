@@ -111,8 +111,10 @@
                         <th>Nama Barang</th>
                         <th>Channel</th>
                         <th>Total Penjualan</th>
+                        @if(Auth::user()->role == 1)
                         <th>Total Diskon</th>
                         <th>Total Pendapatan</th>
+                        @endif
                     </tr>
                 </thead>
                 <tbody>
@@ -123,8 +125,11 @@
                         <td>{{$b->product_sku}} - {{$b->product_nama}}</td>
                         <td>{{$b->penjualan_channel}}</td>
                         <td>@money($b->barangterjual_totalbarangterjual)</td>
+
+                        @if(Auth::user()->role == 1)
                         <td>@money($b->barangterjual_diskon)</td>
                         <td>@money($b->barangterjual_totalpendapatan)</td>
+                        @endif
                     </tr>
                     @endforeach
 
