@@ -72,6 +72,7 @@
 						</select>
 					</div>
 				</div>
+                @if(Auth::user()->role == 1)
 				<div class="col-md-3 my-2 my-md-0">
 					<div class="d-flex align-items-center">
 						<label class="mr-3 mb-0 d-none d-md-block">Vendor:</label>
@@ -83,6 +84,7 @@
 						</select>
 					</div>
 				</div>
+                @endif
                 <div class="col-md-3 my-2 my-md-0">
 					<div class="d-flex align-items-center">
 						<label class="mr-3 mb-0 d-none d-md-block">Tipe:</label>
@@ -406,7 +408,10 @@
 
     } );
 
-    $('#kt_datatable_search_size').on('change', function() {
+
+        if({{Auth::user()->role}} == 1)
+        {
+        $('#kt_datatable_search_size').on('change', function() {
             tabel.columns(3).search($(this).val().toLowerCase()).draw();
         });
 
@@ -419,6 +424,22 @@
         $('#kt_datatable_search_band').on('change', function() {
             tabel.columns(6).search($(this).val().toLowerCase()).draw();
         });
+     }
+        else {
+            $('#kt_datatable_search_band').on('change', function() {
+            tabel.columns(5).search($(this).val().toLowerCase()).draw();
+        });
+        $('#kt_datatable_search_size').on('change', function() {
+            tabel.columns(3).search($(this).val().toLowerCase()).draw();
+        });
+
+        $('#kt_datatable_search_type').on('change', function() {
+            tabel.columns(4).search($(this).val().toLowerCase()).draw();
+        });
+        $('#kt_datatable_search_vendor').on('change', function() {
+            tabel.columns(5).search($(this).val().toLowerCase()).draw();
+        });
+        }
 
 
         $('#kt_datatable_search_size,#kt_datatable_search_band,#kt_datatable_search_vendor,#kt_datatable_search_type').selectpicker();
