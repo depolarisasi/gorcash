@@ -145,7 +145,7 @@
         </td>
         <td class="text-right align-middle font-weight-bolder font-size-h5" id="pen{{$cp}}" data-pen="{{$kp->gaji_jumlah}}">@money($kp->gaji_jumlah)</td>
         <td class="text-right align-middle">
-        <button class="btn btn-xs btn-danger remove_penerimaan btn-icon" data-idpen="{{$cp}}" data-kurpen="{{$kp->gaji_jumlah}}">
+        <button class="btn btn-xs btn-danger remove_penerimaan btn-icon" id="delpen{{$cp}}" data-existing="1" data-idpen="{{$cp}}" data-idpenerimaan="{{$kp->gaji_id}}" data-idslip="{{$kp->gaji_slipid}}" data-kurpen="{{$kp->gaji_jumlah}}">
         <i class="fas fa-trash"></i>
         </button>
         </td>
@@ -237,8 +237,8 @@
         <a href="#" class="text-dark text-hover-primary">{{$kp->gaji_komponen}}</a>
         </td>
         <td class="text-right align-middle font-weight-bolder font-size-h5" id="pot{{$cpot}}" data-pot="{{$kp->gaji_jumlah}}">@money($kp->gaji_jumlah)</td>
-        <td class="text-right align-middle">
-        <button class="btn btn-xs btn-danger remove_potongan btn-icon" data-idpot="{{$cpot}}" data-kurpot="{{$kp->gaji_jumlah}}">
+        <td class="text-right align-middle"> 
+        <button class="btn btn-xs btn-danger remove_potongan btn-icon" data-idpot="{{$cpot}}" data-existing="1"  data-idpotongan="{{$kp->gaji_id}}" data-kurpot="{{$kp->gaji_jumlah}}">
         <i class="fas fa-trash"></i>
         </button>
         </td>
@@ -449,7 +449,7 @@ wrapperpotongan.append(`<tr id="P${y}">
 </td>
 <td class="text-right align-middle font-weight-bolder font-size-h5" id="pot${y}" data-pot="${potongan}">${formatter.format(potongan)}</td>
 <td class="text-right align-middle">
-<button class="btn btn-xs btn-danger remove_potongan btn-icon" data-idpot="${y}" data-kurpot="${potongan}">
+<button class="btn btn-xs btn-danger remove_potongan btn-icon" id="delpot${x}" data-existing="0" data-idpot="${y}" data-kurpot="${potongan}">
 <i class="fas fa-trash"></i>
 </button>
 </td>
@@ -481,7 +481,7 @@ wrapperpenerimaan.append(`<tr id="pen${x}" data-old="0">
 </td>
 <td class="text-right align-middle font-weight-bolder font-size-h5" id="pen${x}" data-pen="${penerimaan}">${formatter.format(penerimaan)}</td>
 <td class="text-right align-middle">
-<button class="btn btn-xs btn-danger remove_penerimaan btn-icon" data-idpen="${x}" data-kurpen="${penerimaan}">
+<button class="btn btn-xs btn-danger remove_penerimaan btn-icon"  id="delpen${x}" data-existing="0" data-idpen="${x}" data-kurpen="${penerimaan}">
 <i class="fas fa-trash"></i>
 </button>
 </td>
@@ -533,6 +533,34 @@ produk = this.getAttribute('data-idproduct');
 $(wrapperpotongan).on("click",".remove_potongan", function(e){ //user click on remove text
 e.preventDefault();
 idpot = this.getAttribute('data-idpot');
+idpotongan = this.getAttribute('data-idpotongan');
+idslip = this.getAttribute('data-idslip');
+existing = this.getAttribute('data-existing');
+if(existing == "1") {
+    $.ajax({
+   url: '/gajiapi/apideletepot',
+   type: 'POST',
+   data: {
+     _token :  "{{csrf_token()}}",
+      gaji_id: idpenerimaan,
+      gaji_idslip: idslip,
+        },
+       success: function(data){
+        kurangpotongan($('#delpot'+idpot).attr('data-kurpot'));
+total = total+parseInt($('#delpot'+idpot).attr('data-kurpot'));
+document.getElementById('total').innerHTML = formatter.format(total);
+$('#delpot'+idpot).parent().parent('tr').remove();
+$('#DN'+idpot).remove();
+$('#DT'+idpot).remove();
+sumpot();
+sumtot();
+y--;
+        },
+     error: function(data) {
+        console.log('Cannot retrieve data.');
+         }
+    });
+}else {
 kurangpotongan(this.getAttribute('data-kurpot'));
 total = total+parseInt(this.getAttribute('data-kurpot'));
 document.getElementById('total').innerHTML = formatter.format(total);
@@ -543,12 +571,44 @@ sumpot();
 sumtot();
 y--;
 
+}
+
 })
 
 $(wrapperpenerimaan).on("click",".remove_penerimaan", function(e){ //user click on remove text
 e.preventDefault();
 idpen = this.getAttribute('data-idpen');
-kurangpenerimaan(this.getAttribute('data-kurpen'));
+idpenerimaan = this.getAttribute('data-idpenerimaan');
+idslip = this.getAttribute('data-idslip');
+existing = this.getAttribute('data-existing');
+if(existing == "1") {
+    $.ajax({
+   url: '/gajiapi/apideletepen',
+   type: 'POST',
+   data: {
+     _token :  "{{csrf_token()}}",
+      gaji_id: idpenerimaan,
+      gaji_idslip: idslip,
+        },
+       success: function(data){
+kurangpenerimaan($('#delpen'+idpen).attr('data-kurpen'));
+total = total-parseInt($('#delpen'+idpen).attr('data-kurpen'));
+document.getElementById('total').innerHTML = formatter.format(total);
+
+$('#delpen'+idpen).parent().parent('tr').remove();
+$('#PN'+idpen).remove();
+$('#PT'+idpen).remove();
+
+sumpen();
+sumtot();
+x--;
+        },
+     error: function(data) {
+        console.log('Cannot retrieve data.');
+         }
+    });
+}else {
+    kurangpenerimaan(this.getAttribute('data-kurpen'));
 total = total-parseInt(this.getAttribute('data-kurpen'));
 document.getElementById('total').innerHTML = formatter.format(total);
 
@@ -559,6 +619,9 @@ $('#PT'+idpen).remove();
 sumpen();
 sumtot();
 x--;
+}
+
+
 
 })
 

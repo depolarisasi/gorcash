@@ -155,6 +155,15 @@ Route::group(['prefix' => 'size'], function() {
     Route::post('/massdelete',[App\Http\Controllers\ColorController::class, 'apimassdelete'])->middleware('auth');
    });
 
+   Route::group(['prefix' => 'setting'], function() {
+    Route::get('/',[App\Http\Controllers\SystemSettingController::class, 'index'])->middleware('auth');
+    Route::get('/new',[App\Http\Controllers\SystemSettingController::class, 'create'])->middleware('auth');
+    Route::post('/store',[App\Http\Controllers\SystemSettingController::class, 'store'])->middleware('auth');
+    Route::get('/edit/{id}',[App\Http\Controllers\SystemSettingController::class, 'edit'])->middleware('auth');
+    Route::post('/update',[App\Http\Controllers\SystemSettingController::class, 'update'])->middleware('auth');
+    Route::get('/delete/{id}',[App\Http\Controllers\SystemSettingController::class, 'delete'])->middleware('auth');
+   });
+
    Route::group(['prefix' => 'band'], function() {
     Route::get('/',[App\Http\Controllers\BandController::class, 'index'])->middleware('auth');
     Route::get('/new',[App\Http\Controllers\BandController::class, 'create'])->middleware('auth');
@@ -256,6 +265,14 @@ Route::group(['prefix' => 'size'], function() {
 
    Route::group(['prefix' => 'productapi'], function() {
     Route::post('getproduct',[App\Http\Controllers\ProductController::class, 'getproduct']);
+    Route::post('/apiaddbarangkasir',[App\Http\Controllers\PenjualanController::class, 'apiaddbarang']);
+    Route::post('/apitambahqtykasir',[App\Http\Controllers\PenjualanController::class, 'apiaddqtybarang']);
+    Route::post('/apikurangqtykasir',[App\Http\Controllers\PenjualanController::class, 'apiminqtybarang']);
+    Route::post('/apideletebarangkasir',[App\Http\Controllers\PenjualanController::class, 'apidelbarang']);
+   });
+
+   Route::group(['prefix' => 'customerapi'], function() {
+    Route::post('getcustomer',[App\Http\Controllers\PointController::class, 'apigetcustomer']);
     Route::post('/apiaddbarangkasir',[App\Http\Controllers\PenjualanController::class, 'apiaddbarang']);
     Route::post('/apitambahqtykasir',[App\Http\Controllers\PenjualanController::class, 'apiaddqtybarang']);
     Route::post('/apikurangqtykasir',[App\Http\Controllers\PenjualanController::class, 'apiminqtybarang']);

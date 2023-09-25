@@ -103,4 +103,13 @@ class PointController extends Controller
         return redirect('customer');
     }
 
+    public function apigetcustomer(Request $request){
+        try {
+            $customer = Customer::where('customer_nohp',$request->custnohp)
+            ->orderBy('created_at','DESC')->first();
+         } catch (QE $e) {
+            return response()->json(['error'=>"Error occured when get customer."]);
+         } //show db error message
+            return response()->json($customer->toArray());
+    }
 }

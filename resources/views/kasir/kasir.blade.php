@@ -1,5 +1,8 @@
 @extends('layouts.app')
 @section('title','Kasir - ')
+@section('css')
+<link href="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/css/tom-select.css" rel="stylesheet">
+@endsection
 @section('content')
 	<!--begin::Content-->
     <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
@@ -38,18 +41,36 @@
                     </div>
                   </div>
 
-                  <div class="form-group row mt-4">
+                  <div class="form-group row mt-4" id="invoice">
                     <label class="col-md-4">Invoice Marketplace</label>
                     <div class="col-md-8">
-                    <input id="name" type="text" class="form-control" name="penjualan_invoice" required>
+                    <input  type="text" class="form-control" name="penjualan_invoice">
                     </div>
                   </div>
-                  <div class="form-group row mt-4">
+                  <div class="form-group row mt-4" id="customer">
                     <label class="col-md-4">Nama Customer</label>
                     <div class="col-md-8">
-                    <input id="name" type="text" class="form-control" name="penjualan_customername">
+                        <select id="tom-select-it" name="customer_nohp" autocomplete="false">
+                            <option value="">Cari / Tambah Member (Nama / No HP)</option>
+                            @foreach($customer as $c)
+                            <option value="{{$c->customer_nohp}}">{{$c->customer_nama}} / {{$c->customer_nohp}}</option>
+                            @endforeach
+                        </select>
                     </div>
                   </div>
+                  <div class="form-group row mt-4" id="customerinfo">
+                    <label class="col-md-4">Informasi Customer</label>
+                    <div class="col-md-8">
+                       <p>Nama Customer : <b><span id="namacustomer"></span></b></p>
+                       <p>Jumlah Point Customer : <b><span id="jumlahpointcustomer"></span></b></p>
+                       <br>
+                       <input type="checkbox" class="form-check-input ml-1" id="pakaipointcheck" name="pakaipoint" value="1">
+                    <label class="form-check-label ml-6" for="pakaipointcheck">
+                        <b>Pakai Semua Point</b>
+                      </label>
+                    </div>
+                  </div>
+
                   <div class="form-group row mt-4">
                     <label class="col-md-4">Add Product SKU</label>
                     <div class="col-md-8">
@@ -65,7 +86,7 @@
                 <div class="form-group row mt-4">
                     <label class="col-md-4">Channel</label>
                     <div class="col-md-8">
-                      <select class="multisteps-form__input form-control" name="penjualan_channel" required>
+                      <select class="multisteps-form__input form-control" name="penjualan_channel" id="channel" required>
                         <option value="Tokopedia">Tokopedia</option>
                         <option value="Blibli">Blibli</option>
                         <option value="BukaLapak">BukaLapak</option>
@@ -305,6 +326,15 @@
           </div>
       </div>
 </div>
+
+<div class="row mt-4">
+    <div class="col-md-8">
+      <p class="font-weight-bolder font-size-h4 text-right">Point Yang Didapat</p>
+    </div>
+    <div class="col-md-4">
+        <span id="point_yangdidapat" class="font-weight-bolder font-size-h4 text-right">0</span>
+    </div>
+</div>
 <div class="row">
     <div class="col-md-11">
     </div>
@@ -336,12 +366,16 @@
 </div>
 <!--end::Content-->
 @section('js')
+<script src="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/js/tom-select.complete.min.js"></script>
 <script>
+var total = 0;
+var userpoints = 0;
 var max_fields = 100; //maximum input boxes allowed
 var wrapper = $('#tbody'); //Fields wrapper
 var wrapperpotongan = $('#wrapperpotongan'); //Fields wrapper
 var x = 0; //initlal text box count
 var y = 0; //initlal text box count
+
 function suminput() {
     var inputs = $('.tothargabrg'),
         result = $('#subtotal'),
@@ -355,6 +389,25 @@ function suminput() {
     result.html(formatter.format(sum));
     result.attr('data-subtot',parseInt(sum));
 }
+
+function sumpoint() {
+    var inputs = $('.tothargabrg'),
+        result = $('#subtotal'),
+        pointygdidapat = $('#point_yangdidapat'),
+        sum = 0;
+
+        for(var i=0;i<inputs.length;i++){
+        if(parseInt(inputs[i].value))
+            sum += parseInt(inputs[i].value) || 0;
+    }
+   var maxpoint = {{$max_point->setting_value}};
+   var persenpoint = {{$persen_point->setting_value}};
+   var memberpoin = (parseInt(sum)*persenpoint)/100;
+    if(parseInt(memberpoin) >= parseInt(maxpoint)){
+        memberpoin = maxpoint;
+    }
+    pointygdidapat.html(formatter.format(memberpoin));
+}
 function sumpot() {
     var inputs = $('.totpotbrg'),
         result = $('#subtotalpotongan'),
@@ -366,7 +419,6 @@ function sumpot() {
     }
 
     result.html(formatter.format(sum));
-    console.log(sum);
 }
 function sumtot(){
     var inputs = $('.tothargabrg'),
@@ -403,6 +455,122 @@ $(document).ready(function() {
  $('.select2-search__field').bind("cut copy paste",function(e) {
     return false;
  });
+
+if($('#channel').val() == "WhatsApp" || $('#channel').val() == "Toko" || $('#channel').val() == "Instagram" || $('#channel').val() == "Website") {
+$('#invoice').hide();
+$('#customer').show();
+$('#customerinfo').show();
+ }else {
+$('#invoice').show();
+$('#customer').hide();
+$('#customerinfo').hide();
+ }
+
+ $('#channel').change(function(){
+    if($('#channel').val() == "WhatsApp" || $('#channel').val() == "Toko" || $('#channel').val() == "Instagram" || $('#channel').val() == "Website") {
+$('#invoice').hide();
+$('#customer').show();
+$('#customerinfo').show();
+ }else {
+$('#invoice').show();
+$('#customer').hide();
+$('#customerinfo').hide();
+ }
+});
+ var getCustomer = function(name) {
+	return function() {
+        var nohp = $('#tom-select-it').val();
+        $.ajax({
+            url: '/customerapi/getcustomer',
+          type: 'POST',
+            data: {
+              _token :  "{{csrf_token()}}",
+              custnohp : nohp,
+            },
+            success: function(data){
+            document.getElementById('namacustomer').innerHTML = data.customer_nama;
+            document.getElementById('jumlahpointcustomer').innerHTML = formatter.format(data.customer_points);
+            userpoints = data.customer_points;
+                if(data.customer_points <= 0 ){
+                    $("#pakaipointcheck").prop("disabled", true);
+                }else {
+
+                    $("#pakaipointcheck").prop("disabled", false);
+                }
+               },
+            error: function(data) {
+                     console.log('Cannot retrieve data.');
+                      }
+                 });
+                 }
+                };
+var addCustomer = function(name) {
+	return function() {
+        var newmember = $('#tom-select-it').value;
+        console.log(newmember);
+
+                 }
+                };
+
+const tom = new TomSelect('#tom-select-it', {
+    create: true,
+	onChange        : getCustomer('onChange'),
+	onItemAdd       : addCustomer('onOptionAdd'),
+    allowEmptyOption : true,
+});
+tom.settings.placeholder = "Cari / Tambah Member dengan Nama / No HP";
+tom.inputState();
+$('#pakaipointcheck').change(function()
+      {
+        if ($(this).is(':checked')) {
+        potname = "Potongan Point Member";
+        pot = userpoints;
+        potongan = userpoints;
+
+        wrapperpotongan.append(`<tr id="P${y}" class="potonganpoint" data-idpot="${y}" data-kurpot="${potongan}">
+        <td class="d-flex align-items-center font-weight-bolder">
+        <a href="#" class="text-dark text-hover-primary">${potname}</a>
+        </td>
+        <td class="text-right align-middle font-weight-bolder font-size-h5" id="pot${y}" data-pot="${potongan}">${formatter.format(potongan)}</td>
+        <td class="text-right align-middle">
+        <button class="btn btn-xs btn-danger remove_potongan btn-icon" data-idpot="${y}" data-kurpot="${potongan}">
+        <i class="fas fa-trash"></i>
+        </button>
+        </td>
+        </tr>`);
+        wrapperpotongan.append(`<input id="DN${y}" type="hidden" name="potonganname[]" value="${potname}">`);
+        wrapperpotongan.append(`<input id="DT${y}" type="hidden" class="totpotbrg" name="potongantotal[]" value="${potongan}">`);
+        wrapperpotongan.append(`<input id="PM${y}" type="hidden" class="pointmember" name="pointmember" value="${potongan}">`);
+        y++;
+
+        total = total-parseInt(potongan);
+        $('#DT'+y).val(total);
+        sumpot();
+        sumtot();
+        sumpoint();
+
+        }else {
+            if( $('.potonganpoint').length > 0)         // use this if you are using class to check
+            {
+            idpot = $('.potonganpoint').attr('data-idpot');
+            kurangpotongan(parseInt(potongan));
+            total = total+parseInt(potongan);
+            $('#DN'+idpot).remove();
+            $('#DT'+idpot).remove();
+            $('#PM'+idpot).remove();
+            suminput();
+            sumtot();
+            sumpoint();
+            $('.potonganpoint').remove();
+            y--;
+            }
+        }
+      });
+
+
+if( $('#tom-select-it').has('option').length > 0 ){
+ $("#pakaipointcheck").prop("disabled", true);
+}
 
 $('#productlist').select2({
    placeholder: "Masukan SKU Produk",
@@ -471,17 +639,16 @@ document.getElementById('price'+prod.dataset.idproduct).innerHTML = formatter.fo
 $('#IH'+discprodid).val(hargabaru);
 suminput();
 sumtot();
+sumpoint();
 }
 
 function kembalian(pay){
 var payment = pay.value;
 var hartot = $("#total").attr('data-total');
 var kembalian = parseInt(payment)-parseInt(hartot);
-console.log(payment);
-console.log(hartot);
-console.log(kembalian);
 $('#kembalian').html(formatter.format(kembalian));
 sumtot();
+sumpoint();
 }
 
 
@@ -556,6 +723,7 @@ if(x <= max_fields){ //max input box allowed
                     $('#IH'+data["product_id"]).val(data["product_hargajual"]);
                     suminput();
                     sumtot();
+                    sumpoint();
 
                     console.log(document.getElementById('total').innerHTML);
                },
@@ -607,6 +775,7 @@ total = total-parseInt(potongan)
 $('#DT'+y).val(total);
 sumpot();
 sumtot();
+sumpoint();
 })
 
 $(wrapper).on("click",".remove_field", function(e){ //user click on remove text
@@ -624,7 +793,6 @@ produk = this.getAttribute('data-idproduct');
                     kurangharga(document.getElementById('price'+produk).getAttribute('data-priceordered'));
                     total = total-parseInt(document.getElementById('price'+produk).getAttribute('data-priceordered'))
                     document.getElementById('total').innerHTML = formatter.format(total);
-                    console.log(document.getElementById('total').innerHTML);
                     $('#R'+produk).remove();
                     $('#IQ'+produk).remove();
                     $('#IP'+produk).remove();
@@ -632,6 +800,7 @@ produk = this.getAttribute('data-idproduct');
                     x--;
                     suminput();
                     sumtot();
+                    sumpoint();
 
         },
      error: function(data) {
@@ -646,6 +815,10 @@ e.preventDefault();
 idpot = this.getAttribute('data-idpot');
 kurangpotongan(this.getAttribute('data-kurpot'));
 total = total+parseInt(this.getAttribute('data-kurpot'));
+document.getElementById('total').innerHTML = formatter.format(total);
+$('#DN'+idpot).remove();
+$('#DT'+idpot).remove();
+$('#PM'+idpot).remove();
 suminput();
 sumtot();
 $(this).parent().parent('tr').remove();
@@ -745,7 +918,6 @@ $('#IQ'+produk).val(qtyordered);
         }else {
         hargabaru =  parseInt(priceordered)-parseInt(diskoninput);
         }
-console.log(hargabaru);
         document.getElementById('qty'+produk).dataset.qtyordered = qtyordered;
         document.getElementById('price'+produk).dataset.priceordered = hargabaru;
 

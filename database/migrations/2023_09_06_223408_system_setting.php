@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddGajiToKaryawan extends Migration
+class SystemSetting extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,12 @@ class AddGajiToKaryawan extends Migration
      */
     public function up()
     {
-        Schema::table('karyawan', function (Blueprint $table) {
+        Schema::create('setting', function (Blueprint $table) {
+            $table->increments('setting_id');
+            $table->string('setting_name')->nullable();
+            $table->string('setting_value')->nullable();
+            $table->string('setting_option')->nullable();
+            $table->timestamps();
         });
     }
 
@@ -24,8 +29,6 @@ class AddGajiToKaryawan extends Migration
      */
     public function down()
     {
-        Schema::table('karyawan', function (Blueprint $table) {
-            //
-        });
+        //
     }
 }

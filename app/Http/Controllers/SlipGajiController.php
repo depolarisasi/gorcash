@@ -287,27 +287,27 @@ class SlipGajiController extends Controller
 
     public function apideletepot(Request $request){
         try {
-            $komponenpotongan = KomponenGaji::where('gaji_slipid', $request->slipid)
-            ->where('gaji_id',$request->id)
+            $komponenpotongan = KomponenGaji::where('gaji_slipid', $request->gaji_idslip)
+            ->where('gaji_id',$request->gaji_id)
             ->where('gaji_typekomponen',2)->first();
             $komponenpotongan->delete();
          } catch (QE $e) {
             return response()->json(['error'=>"Error occured when deleting product."]);
          } //show db error message
-            return response()->json(['success'=>"Products Deleted Successfully."]);
+            return response()->json(['success'=>"Gaji Potongan Deleted Successfully."]);
 
     }
 
     public function apideletepen(Request $request){
         try {
-            $komponenpotongan = KomponenGaji::where('gaji_slipid', $request->slipid)
-            ->where('gaji_id',$request->id)
+            $komponenpenerimaan = KomponenGaji::where('gaji_slipid', $request->gaji_idslip)
+            ->where('gaji_id',$request->gaji_id)
             ->where('gaji_typekomponen',1)->first();
-            $komponenpotongan->delete();
+            $komponenpenerimaan->delete();
          } catch (QE $e) {
             return response()->json(['error'=>"Error occured when deleting product."]);
          } //show db error message
-            return response()->json(['success'=>"Products Deleted Successfully."]);
+            return response()->json(['success'=>"Gaji Deleted Successfully."]);
 
     }
 }
