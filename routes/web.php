@@ -223,6 +223,7 @@ Route::group(['prefix' => 'size'], function() {
     Route::post('/turunbarang',[App\Http\Controllers\TurunBarangController::class, 'apiturunbarang'])->middleware('auth');
     Route::post('/simpanso',[App\Http\Controllers\StokOpnameController::class, 'pausesomingguan'])->middleware('auth');
     Route::post('/simpansobulanan',[App\Http\Controllers\StokOpnameController::class, 'pausesobulanan'])->middleware('auth');
+    Route::post('/addnewmember',[App\Http\Controllers\PointController::class, 'ApiCustomerAdd'])->middleware('auth');
    });
 
    Route::group(['prefix' => 'publish'], function() {

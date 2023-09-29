@@ -22,11 +22,40 @@
 <span class="card-label font-weight-bolder font-size-h3 text-dark">Penjualan Baru</span>
 </h3>
 <div class="card-toolbar">
-<div class="dropdown dropdown-inline">
+    <button type="button" data-toggle="modal" data-target="#memberModal" class="btn btn-primary btn-sm font-size-sm"><i class="fas fa-user"></i> Tambah Member</button>
+</div>
+</div>
+<div class="modal fade" id="memberModal" tabindex="-1" role="dialog" aria-labelledby="memberModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="memberModalLabel">Tambah Member Baru</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i aria-hidden="true" class="ki ki-close"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group row mt-4">
+                    <label class="col-md-3">Nama Member</label>
+                    <div class="col-md-9">
+                    <input id="namacustfield" type="text" class="form-control">
+                    </div>
+                  </div>
+                  <div class="form-group row mt-4">
+                    <label class="col-md-3">Nomor Handphone</label>
+                    <div class="col-md-9">
+                    <input id="nohpfield" type="text" class="form-control">
+                    </div>
+                  </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Close</button>
+                <button type="button" id="createmember" class="createmember btn btn-primary font-weight-bold" data-dismiss="modal">Tambah Member Baru</button>
+            </div>
+        </div>
+    </div>
+</div>
 
-</div>
-</div>
-</div>
 <!--end::Header-->
 <div class="card-body">
     <form method="POST" action="{{url('kasir/store')}}" enctype="multipart/form-data">
@@ -506,8 +535,8 @@ $('#customerinfo').hide();
                 };
 var addCustomer = function(name) {
 	return function() {
-        var newmember = $('#tom-select-it').value;
-        console.log(newmember);
+        var newmember = $('#tom-select-it').val();
+        console.log($('#tom-select-it').val());
 
                  }
                 };
@@ -743,6 +772,35 @@ if(x <= max_fields){ //max input box allowed
 }
 
 });
+$("#createmember").on("click", function(e){ //user click on remove text
+e.preventDefault();
+custnamefield = document.getElementById('namacustfield').value;
+custnohpfield = document.getElementById('nohpfield').value;
+$.ajax({
+    url: '/customerapi/getcustomer',
+          type: 'POST',
+    data: {
+      _token :  "{{csrf_token()}}",
+      customer_nama : custnamefield,
+      customer_nohp : custnohpfield,
+    },
+    success: function(data){
+    document.getElementById('namacustomer').innerHTML = data.customer_nama;
+    document.getElementById('jumlahpointcustomer').innerHTML = formatter.format(data.customer_points);
+    userpoints = data.customer_points;
+        if(data.customer_points <= 0 ){
+            $("#pakaipointcheck").prop("disabled", true);
+        }else {
+
+            $("#pakaipointcheck").prop("disabled", false);
+        }
+       },
+    error: function(data) {
+             console.log('Cannot retrieve data.');
+              }
+         });
+})
+
 
 $("#createpotongan").on("click", function(e){ //user click on remove text
 e.preventDefault();

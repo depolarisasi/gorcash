@@ -43,6 +43,18 @@ class PointController extends Controller
         return redirect('customer');
     }
 
+    public function ApiCustomerAdd(Request $request){
+        $store = collect($request->all());
+        try {
+        Customer::create($store->all());
+        } catch (QE $e) {
+
+        return response()->json(['error'=>"Add Member Failed."]);
+        }
+
+        return response()->json(['success'=>"Add Member Success."]);
+    }
+
 
     public function show($id)
     {

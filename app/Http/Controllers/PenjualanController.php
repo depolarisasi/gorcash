@@ -240,7 +240,6 @@ class PenjualanController extends Controller
     }
 
     public function addpenjualan(Request $request){
-        if($request->customer_nohp != 0 && $request->pakaipoint)
         return $request->all();
     //     $penjualan = collect($request->all());
     //     $penjualan->put('penjualan_userid',Auth::user()->id);
