@@ -79,7 +79,7 @@
                   <div class="form-group row mt-4" id="customer">
                     <label class="col-md-4">Nama Customer</label>
                     <div class="col-md-8">
-                        <select id="tom-select-it" name="customer_nohp" autocomplete="false">
+                        <select id="tom-select-it" name="customer_nohp" autocomplete="false"> 
                             <option value="">Cari / Tambah Member (Nama / No HP)</option>
                             @foreach($customer as $c)
                             <option value="{{$c->customer_nohp}}">{{$c->customer_nama}} / {{$c->customer_nohp}}</option>
@@ -115,14 +115,14 @@
                 <div class="form-group row mt-4">
                     <label class="col-md-4">Channel</label>
                     <div class="col-md-8">
-                      <select class="multisteps-form__input form-control" name="penjualan_channel" id="channel" required>
+                      <select class="multisteps-form__input form-control" name="penjualan_channel" id="channel" required> 
+                        <option value="Toko">Toko</option>
                         <option value="Tokopedia">Tokopedia</option>
                         <option value="Blibli">Blibli</option>
                         <option value="BukaLapak">BukaLapak</option>
                         <option value="Instagram">Instagram</option>
                         <option value="Shopee">Shopee</option>
                         <option value="Tiktok">Tiktok</option>
-                        <option value="Toko">Toko</option>
                         <option value="WhatsApp">WhatsApp</option>
                         <option value="Website">Website</option>
                       </select>
@@ -435,6 +435,7 @@ function sumpoint() {
     if(parseInt(memberpoin) >= parseInt(maxpoint)){
         memberpoin = maxpoint;
     }
+    
     pointygdidapat.html(formatter.format(memberpoin));
 }
 function sumpot() {
@@ -535,16 +536,18 @@ $('#customerinfo').hide();
                 };
 var addCustomer = function(name) {
 	return function() {
-        var newmember = $('#tom-select-it').val();
-        console.log($('#tom-select-it').val());
+        var newmember = name;
+        console.log(newmember);
+        console.log(name);
 
                  }
                 };
-
-const tom = new TomSelect('#tom-select-it', {
-    create: true,
+ 
+const tom = new TomSelect('#tom-select-it', { 
 	onChange        : getCustomer('onChange'),
-	onItemAdd       : addCustomer('onOptionAdd'),
+	persist: false,
+	onItemAdd       : function(input){  
+        console.log(input)},
     allowEmptyOption : true,
 });
 tom.settings.placeholder = "Cari / Tambah Member dengan Nama / No HP";
@@ -777,27 +780,24 @@ e.preventDefault();
 custnamefield = document.getElementById('namacustfield').value;
 custnohpfield = document.getElementById('nohpfield').value;
 $.ajax({
-    url: '/customerapi/getcustomer',
-          type: 'POST',
+    url: '/api/addnewmember',
+    type: 'POST',
     data: {
       _token :  "{{csrf_token()}}",
       customer_nama : custnamefield,
-      customer_nohp : custnohpfield,
+      customer_nohp : custnohpfield
     },
     success: function(data){
-    document.getElementById('namacustomer').innerHTML = data.customer_nama;
-    document.getElementById('jumlahpointcustomer').innerHTML = formatter.format(data.customer_points);
-    userpoints = data.customer_points;
-        if(data.customer_points <= 0 ){
-            $("#pakaipointcheck").prop("disabled", true);
-        }else {
-
-            $("#pakaipointcheck").prop("disabled", false);
-        }
+        swal.fire({
+		text: "Tambah Member Success, Mohon tunggu sebentar",
+		icon: "success",  
+		    }).then(function() {
+                location.reload(); 
+					});
        },
-    error: function(data) {
-             console.log('Cannot retrieve data.');
-              }
+    error: function(data) { 
+        console.log(data);
+      }
          });
 })
 

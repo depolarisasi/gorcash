@@ -239,115 +239,156 @@ class PenjualanController extends Controller
 
     }
 
-    public function addpenjualan(Request $request){
-        return $request->all();
-    //     $penjualan = collect($request->all());
-    //     $penjualan->put('penjualan_userid',Auth::user()->id);
-    //     $diskon = 0;
-    //     try {
-    //        $addpenjualan = Penjualan::create($penjualan->all());
-    //     } catch (QE $e) {
-    //         return $e;
-    //     } //show db error message
-
-    //     $barangterjual = array();
-    //     $totalpenjualan = 0;
-    //     foreach($request->productorders as $key => $val){
-    //         $produk = Product::where('product_id',$val)->first();
-    //         $produkkeluar = BarangTerjual::where('barangterjual_idproduk',$val)->where('barangterjual_idpenjualan',null)->first();
-    //         $produkkeluar->barangterjual_idpenjualan = $addpenjualan->penjualan_id;
-    //         $produkkeluar->barangterjual_qty = $request->qtyorders[$key];
-    //         if (str_contains($request->diskonproduct[$key], '%')) {
-    //             $disk =  trim(str_replace('%','',$request->diskonproduct[$key]));
-    //             $potonganharga = ($disk*$produk->product_hargajual)/100;
-    //             }elseif($request->diskonproduct[$key] == 0 || is_null($request->diskonproduct[$key])){
-    //             $potonganharga = 0;
-    //             }else{
-    //             $potonganharga = $request->diskonproduct[$key];
-    //             }
-    //         $diskon = $diskon+$potonganharga;
-    //         $produkkeluar->barangterjual_diskon = $potonganharga;
-    //         $produkkeluar->barangterjual_totalbarangterjual = $produk->product_hargajual*$request->qtyorders[$key];
-    //         $produkkeluar->barangterjual_totalpendapatan = ($produk->product_hargajual*$request->qtyorders[$key])-$potonganharga;
-    //         $produkkeluar->barangterjual_tanggalwaktubarangterjual = $request->penjualan_tanggalwaktupenjualan;
-    //         $produkkeluar->barangterjual_userid = Auth::user()->id;
-    //         $stoklama = $produk->product_stokakhir;
-    //         $produk->product_stokakhir = $produk->product_stokakhir-$request->qtyorders[$key];
-    //         $produk->update();
-    //         if($produk->wasChanged()){
-    //             Logs::create(['log_name' => '[PEN] Stok Akhir Berubah', 'log_msg' => "Stok Akhir Produk ".$produk->product_nama." berubah karena penjualan dari ".$stoklama." menjadi ".$produk->product_stokakhir, 'log_userid' => Auth::user()->id, 'log_tanggal' => Carbon::now()->setTimezone('Asia/Jakarta')->setTimezone('Asia/Jakarta')->format('Y-m-d H:i:s')]);
-    //         }else {
-    //             Logs::create(['log_name' => '[PEN] Stok Akhir GAGAL Berubah', 'log_msg' => "Stok Akhir Produk ".$produk->product_nama." GAGAL berubah karena penjualan dari ".$stoklama." menjadi ".$produk->product_stokakhir, 'log_userid' => Auth::user()->id, 'log_tanggal' => Carbon::now()->setTimezone('Asia/Jakarta')->setTimezone('Asia/Jakarta')->format('Y-m-d H:i:s')]);
-
-    //         }
+    public function addpenjualan(Request $request){ 
+         ///POINT
+         $customer = Customer::where('customer.customer_nohp',$request->customer_nohp)->first();
+         $persen_point = SystemSetting::where('setting_name','persen_point')->first();
+         $max_point = SystemSetting::where('setting_name','max_point')->first();
+         $point = ($request->penjualan_paymenttotal*$persen_point->setting_value)/100;
+         if($point >= $max_point->setting_value){
+             $memberpoint = $max_point->setting_value;
+         } else {
+            $memberpoint = $point;
+         }
+         $pointawal = $customer->customer_points;
+        
+         if($request->pakaipoint == 1){
+            $customer->customer_points = ((int) $customer->customer_points - (int) $pointawal) + (int) $memberpoint; 
+         }else {
+            $customer->customer_points = (int) $customer->customer_points + (int) $memberpoint;
+         }
+         $customer->update(); 
+         //
+        $penjualan = collect($request->all());
+        $penjualan->put('penjualan_userid',Auth::user()->id);
+        $diskon = 0;
+        try {
+           $addpenjualan = Penjualan::create($penjualan->all());
+        } catch (QE $e) {
+            return $e;
+        } //show db error message
 
 
-    //             $publish = BarangPublish::where('publish_productid',$val)->orderBy('publish_tanggal','DESC')->first();
-    //             if($publish){
-    //             $stokpublama = $publish->publish_stokakhir;
-    //             $publish->publish_stokakhir = $publish->publish_stokakhir-$request->qtyorders[$key];
-    //             $publish->update();
-    //             if($publish->wasChanged()){
-    //                 Logs::create(['log_name' => '[PUB] Produk Stok Berubah', 'log_msg' => "Stok Akhir Produk ".$produk->product_nama." di Publish ".$publish->publish_name." berubah karena penjualan dari ".$stokpublama." menjadi ". $publish->publish_stokakhir, 'log_userid' => Auth::user()->id, 'log_tanggal' => Carbon::now()->setTimezone('Asia/Jakarta')->setTimezone('Asia/Jakarta')->format('Y-m-d H:i:s')]);
-    //             }else {
-    //                 Logs::create(['log_name' => '[PUB] Produk Stok GAGAL Berubah', 'log_msg' => "Stok Akhir Produk ".$produk->product_nama." di Publish ".$publish->publish_name." GAGAL berubah karena penjualan dari ".$stokpublama." menjadi ". $publish->publish_stokakhir, 'log_userid' => Auth::user()->id, 'log_tanggal' => Carbon::now()->setTimezone('Asia/Jakarta')->setTimezone('Asia/Jakarta')->format('Y-m-d H:i:s')]);
-    //             }
 
-    //         }
-    //         $produkkeluar->update();
-    //         array_push($barangterjual,$produkkeluar->barangterjual_id);
-    //         $totalpenjualan = $totalpenjualan+($produk->product_hargajual*$request->qtyorders[$key]);
-    //     }
+        $barangterjual = array();
+        $totalpenjualan = 0;
+        foreach($request->productorders as $key => $val){
+            $produk = Product::where('product_id',$val)->first();
+            $produkkeluar = BarangTerjual::where('barangterjual_idproduk',$val)->where('barangterjual_idpenjualan',null)->first();
+            $produkkeluar->barangterjual_idpenjualan = $addpenjualan->penjualan_id;
+            $produkkeluar->barangterjual_qty = $request->qtyorders[$key];
+            if (str_contains($request->diskonproduct[$key], '%')) {
+                $disk =  trim(str_replace('%','',$request->diskonproduct[$key]));
+                $potonganharga = ($disk*$produk->product_hargajual)/100;
+                }elseif($request->diskonproduct[$key] == 0 || is_null($request->diskonproduct[$key])){
+                $potonganharga = 0;
+                }else{
+                $potonganharga = $request->diskonproduct[$key];
+                }
+            $diskon = $diskon+$potonganharga;
+            $produkkeluar->barangterjual_diskon = $potonganharga;
+            $produkkeluar->barangterjual_totalbarangterjual = $produk->product_hargajual*$request->qtyorders[$key];
+            $produkkeluar->barangterjual_totalpendapatan = ($produk->product_hargajual*$request->qtyorders[$key])-$potonganharga;
+            $produkkeluar->barangterjual_tanggalwaktubarangterjual = $request->penjualan_tanggalwaktupenjualan;
+            $produkkeluar->barangterjual_userid = Auth::user()->id;
+            $stoklama = $produk->product_stokakhir;
+            $produk->product_stokakhir = $produk->product_stokakhir-$request->qtyorders[$key];
+            $produk->update();
+            if($produk->wasChanged()){
+                Logs::create(['log_name' => '[PEN] Stok Akhir Berubah', 'log_msg' => "Stok Akhir Produk ".$produk->product_nama." berubah karena penjualan dari ".$stoklama." menjadi ".$produk->product_stokakhir, 'log_userid' => Auth::user()->id, 'log_tanggal' => Carbon::now()->setTimezone('Asia/Jakarta')->setTimezone('Asia/Jakarta')->format('Y-m-d H:i:s')]);
+            }else {
+                Logs::create(['log_name' => '[PEN] Stok Akhir GAGAL Berubah', 'log_msg' => "Stok Akhir Produk ".$produk->product_nama." GAGAL berubah karena penjualan dari ".$stoklama." menjadi ".$produk->product_stokakhir, 'log_userid' => Auth::user()->id, 'log_tanggal' => Carbon::now()->setTimezone('Asia/Jakarta')->setTimezone('Asia/Jakarta')->format('Y-m-d H:i:s')]);
 
-    //     $updatepenjualan = Penjualan::where('penjualan_id',$addpenjualan->penjualan_id)->first();
-    //     $updatepenjualan->penjualan_barangterjual = implode(",", $barangterjual);
-    //     $updatepenjualan->penjualan_totalpenjualan = $totalpenjualan;
+            }
 
-    //     if($request->potonganname != NULL){
-    //     $potonganpenjualan = array();
-    //     $totalpotongan = 0;
-    //     foreach($request->potonganname as $key => $val){
-    //         $riwayat = new RiwayatPotongan;
-    //         $riwayat->riwayatpotongan_namapotongan = $val;
-    //         $riwayat->riwayatpotongan_jumlahpotongan = $request->potongantotal[$key];
-    //         $riwayat->riwayatpotongan_idpenjualan = $addpenjualan->penjualan_id;
-    //         $riwayat->riwayatpotongan_tanggalriwayatpotongan = $request->penjualan_tanggalwaktupenjualan;
-    //         $riwayat->riwayatpotongan_userid = Auth::user()->id;
-    //         $riwayat->save();
-    //         $riwayatid = $riwayat->riwayatpotongan_id;
-    //         array_push($potonganpenjualan,$riwayatid);
-    //         $totalpotongan = $totalpotongan+$request->potongantotal[$key];
-    //       }
 
-    //     $updatepenjualan->penjualan_daftarpotongan = implode(",", $potonganpenjualan);
-    //     $updatepenjualan->penjualan_totalpotongan = $totalpotongan;
-    //     $updatepenjualan->penjualan_totalpendapatan = $totalpenjualan-$totalpotongan-$diskon;
-    //     }else {
-    //         $updatepenjualan->penjualan_totalpendapatan = $totalpenjualan-$diskon;
-    //     }
-    //     $updatepenjualan->penjualan_diskon = $diskon;
-    //     $barangterjual = BarangTerjual::join('product','barangterjual.barangterjual_idproduk','=','product.product_id')
-    //     ->join('size','product.product_idsize','=','size.size_nama')
-    //     ->select('product.product_sku','product.product_mastersku','size.size_nama','product.product_nama','product.product_hargajual','product.product_hargabeli','product.product_foto','barangterjual.*')
-    //     ->where('barangterjual.barangterjual_idpenjualan',$addpenjualan->penjualan_id)->get();
-    //     $daftarpotongan = RiwayatPotongan::where('riwayatpotongan_idpenjualan',$addpenjualan->penjualan_id)->get();
-    //     $data = array();
-    //     array_push($data, $updatepenjualan);
-    //     array_push($data, $daftarpotongan->toArray());
-    //     array_push($data, $barangterjual->toArray());
-    //     $pdf = PDF::loadView('penjualan.strukpenjualan', compact('data'));
-    //     $path = public_path('pdf/');
-    //     $random = substr(md5(mt_rand()), 0, 7);
-    //     $fileName =  $addpenjualan->penjualan_id.'_'.$addpenjualan->penjualan_tanggalwaktupenjualan.$random.'.pdf' ;
-    //     $updatepenjualan->penjualan_receipt = $path.$fileName;
-    //     $updatepenjualan->update();
+                $publish = BarangPublish::where('publish_productid',$val)->orderBy('publish_tanggal','DESC')->first();
+                if($publish){
+                $stokpublama = $publish->publish_stokakhir;
+                $publish->publish_stokakhir = $publish->publish_stokakhir-$request->qtyorders[$key];
+                $publish->update();
+                if($publish->wasChanged()){
+                    Logs::create(['log_name' => '[PUB] Produk Stok Berubah', 'log_msg' => "Stok Akhir Produk ".$produk->product_nama." di Publish ".$publish->publish_name." berubah karena penjualan dari ".$stokpublama." menjadi ". $publish->publish_stokakhir, 'log_userid' => Auth::user()->id, 'log_tanggal' => Carbon::now()->setTimezone('Asia/Jakarta')->setTimezone('Asia/Jakarta')->format('Y-m-d H:i:s')]);
+                }else {
+                    Logs::create(['log_name' => '[PUB] Produk Stok GAGAL Berubah', 'log_msg' => "Stok Akhir Produk ".$produk->product_nama." di Publish ".$publish->publish_name." GAGAL berubah karena penjualan dari ".$stokpublama." menjadi ". $publish->publish_stokakhir, 'log_userid' => Auth::user()->id, 'log_tanggal' => Carbon::now()->setTimezone('Asia/Jakarta')->setTimezone('Asia/Jakarta')->format('Y-m-d H:i:s')]);
+                }
 
-    //    // return $data;//
-    // //    $pdf->stream($fileName);
-    // //   // return $data;
-    //     toast('Penjualan Berhasil Ditambahkan','success');
+            }
+            $produkkeluar->update();
+            array_push($barangterjual,$produkkeluar->barangterjual_id);
+            $totalpenjualan = $totalpenjualan+($produk->product_hargajual*$request->qtyorders[$key]);
+        }
 
-    //     return redirect('/penjualan/detail/'.$updatepenjualan->penjualan_id);
-    //     $pdf->save($path.$fileName);
+        $updatepenjualan = Penjualan::where('penjualan_id',$addpenjualan->penjualan_id)->first();
+        $updatepenjualan->penjualan_barangterjual = implode(",", $barangterjual);
+        $updatepenjualan->penjualan_totalpenjualan = $totalpenjualan;
+
+        if($request->potonganname != NULL){
+        $potonganpenjualan = array();
+        $totalpotongan = 0;
+        foreach($request->potonganname as $key => $val){
+            $riwayat = new RiwayatPotongan;
+            $riwayat->riwayatpotongan_namapotongan = $val;
+            $riwayat->riwayatpotongan_jumlahpotongan = $request->potongantotal[$key];
+            $riwayat->riwayatpotongan_idpenjualan = $addpenjualan->penjualan_id;
+            $riwayat->riwayatpotongan_tanggalriwayatpotongan = $request->penjualan_tanggalwaktupenjualan;
+            $riwayat->riwayatpotongan_userid = Auth::user()->id;
+            $riwayat->save();
+            $riwayatid = $riwayat->riwayatpotongan_id;
+            array_push($potonganpenjualan,$riwayatid);
+            $totalpotongan = $totalpotongan+$request->potongantotal[$key];
+          }
+
+        $updatepenjualan->penjualan_daftarpotongan = implode(",", $potonganpenjualan);
+        $updatepenjualan->penjualan_totalpotongan = $totalpotongan;
+        $updatepenjualan->penjualan_totalpendapatan = $totalpenjualan-$totalpotongan-$diskon;
+        }else {
+            $updatepenjualan->penjualan_totalpendapatan = $totalpenjualan-$diskon;
+        }
+        $updatepenjualan->penjualan_diskon = $diskon;
+        $barangterjual = BarangTerjual::join('product','barangterjual.barangterjual_idproduk','=','product.product_id')
+        ->join('size','product.product_idsize','=','size.size_nama')
+        ->select('product.product_sku','product.product_mastersku','size.size_nama','product.product_nama','product.product_hargajual','product.product_hargabeli','product.product_foto','barangterjual.*')
+        ->where('barangterjual.barangterjual_idpenjualan',$addpenjualan->penjualan_id)->get();
+        $daftarpotongan = RiwayatPotongan::where('riwayatpotongan_idpenjualan',$addpenjualan->penjualan_id)->get();
+        $data = array();
+        array_push($data, $updatepenjualan);
+        array_push($data, $daftarpotongan->toArray());
+        array_push($data, $barangterjual->toArray());
+        $pdf = PDF::loadView('penjualan.strukpenjualan', compact('data'));
+        $path = public_path('pdf/');
+        $random = substr(md5(mt_rand()), 0, 7);
+        $fileName =  $addpenjualan->penjualan_id.'_'.$addpenjualan->penjualan_tanggalwaktupenjualan.$random.'.pdf' ;
+        $updatepenjualan->penjualan_receipt = $path.$fileName;
+        $updatepenjualan->update();
+
+       // return $data;//
+    //    $pdf->stream($fileName);
+    //   // return $data;
+    
+    PointLog::create([
+        'user_id' => $customer->customer_id,
+        'points' => $memberpoint,
+        'type' => 1,
+        'admin_user_id' => Auth::user()->id,
+        'data' => 'Penambahan Point sebesar '. $memberpoint . ' Karena Penjualan ID' .$addpenjualan->penjualan_id,
+        'date' => Carbon::now()->setTimezone('Asia/Jakarta')->setTimezone('Asia/Jakarta')->format('Y-m-d')]);
+        
+        if($request->pakaipoint == 1){
+            PointLog::create([
+                'user_id' => $customer->customer_id,
+                'points' => $customer->customer_points,
+                'type' => 1,
+                'admin_user_id' => Auth::user()->id,
+                'data' => 'Pengurangan Point sebesar '. $pointawal . ' Karena Penjualan ID' .$addpenjualan->penjualan_id,
+                'date' => Carbon::now()->setTimezone('Asia/Jakarta')->setTimezone('Asia/Jakarta')->format('Y-m-d')]);
+        
+        }
+        
+
+        toast('Penjualan Berhasil Ditambahkan','success');
+
+        return redirect('/penjualan/detail/'.$updatepenjualan->penjualan_id);
+        $pdf->save($path.$fileName);
     }
 }
