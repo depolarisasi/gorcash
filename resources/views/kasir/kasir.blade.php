@@ -79,7 +79,7 @@
                   <div class="form-group row mt-4" id="customer">
                     <label class="col-md-4">Nama Customer</label>
                     <div class="col-md-8">
-                        <select id="tom-select-it" name="customer_nohp" autocomplete="false"> 
+                        <select id="tom-select-it" name="customer_nohp" autocomplete="false">
                             <option value="">Cari / Tambah Member (Nama / No HP)</option>
                             @foreach($customer as $c)
                             <option value="{{$c->customer_nohp}}">{{$c->customer_nama}} / {{$c->customer_nohp}}</option>
@@ -115,7 +115,7 @@
                 <div class="form-group row mt-4">
                     <label class="col-md-4">Channel</label>
                     <div class="col-md-8">
-                      <select class="multisteps-form__input form-control" name="penjualan_channel" id="channel" required> 
+                      <select class="multisteps-form__input form-control" name="penjualan_channel" id="channel" required>
                         <option value="Toko">Toko</option>
                         <option value="Tokopedia">Tokopedia</option>
                         <option value="Blibli">Blibli</option>
@@ -411,12 +411,12 @@ function suminput() {
         sum = 0;
 
         for(var i=0;i<inputs.length;i++){
-        if(parseInt(inputs[i].value))
-            sum += parseInt(inputs[i].value) || 0;
+        if(parseFloat(inputs[i].value))
+            sum += parseFloat(inputs[i].value) || 0;
     }
 
     result.html(formatter.format(sum));
-    result.attr('data-subtot',parseInt(sum));
+    result.attr('data-subtot',parseFloat(sum));
 }
 
 function sumpoint() {
@@ -426,16 +426,16 @@ function sumpoint() {
         sum = 0;
 
         for(var i=0;i<inputs.length;i++){
-        if(parseInt(inputs[i].value))
-            sum += parseInt(inputs[i].value) || 0;
+        if(parseFloat(inputs[i].value))
+            sum += parseFloat(inputs[i].value) || 0;
     }
    var maxpoint = {{$max_point->setting_value}};
    var persenpoint = {{$persen_point->setting_value}};
-   var memberpoin = (parseInt(sum)*persenpoint)/100;
-    if(parseInt(memberpoin) >= parseInt(maxpoint)){
+   var memberpoin = (parseFloat(sum)*persenpoint)/100;
+    if(parseFloat(memberpoin) >= parseFloat(maxpoint)){
         memberpoin = maxpoint;
     }
-    
+
     pointygdidapat.html(formatter.format(memberpoin));
 }
 function sumpot() {
@@ -444,8 +444,8 @@ function sumpot() {
         sum = 0;
 
         for(var i=0;i<inputs.length;i++){
-        if(parseInt(inputs[i].value))
-            sum += parseInt(inputs[i].value) || 0;
+        if(parseFloat(inputs[i].value))
+            sum += parseFloat(inputs[i].value) || 0;
     }
 
     result.html(formatter.format(sum));
@@ -459,20 +459,20 @@ function sumtot(){
         if($("#ongkoskirim").val() == '' || $("#ongkoskirim").val() == null){
             ongkirs = 0;
         }else {
-            ongkirs = parseInt($("#ongkoskirim").val());
+            ongkirs = parseFloat($("#ongkoskirim").val());
         }
         var ongkir = ongkirs;
 
         for(var i=0;i<inputs.length;i++){
-        if(parseInt(inputs[i].value))
-            sum += parseInt(inputs[i].value) || 0;
+        if(parseFloat(inputs[i].value))
+            sum += parseFloat(inputs[i].value) || 0;
     }
     for(var i=0;i<inputs2.length;i++){
-        if(parseInt(inputs2[i].value))
-            sum2 += parseInt(inputs2[i].value) || 0;
+        if(parseFloat(inputs2[i].value))
+            sum2 += parseFloat(inputs2[i].value) || 0;
     }
     result.html(formatter.format(sum-sum2+ongkir));
-    result.attr('data-total',parseInt(sum-sum2+ongkir));
+    result.attr('data-total',parseFloat(sum-sum2+ongkir));
 }
 var subtotal = 0;
 var potongan = 0;
@@ -542,11 +542,11 @@ var addCustomer = function(name) {
 
                  }
                 };
- 
-const tom = new TomSelect('#tom-select-it', { 
+
+const tom = new TomSelect('#tom-select-it', {
 	onChange        : getCustomer('onChange'),
 	persist: false,
-	onItemAdd       : function(input){  
+	onItemAdd       : function(input){
         console.log(input)},
     allowEmptyOption : true,
 });
@@ -575,7 +575,7 @@ $('#pakaipointcheck').change(function()
         wrapperpotongan.append(`<input id="PM${y}" type="hidden" class="pointmember" name="pointmember" value="${potongan}">`);
         y++;
 
-        total = total-parseInt(potongan);
+        total = total-parseFloat(potongan);
         $('#DT'+y).val(total);
         sumpot();
         sumtot();
@@ -585,8 +585,8 @@ $('#pakaipointcheck').change(function()
             if( $('.potonganpoint').length > 0)         // use this if you are using class to check
             {
             idpot = $('.potonganpoint').attr('data-idpot');
-            kurangpotongan(parseInt(potongan));
-            total = total+parseInt(potongan);
+            kurangpotongan(parseFloat(potongan));
+            total = total+parseFloat(potongan);
             $('#DN'+idpot).remove();
             $('#DT'+idpot).remove();
             $('#PM'+idpot).remove();
@@ -642,12 +642,12 @@ function kurangharga(harga){
 }
 
 function tambahpotongan(harga){
-    potongan = potongan+parseInt(harga)
+    potongan = potongan+parseFloat(harga)
     document.getElementById('subtotalpotongan').innerHTML = formatter.format(potongan);
 }
 
 function kurangpotongan(harga){
-    potongan = potongan-parseInt(harga)
+    potongan = potongan-parseFloat(harga)
     document.getElementById('subtotalpotongan').innerHTML = formatter.format(potongan);
 }
 
@@ -656,17 +656,17 @@ var diskoninput = prod.value;
 var discprodid = prod.dataset.idproduct;
 var pricesatuan = document.getElementById('price'+discprodid).getAttribute('data-pricesatuan');
 var qtyorder = document.getElementById('qty'+discprodid).getAttribute('data-qtyordered');
-var hargaasliproduct = parseInt(pricesatuan)*parseInt(qtyorder);
+var hargaasliproduct = parseFloat(pricesatuan)*parseFloat(qtyorder);
 if(diskoninput.includes('%')){
 var potongandiskoninput = diskoninput.replace('%','');
-hargabaru =  parseInt(hargaasliproduct)-parseInt((potongandiskoninput*hargaasliproduct)/100);
+hargabaru =  parseFloat(hargaasliproduct)-parseFloat((potongandiskoninput*hargaasliproduct)/100);
 }else if(diskoninput == ''){
 diskoninput = 0;
-hargabaru =  parseInt(hargaasliproduct)-parseInt(diskoninput);
+hargabaru =  parseFloat(hargaasliproduct)-parseFloat(diskoninput);
 }else {
-hargabaru =  parseInt(hargaasliproduct)-parseInt(diskoninput);
+hargabaru =  parseFloat(hargaasliproduct)-parseFloat(diskoninput);
 }
-$('#price'+prod.dataset.idproduct).attr('data-priceordered',parseInt(hargabaru));
+$('#price'+prod.dataset.idproduct).attr('data-priceordered',parseFloat(hargabaru));
 document.getElementById('price'+prod.dataset.idproduct).innerHTML = formatter.format(hargabaru);
 $('#IH'+discprodid).val(hargabaru);
 suminput();
@@ -677,7 +677,7 @@ sumpoint();
 function kembalian(pay){
 var payment = pay.value;
 var hartot = $("#total").attr('data-total');
-var kembalian = parseInt(payment)-parseInt(hartot);
+var kembalian = parseFloat(payment)-parseFloat(hartot);
 $('#kembalian').html(formatter.format(kembalian));
 sumtot();
 sumpoint();
@@ -693,7 +693,7 @@ if(ongkir.value == null || ongkir.value == '' || ongkir.value == NaN){
 }
 var ongkos = ongkirs;
 var hartot = $("#total").attr('data-total');
-var tambahongkir = parseInt(ongkos);
+var tambahongkir = parseFloat(ongkos);
 $('#ongkirkurir').html(formatter.format(tambahongkir));
 sumtot();
 }
@@ -750,7 +750,7 @@ if(x <= max_fields){ //max input box allowed
                     wrapper.append(`<input id="IP${data["product_id"]}" type="hidden" name="productorders[]" value="${data["product_id"]}">`);
                     wrapper.append(`<input id="IQ${data["product_id"]}" type="hidden" name="qtyorders[]" value="1">`);
                     wrapper.append(`<input id="IH${data["product_id"]}" type="hidden" class="tothargabrg" name="finalpriceprod[]" value="${data["product_hargajual"]}">`);
-                    total = total+parseInt(data["product_hargajual"])
+                    total = total+parseFloat(data["product_hargajual"])
                     document.getElementById('total').innerHTML = formatter.format(total);
                     $('#IH'+data["product_id"]).val(data["product_hargajual"]);
                     suminput();
@@ -790,12 +790,12 @@ $.ajax({
     success: function(data){
         swal.fire({
 		text: "Tambah Member Success, Mohon tunggu sebentar",
-		icon: "success",  
+		icon: "success",
 		    }).then(function() {
-                location.reload(); 
+                location.reload();
 					});
        },
-    error: function(data) { 
+    error: function(data) {
         console.log(data);
       }
          });
@@ -808,7 +808,7 @@ potname = document.getElementById('namapotonganfield').value;
 pot = document.getElementById('jumlahpotonganfield').value;
 if(pot.includes('%')){
 var potongandisc = pot.replace('%','');
-potongan =   parseInt(($("#subtotal").attr('data-subtot')*potongandisc)/100);
+potongan =   parseFloat(($("#subtotal").attr('data-subtot')*potongandisc)/100);
 }else if(pot == ''){
 potongan = 0;
 }else {
@@ -829,7 +829,7 @@ wrapperpotongan.append(`<tr id="P${y}">
 wrapperpotongan.append(`<input id="DN${y}" type="hidden" name="potonganname[]" value="${potname}">`);
 wrapperpotongan.append(`<input id="DT${y}" type="hidden" class="totpotbrg" name="potongantotal[]" value="${potongan}">`);
 y++
-total = total-parseInt(potongan)
+total = total-parseFloat(potongan)
 $('#DT'+y).val(total);
 sumpot();
 sumtot();
@@ -849,7 +849,7 @@ produk = this.getAttribute('data-idproduct');
        success: function(data){
 
                     kurangharga(document.getElementById('price'+produk).getAttribute('data-priceordered'));
-                    total = total-parseInt(document.getElementById('price'+produk).getAttribute('data-priceordered'))
+                    total = total-parseFloat(document.getElementById('price'+produk).getAttribute('data-priceordered'))
                     document.getElementById('total').innerHTML = formatter.format(total);
                     $('#R'+produk).remove();
                     $('#IQ'+produk).remove();
@@ -872,7 +872,7 @@ $(wrapperpotongan).on("click",".remove_potongan", function(e){ //user click on r
 e.preventDefault();
 idpot = this.getAttribute('data-idpot');
 kurangpotongan(this.getAttribute('data-kurpot'));
-total = total+parseInt(this.getAttribute('data-kurpot'));
+total = total+parseFloat(this.getAttribute('data-kurpot'));
 document.getElementById('total').innerHTML = formatter.format(total);
 $('#DN'+idpot).remove();
 $('#DT'+idpot).remove();
@@ -887,10 +887,10 @@ y--;
 $(wrapper).on("click",".tambahqty", function(e){
     e.preventDefault();
     produk = this.getAttribute('data-idproduct');
-    qtyordered = parseInt(document.getElementById('qty'+produk).getAttribute('data-qtyordered'));
+    qtyordered = parseFloat(document.getElementById('qty'+produk).getAttribute('data-qtyordered'));
     pricesatuan = document.getElementById('price'+produk).getAttribute('data-pricesatuan');
     diskoninput = document.getElementById('diskon'+produk).value;
-    priceordered = parseInt(pricesatuan)*parseInt(qtyordered);
+    priceordered = parseFloat(pricesatuan)*parseFloat(qtyordered);
             $.ajax({
             url: '/productapi/getproduct',
             type: 'POST',
@@ -900,7 +900,7 @@ $(wrapper).on("click",".tambahqty", function(e){
                     },
                 success: function(data){
                 minstok = 1;
-                maxstok = parseInt(data["product_stokakhir"]);
+                maxstok = parseFloat(data["product_stokakhir"]);
 
     if(qtyordered >= maxstok && maxstok > 0){
     qtyordered = maxstok;
@@ -908,17 +908,17 @@ $(wrapper).on("click",".tambahqty", function(e){
     document.getElementById('qty'+produk).innerHTML = qtyordered;
     $('#IQ'+produk).val(qtyordered);
     }else {
-        qtyordered = parseInt(qtyordered)+1;
-        priceordered = parseInt(pricesatuan)+parseInt(data["product_hargajual"]);
+        qtyordered = parseFloat(qtyordered)+1;
+        priceordered = parseFloat(pricesatuan)+parseFloat(data["product_hargajual"]);
 
         if(diskoninput.includes('%')){
             var potongandiskoninput = diskoninput.replace('%','');
-            hargabaru =  parseInt(priceordered)-parseInt((potongandiskoninput*priceordered)/100);
+            hargabaru =  parseFloat(priceordered)-parseFloat((potongandiskoninput*priceordered)/100);
         }else if(diskoninput == ''){
             diskoninput = 0;
-            hargabaru =  parseInt(priceordered)-parseInt(diskoninput);
+            hargabaru =  parseFloat(priceordered)-parseFloat(diskoninput);
         }else {
-        hargabaru =  parseInt(priceordered)-parseInt(diskoninput);
+        hargabaru =  parseFloat(priceordered)-parseFloat(diskoninput);
         }
 
         document.getElementById('qty'+produk).dataset.qtyordered = qtyordered;
@@ -943,10 +943,10 @@ $(wrapper).on("click",".tambahqty", function(e){
 $(wrapper).on("click",".kurangqty", function(e){
 e.preventDefault();
 produk = this.getAttribute('data-idproduct');
-qtyordered = parseInt(document.getElementById('qty'+produk).getAttribute('data-qtyordered'));
+qtyordered = parseFloat(document.getElementById('qty'+produk).getAttribute('data-qtyordered'));
 pricesatuan = document.getElementById('price'+produk).getAttribute('data-pricesatuan');
 diskoninput = document.getElementById('diskon'+produk).value;
-priceordered = parseInt(pricesatuan)*parseInt(qtyordered);
+priceordered = parseFloat(pricesatuan)*parseFloat(qtyordered);
         $.ajax({
           url: '/productapi/getproduct',
           type: 'POST',
@@ -964,17 +964,17 @@ document.getElementById('qty'+produk).dataset.qtyordered = qtyordered;
 document.getElementById('qty'+produk).innerHTML = qtyordered;
 $('#IQ'+produk).val(qtyordered);
 }else {
-        qtyordered = parseInt(qtyordered)-1;
-        priceordered = parseInt(priceordered)-parseInt(data["product_hargajual"]);
+        qtyordered = parseFloat(qtyordered)-1;
+        priceordered = parseFloat(priceordered)-parseFloat(data["product_hargajual"]);
 
         if(diskoninput.includes('%')){
             var potongandiskoninput = diskoninput.replace('%','');
-            hargabaru =  parseInt(priceordered)-parseInt((potongandiskoninput*priceordered)/100);
+            hargabaru =  parseFloat(priceordered)-parseFloat((potongandiskoninput*priceordered)/100);
         }else if(diskoninput == ''){
             diskoninput = 0;
-            hargabaru =  parseInt(priceordered)-parseInt(diskoninput);
+            hargabaru =  parseFloat(priceordered)-parseFloat(diskoninput);
         }else {
-        hargabaru =  parseInt(priceordered)-parseInt(diskoninput);
+        hargabaru =  parseFloat(priceordered)-parseFloat(diskoninput);
         }
         document.getElementById('qty'+produk).dataset.qtyordered = qtyordered;
         document.getElementById('price'+produk).dataset.priceordered = hargabaru;

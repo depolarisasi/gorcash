@@ -239,8 +239,10 @@ class PenjualanController extends Controller
 
     }
 
-    public function addpenjualan(Request $request){ 
+    public function addpenjualan(Request $request){
          ///POINT
+         if(isset($request->customer_nohp)){
+
          $customer = Customer::where('customer.customer_nohp',$request->customer_nohp)->first();
          $persen_point = SystemSetting::where('setting_name','persen_point')->first();
          $max_point = SystemSetting::where('setting_name','max_point')->first();
@@ -251,13 +253,15 @@ class PenjualanController extends Controller
             $memberpoint = $point;
          }
          $pointawal = $customer->customer_points;
-        
+
          if($request->pakaipoint == 1){
-            $customer->customer_points = ((int) $customer->customer_points - (int) $pointawal) + (int) $memberpoint; 
+            $customer->customer_points = ((int) $customer->customer_points - (int) $pointawal) + (int) $memberpoint;
          }else {
             $customer->customer_points = (int) $customer->customer_points + (int) $memberpoint;
          }
-         $customer->update(); 
+         $customer->update();
+
+        }
          //
         $penjualan = collect($request->all());
         $penjualan->put('penjualan_userid',Auth::user()->id);
@@ -365,7 +369,8 @@ class PenjualanController extends Controller
        // return $data;//
     //    $pdf->stream($fileName);
     //   // return $data;
-    
+
+    if(isset($request->customer_nohp)){
     PointLog::create([
         'user_id' => $customer->customer_id,
         'points' => $memberpoint,
@@ -373,7 +378,7 @@ class PenjualanController extends Controller
         'admin_user_id' => Auth::user()->id,
         'data' => 'Penambahan Point sebesar '. $memberpoint . ' Karena Penjualan ID' .$addpenjualan->penjualan_id,
         'date' => Carbon::now()->setTimezone('Asia/Jakarta')->setTimezone('Asia/Jakarta')->format('Y-m-d')]);
-        
+
         if($request->pakaipoint == 1){
             PointLog::create([
                 'user_id' => $customer->customer_id,
@@ -382,9 +387,10 @@ class PenjualanController extends Controller
                 'admin_user_id' => Auth::user()->id,
                 'data' => 'Pengurangan Point sebesar '. $pointawal . ' Karena Penjualan ID' .$addpenjualan->penjualan_id,
                 'date' => Carbon::now()->setTimezone('Asia/Jakarta')->setTimezone('Asia/Jakarta')->format('Y-m-d')]);
-        
+
         }
-        
+    }
+
 
         toast('Penjualan Berhasil Ditambahkan','success');
 

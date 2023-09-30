@@ -68,7 +68,7 @@
         <div class="form-group row mt-4" id="jumlahbarang">
             <label class="col-md-4">Jumlah Barang</label>
             <div class="col-md-6">
-            <input type="number" class="form-control" name="kirimpaket_jumlahpaket" required>
+            <input type="number" class="form-control" name="kirimpaket_jumlahpaket" >
             </div>
           </div>
           <div class="form-group row mt-4" id="tanggal">

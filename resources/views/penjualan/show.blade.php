@@ -73,10 +73,10 @@
                                     <td class="text-right pt-7 align-middle">@money($b->product_hargajual)</td>
                                     <td class="text-right pt-7 align-middle">@money($b->barangterjual_diskon)</td>
                                     <td class="text-primary pr-0 pt-7 text-right align-middle">
-                                        @if((int)$b->barangterjual_diskon == 0 || is_null($b->barangterjual_diskon))
+                                        @if((float)$b->barangterjual_diskon == 0 || is_null($b->barangterjual_diskon))
                                         @money($b->barangterjual_totalbarangterjual)
                                         @else
-                                         @money((int)$b->barangterjual_totalbarangterjual-(int)$b->barangterjual_diskon)
+                                         @money((float)$b->barangterjual_totalbarangterjual-(float)$b->barangterjual_diskon)
                                     @endif</td>
                                 </tr>
                                 @endforeach
@@ -84,7 +84,7 @@
 
                                 <tr class="font-weight-boldest">
                                     <td colspan="5" class="text-primary font-size-h3 font-weight-boldest text-right">
-                                        @money((int)$penjualan->penjualan_totalpenjualan - (int)$penjualan->penjualan_diskon)</td>
+                                        @money((float)$penjualan->penjualan_totalpenjualan - (float)$penjualan->penjualan_diskon)</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -154,7 +154,7 @@
                                 <tr class="font-weight-bolder">
                                     <td>Total Pendapatan</td>
                                     @php
-                                        $total = ((int)$penjualan->penjualan_totalpenjualan - (int) $penjualan->penjualan_totalpotongan - (int) $penjualan->penjualan_diskon) + (int) $penjualan->penjualan_ongkoskirim;
+                                        $total = ((float)$penjualan->penjualan_totalpenjualan - (float) $penjualan->penjualan_totalpotongan - (float) $penjualan->penjualan_diskon) + (float) $penjualan->penjualan_ongkoskirim;
                                     @endphp
                                     <td class="text-primary font-size-h3 font-weight-boldest text-right">@money($total)</td>
                                 </tr>
