@@ -22,6 +22,7 @@
 </h3>
 <div class="card-toolbar">
 <a href="{{url('slipgaji')}}" class="btn btn-primary btn-sm font-size-sm mr-3"><i class="fas fa-arrow-left"></i> Kembali</a>
+<a href="{{url('slipgaji/print/'.$show->slipgaji_id)}}" class="btn btn-warning btn-sm font-size-sm mr-3"><i class="fas fa-edit"></i> Edit</a>
 <a href="{{url('slipgaji/print/'.$show->slipgaji_id)}}" class="btn btn-secondary btn-sm font-size-sm mr-3"><i class="fas fa-print"></i> Print</a>
 <a href="{{url('slipgaji/pdf/'.$show->slipgaji_id)}}" class="btn btn-success btn-sm font-size-sm"><i class="fas fa-file-pdf"></i> Save PDF</a>
 </div>

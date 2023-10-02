@@ -26,8 +26,9 @@
 </div>
 <!--end::Header-->
 <div class="card-body">
-    <form method="POST" action="{{url('slipgaji/store')}}" enctype="multipart/form-data">
+    <form method="POST" action="{{url('slipgaji/update')}}" enctype="multipart/form-data">
         @csrf
+        <input type="hidden" name="slipgaji_id" value="{{$edit->slipgaji_id}}">
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group row mt-4">
@@ -36,7 +37,7 @@
                         <p>@if($edit) {{$edit->karyawan_nama}} @endif</p>
                   </div>
                 </div>
-                <input type="hidden" name="slipgaji_karyawanid" value="{{Request::get('k')}}">
+                <input type="hidden" name="slipgaji_karyawanid" value="{{$edit->slipgaji_karyawanid}}">
                   <div class="form-group row mt-4">
                     <label class="col-md-4"><b>No Induk Karyawan</b></label>
                     <div class="col-md-8">

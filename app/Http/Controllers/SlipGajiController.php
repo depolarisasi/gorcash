@@ -194,65 +194,84 @@ class SlipGajiController extends Controller
 
 
     public function update(Request $request)
-    {
-        $user = SlipGaji::where('email', $request->email)->first();
-        $update = collect($request->all());
-        $passlama = $user->password;
-        $passbaru = $request->password;
+    { 
+        $slipgaji = SlipGaji::where('slipgaji_id',$request->slipgaji_id)->first();
+        
+        $komponenpenerimaan = KomponenGaji::where('gaji_slipid', $request->slipgaji_id)
+        ->where('gaji_typekomponen',1)->get();
+        
+        foreach($komponenpenerimaan as $kp){
+            $kp->delete();
+        }
 
-        if (!is_null($request->password) && !is_null($request->password_confirmation)) {
-            if (Hash::check($passbaru, $passlama)) {
-                $update->put('password', $user->password);
+        $komponenpotongan = KomponenGaji::where('gaji_slipid', $request->slipgaji_id)
+        ->where('gaji_typekomponen',2)->get();
 
-                try {
-                    $user->update($update->all());
-                } catch (QE $e) {
-                   alert()->warning('Database Error');
+        foreach($komponenpenerimaan as $kp2){
+            $kp2->delete();
+        }
+        $karyawan = Karyawan::where('karyawan_id',$request->slipgaji_karyawanid)->first();
+       
+        $slipgaji->slipgaji_karyawanid = $request->slipgaji_karyawanid;
+         
+        $slipgaji->slipgaji_ttd = $request->slipgaji_ttd; 
 
-                    return redirect()->back();
+        try {
+            $slipgaji->save();
+        } catch (QE $e) {
+            toast('Database Error','error');
+            return $e;
+        }
+
+        $updategaji = SlipGaji::where('slipgaji_id', $slipgaji->slipgaji_id)->first();
+        $penerimaan = array();
+        $potongan = array();
+        $totalgaji = 0;
+        if($request->penerimaanname || $request->potonganname){
+            if($request->penerimaanname){
+                foreach($request->penerimaanname as $key => $val){
+                    $komponenpenerimaan = new KomponenGaji;
+                    $komponenpenerimaan->gaji_slipid = $slipgaji->slipgaji_id;
+                    $komponenpenerimaan->gaji_kodeunik =  $slipgaji->slipgaji_kodeunik;
+                    $komponenpenerimaan->gaji_typekomponen = 1;
+                    $komponenpenerimaan->gaji_komponen = $val;
+                    $komponenpenerimaan->gaji_jumlah = $request->penerimaantotal[$key];
+                    $komponenpenerimaan->save();
+                    $totalgaji = $totalgaji+$request->penerimaantotal[$key];
+                    array_push($penerimaan, $komponenpenerimaan->gaji_id);
                 }
 
-               alert()->success('Slip Gaji berhasil diubah');
+        $updategaji->slipgaji_komponenpenerimaan = serialize($penerimaan);
+            }
 
-                return redirect('user');
-            } else {
-                if ($request->password == $request->password_confirmation) {
-                    $newpass = $request->password;
-                    $update->put('password', Hash::make($passbaru));
+            if($request->potonganname){
+                foreach($request->potonganname as $key => $val){
+                    $komponenpotongan = new KomponenGaji;
+                    $komponenpotongan->gaji_slipid = $slipgaji->slipgaji_id;
+                    $komponenpotongan->gaji_kodeunik = $slipgaji->slipgaji_kodeunik;
+                    $komponenpotongan->gaji_typekomponen = 2;
+                    $komponenpotongan->gaji_komponen = $val;
+                    $komponenpotongan->gaji_jumlah = $request->potongantotal[$key];
+                    $komponenpotongan->save();
 
-                    try {
-                        $user->update($update->all());
-                    } catch (QE $e) {
-
-                toast('Database Error','error');
-
-                        return redirect()->back();
-                    }
-
-                    toast('Slip Gaji Berhasil Diubah','success');
-
-                    return redirect('user');
-                } else {
-                    toast('Konfirmasi Password Tidak Cocok','error');
-
-
-                    return redirect()->back();
+                    $totalgaji = $totalgaji-$request->potongantotal[$key];
+                    array_push($penerimaan, $komponenpotongan->gaji_id);
                 }
+
+        $updategaji->slipgaji_komponenpotongan = serialize($potongan);
             }
-        } else {
-            try {
-                $update->put('password', $user->password);
-                $user->update($update->all());
-            } catch (QE $e) {
 
-                toast('Database Error','error');
-
-                return redirect()->back();
-            }
-            toast('Slip Gaji Berhasil Diubah','success');
+        $updategaji->slipgaji_thp = $totalgaji;
+        $updategaji->update();
 
 
-            return redirect('user');
+        toast('Slip Gaji Berhasil Diubah','success');
+        return redirect('slipgaji');
+
+        }else {
+        alert()->warning('Komponen Penerimaan atau Potongan Kosong');
+
+         return redirect()->back(); 
         }
     }
 

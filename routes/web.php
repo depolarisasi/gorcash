@@ -50,6 +50,7 @@ Route::group(['prefix' => 'slipgaji'], function() {
     Route::get('/print/{id}',[App\Http\Controllers\SlipGajiController::class, 'print'])->middleware('admin');
     Route::get('/new',[App\Http\Controllers\SlipGajiController::class, 'create'])->middleware('admin');
     Route::post('/store',[App\Http\Controllers\SlipGajiController::class, 'store'])->middleware('admin');
+    Route::post('/update',[App\Http\Controllers\SlipGajiController::class, 'update'])->middleware('admin');
     Route::get('/edit/{id}',[App\Http\Controllers\SlipGajiController::class, 'edit'])->middleware('admin');
     Route::post('/update',[App\Http\Controllers\SlipGajiController::class, 'update'])->middleware('admin');
     Route::get('/delete/{id}',[App\Http\Controllers\SlipGajiController::class, 'delete'])->middleware('admin');
