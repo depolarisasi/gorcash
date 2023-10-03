@@ -24,6 +24,8 @@ class StoreOfficer
             toast('No Access Right','error');
                 return redirect()->back();
             }
+        }else {
+            return redirect('/');
         }
     }
 }
