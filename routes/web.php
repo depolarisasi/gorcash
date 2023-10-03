@@ -374,6 +374,29 @@ Route::group(['prefix' => 'size'], function() {
 
    });
 
+   Route::group(['prefix' => 'kategoripengajuan'], function() {
+    Route::get('/',[App\Http\Controllers\PengajuanController::class, 'indexcatpengajuan'])->middleware('auth');
+    Route::get('/new',[App\Http\Controllers\PengajuanController::class, 'createcatpengajuan'])->middleware('auth');
+    Route::post('/store',[App\Http\Controllers\PengajuanController::class, 'storecatpengajuan'])->middleware('auth');
+    Route::get('/detail/{id}',[App\Http\Controllers\PengajuanController::class, 'showcatpengajuan'])->middleware('auth');
+    Route::get('/edit/{id}',[App\Http\Controllers\PengajuanController::class, 'editcatpengajuan'])->middleware('auth');
+    Route::post('/update',[App\Http\Controllers\PengajuanController::class, 'updatecatpengajuan'])->middleware('auth');
+    Route::get('/delete/{id}',[App\Http\Controllers\PengajuanController::class, 'deletecatpengajuan'])->middleware('auth');
+
+   });
+
+   
+   Route::group(['prefix' => 'pengajuandana'], function() {
+    Route::get('/',[App\Http\Controllers\PengajuanController::class, 'indexpengajuan'])->middleware('auth');
+    Route::get('/new',[App\Http\Controllers\PengajuanController::class, 'createpengajuan'])->middleware('auth');
+    Route::post('/store',[App\Http\Controllers\PengajuanController::class, 'storepengajuan'])->middleware('auth');
+    Route::get('/detail/{id}',[App\Http\Controllers\PengajuanController::class, 'showpengajuan'])->middleware('auth');
+    Route::get('/edit/{id}',[App\Http\Controllers\PengajuanController::class, 'editpengajuan'])->middleware('auth');
+    Route::post('/update',[App\Http\Controllers\PengajuanController::class, 'updatepengajuan'])->middleware('auth');
+    Route::get('/delete/{id}',[App\Http\Controllers\PengajuanController::class, 'deletepengajuan'])->middleware('auth');
+
+   });
+
    Route::group(['prefix' => 'informasi'], function() {
     Route::get('/',[App\Http\Controllers\InformasiController::class, 'index'])->middleware('admin');
     Route::get('/new',[App\Http\Controllers\InformasiController::class, 'create'])->middleware('admin');

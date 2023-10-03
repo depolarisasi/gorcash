@@ -13,7 +13,12 @@ class KategoriBudgeting extends Migration
      */
     public function up()
     {
-        //
+        Schema::create('catpengajuan', function (Blueprint $table) {
+            $table->increments('catpengajuan_id');
+            $table->string('catpengajuan_nama')->nullable();
+            $table->string('catpengajuan_pengajuan')->nullable(); 
+            $table->timestamps();
+        });
     }
 
     /**
