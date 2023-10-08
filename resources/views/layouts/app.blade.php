@@ -471,7 +471,8 @@ background-color: #000 !important;
 </svg><!--end::Svg Icon--></span>
                         <span class="menu-text">Keuangan</span></a>
                 </li>
-                <li class="menu-item menu-item">
+
+                {{-- <li class="menu-item menu-item">
                     <a href="{{url('kategoripengajuan')}}" class="menu-link ">
                     <span class="svg-icon svg-icon-white menu-icon"><!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo2/dist/../src/media/svg/icons/Shopping/Money.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
     <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -492,7 +493,7 @@ background-color: #000 !important;
     </g>
 </svg><!--end::Svg Icon--></span>
                         <span class="menu-text">Pengajuan Dana</span></a>
-                </li>
+                </li> --}}
                 <li class="menu-item menu-item">
                     <a href="{{url('barangterjual/laporan')}}" class="menu-link ">
                     <span class="svg-icon svg-icon-white menu-icon"><!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo2/dist/../src/media/svg/icons/Shopping/Money.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
