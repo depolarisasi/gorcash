@@ -87,7 +87,10 @@ img {
                 Tanggal : {{$penjualan->penjualan_tanggalwaktupenjualan}} </br>
                 Invoice   :  @if($penjualan->penjualan_channel == "Toko") {{$penjualan->penjualan_invoicegorilla}} @else {{$penjualan->penjualan_invoice}} @endif </br>
                 Channel   : {{$penjualan->penjualan_channel}}</br>
-                Customer   : {{$penjualan->penjualan_customername}} </br>
+                Customer : @if($member) {{$member->customer_nama}} ({{$member->customer_nohp}}) @else {{$penjualan->penjualan_customername}} @endif </br>
+                @if($penjualan->penjualan_channel == "Toko" || $penjualan->penjualan_channel == "WhatsApp" || $penjualan->penjualan_channel = "Website")
+                Jumlah Point : @if($member) Rp @money($member->customer_points) @endif</br>
+                @endif
                 Payment Type   :  {{$penjualan->penjualan_paymentype}}</br>
             </p>
 
@@ -176,6 +179,10 @@ img {
                 <tr>
                     <td width="40%">Kembalian</td>
                     <td width="60%"><span style="float:right;">@money((int)$penjualan->penjualan_paymenttotal - (int)$total)</span></td>
+                </tr>
+                <tr>
+                    <td width="40%"><b>Point Didapat</b></td>
+                    <td width="60%"><span style="float:right;">Rp @if($logpoint) @money($logpoint->points) @endif</span></td>
                 </tr>
             </tbody>
         </table>

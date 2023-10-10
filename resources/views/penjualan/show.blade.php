@@ -34,7 +34,11 @@
                             <span class="font-weight-bolder mb-2">Informasi Penjualan.</span>
                             <span>Invoice No : @if($penjualan->penjualan_channel == "Toko Offline") {{$penjualan->penjualan_invoicegorilla}} @else {{$penjualan->penjualan_invoice}} @endif</span>
                             <span>Channel : {{$penjualan->penjualan_channel}}</span>
-                                <span>Nama Customer : {{$penjualan->penjualan_customername}}</span>
+                                <span>Nama Customer : @if($member) {{$member->customer_nama}} ({{$member->customer_nohp}}) @else {{$penjualan->penjualan_customername}} @endif</span>
+                                @if($penjualan->penjualan_channel == "Toko" || $penjualan->penjualan_channel == "WhatsApp" || $penjualan->penjualan_channel = "Website")
+                                <span>Point yang Didapat Customer : @if($logpoint) @money($logpoint->points) @endif</span>
+                                <span>Point Customer : @if($member) @money($member->customer_points) @endif</span>
+                                @endif
                                 <span>Kasir : {{$penjualan->name}}</span>
                                 @if($penjualan->penjualan_kurir != "None")
                                 <span>Ongkos Kirim : @money($penjualan->penjualan_ongkoskirim)</span>

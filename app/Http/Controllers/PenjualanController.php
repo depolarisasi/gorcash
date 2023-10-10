@@ -102,12 +102,23 @@ class PenjualanController extends Controller
         ->select('product.product_sku','product.product_mastersku','size.size_nama','product.product_nama','product.product_hargajual','product.product_hargabeli','product.product_foto','barangterjual.*')
         ->where('barangterjual.barangterjual_idpenjualan',$id)->get();
 
+        $logpoint = PointLog::where('order_id',$penjualan->penjualan_id)->first();
+        if($logpoint){
+            $member = Customer::where('customer_id',$logpoint->user_id)->first();
+        }
+
 
         $daftarpotongan = RiwayatPotongan::where('riwayatpotongan_idpenjualan',$id)->get();
         if($penjualan){
             $totalbarang = $barangterjual->sum('barangterjual.barangterjual_totalbarangterjual');
             $totalpotongan = $daftarpotongan->sum('riwayatpotongan.riwayatpotongan_jumlahpotongan');
+            if($logpoint){
+                return view('penjualan.show')->with(compact('penjualan','barangterjual','daftarpotongan','totalbarang','totalpotongan','logpoint','member'));
+
+            }else {
        return view('penjualan.show')->with(compact('penjualan','barangterjual','daftarpotongan','totalbarang','totalpotongan'));
+
+            }
       //return $barangterjual;
         }else {
 
@@ -128,7 +139,10 @@ class PenjualanController extends Controller
         ->where('barangterjual.barangterjual_idpenjualan',$id)->get();
         $daftarpotongan = RiwayatPotongan::where('riwayatpotongan_idpenjualan',$id)->get();
 
-
+        $logpoint = PointLog::where('order_id',$penjualan->penjualan_id)->first();
+        if($logpoint){
+            $member = Customer::where('customer_id',$logpoint->user_id)->first();
+        }
         // $pdf = PDF::loadView('penjualan.struk', $data);
         // $path = public_path('pdf/');
         // $random = substr(md5(mt_rand()), 0, 7);
@@ -139,7 +153,11 @@ class PenjualanController extends Controller
     //    $pdf->stream($fileName);
     //   // return $data;
 
+    if($logpoint){
+    return view('penjualan.struk')->with(compact('penjualan','barangterjual','daftarpotongan','logpoint','member'));
+    }else {
     return view('penjualan.struk')->with(compact('penjualan','barangterjual','daftarpotongan'));
+    }
     }
 
     public function delete($id)
@@ -374,6 +392,7 @@ class PenjualanController extends Controller
     PointLog::create([
         'user_id' => $customer->customer_id,
         'points' => $memberpoint,
+        'order_id' => $addpenjualan->penjualan_id,
         'type' => 1,
         'admin_user_id' => Auth::user()->id,
         'data' => 'Penambahan Point sebesar '. $memberpoint . ' Karena Penjualan ID' .$addpenjualan->penjualan_id,
@@ -383,9 +402,10 @@ class PenjualanController extends Controller
             PointLog::create([
                 'user_id' => $customer->customer_id,
                 'points' => $customer->customer_points,
+                'order_id' => $addpenjualan->penjualan_id,
                 'type' => 1,
                 'admin_user_id' => Auth::user()->id,
-                'data' => 'Pengurangan Point sebesar '. $pointawal . ' Karena Penjualan ID' .$addpenjualan->penjualan_id,
+                'data' => 'Pengurangan Point sebesar '. $pointawal . ' Karena Penjualan ID ' .$addpenjualan->penjualan_id,
                 'date' => Carbon::now()->setTimezone('Asia/Jakarta')->setTimezone('Asia/Jakarta')->format('Y-m-d')]);
 
         }
