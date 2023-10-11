@@ -87,8 +87,8 @@ img {
                 Tanggal : {{$penjualan->penjualan_tanggalwaktupenjualan}} </br>
                 Invoice   :  @if($penjualan->penjualan_channel == "Toko") {{$penjualan->penjualan_invoicegorilla}} @else {{$penjualan->penjualan_invoice}} @endif </br>
                 Channel   : {{$penjualan->penjualan_channel}}</br>
+                @if($penjualan->penjualan_channel == "Toko" || $penjualan->penjualan_channel == "WhatsApp" || $penjualan->penjualan_channel = "Website" || $penjualan->penjualan_channel = "Instagram")
                 Customer : @if($member) {{$member->customer_nama}} ({{$member->customer_nohp}}) @else {{$penjualan->penjualan_customername}} @endif </br>
-                @if($penjualan->penjualan_channel == "Toko" || $penjualan->penjualan_channel == "WhatsApp" || $penjualan->penjualan_channel = "Website")
                 Jumlah Point : @if($member) Rp @money($member->customer_points) @endif</br>
                 @endif
                 Payment Type   :  {{$penjualan->penjualan_paymentype}}</br>

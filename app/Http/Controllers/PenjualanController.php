@@ -105,6 +105,8 @@ class PenjualanController extends Controller
         $logpoint = PointLog::where('order_id',$penjualan->penjualan_id)->first();
         if($logpoint){
             $member = Customer::where('customer_id',$logpoint->user_id)->first();
+        }else {
+            $member = null;
         }
 
 
@@ -112,13 +114,10 @@ class PenjualanController extends Controller
         if($penjualan){
             $totalbarang = $barangterjual->sum('barangterjual.barangterjual_totalbarangterjual');
             $totalpotongan = $daftarpotongan->sum('riwayatpotongan.riwayatpotongan_jumlahpotongan');
-            if($logpoint){
+             
                 return view('penjualan.show')->with(compact('penjualan','barangterjual','daftarpotongan','totalbarang','totalpotongan','logpoint','member'));
 
-            }else {
-       return view('penjualan.show')->with(compact('penjualan','barangterjual','daftarpotongan','totalbarang','totalpotongan'));
-
-            }
+             
       //return $barangterjual;
         }else {
 
@@ -142,6 +141,8 @@ class PenjualanController extends Controller
         $logpoint = PointLog::where('order_id',$penjualan->penjualan_id)->first();
         if($logpoint){
             $member = Customer::where('customer_id',$logpoint->user_id)->first();
+        }else {
+            $member = null;
         }
         // $pdf = PDF::loadView('penjualan.struk', $data);
         // $path = public_path('pdf/');
@@ -152,13 +153,9 @@ class PenjualanController extends Controller
         //return $data;
     //    $pdf->stream($fileName);
     //   // return $data;
-
-    if($logpoint){
+ 
     return view('penjualan.struk')->with(compact('penjualan','barangterjual','daftarpotongan','logpoint','member'));
-    }else {
-    return view('penjualan.struk')->with(compact('penjualan','barangterjual','daftarpotongan'));
-    }
-    }
+     }
 
     public function delete($id)
     {
