@@ -41,7 +41,7 @@ class AbsensiController extends Controller
         DB::raw('MONTH(absensi.absensi_tanggal) as month'),
         DB::raw('YEAR(absensi.absensi_tanggal) as year')))
         ->whereRaw('MONTH(absensi.absensi_tanggal) = '.$selected_month)
-        ->whereRaw('MONTH(absensi.absensi_tanggal) = '.$selected_year)
+        ->whereRaw('YEAR(absensi.absensi_tanggal) = '.$selected_year)
         ->groupBy('absensi.absensi_karyawanid')
         ->get();
         $karyawan = Karyawan::get();
