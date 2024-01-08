@@ -38,12 +38,18 @@ class PenjualanController extends Controller
     public function index()
     {
         if(Auth::user()->role == 1 ||  Auth::user()->role == 6 || Auth::user()->role == 4){
-            $penjualan = Penjualan::OrderBy('penjualan_tanggalwaktupenjualan','DESC')->get();
+            $penjualan = Penjualan::leftJoin('points_log','points_log.order_id','=','penjualan_id')
+            ->leftJoin('customer','customer_id','=','points_log.user_id')
+            ->OrderBy('penjualan_tanggalwaktupenjualan','DESC')->get();
         }elseif(Auth::user()->role == 2){
-            $penjualan = Penjualan::where('penjualan_channel', '!=', 'Toko')
+            $penjualan = Penjualan::leftJoin('points_log','points_log.order_id','=','penjualan_id')
+            ->leftJoin('customer','customer_id','=','points_log.user_id')
+            ->where('penjualan_channel', '!=', 'Toko')
             ->OrderBy('penjualan_tanggalwaktupenjualan','DESC')->get();
         }elseif(Auth::user()->role == 5){
-            $penjualan = Penjualan::where('penjualan_channel', '=', 'Toko')
+            $penjualan = Penjualan::leftJoin('points_log','points_log.order_id','=','penjualan_id')
+            ->leftJoin('customer','customer_id','=','points_log.user_id')
+            ->where('penjualan_channel', '=', 'Toko')
             ->OrderBy('penjualan_tanggalwaktupenjualan','DESC')->get();
         }
         // $penjualan = Penjualan::OrderBy('penjualan_tanggalwaktupenjualan','DESC')->get();
@@ -114,10 +120,10 @@ class PenjualanController extends Controller
         if($penjualan){
             $totalbarang = $barangterjual->sum('barangterjual.barangterjual_totalbarangterjual');
             $totalpotongan = $daftarpotongan->sum('riwayatpotongan.riwayatpotongan_jumlahpotongan');
-             
+
                 return view('penjualan.show')->with(compact('penjualan','barangterjual','daftarpotongan','totalbarang','totalpotongan','logpoint','member'));
 
-             
+
       //return $barangterjual;
         }else {
 
@@ -153,7 +159,7 @@ class PenjualanController extends Controller
         //return $data;
     //    $pdf->stream($fileName);
     //   // return $data;
- 
+
     return view('penjualan.struk')->with(compact('penjualan','barangterjual','daftarpotongan','logpoint','member'));
      }
 
