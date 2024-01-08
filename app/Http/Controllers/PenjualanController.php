@@ -40,17 +40,17 @@ class PenjualanController extends Controller
         if(Auth::user()->role == 1 ||  Auth::user()->role == 6 || Auth::user()->role == 4){
             $penjualan = Penjualan::leftJoin('points_log','points_log.order_id','=','penjualan_id')
             ->leftJoin('customer','customer_id','=','points_log.user_id')
-            ->OrderBy('penjualan_tanggalwaktupenjualan','DESC')->get();
+            ->OrderBy('penjualan_tanggalwaktupenjualan','DESC')->limit(5000)->get();
         }elseif(Auth::user()->role == 2){
             $penjualan = Penjualan::leftJoin('points_log','points_log.order_id','=','penjualan_id')
             ->leftJoin('customer','customer_id','=','points_log.user_id')
             ->where('penjualan_channel', '!=', 'Toko')
-            ->OrderBy('penjualan_tanggalwaktupenjualan','DESC')->get();
+            ->OrderBy('penjualan_tanggalwaktupenjualan','DESC')->limit(5000)->get();
         }elseif(Auth::user()->role == 5){
             $penjualan = Penjualan::leftJoin('points_log','points_log.order_id','=','penjualan_id')
             ->leftJoin('customer','customer_id','=','points_log.user_id')
             ->where('penjualan_channel', '=', 'Toko')
-            ->OrderBy('penjualan_tanggalwaktupenjualan','DESC')->get();
+            ->OrderBy('penjualan_tanggalwaktupenjualan','DESC')->limit(5000)->get();
         }
         // $penjualan = Penjualan::OrderBy('penjualan_tanggalwaktupenjualan','DESC')->get();
         $barang = []; //array penampung informasi produk untuk listing produk di avail_pen
