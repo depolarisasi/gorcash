@@ -102,7 +102,10 @@
                         <td>{{\Carbon\Carbon::parse($p->penjualan_tanggalwaktupenjualan)->format('Y-m-d')}}</td>
                         <td>{{\Carbon\Carbon::parse($p->penjualan_tanggalwaktupenjualan)->format('H:i')}}</td>
                         <td>{{$p->penjualan_channel}}</td>
-                        <td>{{$p->penjualan_invoice}}</td>
+                        <td>@if($p->penjualan_invoice == NULL )
+                            {{$p->customer_nama}} / {{$p->customer_nohp}}
+                            @else {{$p->penjualan_invoice}}
+                        @endif</td>
                         <td><ol class="styled">
                             @php $counter = count($barang[$key]); @endphp
                             @foreach($barang[$key] as $brg)
