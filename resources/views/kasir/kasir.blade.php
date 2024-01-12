@@ -486,7 +486,7 @@ $(document).ready(function() {
     return false;
  });
 
-if($('#channel').val() == "WhatsApp" || $('#channel').val() == "Toko" || $('#channel').val() == "Instagram" || $('#channel').val() == "Website") {
+if($('#channel').val() == "Toko" || $('#channel').val() == "Instagram") {
 $('#invoice').hide();
 $('#customer').show();
 $('#customerinfo').show();
@@ -497,7 +497,7 @@ $('#customerinfo').hide();
  }
 
  $('#channel').change(function(){
-    if($('#channel').val() == "WhatsApp" || $('#channel').val() == "Toko" || $('#channel').val() == "Instagram" || $('#channel').val() == "Website") {
+    if($('#channel').val() == "Toko" || $('#channel').val() == "Instagram") {
 $('#invoice').hide();
 $('#customer').show();
 $('#customerinfo').show();
